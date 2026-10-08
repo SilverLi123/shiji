@@ -1,18 +1,19 @@
 #if os(iOS)
 import UIKit
 import ImageIO
-// Opaque, sage-tinted supporting text and contrast-safe prominent button labels.
+// V2 semantic colors: Creative Tech dark and a contrast-safe system light variant.
 enum NativePalette {
-    static let secondaryText=UIColor { traits in
-        traits.userInterfaceStyle == .dark
-            ? UIColor(red:0.682,green:0.737,blue:0.710,alpha:1)
-            : UIColor(red:0.325,green:0.388,blue:0.361,alpha:1)
+    private static func adaptive(_ light:UInt32,_ dark:UInt32)->UIColor {
+        UIColor { traits in
+            let value=traits.userInterfaceStyle == .dark ? dark : light
+            return UIColor(red:CGFloat((value>>16)&255)/255,green:CGFloat((value>>8)&255)/255,blue:CGFloat(value&255)/255,alpha:1)
+        }
     }
-    static let onAccent=UIColor { traits in
-        traits.userInterfaceStyle == .dark
-            ? UIColor(red:0.090,green:0.141,blue:0.106,alpha:1)
-            : .white
-    }
+    static let background=adaptive(0xf7f7f2,0x0c0d10)
+    static let surface=adaptive(0xffffff,0x15171d)
+    static let raised=adaptive(0xededf0,0x1d2027)
+    static let secondaryText=adaptive(0x555661,0x9d9eaa)
+    static let onAccent=adaptive(0xffffff,0x0c0d10)
 }
 // Bound decoded pixels for large phone photos and library covers.
 enum LocalImage {

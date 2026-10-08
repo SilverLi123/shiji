@@ -7,6 +7,11 @@ struct Resource: Identifiable {
     func flag(_ key:String)->Bool {raw[key] as? Bool ?? false}
     func names(_ key:String)->[String] {raw[key] as? [String] ?? []}
     var title:String {text("title")}
+    // Presentation is derived, never serialized into schema 3.
+    var presentation:String {
+        if ["code","prompt"].contains(text("kind")){return "text"}
+        return text("kind")=="website" && text("category")=="开发工具" ? "tool" : "visual"
+    }
     var attachments:[[String:Any]] {raw["attachments"] as? [[String:Any]] ?? []}
 }
 struct ImportPlan { var manifest:[String:Any];var files:[String:Data];var resources:[Resource];var fileCount:Int {files.count} }

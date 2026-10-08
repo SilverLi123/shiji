@@ -42,6 +42,8 @@ struct BackupDocument:FileDocument {
     var body:some Scene {WindowGroup{RootView().environmentObject(library).environmentObject(sync).tint(Color("AccentColor")).task{sync.activate(library)}.onReceive(library.$resources){sync.changed($0)}.onOpenURL{sync.openPairing($0)}.onChange(of:phase){_,value in if value == .active{library.reload();sync.activate(library)}else{sync.deactivate()}}}}
 }
 struct RootView:View {
+    @AppStorage("shiji-v2-appearance") var appearance="dark"
+
     @EnvironmentObject var library:MobileLibrary
     @EnvironmentObject var sync:ComputerSync
     var body:some View {
@@ -49,13 +51,14 @@ struct RootView:View {
             NavigationStack{GalleryView()}.tabItem{Label("资源库",systemImage:"square.grid.2x2")}
             NavigationStack{ProjectsView()}.tabItem{Label("集合",systemImage:"folder")}
             NavigationStack{SettingsView()}.tabItem{Label("管理",systemImage:"slider.horizontal.3")}
-        }.sheet(isPresented:$sync.pairingOpen){NavigationStack{ComputerSyncView().toolbar{ToolbarItem(placement:.cancellationAction){Button("完成"){sync.pairingOpen=false}.disabled(sync.busy)}}}}
+        }.preferredColorScheme(appearance=="system" ? nil : appearance=="light" ? .light : .dark).sheet(isPresented:$sync.pairingOpen){NavigationStack{ComputerSyncView().toolbar{ToolbarItem(placement:.cancellationAction){Button("完成"){sync.pairingOpen=false}.disabled(sync.busy)}}}}
             .alert("暂时无法完成",isPresented:Binding(get:{library.error != nil},set:{if !$0{library.error=nil}})){Button("知道了",role:.cancel){library.error=nil}}message:{Text(library.error ?? "")}
             .alert("已完成",isPresented:Binding(get:{library.notice != nil},set:{if !$0{library.notice=nil}})){Button("好",role:.cancel){library.notice=nil}}message:{Text(library.notice ?? "")}
     }
 }
 struct GalleryView:View {
     @EnvironmentObject var library:MobileLibrary
+    @AppStorage("shiji-v2-motion-mode") var motionMode="studio"
     @State var search=""
     @State var category="全部"
     @State var scope="全部"
@@ -71,7 +74,11 @@ struct GalleryView:View {
     var body:some View {
         ScrollView {
             VStack(alignment:.leading,spacing:20){
-                ScrollView(.horizontal){HStack(spacing:8){ForEach(categories,id:\.self){name in Button{nameButton(name)}label:{Text(name).font(.subheadline.weight(.medium)).padding(.horizontal,16).frame(minHeight:44).background(category==name ? Color.accentColor : Color(uiColor:.secondarySystemGroupedBackground),in:Capsule()).foregroundStyle(category==name ? Color(uiColor:NativePalette.onAccent) : Color.primary)}.buttonStyle(.plain).accessibilityAddTraits(category==name ? .isSelected : [])}}}.scrollIndicators(.hidden)
+                if search.isEmpty && category=="全部" && scope=="全部" && !typeSize.isAccessibilitySize {
+                    NativeBrandHero(calm:reduceMotion || motionMode=="calm")
+                }
+
+                ScrollView(.horizontal){HStack(spacing:8){ForEach(categories,id:\.self){name in Button{nameButton(name)}label:{Text(name).font(.subheadline.weight(.medium)).padding(.horizontal,16).frame(minHeight:44).background(category==name ? Color.accentColor : Color(uiColor:NativePalette.raised),in:Capsule()).foregroundStyle(category==name ? Color(uiColor:NativePalette.onAccent) : Color.primary)}.buttonStyle(.plain).accessibilityAddTraits(category==name ? .isSelected : [])}}}.scrollIndicators(.hidden)
                 HStack(alignment:.firstTextBaseline){
                     Text("\(filtered.count) 条收藏").font(.subheadline).foregroundStyle(Color(uiColor:NativePalette.secondaryText))
                     Spacer()
@@ -90,16 +97,21 @@ struct GalleryView:View {
                         Button("收藏第一个资源",systemImage:"plus"){editor=true}.buttonStyle(.borderedProminent).foregroundStyle(Color(uiColor:NativePalette.onAccent)).controlSize(.large).frame(maxWidth:.infinity,minHeight:44)
                         NavigationLink{ComputerSyncView()}label:{Label("连接电脑",systemImage:"desktopcomputer").frame(maxWidth:.infinity,minHeight:44)}
                     }else{Button("清除搜索与筛选"){search="";category="全部";scope="全部"}.frame(maxWidth:.infinity,minHeight:44)}
-                } else {LazyVStack(spacing:28){ForEach(filtered){resource in NavigationLink{DetailView(id:resource.id)}label:{ResourceCard(resource:resource)}.buttonStyle(.plain)}}}
+                } else {LazyVStack(spacing:28){ForEach(filtered){resource in resourceLink(resource)}}}
             }.padding(.horizontal,20).padding(.top,10).padding(.bottom,24)
-        }.scrollDismissesKeyboard(.interactively).background(Color(uiColor:.systemGroupedBackground)).navigationTitle("拾集")
+        }.scrollDismissesKeyboard(.interactively).background(Color(uiColor:NativePalette.background)).navigationTitle("拾集 SHIJI®")
             .searchable(text:$search,prompt:"搜索资源、标签与灵感")
             .toolbar{ToolbarItem(placement:.topBarLeading){NavigationLink{ComputerSyncView()}label:{Image(systemName:"desktopcomputer").frame(width:44,height:44)}.accessibilityLabel("电脑同步")};ToolbarItem(placement:.topBarTrailing){Menu{Picker("浏览范围",selection:$scope){ForEach(["全部","常用","待整理"],id:\.self){Text($0)}}}label:{Label(scope,systemImage:"line.3.horizontal.decrease")}}}
             .safeAreaInset(edge:.bottom,alignment:.trailing){if !active.isEmpty{captureDock.padding(.horizontal,20).padding(.bottom,10)}}
             .sheet(isPresented:$editor){EditorView(resource:nil)}
             .fileImporter(isPresented:$filesOpen,allowedContentTypes:[.image,.audio,.movie,.pdf,.plainText],allowsMultipleSelection:false){result in if case .success(let urls)=result,let url=urls.first{Task{await library.addFile(url)}}else if case .failure(let error)=result{library.error=error.localizedDescription}}
     }
-    func nameButton(_ name:String){category=name}
+    @ViewBuilder private func resourceLink(_ resource:Resource)->some View {
+        if #available(iOS 18,*),!reduceMotion && motionMode=="studio" {
+            NavigationLink{DetailView(id:resource.id).navigationTransition(.zoom(sourceID:resource.id,in:namespace))}label:{ResourceCard(resource:resource).matchedTransitionSource(id:resource.id,in:namespace)}.buttonStyle(.plain)
+        }else{NavigationLink{DetailView(id:resource.id)}label:{ResourceCard(resource:resource)}.buttonStyle(.plain)}
+    }
+    func nameButton(_ name:String){withAnimation(reduceMotion || motionMode=="calm" ? nil : .spring(response:0.35,dampingFraction:0.9)){category=name}}
     @ViewBuilder var captureDock:some View {
         if typeSize.isAccessibilitySize {
             captureMenu
@@ -114,13 +126,14 @@ struct GalleryView:View {
         }else{captureMenu}
     }
     var captureMenu:some View {Menu{Button("收藏网址",systemImage:"link"){editor=true};Button("添加素材",systemImage:"square.and.arrow.down"){filesOpen=true}}label:{Label("收藏",systemImage:"plus").fixedSize(horizontal:true,vertical:false).padding(16).background(.regularMaterial,in:Capsule())}}
-    func toggle(){withAnimation(reduceMotion ? nil : .spring(response:0.38,dampingFraction:0.82)){expanded.toggle()}}
+    func toggle(){withAnimation(reduceMotion || motionMode=="calm" ? nil : .spring(response:0.38,dampingFraction:0.82)){expanded.toggle()}}
 }
 struct ResourceCard:View {
     @EnvironmentObject var library:MobileLibrary
     var resource:Resource
     var body:some View {
         VStack(alignment:.leading,spacing:12){LocalCover(resource:resource).frame(height:coverHeight).clipShape(RoundedRectangle(cornerRadius:14))
+            Text(resource.presentation=="tool" ? "TOOL / 开发工具" : resource.presentation=="text" ? "TEXT / 灵感笔记" : "VISUAL / 视觉素材").font(.caption2.weight(.semibold)).tracking(1).foregroundStyle(Color(uiColor:NativePalette.secondaryText))
             HStack(alignment:.top){Text(resource.title).font(.title3.weight(.semibold)).foregroundStyle(.primary).multilineTextAlignment(.leading);Spacer();if resource.flag("favorite"){Image(systemName:"star.fill").foregroundStyle(Color.accentColor).accessibilityLabel("常用资源")}}
             ViewThatFits(in:.horizontal){HStack{Text(source).lineLimit(1);Spacer();Text(resource.text("category"))};VStack(alignment:.leading,spacing:4){Text(source).lineLimit(2);Text(resource.text("category"))}}.font(.caption).foregroundStyle(Color(uiColor:NativePalette.secondaryText))
             if !resource.text("description").isEmpty{Text(resource.text("description")).font(.subheadline).foregroundStyle(Color(uiColor:NativePalette.secondaryText)).lineLimit(2).multilineTextAlignment(.leading)}
@@ -138,7 +151,8 @@ struct LocalCover:View {
         GeometryReader { bounds in
             Group {
                 if let url=library.files?.file(cover),let image=LocalImage.image(url:url){Image(uiImage:image).resizable().scaledToFill()}
-                else{ZStack{Color(uiColor:.secondarySystemGroupedBackground);VStack(spacing:12){Image(systemName:resource.text("kind")=="file" ? "doc.richtext" : "link").font(.largeTitle).foregroundStyle(Color.accentColor);Text(URL(string:resource.text("url"))?.host ?? resource.text("category")).font(.headline).foregroundStyle(Color(uiColor:NativePalette.secondaryText)).lineLimit(2).padding(.horizontal,20)}}}
+                else if resource.presentation=="text",!resource.text("snippet").isEmpty{ZStack(alignment:.topLeading){Color(uiColor:NativePalette.raised);Text(resource.text("snippet").prefix(240)).font(.system(.body,design:.monospaced)).foregroundStyle(Color.purple).padding(22)}}
+                else{ZStack{Color(uiColor:NativePalette.raised);VStack(spacing:12){Image(systemName:resource.presentation=="tool" ? "curlybraces" : resource.text("kind")=="file" ? "doc.richtext" : "link").font(.largeTitle).foregroundStyle(Color.accentColor);Text(URL(string:resource.text("url"))?.host ?? resource.text("category")).font(.headline).foregroundStyle(Color(uiColor:NativePalette.secondaryText)).lineLimit(2).padding(.horizontal,20)}}}
             }.frame(width:bounds.size.width,height:bounds.size.height).clipped().accessibilityHidden(true)
         }
     }
@@ -168,7 +182,7 @@ struct DetailView:View {
                 if !r.names("projects").isEmpty{Text("项目："+r.names("projects").joined(separator:" · ")).font(.subheadline)}
                 if !r.text("notes").isEmpty{VStack(alignment:.leading,spacing:12){Text("收藏备注").font(.headline);Text(r.text("notes")).textSelection(.enabled)}}
                 VStack(alignment:.leading,spacing:12){HStack{Text("附件").font(.headline);Spacer();Button("添加",systemImage:"plus"){filePicker=true}.frame(minHeight:44)};ForEach(r.attachments.indices,id:\.self){i in let a=r.attachments[i];Button{openAttachment(a)}label:{HStack{Image(systemName:"doc");Text(a["name"] as? String ?? "附件").lineLimit(2);Spacer();Image(systemName:"chevron.right")}.frame(minHeight:44)}.buttonStyle(.plain)}}
-            }.padding(20)}.navigationTitle(r.title).navigationBarTitleDisplayMode(.inline)
+            }.padding(20)}.background(Color(uiColor:NativePalette.background)).navigationTitle(r.title).navigationBarTitleDisplayMode(.inline)
                 .toolbar{ToolbarItem(placement:.topBarTrailing){Menu{Button(r.flag("favorite") ? "取消常用" : "设为常用",systemImage:"star"){library.change(id,"favorite",!r.flag("favorite"))};Button(r.flag("inbox") ? "标为已整理" : "放入待整理",systemImage:"tray"){library.change(id,"inbox",!r.flag("inbox"))};Button("移到回收站",systemImage:"trash",role:.destructive){deleteConfirm=true}}label:{Image(systemName:"ellipsis").frame(width:44,height:44)}}}
                 .safeAreaInset(edge:.bottom){Button("编辑",systemImage:"pencil"){editor=true}.buttonStyle(.borderedProminent).foregroundStyle(Color(uiColor:NativePalette.onAccent)).controlSize(.large).frame(maxWidth:.infinity).padding(16).background(.bar)}
                 .sheet(isPresented:$editor){EditorView(resource:r)}
@@ -242,6 +256,9 @@ struct ProjectResources:View{
     var body:some View{ScrollView{LazyVStack(spacing:24){ForEach(library.resources.filter{!$0.flag("deleted") && $0.names("projects").contains(name)}){r in NavigationLink{DetailView(id:r.id)}label:{ResourceCard(resource:r)}.buttonStyle(.plain)}}.padding(20)}.background(Color(uiColor:.systemGroupedBackground)).navigationTitle(name)}
 }
 struct SettingsView:View {
+    @AppStorage("shiji-v2-appearance") var appearance="dark"
+    @AppStorage("shiji-v2-motion-mode") var motionMode="studio"
+
     @EnvironmentObject var library:MobileLibrary
     @EnvironmentObject var sync:ComputerSync
     @State var importer=false
@@ -255,6 +272,11 @@ struct SettingsView:View {
                 LabeledContent("本机收藏",value:"\(library.resources.filter{!$0.flag("deleted")}.count) 条")
                 NavigationLink{ComputerSyncView()}label:{Label{VStack(alignment:.leading,spacing:5){Text("电脑同步");Text(syncSummary).font(.footnote).foregroundStyle(Color(uiColor:NativePalette.secondaryText))}}icon:{Image(systemName:"desktopcomputer")}}
             } header:{Text("收藏与同步")}footer:{Text("收藏保存在这部 iPhone，无需账号，可离线使用。") }
+            Section("外观与动效"){
+                Picker("外观",selection:$appearance){Text("Creative Tech 深色").tag("dark");Text("浅色").tag("light");Text("跟随系统").tag("system")}
+                Picker("动效",selection:$motionMode){Text("Motion Studio").tag("studio");Text("Calm").tag("calm")}
+                Text("系统“减少动态效果”优先于 Motion Studio。外观偏好不会改变收藏或同步内容。").font(.footnote).foregroundStyle(Color(uiColor:NativePalette.secondaryText))
+            }
             Section("导入与备份"){Button("导入电脑备份",systemImage:"square.and.arrow.down"){importer=true}.disabled(library.busy);Button("导出完整备份",systemImage:"square.and.arrow.up"){Task{if let bytes=await library.export(){document=BackupDocument(bytes);exporter=true}}}.disabled(library.busy);if library.busy{ProgressView("正在处理文件…")};Text("支持拾集 JSON 和完整 ZIP；JSON 不含附件。ZIP 导入前会校验，确认后只加入新收藏，不覆盖已有资源。").font(.footnote).foregroundStyle(Color(uiColor:NativePalette.secondaryText))}
             Section{NavigationLink("回收站"){TrashView()}}
             Section("快速收藏"){Text("在 Safari、照片或其他 App 点分享，选择“拾集”。也可以在资源库点击收藏，添加网址或本机素材。");Text("若分享列表暂时没有拾集，请在“更多”里启用。若仍未出现，请确认已安装完整 App。").font(.footnote).foregroundStyle(Color(uiColor:NativePalette.secondaryText))}
@@ -269,4 +291,31 @@ struct SettingsView:View {
 struct TrashView:View {
     @EnvironmentObject var library:MobileLibrary
     var body:some View{List{let deleted=library.resources.filter{$0.flag("deleted")};if deleted.isEmpty{ContentUnavailableView("回收站是空的",systemImage:"trash")}else{ForEach(deleted){r in HStack{Text(r.title);Spacer();Button("恢复"){library.change(r.id,"deleted",false)}.frame(minHeight:44)}}}}.navigationTitle("回收站")}
+}
+
+struct NativeBookmark:Shape {
+    func path(in r:CGRect)->Path {Path { p in
+        p.move(to:CGPoint(x:r.minX,y:r.minY));p.addLine(to:CGPoint(x:r.maxX,y:r.minY));p.addLine(to:CGPoint(x:r.maxX,y:r.maxY));p.addLine(to:CGPoint(x:r.midX,y:r.height*0.72));p.addLine(to:CGPoint(x:r.minX,y:r.maxY));p.closeSubpath()
+    }}
+}
+struct NativeBrandHero:View {
+    let calm:Bool
+    @Environment(\.scenePhase) var phase
+    @State private var entered=false
+    private let lime=Color(red:215/255,green:1,blue:101/255)
+    private let violet=Color(red:165/255,green:140/255,blue:1)
+    var body:some View {
+        VStack(alignment:.leading,spacing:20){
+            (Text("好灵感，\n")+Text("值得拾起。").foregroundColor(Color.accentColor)).font(.largeTitle.weight(.black)).tracking(-1)
+            Text("把散落各处的灵感，收进你的创作宇宙。").font(.subheadline).foregroundStyle(Color(uiColor:NativePalette.secondaryText))
+            ZStack(alignment:.bottomLeading){
+                violet
+                Circle().stroke(.black.opacity(0.12),lineWidth:1).padding(15)
+                NativeBookmark().fill(lime).frame(width:90,height:128).overlay{NativeBookmark().fill(Color(red:12/255,green:13/255,blue:16/255)).frame(width:45,height:94)}.rotationEffect(.degrees(entered ? -22 : -34)).offset(x:160,y:entered ? -30 : -15)
+                Text("KEEP IDEAS.").font(.largeTitle.weight(.black)).tracking(-1).foregroundStyle(.black).padding(20)
+            }.frame(height:190).clipShape(RoundedRectangle(cornerRadius:16)).accessibilityHidden(true)
+        }.onAppear{withAnimation(calm ? nil : .spring(response:0.55,dampingFraction:0.82)){entered=true}}
+         .onChange(of:calm){_,value in if value{entered=true}}
+         .onChange(of:phase){_,value in if value != .active{entered=true}}
+    }
 }

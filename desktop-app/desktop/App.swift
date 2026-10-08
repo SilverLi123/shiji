@@ -154,17 +154,17 @@ struct CaptureDock: View {
                 HStack(spacing:12) {
                     if expanded {
                         Button { finish(collect) } label: { Label("收藏网址",systemImage:"link").padding(.horizontal,18).padding(.vertical,14) }
-                            .buttonStyle(.plain).glassEffect(.regular.tint(.white.opacity(0.65)).interactive(),in:.capsule).glassEffectID("collect",in:glassNamespace)
+                            .buttonStyle(.plain).glassEffect(.regular.tint(Color(red:215/255,green:1,blue:101/255).opacity(0.75)).interactive(),in:.capsule).glassEffectID("collect",in:glassNamespace)
                         Button { finish(importFiles) } label: { Label("添加素材",systemImage:"square.and.arrow.down").padding(.horizontal,18).padding(.vertical,14) }
-                            .buttonStyle(.plain).glassEffect(.regular.tint(.white.opacity(0.65)).interactive(),in:.capsule).glassEffectID("files",in:glassNamespace)
+                            .buttonStyle(.plain).glassEffect(.regular.tint(Color(red:215/255,green:1,blue:101/255).opacity(0.75)).interactive(),in:.capsule).glassEffectID("files",in:glassNamespace)
                         Button { toggle() } label: { Image(systemName:"xmark").frame(width:46,height:46) }
-                            .buttonStyle(.plain).glassEffect(.regular.tint(.white.opacity(0.65)).interactive(),in:.circle).glassEffectID("close",in:glassNamespace).accessibilityLabel("收起收藏入口")
+                            .buttonStyle(.plain).glassEffect(.regular.tint(Color(red:215/255,green:1,blue:101/255).opacity(0.75)).interactive(),in:.circle).glassEffectID("close",in:glassNamespace).accessibilityLabel("收起收藏入口")
                     } else {
                         Button { toggle() } label: { Label("收藏",systemImage:"plus").padding(.horizontal,22).padding(.vertical,14) }
-                            .buttonStyle(.plain).glassEffect(.regular.tint(.white.opacity(0.65)).interactive(),in:.capsule).glassEffectID("collect",in:glassNamespace).accessibilityLabel("展开收藏入口")
+                            .buttonStyle(.plain).glassEffect(.regular.tint(Color(red:215/255,green:1,blue:101/255).opacity(0.75)).interactive(),in:.capsule).glassEffectID("collect",in:glassNamespace).accessibilityLabel("展开收藏入口")
                     }
                     Button(action:pair) { Image(systemName:"puzzlepiece.extension").frame(width:46,height:46) }
-                        .buttonStyle(.plain).glassEffect(.regular.tint(.white.opacity(0.65)).interactive(),in:.circle).glassEffectID("pair",in:glassNamespace).accessibilityLabel("浏览器扩展")
+                        .buttonStyle(.plain).glassEffect(.regular.tint(Color(red:215/255,green:1,blue:101/255).opacity(0.75)).interactive(),in:.circle).glassEffectID("pair",in:glassNamespace).accessibilityLabel("浏览器扩展")
                 }
             }
         } else {
@@ -189,7 +189,7 @@ struct LibraryWindow: View {
     @FocusState var searchFocused: Bool
     var body: some View {
         ZStack {
-            Color(nsColor:.windowBackgroundColor).ignoresSafeArea()
+            Color(red:12/255,green:13/255,blue:16/255).ignoresSafeArea()
             if runtime.ready { ManagementView(runtime:runtime).frame(maxWidth:.infinity,maxHeight:.infinity) }
             else if let error=runtime.error {
                 VStack(spacing:20) { Image(systemName:"exclamationmark.triangle").font(.largeTitle);Text("资源库暂时无法打开").font(.title2);Text(error).foregroundStyle(.secondary).multilineTextAlignment(.center)
@@ -204,7 +204,7 @@ struct LibraryWindow: View {
             }
         }
         .frame(minWidth:760,minHeight:550)
-        .preferredColorScheme(.light)
+        .preferredColorScheme(.dark)
         .toolbar {
             ToolbarItem(placement:.automatic){Button("手机同步",systemImage:"iphone"){phoneSyncOpen=true}.disabled(!runtime.ready)}
             ToolbarItem(placement:.principal) {

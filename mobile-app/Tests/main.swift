@@ -94,3 +94,10 @@ let collidedBase=try SyncMerge.plan(phone:[syncBase],computer:[Resource(raw:move
 check(collidedBase.conflicts.count==1,"base identity collision returns conflict without duplicate-key trap")
 
 do{_ = try SyncMerge.plan(phone:[syncBase,Resource(raw:formerB)],computer:[Resource(raw:movedB)],base:[syncBase,Resource(raw:formerB)]);fatalError("ambiguous URL reuse accepted")}catch{check(error.localizedDescription.contains("电脑另一条记录"),"ambiguous URL reuse offers accurate reconciliation guidance")}
+
+check(Resource(raw:["kind":"code"]).presentation=="text","code presentation")
+check(Resource(raw:["kind":"prompt"]).presentation=="text","prompt presentation")
+check(Resource(raw:["kind":"website","category":"开发工具"]).presentation=="tool","tool presentation")
+check(Resource(raw:["kind":"file"]).presentation=="visual","visual presentation")
+check(Resource(raw:["kind":"code"]).raw["presentation"]==nil,"presentation is not persisted")
+print("V2 resource presentation derivation leaves schema untouched")
