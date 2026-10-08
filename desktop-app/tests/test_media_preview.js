@@ -1,0 +1,62 @@
+'use strict';
+(async()=>{
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),{JSDOM}=require('jsdom');
+const model=require('../static/gallery-model'),board=require('../static/board-model');
+const first={id:'a',title:'Mixed <素材>',kind:'file',attachments:[
+ {id:'wav',mime:'audio/wav',name:'tap.wav',author:'Author',license:'需署名',sourceUrl:'https://example.com/audio',licenseUrl:'https://example.com/license',size:50},
+ {id:'img',mime:'image/png',name:'art.png'}, {id:'vid',mime:'video/mp4',name:'motion.mp4'}, {id:'pdf',mime:'application/pdf',name:'doc.pdf'}]};
+const web={id:'web',title:'Recent',kind:'website',url:'https://www.recent.co/',attachments:[]},empty={id:'e',title:'No preview',attachments:[]};
+const original=JSON.stringify([first,web,empty]);
+assert.deepEqual(model.media(first).map(x=>[x.key,x.kind]),[['wav','audio'],['img','image'],['vid','video']]);
+assert.deepEqual(model.queue([first]).items.map(x=>x.key),['img'],'image-only similarity queue remains image-only');
+let snapshot=model.mediaQueue([board.galleryResource(web),first,empty],first);
+assert.deepEqual(snapshot.items.map(x=>x.key),['web/thumbnail','wav','img','vid']);assert.equal(snapshot.index,1,'card entry starts at requested resource');
+assert.equal(model.mediaQueue([first],first,'vid').index,2);
+assert.deepEqual(model.mediaQueue([web],first,'vid').items.map(x=>x.key),['wav','img','vid'],'owner outside filtered scope stays within owner');
+assert.equal(model.mediaQueue([web],first,'vid').index,2);
+assert.equal(model.mediaQueue([empty]).items.length,0);
+assert.equal(model.media({...first,deleted:true})[0].inTrash,true);
+assert.deepEqual(model.media({...web,thumbnail:'https://example.com/thumb',attachments:[first.attachments[0]]}).map(x=>x.kind),['audio','image'],'existing thumbnail remains available when adding audio');
+assert.equal(model.media(first)[0].licenseUrl,'https://example.com/license');
+assert.equal(model.media({...first,attachments:[{...first.attachments[0],id:'id /?'}]})[0].src,'/api/files/id%20%2F%3F');
+assert.equal(JSON.stringify([first,web,empty]),original);
+const root=path.join(__dirname,'../static'),dom=new JSDOM(fs.readFileSync(path.join(root,'index.html'),'utf8'),{url:'http://localhost'}),doc=dom.window.document;
+// Only the native playback boundary is stubbed. Real controller/DOM rendering runs.
+const calls=[];
+dom.window.HTMLMediaElement.prototype.pause=function(){calls.push(['pause',this]);};
+dom.window.HTMLMediaElement.prototype.load=function(){calls.push(['load',this]);};
+dom.window.HTMLDialogElement.prototype.showModal=function(){this.open=true;};
+dom.window.HTMLDialogElement.prototype.close=function(){this.open=false;this.dispatchEvent(new dom.window.Event('close'));};
+const $=s=>doc.querySelector(s),context={document:doc,$,ShijiGallery:model,ShijiBoard:board,state:{scope:'all'},shownItems:()=>[board.galleryResource(web),first],find:id=>[first,web].find(r=>r.id===id),size:n=>n+' B',esc:v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),icon:n=>`<img src="icons/${n}.svg" alt="">`,toast(){},reload:async()=>{},detail(){},similarOpen(){}};
+vm.createContext(context);vm.runInContext(fs.readFileSync(path.join(root,'gallery.js'),'utf8'),context);context.initGallery();
+context.openGallery(first);let audio=$('#preview-player');assert.equal(audio.tagName,'AUDIO');assert.equal(audio.autoplay,false);assert.equal(audio.controls,true);assert.equal(audio.preload,'metadata');assert.equal(audio.src,'http://localhost/api/files/wav');
+assert.equal($('#image-similar').hidden,true);assert.equal($('.image-size-controls').hidden,true);assert.equal($('#preview-playback').hidden,false);assert.equal($('#image-position').textContent,'2 / 4');assert.equal($('#image-download').getAttribute('href'),'/api/files/wav?download=1');
+Object.defineProperty(audio,'duration',{value:65,configurable:true});audio.dispatchEvent(new dom.window.Event('loadedmetadata'));assert.equal($('#image-dimensions').textContent,'音频 · 1:05 · 50 B');
+$('#preview-speed').value='1.5';$('#preview-speed').dispatchEvent(new dom.window.Event('change'));$('#preview-loop').checked=true;$('#preview-loop').dispatchEvent(new dom.window.Event('change'));assert.equal(audio.playbackRate,1.5);assert.equal(audio.loop,true);audio.dispatchEvent(new dom.window.Event('error'));assert.equal($('#preview-playback').hidden,true);assert.equal($('#image-stage').hidden,true,'failed audio has no remaining play instruction');
+context.moveGallery(2);assert(calls.some(([action,p])=>action==='pause'&&p===audio));assert(calls.some(([action,p])=>action==='load'&&p===audio));assert.equal(audio.getAttribute('src'),null);
+assert.equal($('#preview-playback').hidden,true);assert.equal($('#image-stage').hidden,false,'next valid item restores the stage');assert.equal($('.image-size-controls').hidden,false);assert.equal($('#image-similar').hidden,false);const img=$('#large-image');
+Object.defineProperties(img,{naturalWidth:{value:640},naturalHeight:{value:480}});img.dispatchEvent(new dom.window.Event('load'));assert.equal($('#image-dimensions').textContent,'640 × 480 px');
+context.moveGallery(3);const video=$('#preview-player');assert.equal(video.tagName,'VIDEO');assert.equal(video.autoplay,false);assert.equal(video.playsInline,true);assert.equal(video.playbackRate,1.5);assert.equal(video.loop,true);assert.equal($('#preview-playback').hidden,false,'next valid media restores playback controls');assert.equal($('#image-next').disabled,true);
+Object.defineProperties(video,{duration:{value:3661},videoWidth:{value:320},videoHeight:{value:180}});video.dispatchEvent(new dom.window.Event('loadedmetadata'));assert.equal($('#image-dimensions').textContent,'320 × 180 px · 1:01:01');
+video.dispatchEvent(new dom.window.Event('error'));assert.equal($('#image-error').hidden,false);assert.equal(video.hidden,true);assert.equal($('#preview-playback').hidden,true);assert.equal($('#image-stage').hidden,true);assert.equal($('#image-download').hidden,false);assert.equal($('#image-prev').disabled,false);
+const errorText=$('#image-dimensions').textContent;audio.dispatchEvent(new dom.window.Event('loadedmetadata'));assert.equal($('#image-dimensions').textContent,errorText,'late previous-player callback cannot change current status');
+let prevented=0;const key=(target,k)=>({key:k,target,preventDefault(){prevented++;}});
+assert.equal(context.imageKeys(key(video,'ArrowLeft')),true);assert.equal($('#image-position').textContent,'4 / 4','native media keys do not navigate');assert.equal(prevented,0);
+context.imageKeys(key($('#image-close'),'ArrowLeft'));assert.equal($('#image-position').textContent,'3 / 4');assert.equal(prevented,1);
+context.moveGallery(1);const closing=$('#preview-player');$('#image-dialog').close();assert.equal($('#image-stage').children.length,0);assert.equal(closing.getAttribute('src'),null);assert(calls.some(([action,p])=>action==='pause'&&p===closing));
+const article=doc.createElement('article');article.dataset.resourceId='a';article.innerHTML='<button class="card-title">Mixed</button><button class="card-preview">Cover</button><button data-action="favorite">Star</button>';$('#resource-grid').append(article);
+article.querySelector('.card-title').focus();assert.equal(context.quickPreviewKeys(key(article.querySelector('.card-title'),' ')),true);assert.equal($('#image-position').textContent,'2 / 4');assert.equal($('#preview-speed').value,'1');assert.equal($('#preview-loop').checked,false);
+$('#image-dialog').close();assert.equal(doc.activeElement,article.querySelector('.card-title'),'close restores actual initiating focus');
+assert.equal(context.quickPreviewKeys({...key(article.querySelector('.card-title'),' '),repeat:true}),false);assert.equal(context.quickPreviewKeys(key(article.querySelector('[data-action]'),' ')),false);
+$('#drawer').hidden=false;assert.equal(context.quickPreviewKeys(key(article.querySelector('.card-title'),' ')),false);$('#drawer').hidden=true;
+const detailPlayer=doc.createElement('audio');$('#drawer').append(detailPlayer);context.openGallery(first);assert(calls.some(([action,p])=>action==='pause'&&p===detailPlayer),'opening quick preview pauses detail player');$('#image-dialog').close();
+assert.equal(context.mediaDuration(Infinity),'时长待确认');assert.equal(context.mediaDuration(0),'0:00');
+const app=fs.readFileSync(path.join(root,'app.js'),'utf8');let clickHandler;
+const originalAdd=doc.addEventListener.bind(doc);doc.addEventListener=(type,fn)=>{assert.equal(type,'click');clickHandler=fn;};
+const start=app.indexOf("document.addEventListener('click',async event=>");vm.runInContext(app.slice(start,app.indexOf("\n$('#resource-form').addEventListener",start)),context);doc.addEventListener=originalAdd;
+context.openGallery(first,'img');await clickHandler({target:$('#image-next')});assert.equal($('#image-next').disabled,true,'delegated click cleanup must preserve last-item navigation disable');
+await clickHandler({target:$('#image-prev')});await clickHandler({target:$('#image-prev')});await clickHandler({target:$('#image-prev')});assert.equal($('#image-prev').disabled,true,'delegated click cleanup preserves first-item disable');
+await clickHandler({target:$('#image-close')});
+dom.window.close();console.log('Mixed queue, actual player rendering/metadata/error/teardown, playback controls, stale events, native keys, Space scope and focus passed.');
+
+})().catch(e=>{console.error(e);process.exitCode=1;});

@@ -1,0 +1,8 @@
+{
+  "name": "shiji-desktop",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Development-only DOM tests for Shiji; the application has no npm runtime dependencies.",
+  "scripts": { "test": "node tests/run-node.cjs" },
+  "devDependencies": { "jsdom": "30.1.1" }
+}

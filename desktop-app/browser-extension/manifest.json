@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "拾集 · App 采集助手",
+  "version": "1.0.0",
+  "description": "把网页、选中文字、图片和截图保存到本机拾集资源库。",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "contextMenus"
+  ],
+  "host_permissions": [
+    "http://127.0.0.1/*",
+    "http://localhost/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "收藏到拾集"
+  }
+}

@@ -1,0 +1,17 @@
+'use strict';
+const assert=require('node:assert/strict');
+const board=require('../static/board-model.js'),gallery=require('../static/gallery-model.js');
+const site={id:'recent',kind:'website',url:'https://www.recent.co/',title:'Recent',attachments:[],license:'待确认'};
+const baseline=JSON.stringify(site);
+assert.equal(board.cover(site),'previews/recent.jpg');
+assert.equal(board.cover({...site,coverId:'owned'}),'/api/files/owned');
+assert.equal(board.cover({...site,thumbnail:'https://example.com/owned.png'}),'https://example.com/owned.png');
+for(const url of ['https://recent.co/projects','https://recent.co/?q=x','https://recent.co/#x','https://recent.co.evil.test/','https://evil.test/recent.co','https://user:pass@recent.co/','ftp://recent.co/','invalid'])assert.equal(board.cover({...site,url}), '');
+assert.equal(board.cover({...site,kind:'file'}),'');
+const adapted=board.galleryResource(site);
+assert.equal(JSON.stringify(site),baseline);
+const images=gallery.images(adapted);assert.equal(images.length,1);assert.equal(images[0].download,'');assert.equal(images[0].sourceUrl,site.url);assert.equal(images[0].license,'待确认');
+const local={...site,attachments:[{id:'asset',mime:'image/png',name:'owned.png',license:'需署名',author:'Owner',sourceUrl:'https://example.com/photo'}]};
+const queue=gallery.queue([board.galleryResource(site),board.galleryResource(local)],board.galleryResource(local),'asset');
+assert.equal(queue.index,1);assert.equal(queue.items[1].key,'asset');assert.equal(queue.items[1].author,'Owner');assert.equal(queue.items[1].license,'需署名');assert.equal(queue.items[1].src,'/api/files/asset');
+console.log('PASS: homepage-only capture fallback, user-cover precedence, provenance, independent gallery snapshots and local-image priority.');

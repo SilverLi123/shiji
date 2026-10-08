@@ -1,0 +1,33 @@
+# Local collections, pairing credentials and databases
+**/data/
+**/mobile-sync/
+*.sqlite
+*.sqlite3
+*.sqlite3-*
+*.db
+*.db-*
+*.pem
+*.key
+.env
+.env.*
+!.env.example
+
+# Build products and local QA evidence
+**/build/
+**/dist/
+**/DerivedData/
+**/DeviceData/
+**/ReleaseData/
+**/.impeccable/review/
+*.app/
+*.ipa
+*.zip
+*.xcarchive/
+**/xcuserdata/
+*.xcuserstate
+__pycache__/
+*.py[cod]
+.DS_Store
+
+# Test-only JavaScript dependencies
+**/node_modules/
