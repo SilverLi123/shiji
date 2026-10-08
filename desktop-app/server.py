@@ -226,7 +226,8 @@ class Handler(SimpleHTTPRequestHandler):
                 result={'removed':len(ids),'ids':ids}
             elif path.startswith('/api/resources/'):
                 parts=path.strip('/').split('/');rid=parts[2]
-                if len(parts)==4 and parts[3]=='edit' and method=='POST':result=STORE.edit_resource(rid,body)
+                if len(parts)==4 and parts[3]=='enrich' and method=='POST':result=STORE.enrich_capture(rid,body)
+                elif len(parts)==4 and parts[3]=='edit' and method=='POST':result=STORE.edit_resource(rid,body)
                 elif len(parts)==4 and parts[3]=='note' and method=='POST':result=STORE.update_note(rid,body)
                 elif len(parts)==4 and parts[3]=='restore' and method=='POST':result=STORE.remove(rid,True)
                 elif len(parts)==3 and method=='PUT':result=STORE.save(body,rid)

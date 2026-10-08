@@ -21,6 +21,7 @@ from recovery import RecoveryOperations
 from preview_jobs import PreviewOperations
 from file_store import publish_file
 from edits import GuardedEditOperations, EditConflict
+from quick_capture import QuickCaptureOperations
 
 CATEGORIES=['开发工具','美术素材','UI / 设计','音频','视频','字体','3D','灵感','其他']
 PRICES=['待确认','免费','部分免费','付费']
@@ -118,7 +119,7 @@ def validate_filters(raw):
     from filters import advanced_filters
     return advanced_filters(raw,result)
 
-class Store(PreviewOperations,RecoveryOperations,GuardedEditOperations,ProjectOperations,LinkImportOperations,HealthOperations,BookmarkOperations,AssetImportOperations,BackupOperations):
+class Store(QuickCaptureOperations,PreviewOperations,RecoveryOperations,GuardedEditOperations,ProjectOperations,LinkImportOperations,HealthOperations,BookmarkOperations,AssetImportOperations,BackupOperations):
     def __init__(self,directory):
         self.root=Path(directory);self.root.mkdir(parents=True,exist_ok=True)
         self.db=self.root/'library.sqlite3';self.files=self.root/'files';self.files.mkdir(exist_ok=True)

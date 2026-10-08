@@ -65,6 +65,12 @@ final class LibraryFiles: @unchecked Sendable {
             data["collections"]=Array(Set((snapshot.metadata["collections"] as? [String] ?? [])+snapshot.resources.flatMap{$0.names("projects")})).sorted()
         }}catch{for path in written{try? FileManager.default.removeItem(at:path)};throw error}
     }
+    static func quickTitle(_ value:String)->String {
+        guard let u=URL(string:value),let host=u.host else{return "新收藏"}
+        let parts=u.path.split(separator:"/")
+        if ["github.com","www.github.com"].contains(host.lowercased()),parts.count>=2{return String((parts.prefix(2).joined(separator:"/")+" · GitHub").prefix(200))}
+        return String(host.prefix(200))
+    }
     static func normalize(_ value:String) throws -> String {
         let value=value.trimmingCharacters(in:.whitespacesAndNewlines)
         guard !value.isEmpty else{return ""};guard var c=URLComponents(string:value),["http","https"].contains(c.scheme?.lowercased() ?? ""),let host=c.host,!host.isEmpty,c.user==nil,c.password==nil,value.count<=4000,!value.contains(where:{$0.isWhitespace}) else {throw fail("请输入有效的 HTTP 或 HTTPS 网址。")};c.scheme=c.scheme?.lowercased();c.host=host.lowercased();c.fragment=nil;if c.port==(c.scheme=="https" ? 443 : 80){c.port=nil};if c.path.isEmpty{c.path="/"};return c.string ?? value

@@ -3,6 +3,7 @@ import UniformTypeIdentifiers
 import QuickLook
 import PhotosUI
 @MainActor final class MobileLibrary: ObservableObject {
+    @Published var captureSequence=0
     @Published var editing=false
     @Published var resources=[Resource]()
     @Published var error:String?
@@ -59,6 +60,8 @@ struct RootView:View {
 struct GalleryView:View {
     @EnvironmentObject var library:MobileLibrary
     @AppStorage("shiji-v2-motion-mode") var motionMode="studio"
+    @State var captureVisible=false
+    @State var captureTask:Task<Void,Never>?
     @State var search=""
     @State var category="全部"
     @State var scope="全部"
@@ -103,6 +106,14 @@ struct GalleryView:View {
             .searchable(text:$search,prompt:"搜索资源、标签与灵感")
             .toolbar{ToolbarItem(placement:.topBarLeading){NavigationLink{ComputerSyncView()}label:{Image(systemName:"desktopcomputer").frame(width:44,height:44)}.accessibilityLabel("电脑同步")};ToolbarItem(placement:.topBarTrailing){Menu{Picker("浏览范围",selection:$scope){ForEach(["全部","常用","待整理"],id:\.self){Text($0)}}}label:{Label(scope,systemImage:"line.3.horizontal.decrease")}}}
             .safeAreaInset(edge:.bottom,alignment:.trailing){if !active.isEmpty{captureDock.padding(.horizontal,20).padding(.bottom,10)}}
+            .overlay(alignment:.top){if captureVisible{Label("已收藏到拾集",systemImage:"checkmark.circle.fill").font(.subheadline.weight(.semibold)).padding(14).background(Color.accentColor,in:Capsule()).foregroundStyle(Color(uiColor:NativePalette.onAccent)).padding(.top,8).transition(.move(edge:.top).combined(with:.opacity))}}
+            .animation(reduceMotion || motionMode=="calm" ? nil : .spring(response:0.35,dampingFraction:0.85),value:captureVisible)
+            .onChange(of:library.captureSequence){_,_ in
+                captureTask?.cancel();captureVisible=true
+                UIAccessibility.post(notification:.announcement,argument:"已收藏到拾集")
+                captureTask=Task{try? await Task.sleep(nanoseconds:1_600_000_000);if !Task.isCancelled{captureVisible=false}}
+            }
+            .onDisappear{captureTask?.cancel();captureVisible=false}
             .sheet(isPresented:$editor){EditorView(resource:nil)}
             .fileImporter(isPresented:$filesOpen,allowedContentTypes:[.image,.audio,.movie,.pdf,.plainText],allowsMultipleSelection:false){result in if case .success(let urls)=result,let url=urls.first{Task{await library.addFile(url)}}else if case .failure(let error)=result{library.error=error.localizedDescription}}
     }
@@ -206,6 +217,7 @@ struct EditorView:View {
     @EnvironmentObject var library:MobileLibrary
     @Environment(\.dismiss) var dismiss
     var resource:Resource?
+    @State var quickMode=true
     @State var title=""
     @State var url=""
     @State var category="其他"
@@ -228,18 +240,28 @@ struct EditorView:View {
     var changed:Bool{if let r=original{return title != r.title || url != r.text("url") || notes != r.text("notes") || category != r.text("category") || kind != r.text("kind") || description != r.text("description") || author != r.text("author") || license != r.text("license") || licenseURL != r.text("licenseUrl") || sourceURL != r.text("sourceUrl") || tags != r.names("tags") || projects != r.names("projects") || !tag.isEmpty || !project.isEmpty};return !title.isEmpty || !url.isEmpty || !notes.isEmpty || !description.isEmpty || !author.isEmpty || !sourceURL.isEmpty || !licenseURL.isEmpty || license != "待确认" || category != "其他" || kind != "website" || !tags.isEmpty || !tag.isEmpty || !projects.isEmpty || !project.isEmpty}
     var body:some View {
         NavigationStack{Form{
+            if quickMode {
+                Section("拾起一个好链接"){
+                    TextField("https://…",text:$url).keyboardType(.URL).textInputAutocapitalization(.never).autocorrectionDisabled().submitLabel(.done)
+                    Text("先保存到这部 iPhone，离线也能收藏。名称会使用网站域名或仓库路径，之后可以编辑。").font(.footnote).foregroundStyle(Color(uiColor:NativePalette.secondaryText))
+                    Button("完整编辑 / 代码与提示词"){quickMode=false}
+                }
+            } else {
             Section("资源"){TextField("名称",text:$title);Picker("形式",selection:$kind){Text("网站").tag("website");Text("素材").tag("file");Text("代码").tag("code");Text("提示词").tag("prompt")};TextField("网址",text:$url).keyboardType(.URL).textInputAutocapitalization(.never).autocorrectionDisabled();Picker("类型",selection:$category){ForEach(["开发工具","美术素材","UI / 设计","音频","视频","字体","3D","灵感","其他"],id:\.self){Text($0)}};TextField("介绍",text:$description,axis:.vertical)}
             Section("标签"){ForEach(tags,id:\.self){name in HStack{Text(name);Spacer();Button{tags.removeAll{$0==name}}label:{Image(systemName:"xmark.circle").frame(width:44,height:44)}.buttonStyle(.borderless).accessibilityLabel("移除标签 "+name)}};TextField("输入完整名称，按回车确认",text:$tag).submitLabel(.done).onSubmit{commitTag()};Text("逗号可以是标签名称的一部分。").font(.caption).foregroundStyle(Color(uiColor:NativePalette.secondaryText))}
             Section("项目"){ForEach(projects,id:\.self){name in HStack{Text(name);Spacer();Button{projects.removeAll{$0==name}}label:{Image(systemName:"xmark.circle").frame(width:44,height:44)}.buttonStyle(.borderless).accessibilityLabel("移出项目 "+name)}};TextField("输入项目，按回车确认",text:$project).submitLabel(.done).onSubmit{commitProject()}}
             Section("收藏备注"){TextEditor(text:$notes).frame(minHeight:120)}
             Section("来源与授权"){TextField("作者",text:$author);TextField("来源网址",text:$sourceURL).keyboardType(.URL).textInputAutocapitalization(.never);Picker("授权",selection:$license){ForEach(Array(Set(["待确认","允许商用","需署名","仅个人使用",license])).sorted(),id:\.self){Text($0)}};TextField("授权说明网址",text:$licenseURL).keyboardType(.URL).textInputAutocapitalization(.never)}
+            }
         }.navigationTitle(resource==nil ? "收藏资源" : "编辑资源").navigationBarTitleDisplayMode(.inline)
-            .toolbar{ToolbarItem(placement:.cancellationAction){Button("取消"){if changed{confirmDiscard=true}else{dismiss()}}.keyboardShortcut(.cancelAction)};ToolbarItem(placement:.confirmationAction){Button("保存"){commitTag();commitProject();do{guard let files=library.files else{throw fail("收藏库不可用，请检查共享目录配置。")};try files.save(draft,expected:original?.raw);library.reload();dismiss()}catch{saveError=error.localizedDescription}}.keyboardShortcut("s",modifiers:.command).disabled(title.trimmingCharacters(in:.whitespacesAndNewlines).isEmpty)}}
+            .toolbar{ToolbarItem(placement:.cancellationAction){Button("取消"){if changed{confirmDiscard=true}else{dismiss()}}.keyboardShortcut(.cancelAction)};ToolbarItem(placement:.confirmationAction){Button("保存"){commitTag();commitProject();do{guard let files=library.files else{throw fail("收藏库不可用，请检查共享目录配置。")};let value:[String:Any]
+                if quickMode {let normalized=try LibraryFiles.normalize(url);guard !normalized.isEmpty else{throw fail("请输入有效的网址。")};value=LibraryFiles.newRecord(title:LibraryFiles.quickTitle(normalized),url:normalized,kind:"website")}else{value=draft}
+                try files.save(value,expected:original?.raw);library.reload();if original==nil{library.captureSequence+=1};dismiss()}catch{saveError=error.localizedDescription}}.keyboardShortcut("s",modifiers:.command).disabled(quickMode ? url.trimmingCharacters(in:.whitespacesAndNewlines).isEmpty : title.trimmingCharacters(in:.whitespacesAndNewlines).isEmpty)}}
             .interactiveDismissDisabled(changed)
             .alert("未能保存",isPresented:Binding(get:{saveError != nil},set:{if !$0{saveError=nil}})){Button("继续编辑",role:.cancel){saveError=nil}}message:{Text(saveError ?? "")}
             .confirmationDialog("放弃未保存的修改？",isPresented:$confirmDiscard,titleVisibility:.visible){Button("放弃修改",role:.destructive){dismiss()};Button("继续编辑",role:.cancel){}}
             .onDisappear{library.editing=false}
-            .onAppear{library.editing=true;guard !initialized else{return};initialized=true;original=resource;if let r=original{title=r.title;url=r.text("url");category=r.text("category");kind=r.text("kind");notes=r.text("notes");description=r.text("description");author=r.text("author");license=r.text("license");licenseURL=r.text("licenseUrl");sourceURL=r.text("sourceUrl");tags=r.names("tags");projects=r.names("projects")}}
+            .onAppear{library.editing=true;guard !initialized else{return};initialized=true;original=resource;quickMode=resource==nil;if let r=original{title=r.title;url=r.text("url");category=r.text("category");kind=r.text("kind");notes=r.text("notes");description=r.text("description");author=r.text("author");license=r.text("license");licenseURL=r.text("licenseUrl");sourceURL=r.text("sourceUrl");tags=r.names("tags");projects=r.names("projects")}}
         }
     }
     func commitTag(){let name=tag.trimmingCharacters(in:.whitespacesAndNewlines);if !name.isEmpty,!tags.contains(name){tags.append(name)};tag=""}

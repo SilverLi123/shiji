@@ -19,8 +19,13 @@ Mac uses dark system appearance and lime-tinted native glass with availability f
 Validation: native core checks passed including presentation derivation and unchanged raw schema. macOS build **passed**; iOS Debug simulator build **passed**, bundle/App Group/opaque accent checks **passed**. Installed on pre-existing agent-owned `Shiji iPhone QA` simulator (five QA records), actual dark gallery screenshot `evidence/p3-iphone-dark.png`. No real phone used.
 Native inspection limitation: the first Mac UI binding selected an existing same-bundle window displaying port 8782; inspection was stopped without resource/pairing actions. A separate `local.silver.shiji.v2.qa` bundle with temporary-data LSEnvironment was created; native pipe then closed before validating its contents. Do not use that first window as QA evidence. Light/Dynamic Type and dedicated Mac screenshots remain in the final acceptance queue.
 
+## P4 — real Quick Capture
+Files: desktop `quick_capture.py`, Store mixin and `/api/resources/:id/enrich` routing, `static/quick-capture.js`, real app entry hooks/modal, motion success flight; backend/UI tests. iOS existing editor gains a minimal URL mode and offline fallback titles, durable-save confirmation banner; Swift tests cover offline persistence.
+Desktop POST `/api/resources` completes before confirmation or metadata request. Metadata enrich is a separate bounded (four requests) operation using existing public-fetch validation, outside the global lock; ID/URL/updatedAt and attachment baseline checked atomically before guarded title/description updates. Any intervening edit skips enrichment. No favicon, remote thumbnail, cover download, Chrome capture or preview-worker activation is added. Duplicate 409 retains input; full editor, code/prompt and file entries remain reachable.
+Validation: **202 Python tests passed**, **35 Node groups passed**, Swift core + desktop ZIP interop **passed**, updated iOS Debug **build passed**. Actual browser saved a new URL (count 6→7), then attempted the same URL: visible duplicate error and retained URL, no second record or success. Screenshots `evidence/p4-capture-success.png`, `p4-capture-duplicate.png`. Separate enrich request returned 200 after persistence. Failure/concurrent manual title/notes/tags/license/cover tests preserve the saved resource. iPhone remains offline-first; public-web enrichment is desktop-only.
+
 ## Pending stages
-P4 persist-first capture → P5 complete regression and visual acceptance.
+P5 complete regression and visual acceptance.
 
 ## Rollback
 Local stage commits can be reverted in reverse order. Database schema 3 and ZIP manifest 2 remain unchanged. Do not point a QA build at the production library.
