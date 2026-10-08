@@ -9,8 +9,12 @@ Independent final theme layer, approved dark/lime/violet Hero and ticker, contex
 Validation: baseline Python/native unchanged; Node **33 groups passed**. Real browser opened the ephemeral QA service; screenshot `evidence/p1-desktop.png`. Browser reports no document horizontal overflow. macOS was initially locked; in-app browser became available after continuing. Native UI inspection pending.
 Limit: motion controls are wired in P2; no P2 behavior is claimed here. Responsive and full feature matrix continues in P5.
 
+## P2 — motion orchestration
+Files: `shiji-v2-motion.js`, V2 CSS/HTML, explicit app hooks, Bits/Glass preference coordination, motion controller tests. Brand intro is nonblocking and skippable/replayable, geometry/ticker pause for panels/background/offscreen; pointer parallax measures only on entry. Existing Bits exclusively owns card FLIP and image tilt; Calm cancels Bits/Glass too. Single detail proxy (560ms), eight bounded success particles, root preference is separate from business data. System reduced motion always wins.
+Validation: **34 Node groups passed**, including OS preference changes, rapid detail replacement, cleanup, bounded particles, 1000-card two-flush layout and legacy regressions. Actual browser Calm button disables replay, detail opens with resource-first heading, closing restores source focus and leaves **0 proxies**. `evidence/p2-detail.png`. No remote push.
+
 ## Pending stages
-P2 motion lifecycle → P3 native visual integration → P4 persist-first capture → P5 complete regression and visual acceptance.
+P3 native visual integration → P4 persist-first capture → P5 complete regression and visual acceptance.
 
 ## Rollback
 Local stage commits can be reverted in reverse order. Database schema 3 and ZIP manifest 2 remain unchanged. Do not point a QA build at the production library.

@@ -11,7 +11,7 @@ No production data, production ports, pairing credentials, schema/manifest chang
 ## Tasks
 - [x] P0: Python / Node / Swift baseline; inspect references, rendering and storage lifecycle; isolated QA service.
 - [x] P1: shiji-v2.css tokens, real Hero/sidebar/gallery/detail; presentation-only card types; DOM tests and responsive captures.
-- [ ] P2: independent motion controller; coordinate existing Bits/Glass, lifecycle/cancellation/reduced motion tests and interactive captures.
+- [x] P2: independent motion controller; coordinate existing Bits/Glass, lifecycle/cancellation/reduced motion tests and interactive captures.
 - [ ] P3: native semantic palettes and SwiftUI brand/gallery; retain native system flows; build both platforms and inspect supported native surfaces.
 - [ ] P4: persist-first capture, deferred guarded metadata; concurrency/error/duplicate tests; no implicit cover download or preview-worker enable.
 - [ ] P5: full regression/builds, real UI matrix, bounded independent review; implementation report and rollback instructions.

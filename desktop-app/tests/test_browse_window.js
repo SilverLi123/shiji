@@ -21,7 +21,7 @@ win.matchMedia=()=>({matches:false,addEventListener(){},removeEventListener(){}}
 win.requestAnimationFrame=()=>1;win.cancelAnimationFrame=()=>{};win.scrollTo=()=>{};win.HTMLElement.prototype.scrollIntoView=function(){win.lastScrolled=this;};
 Object.defineProperty(win.document.querySelector('#resource-grid'),'clientWidth',{value:600});
 win.projectNavigation=()=>'';win.smartSummary=()=>{};win.healthTimer=null;win.renderHealth=()=>{};win.closeMenu=()=>{};
-for(const name of ['library.js','board-model.js','gallery-model.js','resource-bits.js','stable-cards.js','browse-window.js','browse-controls.js','shiji-v2.js'])vm.runInContext(fs.readFileSync(path.join(root,name),'utf8'),ctx);
+for(const name of ['library.js','board-model.js','gallery-model.js','resource-bits.js','stable-cards.js','browse-window.js','browse-controls.js','shiji-v2.js','shiji-v2-motion.js'])vm.runInContext(fs.readFileSync(path.join(root,name),'utf8'),ctx);
 const app=fs.readFileSync(path.join(root,'app.js'),'utf8');
 vm.runInContext(app.slice(0,app.indexOf('function syncNavigation')),ctx);
 vm.runInContext(app.slice(app.indexOf("document.addEventListener('click'"),app.indexOf("$('#resource-form').addEventListener")),ctx);

@@ -32,6 +32,7 @@
     const reduce=matchMedia('(prefers-reduced-motion: reduce)'),fine=matchMedia('(hover: hover) and (pointer: fine)');
     let previous=new Map(),lastWidth=0,frame=0,destroyed=false;
     const seen=new Set(),animations=new Set();
+    const calm=()=>grid.ownerDocument?.documentElement?.dataset.shijiMotion==='calm';
     let tilted=null;
     function resetTilt(){
       if(!tilted)return;
@@ -39,7 +40,7 @@
       tilted.style.removeProperty('--tilt-x');tilted.style.removeProperty('--tilt-y');tilted=null;
     }
     function tiltMove(e){
-      if(reduce.matches||!fine.matches||e.pointerType!=='mouse'||!grid.classList.contains('bits-masonry')||grid.classList.contains('preview-fit')||grid.hidden){resetTilt();return;}
+      if(reduce.matches||calm()||!fine.matches||e.pointerType!=='mouse'||!grid.classList.contains('bits-masonry')||grid.classList.contains('preview-fit')||grid.hidden){resetTilt();return;}
       const preview=e.target.closest?.('.card-preview');
       const img=preview?.querySelector('.cover-image');
       if(!preview||!grid.contains(preview)||preview.matches(':focus-visible')||preview.disabled||!img?.complete||!img.naturalWidth){resetTilt();return;}
@@ -50,7 +51,7 @@
     }
     function tiltOut(e){if(tilted&&!tilted.contains(e.relatedTarget))resetTilt();}
     function animate(el,frames,options){
-      if(reduce.matches||!el.animate)return;
+      if(reduce.matches||calm()||!el.animate)return;
       const a=el.animate(frames,options);animations.add(a);
       a.finished.then(()=>animations.delete(a),()=>animations.delete(a));return a;
     }
@@ -99,20 +100,20 @@
     ro?.observe(grid);
     function resetButton(){if(button)button.style.transform='';}
     function move(e){
-      if(!button||reduce.matches||!fine.matches||e.pointerType==='touch'||button.matches(':focus-visible')||button.disabled){resetButton();return;}
+      if(!button||reduce.matches||calm()||!fine.matches||e.pointerType==='touch'||button.matches(':focus-visible')||button.disabled){resetButton();return;}
       const p=magnetPoint(e.clientX,e.clientY,button.getBoundingClientRect());
       button.style.transform=`translate3d(${p.x}px,${p.y}px,0)`;
     }
     function preference(){resetTilt();for(const a of animations)a.cancel();animations.clear();resetButton();}
     root.addEventListener('resize',schedule);
     root.addEventListener('pointermove',move,{passive:true});
-    root.addEventListener('blur',preference);
+    root.addEventListener('blur',preference);root.addEventListener('shiji:motion',preference);
     root.addEventListener('scroll',resetTilt,true);
     grid.addEventListener('pointermove',tiltMove,{passive:true});grid.addEventListener('pointerout',tiltOut);grid.addEventListener('focusin',resetTilt);
     grid.addEventListener('load',imageReady,true);grid.addEventListener('error',imageReady,true);
     button?.addEventListener('focus',resetButton);
     reduce.addEventListener('change',preference);fine.addEventListener('change',preference);
-    return {begin,render(){layout(true);},destroy(){destroyed=true;cancelAnimationFrame(frame);ro?.disconnect();preference();grid.removeEventListener('load',imageReady,true);grid.removeEventListener('error',imageReady,true);root.removeEventListener('resize',schedule);root.removeEventListener('pointermove',move);root.removeEventListener('blur',preference);root.removeEventListener('scroll',resetTilt,true);grid.removeEventListener('pointermove',tiltMove);grid.removeEventListener('pointerout',tiltOut);grid.removeEventListener('focusin',resetTilt);button?.removeEventListener('focus',resetButton);reduce.removeEventListener('change',preference);fine.removeEventListener('change',preference);}};
+    return {begin,render(){layout(true);},destroy(){destroyed=true;cancelAnimationFrame(frame);ro?.disconnect();preference();grid.removeEventListener('load',imageReady,true);grid.removeEventListener('error',imageReady,true);root.removeEventListener('resize',schedule);root.removeEventListener('pointermove',move);root.removeEventListener('blur',preference);root.removeEventListener('shiji:motion',preference);root.removeEventListener('scroll',resetTilt,true);grid.removeEventListener('pointermove',tiltMove);grid.removeEventListener('pointerout',tiltOut);grid.removeEventListener('focusin',resetTilt);button?.removeEventListener('focus',resetButton);reduce.removeEventListener('change',preference);fine.removeEventListener('change',preference);}};
   }
   // Dock's distance-to-magnification mapping, adapted to stable native buttons.
   // Only the icon scales: labels and hit targets keep their positions.
@@ -121,14 +122,14 @@
     const reduce=matchMedia('(prefers-reduced-motion: reduce)'),fine=matchMedia('(hover: hover) and (pointer: fine)');
     function reset(){for(const el of nav.querySelectorAll('.category-art'))el.style.transform='';}
     function move(e){
-      if(reduce.matches||!fine.matches||e.pointerType==='touch'||nav.querySelector(':focus-visible')){reset();return;}
+      if(reduce.matches||nav.ownerDocument?.documentElement?.dataset.shijiMotion==='calm'||!fine.matches||e.pointerType==='touch'||nav.querySelector(':focus-visible')){reset();return;}
       const items=Array.from(nav.querySelectorAll('.browse-category'));
       const centers=items.map(el=>{const rect=el.getBoundingClientRect();return rect.left+rect.width/2;});
       items.forEach((el,i)=>{const scale=dockScale(e.clientX-centers[i]);el.querySelector('.category-art').style.transform=`translateY(${-3*(scale-1)/.28}px) scale(${scale})`;});
     }
     nav.addEventListener('pointermove',move,{passive:true});nav.addEventListener('pointerleave',reset);nav.addEventListener('focusin',reset);
-    root.addEventListener('blur',reset);reduce.addEventListener('change',reset);fine.addEventListener('change',reset);
-    return {reset,destroy(){reset();nav.removeEventListener('pointermove',move);nav.removeEventListener('pointerleave',reset);nav.removeEventListener('focusin',reset);root.removeEventListener('blur',reset);reduce.removeEventListener('change',reset);fine.removeEventListener('change',reset);}};
+    root.addEventListener('blur',reset);root.addEventListener('shiji:motion',reset);reduce.addEventListener('change',reset);fine.addEventListener('change',reset);
+    return {reset,destroy(){reset();nav.removeEventListener('pointermove',move);nav.removeEventListener('pointerleave',reset);nav.removeEventListener('focusin',reset);root.removeEventListener('blur',reset);root.removeEventListener('shiji:motion',reset);reduce.removeEventListener('change',reset);fine.removeEventListener('change',reset);}};
   }
   const api={pack,magnetPoint,tiltPoint,columns,imageRatio,readPreviewMode,savePreviewMode,create,dockScale,createDock};
   if(typeof module==='object'&&module.exports)module.exports=api;else root.ShijiBits=api;

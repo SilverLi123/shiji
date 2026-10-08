@@ -1,0 +1,14 @@
+const assert=require('node:assert/strict'),{JSDOM}=require('jsdom'),{init}=require('../static/shiji-v2-motion');
+const dom=new JSDOM('<button id="motion-mode"></button><button id="motion-replay"></button><button id="motion-skip"></button><div id="shiji-hero"><h2>拾集</h2></div><div class="shiji-brand-stage"><div class="shiji-parallax"></div></div><div id="shiji-ticker"><span>Collect</span></div><h1 id="page-title">全部</h1><div id="resource-grid"></div><div id="drawer" hidden></div><input id="search">',{url:'http://localhost'});
+const w=dom.window,doc=w.document;let change;const reduce={matches:false,addEventListener(_,fn){change=fn},removeEventListener(){change=null}};
+w.matchMedia=q=>q.includes('reduced-motion')?reduce:{matches:true};w.requestAnimationFrame=fn=>w.setTimeout(fn,0);w.cancelAnimationFrame=w.clearTimeout;w.ResizeObserver=undefined;
+let animations=[];w.Element.prototype.animate=function(frames,opts){let done;const a={frames,opts,finished:new Promise(r=>done=r),cancel(){this.cancelled=true;done()},pause(){},play(){},finish(){done()}};animations.push(a);return a};
+const ui=init({document:doc,window:w});assert.equal(doc.documentElement.dataset.shijiMotion,'studio');
+ui.setMode('calm');assert.equal(doc.documentElement.dataset.shijiMotion,'calm');assert.equal(doc.querySelector('#motion-mode').getAttribute('aria-pressed'),'false');assert.ok(animations.every(a=>a.cancelled));
+ui.setMode('studio');reduce.matches=true;change();assert.equal(doc.documentElement.dataset.shijiMotion,'calm');assert.equal(doc.querySelector('#motion-replay').disabled,true);
+reduce.matches=false;change();assert.equal(doc.documentElement.dataset.shijiMotion,'studio');
+ui.afterListUpdate('category:design');assert.equal(doc.querySelectorAll('.resource-card').length,0,'motion does not render business cards');
+const src=doc.createElement('button'),dst=doc.createElement('div');src.innerHTML='<img src="a.png" alt="">';doc.body.append(src,dst);src.getBoundingClientRect=()=>({left:10,top:10,width:100,height:100,bottom:110});dst.getBoundingClientRect=()=>({left:200,top:20,width:200,height:200,bottom:220});
+ui.openDetail({sourceElement:src,detailElement:dst});assert.equal(doc.querySelectorAll('.shiji-detail-ghost').length,1);ui.openDetail({sourceElement:src,detailElement:dst});assert.equal(doc.querySelectorAll('.shiji-detail-ghost').length,1,'rapid opens replace proxy');ui.closeDetail();assert.equal(doc.querySelectorAll('.shiji-detail-ghost').length,0);
+ui.captureConfirmed({resourceId:'saved'});assert.ok(doc.querySelectorAll('.shiji-capture-particle').length<=8);ui.setMode('calm');assert.equal(doc.querySelectorAll('.shiji-capture-particle').length,0);
+ui.destroy();assert.equal(change,null);assert.equal(doc.querySelectorAll('.shiji-detail-ghost,.shiji-capture-particle').length,0);dom.window.close();console.log('Motion mode, OS precedence, cancellation, bounded proxies/particles and disposal passed');
