@@ -1,248 +1,259 @@
 ---
-name: "拾集 · 桌面 App 与浏览器采集助手"
-description: "清晰的大图资源画廊，连接本机浏览器采集与整理。"
+name: "拾集 SHIJI V2 · Desktop Motion Studio"
+description: "深色创意画廊，以紫色品牌几何和荧光绿操作连接真实收藏。"
 colors:
-  bg: "#f7f7f2"
-  sidebar: "#eeeee7"
-  paper: "#fff"
-  ink: "#243631"
-  muted: "#596963"
-  line: "#daddd4"
-  accent: "#325a4a"
-  accent-hover: "#234737"
-  accent-soft: "#e1ebe2"
-  glass-fill: "rgba(253,254,249,.86)"
-  capture-fill: "rgba(250,253,248,.57)"
-  native-capture-ink: "rgb(8% 13% 10%)"
-  nav-active: "#dce8dc"
-  secondary-fill: "#e8eee6"
-  tag-fill: "#e7ece3"
-  tag-active: "#d1e1d0"
-  field-fill: "#f8faf4"
-  field-stroke: "#aebbaa"
-  focus-ring: "#52715a"
-  selection: "#cddfce"
-  opaque-material: "#f5f8ef"
+  shiji-bg: "#0c0d10"
+  shiji-sidebar: "#101115"
+  shiji-surface: "#15171d"
+  shiji-surface-raised: "#1d2027"
+  shiji-fg: "#f5f5f3"
+  shiji-muted: "#90919c"
+  shiji-line: "rgba(255,255,255,.095)"
+  shiji-lime: "#d7ff65"
+  accent-hover: "#e5ff9d"
+  accent-soft: "#252c18"
+  shiji-violet: "#a58cff"
+  shiji-cyan: "#79dfff"
+  brand-wash: "#e5ccff"
+  brand-gradient-start: "#a991f6"
+  brand-gradient-end: "#8260e1"
+  intro-symbol: "#835cf4"
+  feedback-coral: "#ff9d87"
+  control-muted: "#b5b6be"
+  control-hover: "#292d34"
+  field-stroke: "#424650"
+  tool-preview: "#181e17"
+  text-preview: "#191b27"
+  text-preview-ink: "#c5b7ff"
+  error-fill: "#332321"
+  error-ink: "#ffb2aa"
+  error-stroke: "#734a45"
+  pending-license-fill: "#433918"
+  pending-license-ink: "#ffe395"
 typography:
   display:
-    fontFamily: "-apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Noto Sans SC\", \"Microsoft YaHei\", sans-serif"
-    fontSize: "34px"
-    fontWeight: 600
+    fontFamily: '-apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif'
+    fontSize: "clamp(40px,4.5vw,64px)"
+    fontWeight: 850
+    lineHeight: 1.2
+    letterSpacing: "-.035em"
+  intro:
+    fontFamily: '-apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif'
+    fontSize: "clamp(95px,16vw,245px)"
+    fontWeight: 900
+    lineHeight: 1
+    letterSpacing: "-.04em"
+  headline:
+    fontFamily: '-apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif'
+    fontSize: "28px"
+    fontWeight: 750
     lineHeight: 1.25
     letterSpacing: "-.025em"
   title:
-    fontFamily: "-apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Noto Sans SC\", \"Microsoft YaHei\", sans-serif"
-    fontSize: "18px"
-    fontWeight: 600
-    lineHeight: 1.35
+    fontFamily: '-apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif'
+    fontSize: "19px"
+    fontWeight: 650
+    lineHeight: 1.4
     letterSpacing: "-.015em"
   body:
-    fontFamily: "-apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Noto Sans SC\", \"Microsoft YaHei\", sans-serif"
+    fontFamily: '-apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif'
     fontSize: "16px"
     lineHeight: 1.6
   control:
-    fontFamily: "-apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Noto Sans SC\", \"Microsoft YaHei\", sans-serif"
+    fontFamily: '-apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif'
     fontSize: "14px"
-    fontWeight: 600
-  label:
-    fontFamily: "-apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Noto Sans SC\", \"Microsoft YaHei\", sans-serif"
+    fontWeight: 700
+  description:
+    fontFamily: '-apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif'
     fontSize: "13px"
-    lineHeight: 1.5
-  metadata:
-    fontFamily: "-apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Noto Sans SC\", \"Microsoft YaHei\", sans-serif"
-    fontSize: "12px"
     lineHeight: 1.6
+  label:
+    fontFamily: '-apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif'
+    fontSize: "11px"
 rounded:
-  preview: "14px"
-  navigation: "11px"
-  field: "10px"
-  toolbar: "22px"
-  dialog: "24px"
-  popup-control: "15px"
-  pill: "999px"
+  control: "8px"
+  brand-mark: "9px"
+  preview: "12px"
+  stage: "16px"
+  pill: "99px"
+  tag: "999px"
 spacing:
   small: "8px"
   control-gap: "12px"
   medium: "16px"
+  compact-gallery-gap: "18px"
+  panel: "20px"
+  gallery-gap: "22px"
   section: "24px"
-  workspace: "32px"
+  narrow-workspace: "28px"
+  workspace-inline: "36px"
 components:
   button-primary:
-    backgroundColor: "{colors.accent}"
-    textColor: "{colors.paper}"
+    backgroundColor: "{colors.shiji-lime}"
+    textColor: "{colors.shiji-bg}"
     typography: "{typography.control}"
-    rounded: "{rounded.pill}"
+    rounded: "{rounded.control}"
     padding: "11px 18px"
-    height: "40px"
   button-primary-hover:
     backgroundColor: "{colors.accent-hover}"
-  button-secondary:
-    backgroundColor: "{colors.secondary-fill}"
-    textColor: "{colors.ink}"
+  button-hero:
+    backgroundColor: "{colors.shiji-lime}"
+    textColor: "{colors.shiji-bg}"
     rounded: "{rounded.pill}"
+    padding: "12px 20px"
+  button-secondary:
+    backgroundColor: "{colors.shiji-surface-raised}"
+    textColor: "{colors.shiji-fg}"
+    rounded: "{rounded.control}"
     padding: "10px 16px"
   search-field:
-    textColor: "{colors.ink}"
-    rounded: "{rounded.preview}"
-    padding: "0 10px"
+    backgroundColor: "{colors.shiji-surface}"
+    textColor: "{colors.shiji-fg}"
+    rounded: "{rounded.control}"
+    padding: "0 12px"
   navigation-active:
-    backgroundColor: "{colors.nav-active}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.navigation}"
+    backgroundColor: "{colors.shiji-surface-raised}"
+    textColor: "{colors.shiji-lime}"
+    rounded: "{rounded.control}"
     padding: "9px 12px"
-    height: "40px"
   category-active:
-    backgroundColor: "{colors.accent}"
-    textColor: "{colors.paper}"
+    backgroundColor: "{colors.shiji-lime}"
+    textColor: "{colors.shiji-bg}"
     rounded: "{rounded.pill}"
-    padding: "7px 13px"
-    height: "38px"
+    padding: "7px 12px"
   tag:
-    backgroundColor: "{colors.tag-fill}"
-    textColor: "{colors.muted}"
-    rounded: "{rounded.pill}"
+    backgroundColor: "{colors.shiji-surface-raised}"
+    textColor: "{colors.control-muted}"
+    rounded: "{rounded.tag}"
     padding: "6px 12px"
   resource-metadata:
-    textColor: "{colors.ink}"
+    textColor: "{colors.shiji-fg}"
     typography: "{typography.title}"
-    padding: "14px 2px 0"
+    padding: "16px 0 0"
   form-field:
-    backgroundColor: "{colors.field-fill}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.field}"
+    backgroundColor: "{colors.shiji-surface-raised}"
+    textColor: "{colors.shiji-fg}"
+    rounded: "{rounded.control}"
+    padding: "10px 12px"
   browser-capture-deck:
-    backgroundColor: "{colors.capture-fill}"
-    textColor: "{colors.ink}"
+    backgroundColor: "{colors.shiji-surface-raised}"
+    textColor: "{colors.shiji-fg}"
     rounded: "{rounded.pill}"
     padding: "6px"
-  native-capture:
-    textColor: "{colors.native-capture-ink}"
-    rounded: "{rounded.pill}"
-    padding: "14px 22px"
-  extension-button:
-    backgroundColor: "{colors.accent}"
-    textColor: "{colors.paper}"
-    rounded: "{rounded.popup-control}"
-    padding: "12px 14px"
 ---
 
-# Design System: 拾集 · 桌面 App 与浏览器采集助手
+# Design System: 拾集 SHIJI V2 · Desktop Motion Studio
 
 ## Overview
 
-**Creative North Star: "清晰画廊上的采集层"**
+**Creative North Star: "Creative Tech Dark · Motion Studio"**
 
-拾集的视觉重心是实际收藏的大图、名称与来源。暖白纸面、深绿文字和低饱和鼠尾草绿让内容自己的颜色进入画廊；系统字体承担持续搜索与整理的工作，不制造另一个展示品牌。
+拾集把真实收藏放进深色创意画廊：荧光绿指出可以执行的动作，紫色几何舞台承载品牌，低边框的内容平面保持图片、工具来源和文本摘要清晰。排版有编辑式的大标题，也保留技术工作台的信息秩序。
 
-玻璃用于操作层的浮起与上下文联系。macOS 原生采集浮层读取下方资源图像的颜色，标签和图标保持深色可读；浏览器使用明确的 CSS 材质近似。图片、正文和来源信息保持清晰。用户已否定割裂的 Olla 装饰循环与覆盖内容的大块白色磨砂面板。
+本文件固化已经认可并实现的 SHIJI V2 世界，替换旧的暖白／鼠尾草／整页玻璃方向。视觉权威是 `../docs/shiji-v2/IMPLEMENTATION_PLAN.md`、`CODEX_MASTER_PROMPT.md` 与 `reference/motion-studio.html`；实际令牌从 `static/shiji-v2.css` 及其保留的基础层提取。网页管理区仍由 WKWebView 承载，原生 macOS 操作使用独立的系统材料；两者共享品牌，保留各自平台结构。
 
 **Key Characteristics:**
-- 实际资源图像提供主要视觉变化
-- 暖白纸面、鼠尾草绿操作、清晰深色文字
-- 小型原生操作浮层与稳定的内容平面
-- 动作触发的有限形变与可见键盘焦点
+- 深色内容平面、紫色品牌舞台、荧光绿关键操作
+- Visual / Tool / Text 三类真实资源表达
+- 编辑式标题与紧凑、清楚的管理控件
+- Studio / Calm 与系统减少动态效果共同控制动效
+- 原生操作材料和网页不透明阅读层各自承担职责
 
 ## Colors
 
-规范值在 frontmatter；最终网页叠层来自 `static/liquid-glass.css`，它覆盖基础样式与旧资源动效样式。不要从较早的 Solarized 或 Recent Motion 声明重新提取主题。
+frontmatter 是规范值。`static/shiji-v2.css` 最后加载，覆盖旧主题；底层文件仍承担未被替换的布局和控件规则，不能重新把旧浅色令牌当作当前视觉权威。
 
 ### Primary
 
-**鼠尾草深绿**（accent / accent-hover）用于主要操作、选中分类与链接；**浅鼠尾草**（accent-soft、nav-active、tag-active）为导航与标签的选中提示。普通分类与标签使用 muted，活动分类在深绿底上使用 paper。
+**荧光绿**（shiji-lime）用于主要收藏操作、分类选择、焦点、常用状态与品牌几何；accent-hover 是主要按钮悬停。深色字（shiji-bg）落在绿底上。accent-soft 是源码保留的品牌暗底令牌。
+
+### Secondary
+
+**创意紫**（shiji-violet）用于品牌舞台底色；最终舞台叠加 brand-gradient-start／brand-gradient-end 的斜向渐变与 brand-wash 的指针聚光。intro-symbol 是幕布字标中的紫色符号。文本型卡片采用独立的 text-preview 与 text-preview-ink，保持代码／提示词摘要可读。
+
+### Tertiary
+
+**技术青**（shiji-cyan）和 **反馈珊瑚**（feedback-coral）与绿／紫共同组成短暂粒子反馈；当前主要控件与链接仍以荧光绿为强调，不据此臆造整套青色状态。
 
 ### Neutral
 
-**暖白纸面**（bg）承接画廊；paper 用于详情与表单。**深绿墨色**（ink）用于主体，**叶灰绿**（muted）用于域名、数量和提示，line 用于已有信息分隔。secondary-fill 和 tag-fill 是小型控件的浅色背景。
+**画廊黑、侧栏黑、操作平面与抬升平面**（shiji-bg、shiji-sidebar、shiji-surface、shiji-surface-raised）提供层次。shiji-fg 是主要文字，shiji-muted 是说明／来源，control-muted 用于次要操作与标签，shiji-line 是精细边界。field-stroke 提供输入边界，control-hover 提供普通控件悬停。
 
-**透明暖白**（glass-fill / capture-fill）是浏览器的材质填色，不是原生材料令牌。**原生采集墨色**（native-capture-ink）精确保留 SwiftUI 的 RGB 比例；它与白色轻染的原生玻璃共同保障图像上方的文字对比。focus-ring、selection、field-stroke 与 opaque-material 分别用于焦点、选区、输入边界及不透明回退。
+工具占位使用 tool-preview。保存错误使用 error-fill／error-ink／error-stroke；授权待确认使用 pending-license-fill／pending-license-ink，仍以文字明确说明状态。高对比度系统偏好提升次级文字与边界，具体值记录在 sidecar。
 
-**The Content Color Rule.** 让实际资源图像提供颜色；界面配色服务于搜索、选择和编辑，不补造装饰性主题色。
+**The Accent Restraint Rule.** 荧光绿集中于主要操作、选择和必要反馈；图片颜色与紫色舞台保留自己的表达空间。
 
 ## Typography
 
-**Display / Body Font:** 系统与中文字体栈，规范值在 frontmatter。原生壳与配对面板使用 SwiftUI 系统字体；浏览器扩展也沿用系统字体。这是当前工具界面的排版选择，不宣称自有展示字体。
+**Display / Body Font:** 系统与中文字体栈，见 frontmatter；没有远程字体依赖。macOS 原生搜索、配对与采集控件使用 SwiftUI 系统字体，网页字号不直接移植到原生控件。
 
-### Hierarchy
+大标题紧凑而有力度，正文保持中性。display 用于主图库的品牌标题；headline 用于资源区域；title 用于真实资源名称；body 是浏览器基础文本，description 用于卡片介绍，label 用于域名／分类等辅助信息。Hero 说明单独使用较舒展的行高（1.9），文本卡片摘要使用行高（1.7）。
 
-- **Display:** 工作区标题，常规宽屏使用 display；760px 以下降至30px，480px 以下28px。
-- **Title:** 图片下资源名称使用 title；480px 以下为19px。标题保留自然换行，不通过缩小字体隐藏长名称。
-- **Body:** 详情说明与编辑正文使用 body；来源和许可随真实内容显示。
-- **Control / Label:** 主按钮与搜索为14px，快速分类为13px；480px 以下分类为12px。原生采集入口为14px semibold。
-- **Metadata:** 域名、附件数量、分类与辅助说明使用 metadata；数量沿用 tabular-nums。扩展正文为14px/1.6，标题为21px/1.3、600字重，连接状态为11px。
+网页 Hero 在中宽屏改为 `clamp(40px,6vw,60px)`，窄屏为（48px），最窄分支为（44px）；区域标题依次降至（24px／22px）。图库卡片标题在最窄分支为（20px），不随 Hero 一同缩小。小号英文工作台标签是辅助层；资源名称、错误与保存状态不得仅以微型英文标签表达。
 
 ## Layout
 
-采用内容平面加操作层的空间关系。资源网格、名称、来源是连续的阅读区域；表单与详情承接选中的资源，面板具有真实的编辑或检查目的。
+完整侧栏宽（238px）；主工作区最大宽（1500px），宽屏内边距为（34px 36px 110px）。顶部栏贴住页面顶边，无旧版悬浮玻璃卡片外观。图库保留 `data-gallery-columns="2"` 的稳定短列瀑布流：视口大于（480px）时两列，以下一列；列间距在（760px）以内为（18px），其余为（22px）。不要把 Bits 的通用三列辅助函数误写为当前主图库列数。
 
-当前桌面画廊固定为两列最短列排列，480px 及以下一列；桌面列间距22px，760px 及以下18px。网页侧栏为226px；1170px 及以下改为可展开导航。常规工作区左右32px，1170px 以下24px，760px 以下20px，480px 以下16px，最大宽度1500px。底部保留110px滚动余量。默认预览框比例为1.6；完整显示使用真实已加载图像比例，已有96–560px高度约束与 contain 适应不改写原图元数据。
+在（1279px）及以下，侧栏成为可抽出的固定导航，宽（260px），工作区内边距变为（28px 24px 110px）。在（760px）及以下，Hero 上下排列，分类横向滚动，工具条换行；工作区使用（24px 20px 110px）。在（480px）及以下，工作区使用（22px 16px 110px），搜索独占一行，列表与详情内容允许换行。
 
-浏览工具是分类、筛选、显示和选择。760px 以下分类横向滚动，并与工具入口分行。移动端只让分类自身滚动，不让整个文档产生横向溢出。列表与按形式分组的参考板继续使用各自布局，不套用灵感板的列数。
-
-原生与浏览器的首屏构图、浮层位置和验证尺度记录在 `.impeccable/surfaces/desktop-app.md`，不是其他未来页面必须复制的模板。
+Hero 的具体出现条件、首屏叙事和不同任务模式见 `../docs/shiji-v2/SURFACE_BRIEF.md`。列表、参考板、搜索、筛选、选择与管理入口保持既有结构和真实数据范围，不能以概念稿的固定卡片网格替换。
 
 ## Elevation & Depth
 
-内容卡片平置，无独立背景、边框或悬停投影。浏览器顶栏与分类操作区使用轻透明暖白和柔软、有偏移的投影；详情与编辑面板以更明确的层级承接工作。原生玻璃由 macOS 渲染，不能由 CSS 阴影参数替代。
+内容默认平置，卡片无外框、无卡片阴影；深度主要由暗色平面的亮度差提供。浮出的工具、详情、对话框和保存反馈使用局部阴影。浏览器采集层使用实色暗底，`backdrop-filter` 已关闭；macOS 26 的采集胶囊使用真实 `.glassEffect(.regular.interactive())`，较早 macOS 使用 `.regularMaterial`。
 
 ### Shadow Vocabulary
 
-- **操作层低浮起:** `0 8px 28px rgba(30,48,36,.09)`，浏览器顶栏。
-- **小控件浮起:** `0 3px 14px rgba(30,48,36,.06)`，分类与浏览工具。
-- **工具面板:** `0 12px 40px rgba(30,48,36,.17)`，筛选等面板。
-- **详情抽屉:** `-14px 0 50px rgba(30,48,36,.15)`。
-- **对话框:** `0 16px 50px rgba(30,48,36,.2)`。
-- **浏览器采集层:** 两条中性内侧光缘与 `0 6px 22px rgba(26,44,34,.16)`，背景模糊12px、饱和度1.5。光缘是透明材质边界，不为卡片增加装饰性双重轮廓。
+- 工具面板：`0 16px 40px #0006`，只承接展开操作。
+- 详情抽屉：`-16px 0 50px #0008`，强调右侧层级。
+- 对话框：`0 24px 80px #0009`，用于聚焦任务。
+- 采集层：`0 8px 32px #0006`；Toast：`0 10px 30px #0006`。
 
-**The Clear Content Rule.** 玻璃属于操作层；资源预览与正文不附加磨砂、光晕或图像倾斜。
+**The Material Boundary Rule.** 原生系统材料属于原生操作层；网页 CSS 与暗色阅读平面不得被称为原生 Liquid Glass。
 
-**The Deliberate Motion Rule.** 形变回应明确操作或布局变化；不恢复自动循环的装饰舞台。
-
-原生展开使用有界 spring（response 0.38、dampingFraction 0.82），稳定 glassEffectID 在同一 namespace 内关联动作。分类指示器只在选择或布局改变时运行320ms、cubic-bezier(.16,1,.3,1)。继承的画廊重排为有限320ms，首次进入从已可见状态作有限360ms位移，不形成新装饰循环；最终叠层禁用图片倾斜和 CSS 卡片入场。Reduce Motion 关闭原生 spring 与相应网页空间动画；浏览器减少透明度或不支持 backdrop-filter 时使用 opaque-material。macOS 14/15 使用系统 regularMaterial 回退，macOS 26 使用原生材料及系统辅助功能处理。
+动效模式以网页偏好 `shiji-v2-motion-mode` 保存；系统 `prefers-reduced-motion` 优先。品牌循环在后台、舞台不可见、详情或对话框打开时暂停。减少透明度使用实色平面。具体动效参数由 `.impeccable/design.json` 记录，业务保存与内容可交互不能等待装饰结束。首次／重播幕布（1370ms）包含品牌字（800ms）和延迟进入的标题；可跳过，Esc 也会取消。品牌书签、轨道、网格、cutout、tracer、spark、模式 beacon 与 ticker 形成受控循环，不绕过暂停条件。
 
 ## Shapes
 
-大图使用柔和圆角（preview），不将整张资源包进带阴影的圆角卡片。navigation 与 field 比浮层更克制；toolbar、dialog 给工具面板足够舒适的转角。胶囊仅用于小型按钮、分类、标签和采集控件；原生关闭与扩展入口为圆形。扩展按钮保持 popup-control 的轻圆角，不将整页所有表面改成胶囊。
+控件使用紧凑圆角，预览使用中等圆角，品牌舞台与对话框使用更宽松圆角，值在 frontmatter。分类、标签与收藏入口使用胶囊；品牌书签是带缺口的几何形，不是内容封面。资源信息本身无额外圆角容器。详情宽屏保留左侧圆角，手机网页分支成为直角全宽面。
 
 ## Components
 
 ### Buttons
 
-主要按钮为深绿填色、白字、胶囊与清晰动作名；悬停使用 accent-hover。次要按钮用 secondary-fill 和 ink，悬停浅绿。详情页“编辑”为唯一主要动作，来源、常用、加入项目与加标签保持次级。等待和禁用状态不得伪装成已完成；键盘焦点使用可见两像素轮廓。
-
-### Chips
-
-标签和可移除筛选条件保持小而稳定。普通标签为 tag-fill / muted，活动标签为 tag-active / ink。准确名称按完整字符串显示，逗号不作为视觉分隔符。选中与可移除状态不能只通过动画表达。
-
-### Cards / Containers
-
-资源以真实预览图、标题、域名、附件数量、分类和预览动作组成；图片下信息内边距14px 2px 0。封面区域和标题均可进入详情，常用控件有单独的操作名称和状态。完整预览保持原图，不给图片额外倾斜或悬停放大。侧车中的资源组件只展示可复用的信息原语，不放整页截图或虚构图片。
+主要按钮以荧光绿底和画廊黑文字表达动作；默认按钮最小高度（42px），Hero 使用胶囊轮廓。次要按钮使用抬升平面与精细边界；文本操作保持次级文字。键盘焦点为绿色外轮廓（2px）与偏移（4px），禁用状态保留真实不可用语义，不依赖颜色。
 
 ### Inputs / Fields
 
-搜索是透明、无边框的小型输入；聚焦时整体底线与浅绿表面提示位置，输入文字区域不另加矩形描边。编辑字段为 field-fill、field-stroke 与 field 圆角；聚焦轮廓与错误文本清晰可见。扩展字段保留白底、9px圆角与相同主题焦点。
+搜索字段为暗底圆角，输入字号（13px）；焦点扩大搜索区域并出现绿色底线，Esc 返回来源焦点。表单字段用抬升平面、field-stroke 边界与规范内边距；Quick Capture 的网址输入独立使用（16px）文字和（15px）内边距。错误在输入附近显示可恢复说明，失败保留草稿。
 
-### Navigation
+### Navigation / Chips
 
-侧栏选中项为 nav-active 与加重的 ink。快速分类使用固定文字、真实库数量和胶囊点击区，选中深绿底配白字；指示器不改变按钮的可点击尺寸。窄屏导航可关闭，Esc 与焦点返回沿用已有行为。不要恢复被隐藏的 Dock 放大图标作为当前设计系统。
+侧栏当前项为抬升平面与荧光绿文字，最小高度沿用（40px）。分类是有数量的可横向滚动胶囊；选中底色为荧光绿，文字为画廊黑。`liquid-glass.js` 仅维护分类指示器，不拥有卡片布局。标签保留准确名称，包括逗号；过滤条件可移除，不能为视觉省略“筛选／显示／选择”入口。
 
-### Capture Layer
+### Cards / Containers
 
-macOS 26 的采集入口使用 `GlassEffectContainer`、交互式 `glassEffect` 与稳定 `glassEffectID`，白色 tint opacity 0.65、native-capture-ink 前景。按“收藏”展开为真正的“收藏网址 / 添加素材”，选择动作收起；扩展入口打开原生配对面板。详情、编辑和对话框打开时浮层隐藏。浏览器的两个采集动作固定显示，以 CSS 模糊和中性光缘近似；侧车仅预览这份浏览器原语，不能预览或证明 SwiftUI 材质。
+Visual 优先真实可用封面；Tool 对应 `kind=website` 且分类为“开发工具”；Text 对应 `kind=code/prompt`，呈现实际摘要。缺封面显示域名／类型识别，不虚构作品。卡片标题、来源、介绍、标签与附件来自资源记录；列表与参考板沿用同一真实记录。
 
-### Pairing / Extension
+**The Single Motion Owner Rule.** `ShijiBits` 独占资源卡片 FLIP 与图片 tilt；编排层不得在同一实际节点上叠加第二套 transform。
 
-配对面板使用系统标题、分组、真实本地地址、文件夹动作和复制按钮。加载、失败与重试分别显示；仅有效配对码才启用复制。扩展为360px宽、24px内边距的简洁动作面板，连接状态有文字，失败提示可恢复。不要将配置值画成产品装饰。
+### Capture / Detail
+
+网页采集胶囊与 macOS 原生采集胶囊是两种实现。原生展开使用 `GlassEffectContainer(spacing:16)`、内部间距（12pt），图标按钮为（46×46pt），文字为系统半粗（14pt）；宿主固定深色外观。原生展开同时遵守系统 Reduce Motion 与 `libraryMotion` bridge 传入的网页有效 Calm 状态；bridge 校验主 frame、本机服务来源与合法模式值。
+
+Quick Capture 的成功反馈来自真实保存完成；SQLite 成功之前不飞入、不显示已收藏。真实保存的飞入（900ms）结束后是（15）粒子与 ring；没有来源矩形时直接显示成功 burst。分类和通用主要控件点击有（6）粒子的动作提示，它不承载“已保存”语义；设为常用的（6）粒子仅在真实写入后触发。
+
+详情临时代理（710ms）不接管焦点或点击，真实详情立即可用；内容分层进入，对话框本体（400ms）与文字 stagger 独立于业务流程。Bits 在 Studio 内执行（680ms）FLIP、（850ms）模糊入场与（500ms）退出代理，退出最多（9）个、只取可见卡片；切换和销毁时清理。Hover 的聚光与 sheen 不挪动控件命中区。保存失败与编辑冲突仍走原恢复路径。
 
 ## Do's and Don'ts
 
-### Do:
-- Do 使用实际封面、准确名称、真实数量和来源信息。
-- Do 在深色和浅色图像上检查浮层标签与图标的可读性。
-- Do 让控件保留可见焦点、明确动作名及加载、失败、禁用反馈。
-- Do 保留原生材质、减少动态效果与不透明回退的区别。
-
-### Don't:
-- Don’t 把 CSS backdrop-filter 称为原生 Liquid Glass。
-- Don’t 恢复 Olla 循环装饰或在资源图像上叠加磨砂面板。
-- Don’t 通过截图、示例封面或颜色推断资源的价格与许可。
-- Don’t 将整个界面截图当作组件，或用外部图标依赖代替可独立渲染的图标。
+- Do 延续已经认可的 Creative Tech Dark · Motion Studio，按真实源码提取令牌。
+- Do 使用真实封面、域名、资源名称、数量、附件和文本摘要。
+- Do 让 Studio、Calm、系统减少动态效果与弹层生命周期控制装饰动效。
+- Do 在写入成功后反馈收藏，失败保留输入与恢复动作。
+- Do 保留可见焦点、键盘操作、清晰错误与原生系统结构。
+- Don't 恢复旧的暖白／鼠尾草／整页玻璃视觉，或复活旧 Olla 装饰模块。
+- Don't 用 Demo 的示例内容、localStorage 资源模型或模拟成功替代真实 API。
+- Don't 给实际卡片叠加第二套 FLIP／tilt，或让代理元素阻挡内容操作。
+- Don't 将网页预览截图作为 iPhone 原生实现或全平台验收证据。

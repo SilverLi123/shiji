@@ -1,0 +1,77 @@
+Window: "Shiji iPhone QA", App: Device Hub.
+0 standard window Shiji iPhone QA – iOS 27.0, ID: com.apple.dt.DeviceKit.DeviceManagementWindow-AppWindow-1, Secondary Actions: Raise
+	1 split group
+		2 split group com.apple.dt.DeviceKit.DeviceManagementWindow-AppWindow-1, SidebarNavigationSplitView
+			3 container
+				4 container
+					5 text Description: React Bits, Secondary Actions: Cancel
+					6 text Description: reactbits.dev · 2026-10-08, Secondary Actions: Cancel
+					7 link Description: 打开原网页, Secondary Actions: Cancel
+					8 text Description: 界面组件与交互动效。, Secondary Actions: Cancel
+					9 text Description: 来源与授权, Secondary Actions: Cancel
+					10 text Description: 作者待补充, Secondary Actions: Cancel
+					11 text Description: 待确认, Secondary Actions: Cancel
+					12 link Description: 查看来源, Secondary Actions: Cancel
+					13 text Description: New, exact · 品牌设计, Secondary Actions: Cancel
+					14 text Description: 项目：创作灵感, Secondary Actions: Cancel
+					15 text Description: 收藏备注, Secondary Actions: Cancel
+					16 text Secondary Actions: Cancel, Description: 关注配色与页面动效。
+这是隔离模拟器的验收样例。
+					17 text Description: 附件, Secondary Actions: Cancel
+					18 button Description: 添加, Secondary Actions: Cancel
+					19 button Description: reactbits.jpg, Secondary Actions: Cancel
+					20 button Description: 编辑, Secondary Actions: Cancel
+					21 container Description: 标签页栏, Secondary Actions: Cancel
+				22 button Description: Home, ID: app.grid.3x3
+				23 button Description: Screenshot, ID: camera.viewfinder
+				24 button Description: Record, ID: record.circle
+				25 button Rotate Left
+		26 splitter (disabled, settable, float) 820
+		27 container
+			28 scroll area Description: Appearance, ID: Inspector.com.apple.devicekit.inspector.appearance
+				29 container
+					30 pop up button Appearance, Value: Light
+					31 slider Liquid Glass, Value: 0.5, Secondary Actions: Increment, Decrement
+						32 value indicator 0.5
+					33 pop up button Color Filter, Value: None
+					34 slider Text Size, Value: 8, Secondary Actions: Increment, Decrement
+						35 value indicator 8
+					36 switch Reduce Motion, Value: on
+					37 switch Increase Contrast, Value: on
+					38 switch Show Borders, Value: off
+					39 switch Reduce Transparency, Value: on
+					40 switch VoiceOver, Value: on
+				41 pop up button Location, Value: None
+				42 container
+					43 slider Sound, Value: 0.6, Secondary Actions: Increment, Decrement
+						44 value indicator 0.6
+					45 pop up button Output, Value: System
+					46 pop up button Input, Value: System
+	47 toolbar
+		48 button Description: Show Sidebar, Secondary Actions: Increment, Decrement, Delete, Cancel
+		49 toggle button Description: Capture Keyboard, Value: off
+		50 toggle button Description: Resize mode, Help: Enter resize mode, Value: off
+		51 Zoom
+			52 radio button Description: Zoom Out, Value: 0, ID: minus.magnifyingglass
+			53 radio button Description: arrowtriangles.up.right.down.left.magnifyingglass, Help: Zoom to Fit, Value: 1
+			54 radio button Description: Zoom To Actual Size, Help: Physical Size, Value: 0, ID: 1.magnifyingglass
+			55 radio button Description: Zoom In, Value: 0, ID: plus.magnifyingglass
+		56 button Description: Open in New Window, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		57 menu button More, Help: More Actions, ID: ellipsis
+		58 Inspector Category
+			59 radio button Description: Edit, Help: Settings, Value: 1, ID: slider.horizontal.3
+			60 radio button Description: text.document, Help: Reports, Value: 0
+			61 radio button Description: Info, Value: 0, ID: info
+	62 close button
+	63 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	64 minimize button
+	65 text Shiji iPhone QA iOS 27.0
+66 menu bar
+	67 Device Hub
+	68 File
+	69 Edit
+	70 View
+	71 Device
+	72 Controls
+	73 Window
+	74 Help

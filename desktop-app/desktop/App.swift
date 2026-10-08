@@ -5,6 +5,7 @@ import AppKit
 @MainActor final class LibraryRuntime: ObservableObject {
     @Published var ready = false
     @Published var controlsBlocked = false
+    @Published var motionCalm = false
     @Published var error: String?
     @Published var pairing = ""
     @Published var pairingError: String?
@@ -86,8 +87,14 @@ struct ManagementView: NSViewRepresentable {
         let config = WKWebViewConfiguration()
         config.userContentController.addUserScript(WKUserScript(source:"window.ShijiNative=true;",injectionTime:.atDocumentStart,forMainFrameOnly:true))
         config.userContentController.add(context.coordinator,name:"libraryState")
+        config.userContentController.add(context.coordinator,name:"libraryMotion")
         config.userContentController.addUserScript(WKUserScript(source:"""
         (()=>{let previous;const update=()=>{const drawer=document.querySelector('#drawer');const busy=!!document.querySelector('dialog[open]')||!!(drawer&&!drawer.hidden);if(busy!==previous){previous=busy;window.webkit.messageHandlers.libraryState.postMessage(busy)}};new MutationObserver(update).observe(document.body,{subtree:true,attributes:true,attributeFilter:['hidden','open']});update()})();
+        """,injectionTime:.atDocumentEnd,forMainFrameOnly:true))
+        config.userContentController.addUserScript(WKUserScript(source:"""
+        /* shiji-motion-bridge */
+        (()=>{let previous;const update=()=>{const mode=document.documentElement.dataset.shijiMotion==='calm'?'calm':'studio';if(mode!==previous){previous=mode;window.webkit.messageHandlers.libraryMotion.postMessage(mode)}};new MutationObserver(update).observe(document.documentElement,{attributes:true,attributeFilter:['data-shiji-motion']});update()})();
+        /* end-shiji-motion-bridge */
         """,injectionTime:.atDocumentEnd,forMainFrameOnly:true))
         let view = WKWebView(frame:.zero,configuration:config); view.navigationDelegate=context.coordinator; view.uiDelegate=context.coordinator
         view.setValue(false,forKey:"drawsBackground"); view.setContentHuggingPriority(.defaultLow,for:.horizontal); view.setContentHuggingPriority(.defaultLow,for:.vertical); runtime.webView=view
@@ -99,8 +106,9 @@ struct ManagementView: NSViewRepresentable {
         init(_ runtime: LibraryRuntime) { self.runtime=runtime }
         func userContentController(_ controller:WKUserContentController,didReceive message:WKScriptMessage) {
             guard message.frameInfo.isMainFrame, let url=message.frameInfo.request.url,
-                  url.host=="127.0.0.1",url.port==runtime.port,let busy=message.body as? Bool else { return }
-            runtime.controlsBlocked=busy
+                  url.host=="127.0.0.1",url.port==runtime.port else { return }
+            if message.name=="libraryState",let busy=message.body as? Bool {runtime.controlsBlocked=busy}
+            if message.name=="libraryMotion",let mode=message.body as? String,["studio","calm"].contains(mode){runtime.motionCalm=mode=="calm"}
         }
         func webView(_ webView: WKWebView, decidePolicyFor action: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy)->Void) {
             guard let url=action.request.url else { decisionHandler(.cancel);return }
@@ -140,13 +148,14 @@ struct FunctionalGlass<Content:View>: View {
     }
 }
 struct CaptureDock: View {
+    var calm:Bool
     var collect: () -> Void
     var importFiles: () -> Void
     var pair: () -> Void
     @State private var expanded = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Namespace private var glassNamespace
-    private func toggle() { withAnimation(reduceMotion ? nil : .spring(response:0.38,dampingFraction:0.82)) { expanded.toggle() } }
+    private func toggle() { withAnimation(reduceMotion || calm ? nil : .spring(response:0.38,dampingFraction:0.82)) { expanded.toggle() } }
     private func finish(_ action: () -> Void) { expanded = false; action() }
     @ViewBuilder private var controls: some View {
         if #available(macOS 26.0, *) {
@@ -154,17 +163,17 @@ struct CaptureDock: View {
                 HStack(spacing:12) {
                     if expanded {
                         Button { finish(collect) } label: { Label("收藏网址",systemImage:"link").padding(.horizontal,18).padding(.vertical,14) }
-                            .buttonStyle(.plain).glassEffect(.regular.tint(Color(red:215/255,green:1,blue:101/255).opacity(0.75)).interactive(),in:.capsule).glassEffectID("collect",in:glassNamespace)
+                            .buttonStyle(.plain).glassEffect(.regular.interactive(),in:.capsule).glassEffectID("collect",in:glassNamespace)
                         Button { finish(importFiles) } label: { Label("添加素材",systemImage:"square.and.arrow.down").padding(.horizontal,18).padding(.vertical,14) }
-                            .buttonStyle(.plain).glassEffect(.regular.tint(Color(red:215/255,green:1,blue:101/255).opacity(0.75)).interactive(),in:.capsule).glassEffectID("files",in:glassNamespace)
+                            .buttonStyle(.plain).glassEffect(.regular.interactive(),in:.capsule).glassEffectID("files",in:glassNamespace)
                         Button { toggle() } label: { Image(systemName:"xmark").frame(width:46,height:46) }
-                            .buttonStyle(.plain).glassEffect(.regular.tint(Color(red:215/255,green:1,blue:101/255).opacity(0.75)).interactive(),in:.circle).glassEffectID("close",in:glassNamespace).accessibilityLabel("收起收藏入口")
+                            .buttonStyle(.plain).glassEffect(.regular.interactive(),in:.circle).glassEffectID("close",in:glassNamespace).accessibilityLabel("收起收藏入口")
                     } else {
                         Button { toggle() } label: { Label("收藏",systemImage:"plus").padding(.horizontal,22).padding(.vertical,14) }
-                            .buttonStyle(.plain).glassEffect(.regular.tint(Color(red:215/255,green:1,blue:101/255).opacity(0.75)).interactive(),in:.capsule).glassEffectID("collect",in:glassNamespace).accessibilityLabel("展开收藏入口")
+                            .buttonStyle(.plain).glassEffect(.regular.interactive(),in:.capsule).glassEffectID("collect",in:glassNamespace).accessibilityLabel("展开收藏入口")
                     }
                     Button(action:pair) { Image(systemName:"puzzlepiece.extension").frame(width:46,height:46) }
-                        .buttonStyle(.plain).glassEffect(.regular.tint(Color(red:215/255,green:1,blue:101/255).opacity(0.75)).interactive(),in:.circle).glassEffectID("pair",in:glassNamespace).accessibilityLabel("浏览器扩展")
+                        .buttonStyle(.plain).glassEffect(.regular.interactive(),in:.circle).glassEffectID("pair",in:glassNamespace).accessibilityLabel("浏览器扩展")
                 }
             }
         } else {
@@ -175,10 +184,10 @@ struct CaptureDock: View {
                 }
                 Button(expanded ? "收起" : "收藏",systemImage:expanded ? "xmark" : "plus") { toggle() }
                 Button("浏览器扩展",systemImage:"puzzlepiece.extension",action:pair)
-            }.padding(12).background(.regularMaterial,in:Capsule())
+            }.padding(12).background(.regularMaterial,in:Capsule()).foregroundStyle(.primary)
         }
     }
-    var body: some View { controls.fixedSize().font(.system(size:14,weight:.semibold)).foregroundStyle(Color(red:0.08,green:0.13,blue:0.10)) }
+    var body: some View { controls.fixedSize().font(.system(size:14,weight:.semibold)).foregroundStyle(Color(red:215/255,green:1,blue:101/255)) }
 }
 struct LibraryWindow: View {
     @ObservedObject var runtime: LibraryRuntime
@@ -199,7 +208,7 @@ struct LibraryWindow: View {
         }
         .overlay(alignment:.bottomTrailing) {
             if runtime.ready && !runtime.controlsBlocked {
-                CaptureDock(collect:{runtime.command("add")},importFiles:{runtime.command("import-files")},pair:{copied=false;pairingOpen=true})
+                CaptureDock(calm:runtime.motionCalm,collect:{runtime.command("add")},importFiles:{runtime.command("import-files")},pair:{copied=false;pairingOpen=true})
                     .padding(.trailing,30).padding(.bottom,26)
             }
         }

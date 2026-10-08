@@ -14,7 +14,8 @@ No production data, production ports, pairing credentials, schema/manifest chang
 - [x] P2: independent motion controller; coordinate existing Bits/Glass, lifecycle/cancellation/reduced motion tests and interactive captures.
 - [x] P3: native semantic palettes and SwiftUI brand/gallery; retain native system flows; build both platforms and inspect supported native surfaces.
 - [x] P4: persist-first capture, deferred guarded metadata; concurrency/error/duplicate tests; no implicit cover download or preview-worker enable.
-- [ ] P5: full regression/builds, real UI matrix, bounded independent review; implementation report and rollback instructions.
+- [x] P5: available local regressions/builds, actual desktop/tablet/mobile/empty/large/reduced-motion UI matrix; bounded independent review and design documentation. Unverified platform cases and inherited Share Extension issue remain listed in VALIDATION.md.
+- [x] Follow-up: port the supplied Motion Studio animation language into real Web/macOS and native iPhone surfaces; capture actual interaction evidence and test lifecycle/recovery.
 
 ## Review focus
 Stable resource nodes and 60-item browsing; exact tags; search/filter/project/preview/list/board/select/edit/import/backup/trash/undo/extensions/sync preserved. No second card FLIP/tilt. Capture feedback follows persistence; async metadata must not overwrite manual edits. Reduced motion wins over preferences. iPhone Share Extension blank-page limitation remains explicitly documented unless independently verified fixed.

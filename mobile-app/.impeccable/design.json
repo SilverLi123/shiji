@@ -1,241 +1,331 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-06T12:26:17.811223+00:00",
-  "title": "Design System: 拾集 · 桌面 App 与浏览器采集助手",
+  "generatedAt": "2026-10-08T14:56:00.934381+00:00",
+  "title": "Design System: 拾集 SHIJI V2 · Native iPhone",
   "extensions": {
+    "sources": [
+      "App/ShijiApp.swift",
+      "Shared/iOSImage.swift",
+      "Shared/Library.swift",
+      "App/Assets.xcassets/AccentColor.colorset/Contents.json"
+    ],
     "colorMeta": {
-      "accent": {
+      "accent-dark": {
         "role": "primary",
-        "displayName": "鼠尾草深绿",
-        "canonical": "#325a4a"
+        "displayName": "深色交互荧光绿",
+        "purpose": "Asset Catalog sRGB 原值；由系统外观选择。"
       },
-      "bg": {
-        "role": "neutral",
-        "displayName": "暖白纸面",
-        "canonical": "#f7f7f2"
+      "accent-light": {
+        "role": "primary",
+        "displayName": "浅色可读深绿",
+        "purpose": "Asset Catalog 浅色 tint；不是旧视觉的恢复。"
       },
-      "ink": {
-        "role": "neutral",
-        "displayName": "深绿墨色",
-        "canonical": "#243631"
+      "brand-violet": {
+        "role": "secondary",
+        "displayName": "创意紫",
+        "purpose": "NativeBrandHero 固定展示色。"
       },
-      "muted": {
-        "role": "neutral",
-        "displayName": "叶灰绿",
-        "canonical": "#596963"
+      "brand-lime": {
+        "role": "primary",
+        "displayName": "几何荧光绿",
+        "purpose": "NativeBrandHero 固定展示色。"
       },
-      "native-capture-ink": {
+      "background-dark": {
         "role": "neutral",
-        "displayName": "原生采集墨色",
-        "canonical": "rgb(8% 13% 10%)"
+        "displayName": "深色画廊基底"
       },
-      "capture-fill": {
+      "background-light": {
         "role": "neutral",
-        "displayName": "浏览器透明暖白",
-        "canonical": "rgba(250,253,248,.57)"
+        "displayName": "浅色语义画布"
+      },
+      "secondary-text-dark": {
+        "role": "neutral",
+        "displayName": "深色辅助文字"
+      },
+      "secondary-text-light": {
+        "role": "neutral",
+        "displayName": "浅色辅助文字"
+      },
+      "intro-symbol": {
+        "role": "secondary",
+        "displayName": "Intro violet symbol"
+      },
+      "feedback-cyan": {
+        "role": "tertiary",
+        "displayName": "Feedback cyan"
+      },
+      "feedback-coral": {
+        "role": "tertiary",
+        "displayName": "Feedback coral"
       }
     },
     "typographyMeta": {
       "display": {
-        "displayName": "工作区标题",
-        "purpose": "常规宽屏标题；窄屏按实际断点减小。"
+        "displayName": "品牌显示",
+        "purpose": "SwiftUI .largeTitle.weight(.black)，tracking(-1)；由 Dynamic Type 决定字号。"
       },
       "title": {
-        "displayName": "资源名称",
-        "purpose": "真实预览图下的资源名称。"
+        "displayName": "资源标题",
+        "purpose": "卡片 .title3.weight(.semibold)；详情 .title2.weight(.semibold)。"
+      },
+      "headline": {
+        "displayName": "分区标题",
+        "purpose": "SwiftUI .headline，平台默认粗细。"
       },
       "body": {
-        "displayName": "正文",
-        "purpose": "详情与编辑内容。"
+        "displayName": "正文与操作",
+        "purpose": "正文 .body；描述和分类 .subheadline；来源和附件 .caption。"
       },
-      "metadata": {
-        "displayName": "辅助信息",
-        "purpose": "域名、数量与附件说明。"
+      "label": {
+        "displayName": "类型标签",
+        "purpose": "SwiftUI .caption2.weight(.semibold)，tracking(1)。"
+      },
+      "snippet": {
+        "displayName": "原生文本预览",
+        "purpose": "SwiftUI .system(.body, design:.monospaced)。"
+      },
+      "intro": {
+        "displayName": "Brand curtain wordmark",
+        "purpose": "NativeMotionIntro fixed brand display only, not daily UI/body; system black85pt, tracking(-3)."
       }
     },
-    "shadows": [
+    "semanticColors": {
+      "background": {
+        "light": "{colors.background-light}",
+        "dark": "{colors.background-dark}"
+      },
+      "surface": {
+        "light": "{colors.surface-light}",
+        "dark": "{colors.surface-dark}"
+      },
+      "raised": {
+        "light": "{colors.raised-light}",
+        "dark": "{colors.raised-dark}"
+      },
+      "secondaryText": {
+        "light": "{colors.secondary-text-light}",
+        "dark": "{colors.secondary-text-dark}"
+      },
+      "onAccent": {
+        "light": "{colors.on-accent-light}",
+        "dark": "{colors.on-accent-dark}"
+      },
+      "tint": {
+        "light": "{colors.accent-light}",
+        "dark": "{colors.accent-dark}"
+      },
+      "primaryText": ".primary (SwiftUI semantic)",
+      "textPreview": "Color.purple (system semantic)",
+      "pendingLicense": "Color.yellow.opacity(0.2) with explicit text"
+    },
+    "shadows": [],
+    "materials": [
       {
-        "name": "toolbar",
-        "value": "0 8px 28px rgba(30,48,36,.09)",
-        "purpose": "浏览器顶栏操作层。"
+        "name": "capture-glass",
+        "value": ".glassEffect(.regular.interactive(), in: .capsule/.circle)",
+        "purpose": "iOS 26+ native capture controls."
       },
       {
-        "name": "control",
-        "value": "0 3px 14px rgba(30,48,36,.06)",
-        "purpose": "分类与浏览工具。"
+        "name": "capture-fallback",
+        "value": ".regularMaterial, Capsule()",
+        "purpose": "Earlier OS, large Dynamic Type or insufficient horizontal space."
       },
       {
-        "name": "tool-panel",
-        "value": "0 12px 40px rgba(30,48,36,.17)",
-        "purpose": "筛选等工具面板。"
-      },
-      {
-        "name": "drawer",
-        "value": "-14px 0 50px rgba(30,48,36,.15)",
-        "purpose": "详情抽屉。"
-      },
-      {
-        "name": "dialog",
-        "value": "0 16px 50px rgba(30,48,36,.2)",
-        "purpose": "对话框。"
-      },
-      {
-        "name": "browser-capture",
-        "value": "inset 0 1px 0 rgba(255,255,255,.85), inset 0 -1px 0 rgba(255,255,255,.5), 0 6px 22px rgba(26,44,34,.16)",
-        "purpose": "浏览器采集层的中性光缘与投影；不代表原生材料。"
+        "name": "detail-action-bar",
+        "value": ".bar",
+        "purpose": "Bottom safe-area edit action."
       }
     ],
     "motion": [
       {
-        "name": "selection-duration",
-        "value": "320ms",
-        "purpose": "分类指示器与继承的有限网格重排。"
+        "name": "category-change",
+        "value": ".spring(response:0.35,dampingFraction:0.9)",
+        "purpose": "Filter change; nil in Calm / Reduce Motion."
       },
       {
-        "name": "ease-out",
-        "value": "cubic-bezier(.16,1,.3,1)",
-        "purpose": "已可见状态的有限过渡。"
+        "name": "capture-dock",
+        "value": ".spring(response:0.38,dampingFraction:0.82)",
+        "purpose": "Native expand/collapse; nil in Calm / Reduce Motion."
       },
       {
-        "name": "native-expansion",
-        "value": "spring(response: 0.38, dampingFraction: 0.82)",
-        "purpose": "只用于原生采集展开；Reduce Motion时无spring。"
+        "name": "save-notice",
+        "value": ".spring(response:0.35,dampingFraction:0.85); 1600ms display",
+        "purpose": "After files.save, library.reload and captureSequence increment; VoiceOver announcement also carries success."
+      },
+      {
+        "name": "detail-navigation",
+        "value": ".navigationTransition(.zoom(sourceID:resource.id,in:namespace))",
+        "purpose": "iOS 18+ in Studio without Reduce Motion; native standard navigation fallback otherwise."
+      },
+      {
+        "name": "native-intro",
+        "value": "1370ms; timingCurve(0.65,0,0.25,1); remove after1450ms",
+        "purpose": "SceneStorage shiji-v2-intro-shown first display; introSequence replay; Skip / Calm / reduce / inactive cancel."
+      },
+      {
+        "name": "native-geometry",
+        "value": "TimelineView(.animation(minimumInterval:1/30, paused:calm || phase != .active || !visible))",
+        "purpose": "Bookmark sin(t), orbit20deg/s, cutout38deg/s, spark; screen-intersection PreferenceKey visibility; not measured fps."
+      },
+      {
+        "name": "native-reveal",
+        "value": "850ms; timingCurve(0.16,1,0.24,1); opacity.2 / y28 / blur6 to rest",
+        "purpose": "Hero/card entrance; detail title120ms, description260ms delay; Calm/reduce omit."
+      },
+      {
+        "name": "native-category-stamp",
+        "value": "easeOut180ms entry; 650ms hold; easeOut250ms exit; 6particles",
+        "purpose": "Category/scope changes; task cancellation and mode/reduce guards."
+      },
+      {
+        "name": "native-saved-flight",
+        "value": "900ms; timingCurve(0.25,0.84,0.28,1)",
+        "purpose": "After real new URL save; simultaneous15particles and notice."
+      },
+      {
+        "name": "native-burst",
+        "value": "850ms; timingCurve(0.18,1,0.4,1); ring scale.2 to5.2; particle radius80pt",
+        "purpose": "Save15; category/persisted favorite6; bounded four-color burst."
+      },
+      {
+        "name": "native-card-transition",
+        "value": "asymmetric: insertion move(bottom)+opacity; removal scale(.79)+opacity",
+        "purpose": "Gallery category spring context; OS Reduce Motion/Calm omit."
       }
     ],
-    "breakpoints": [
-      {
-        "name": "collapsed-sidebar",
-        "value": "1170px"
+    "breakpoints": [],
+    "nativeLayout": {
+      "model": "Native single-column ScrollView / LazyVStack, no CSS viewport breakpoint.",
+      "accessibilitySize": "Hide Hero; simple empty-state copy; captureMenu replaces expanded dock.",
+      "fit": "ViewThatFits changes source/category HStack to VStack and dock to menu.",
+      "safeArea": "Native safeAreaInset preserves TabView and system edges."
+    },
+    "preferences": {
+      "appearance": {
+        "key": "shiji-v2-appearance",
+        "default": "dark",
+        "values": [
+          "dark",
+          "light",
+          "system"
+        ]
       },
-      {
-        "name": "compact-controls",
-        "value": "760px"
-      },
-      {
-        "name": "single-column",
-        "value": "480px"
+      "motion": {
+        "key": "shiji-v2-motion-mode",
+        "default": "studio",
+        "values": [
+          "studio",
+          "calm"
+        ],
+        "systemOverride": "accessibilityReduceMotion"
       }
-    ]
-  },
-  "components": [
-    {
-      "name": "Primary Button",
-      "kind": "button",
-      "refersTo": "button-primary",
-      "description": "深绿主要动作；等待期间禁用。",
-      "html": "<button class=\"ds-primary\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 5v14M5 12h14\"/></svg>收藏资源</button>",
-      "css": ".ds-primary{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:9px;background:#325a4a;color:#fff;border:0;border-radius:999px;min-height:40px;padding:11px 18px;font-size:14px;font-weight:600;cursor:pointer;transition:background .15s}.ds-primary:hover{background:#234737}.ds-primary:focus-visible{outline:2px solid #52715a;outline-offset:3px;}.ds-primary:active{background:#234737}.ds-primary:disabled{opacity:.55;cursor:wait}@media(prefers-reduced-motion:reduce){.ds-primary{transition:none}}"
     },
-    {
-      "name": "Secondary Button",
-      "kind": "button",
-      "refersTo": "button-secondary",
-      "description": "详情和工具的次要动作。",
-      "html": "<button class=\"ds-secondary\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 7V5h6l2 2h10v12H3z\"/></svg>加入项目</button>",
-      "css": ".ds-secondary{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",sans-serif;display:inline-flex;align-items:center;gap:8px;background:#e8eee6;color:#243631;border:0;border-radius:999px;padding:10px 16px;font-size:14px;cursor:pointer;transition:background .15s}.ds-secondary:hover{background:#dbe5d8}.ds-secondary:focus-visible{outline:2px solid #52715a;outline-offset:3px;}.ds-secondary:active{background:#dbe5d8}.ds-secondary:disabled{opacity:.55;cursor:wait}@media(prefers-reduced-motion:reduce){.ds-secondary{transition:none}}"
-    },
-    {
-      "name": "Search Field",
-      "kind": "input",
-      "refersTo": "search-field",
-      "description": "搜索输入聚焦在整体表面，使用底线。",
-      "html": "<label class=\"ds-search\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"10.5\" cy=\"10.5\" r=\"6.5\"/><path d=\"m16 16 4 4\"/></svg><input class=\"ds-search-input\" type=\"search\" aria-label=\"搜索资源、素材与灵感\" placeholder=\"搜索资源、素材与灵感\"></label>",
-      "css": ".ds-search{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",sans-serif;display:flex;align-items:center;gap:10px;color:#243631;padding:0 10px;border-radius:14px;min-height:40px;background:transparent}.ds-search:hover{background:#edf2e9}.ds-search:focus-within{background:#e6eee5;box-shadow:inset 0 -2px #526b58}.ds-search-input{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",sans-serif;min-width:0;width:100%;font-size:14px;color:#243631;background:transparent;border:0;caret-color:#325a4a;padding:8px 0}.ds-search-input::placeholder{color:#596963}.ds-search-input:focus-visible{outline:0}.ds-search-input:disabled{opacity:.55;cursor:wait}"
-    },
-    {
-      "name": "Sidebar Navigation",
-      "kind": "nav",
-      "refersTo": "navigation-active",
-      "description": "文字与真实数量构成稳定的导航项；示例数字只是组件演示。",
-      "html": "<nav class=\"ds-sidebar\" aria-label=\"资源导航示例\"><button class=\"ds-nav-item\" aria-current=\"page\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 7V5h6l2 2h10v12H3z\"/></svg>全部资源<span class=\"ds-nav-count\">6</span></button><button class=\"ds-nav-item\">常用收藏</button></nav>",
-      "css": ".ds-sidebar{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",sans-serif;width:220px;color:#243631}.ds-nav-item{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",sans-serif;display:flex;align-items:center;gap:11px;text-align:left;width:100%;min-height:40px;margin:2px 0;padding:9px 12px;font-size:14px;background:transparent;color:#596963;border:0;border-radius:11px;cursor:pointer}.ds-nav-item:hover,.ds-nav-item[aria-current=page]{background:#dce8dc;color:#243631}.ds-nav-item[aria-current=page]{font-weight:600}.ds-nav-item:focus-visible{outline:2px solid #52715a;outline-offset:3px;}.ds-nav-item:active{background:#d1e1d0}.ds-nav-count{margin-left:auto;font-size:12px;font-variant-numeric:tabular-nums}"
-    },
-    {
-      "name": "Category Navigation",
-      "kind": "nav",
-      "refersTo": "category-active",
-      "description": "分类胶囊；实际应用的指示器在选择改变时移动。示例数量不是产品统计。",
-      "html": "<div class=\"ds-categories\" role=\"tablist\" aria-label=\"分类示例\"><button class=\"ds-category\" role=\"tab\" aria-selected=\"true\">全部 <span class=\"ds-category-count\">6</span></button><button class=\"ds-category\" role=\"tab\" aria-selected=\"false\">UI / 设计 <span class=\"ds-category-count\">1</span></button></div>",
-      "css": ".ds-categories{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",sans-serif;display:flex;gap:2px;padding:5px;border-radius:999px;background:rgba(253,254,249,.86);box-shadow:0 3px 14px rgba(30,48,36,.06);overflow-x:auto}.ds-category{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",sans-serif;display:flex;align-items:center;gap:7px;flex:none;min-height:38px;padding:7px 13px;border:0;border-radius:999px;background:transparent;color:#596963;font-size:13px;cursor:pointer;transition:color 160ms}.ds-category:hover{background:#e5ede1;color:#243631}.ds-category[aria-selected=true]{background:#325a4a;color:#fff}.ds-category:focus-visible{outline:2px solid #52715a;outline-offset:3px;}.ds-category:active{background:#d1e1d0;color:#243631}.ds-category-count{font-size:11px;font-variant-numeric:tabular-nums}@media(prefers-reduced-motion:reduce){.ds-category{transition:none}}"
-    },
-    {
-      "name": "Exact Tag",
-      "kind": "chip",
-      "refersTo": "tag",
-      "description": "标签名称完整显示，包括逗号。",
-      "html": "<button class=\"ds-tag\" aria-pressed=\"false\">New, exact</button>",
-      "css": ".ds-tag{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",sans-serif;padding:6px 12px;border:0;border-radius:999px;background:#e7ece3;color:#596963;font-size:13px;cursor:pointer}.ds-tag:hover{background:#dce8dc;color:#243631}.ds-tag[aria-pressed=true],.ds-tag:active{background:#d1e1d0;color:#243631}.ds-tag:focus-visible{outline:2px solid #52715a;outline-offset:3px;}"
-    },
-    {
-      "name": "Resource Metadata",
-      "kind": "card",
-      "refersTo": "resource-metadata",
-      "description": "平置的资源信息原语；实际封面由应用提供，本示例不虚构图片。",
-      "html": "<article class=\"ds-resource\"><button class=\"ds-resource-title\">资源名称</button><p class=\"ds-resource-domain\">example.com <span class=\"ds-resource-count\">1 个附件</span></p><div class=\"ds-resource-footer\"><span>其他 · 网站</span><button class=\"ds-resource-preview\">预览</button></div></article>",
-      "css": ".ds-resource{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",sans-serif;width:min(100%,420px);padding:14px 2px 0;background:transparent;color:#243631}.ds-resource-title{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",sans-serif;display:block;text-align:left;padding:0;border:0;background:transparent;color:#243631;font-size:18px;font-weight:600;line-height:1.35;letter-spacing:-.015em;cursor:pointer}.ds-resource-title:hover{text-decoration:underline;text-underline-offset:3px}.ds-resource-title:focus-visible{outline:2px solid #52715a;outline-offset:3px;}.ds-resource-domain{display:flex;gap:12px;margin:3px 0;color:#596963;font-size:12px;line-height:1.6}.ds-resource-count{margin-left:auto}.ds-resource-footer{display:flex;align-items:center;gap:12px;margin-top:4px;min-height:24px;font-size:12px;color:#596963}.ds-resource-preview{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",sans-serif;border:0;border-radius:999px;background:transparent;color:#596963;padding:4px 8px;cursor:pointer}.ds-resource-preview:hover{background:#e0e9dd;color:#243631}.ds-resource-preview:focus-visible{outline:2px solid #52715a;outline-offset:3px;}.ds-resource-preview:active{background:#d1e1d0}.ds-resource-preview:disabled{opacity:.55;cursor:wait}"
-    },
-    {
-      "name": "Form Field",
-      "kind": "input",
-      "refersTo": "form-field",
-      "description": "表单字段保留浅底与明确边界。",
-      "html": "<label class=\"ds-field-label\">资源名称<input class=\"ds-field\" type=\"text\" value=\"保存的参考\"></label>",
-      "css": ".ds-field-label{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",sans-serif;display:flex;flex-direction:column;gap:6px;color:#243631;font-size:14px}.ds-field{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",sans-serif;padding:10px 12px;font-size:16px;color:#243631;background:#f8faf4;border:1px solid #aebbaa;border-radius:10px;caret-color:#325a4a}.ds-field:hover{border-color:#596963}.ds-field:focus-visible{outline:2px solid #52715a;outline-offset:3px;}.ds-field:disabled{opacity:.55;cursor:wait}.ds-field[aria-invalid=true]{border-color:#943c20}"
-    },
-    {
-      "name": "Browser Capture Deck",
-      "kind": "custom",
-      "refersTo": "browser-capture-deck",
-      "description": "仅浏览器CSS材质近似；不是SwiftUI原生Liquid Glass或整页构图。",
-      "html": "<div class=\"ds-capture\"><button class=\"ds-capture-file\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 16V3m-5 5 5-5 5 5M4 14v6h16v-6\"/></svg>添加素材</button><button class=\"ds-capture-save\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 5v14M5 12h14\"/></svg>收藏资源</button></div>",
-      "css": ".ds-capture{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",sans-serif;display:inline-flex;align-items:center;gap:5px;padding:6px;border-radius:999px;background:rgba(250,253,248,.57);backdrop-filter:blur(12px) saturate(1.5);-webkit-backdrop-filter:blur(12px) saturate(1.5);box-shadow:inset 0 1px 0 rgba(255,255,255,.85),inset 0 -1px 0 rgba(255,255,255,.5),0 6px 22px rgba(26,44,34,.16)}.ds-capture-file,.ds-capture-save{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",sans-serif;display:inline-flex;align-items:center;gap:8px;min-height:42px;font-size:13px;border:0;border-radius:999px;cursor:pointer}.ds-capture-file{padding:10px 16px;color:#243631;background:transparent}.ds-capture-save{padding:10px 18px;color:#fff;background:#325a4a;font-weight:600}.ds-capture-file:hover{background:#e0e9dd}.ds-capture-save:hover,.ds-capture-save:active{background:#234737}.ds-capture-file:focus-visible,.ds-capture-save:focus-visible{outline:2px solid #52715a;outline-offset:3px;}.ds-capture-file:disabled,.ds-capture-save:disabled{opacity:.55;cursor:wait}@supports not (backdrop-filter:blur(1px)){.ds-capture{background:#f5f8ef}}@media(prefers-reduced-transparency:reduce){.ds-capture{background:#f5f8ef;backdrop-filter:none;-webkit-backdrop-filter:none}}"
-    },
-    {
-      "name": "Extension Capture Button",
-      "kind": "button",
-      "refersTo": "extension-button",
-      "description": "扩展中的整行采集动作；按钮等待时禁用。",
-      "html": "<button class=\"ds-extension\">收藏网页与选中文字<span class=\"ds-extension-hint\">保存到本机拾集</span></button>",
-      "css": ".ds-extension{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",sans-serif;width:100%;max-width:312px;border:0;border-radius:15px;padding:12px 14px;background:#325a4a;color:#fff;font-size:14px;line-height:1.6;cursor:pointer}.ds-extension-hint{display:block;font-size:12px;color:#eef6ea;font-weight:400}.ds-extension:hover,.ds-extension:active{background:#234737}.ds-extension:focus-visible{outline:2px solid #52715a;outline-offset:3px;}.ds-extension:disabled{opacity:.6;cursor:wait}"
+    "nativeComponents": [
+      {
+        "name": "Navigation and Search",
+        "runtime": "SwiftUI",
+        "spec": "TabView: 资源库 / 集合 / 管理, each NavigationStack; GalleryView.searchable; detail inline title; SF Symbols."
+      },
+      {
+        "name": "ResourceCard",
+        "runtime": "SwiftUI",
+        "spec": "VStack spacing:12; true image 220pt, fallback 142pt; RoundedRectangle cornerRadius:14; title3 semibold; accessibilityElement(children:.combine)."
+      },
+      {
+        "name": "Category",
+        "runtime": "SwiftUI",
+        "spec": "subheadline medium; horizontal padding:16; minHeight:44; Capsule; selected uses Color.accentColor and NativePalette.onAccent; isSelected accessibility trait."
+      },
+      {
+        "name": "NativeBrandHero",
+        "runtime": "SwiftUI",
+        "spec": "VStack spacing:20; largeTitle black tracking:-1 + NativeMotionReveal; 190pt violet stage, cornerRadius:16; TimelineView requests1/30s interval, phase/calm/visibility pause; decorative contents accessibilityHidden;44pt replay action."
+      },
+      {
+        "name": "CaptureDock",
+        "runtime": "SwiftUI",
+        "spec": "iOS26 GlassEffectContainer spacing:14; HStack spacing:10; minHeight:48; close 48x48; body semibold; ViewThatFits / accessibility size use native regularMaterial Menu."
+      },
+      {
+        "name": "Editor",
+        "runtime": "SwiftUI",
+        "spec": "NavigationStack + Form; URL keyboard, Cancel/Save toolbar; dirty interactiveDismissDisabled; error Alert preserves draft; files.save precedes success feedback."
+      },
+      {
+        "name": "Detail",
+        "runtime": "SwiftUI",
+        "spec": "ScrollView VStack spacing:24, padding:20; 240pt cover; source/license/notes/attachments; bottom borderedProminent Edit in safeAreaInset with .bar."
+      },
+      {
+        "name": "Management",
+        "runtime": "SwiftUI",
+        "spec": "Native List, Section, Picker, Alert, fileImporter/fileExporter; no HTML replica."
+      },
+      {
+        "name": "NativeMotionIntro",
+        "runtime": "SwiftUI",
+        "spec": "Non-hit-testing native curtain; lime/brand symbol; SceneStorage once + replay; explicit Skip; cleanup on Calm/Reduce Motion/inactive/disappear."
+      },
+      {
+        "name": "Native Feedback",
+        "runtime": "SwiftUI",
+        "spec": "NativeSavedFlight + NativeMotionBurst after new URL persistence; favorite6burst after library.change returns true; VoiceOver save announcement remains available in Calm."
+      }
+    ],
+    "verification": {
+      "basis": "Existing QA evidence; this documentation pass did not rerun builds, interactions or tests.",
+      "evidence": [
+        "../docs/shiji-v2/evidence/p3-iphone-dark.png",
+        "../docs/shiji-v2/evidence/p5-iphone-light.png",
+        "../docs/shiji-v2/evidence/p5-iphone-large-type.png",
+        "../docs/shiji-v2/evidence/p5-iphone-detail.png",
+        "../docs/shiji-v2/evidence/motion-iphone-studio.png",
+        "../docs/shiji-v2/evidence/motion-iphone-interaction.mp4"
+      ],
+      "limits": [
+        "Share Extension blank sheet remains unresolved.",
+        "No physical iPhone acceptance claimed.",
+        "Other iPhone device sizes and old-OS fallbacks not runtime accepted.",
+        "No complete accessibility / device matrix claim."
+      ],
+      "recordingScope": "18-second actual interaction trim includes brand replay and category changes; does not claim saved-flight was captured."
     }
-  ],
+  },
+  "components": [],
   "narrative": {
-    "northStar": "清晰画廊上的采集层",
-    "overview": "拾集的视觉重心是实际收藏的大图、名称与来源。暖白纸面、深绿文字和低饱和鼠尾草绿让内容自己的颜色进入画廊；系统字体承担持续搜索与整理的工作，不制造另一个展示品牌。\n\n玻璃用于操作层的浮起与上下文联系。macOS 原生采集浮层读取下方资源图像的颜色，标签和图标保持深色可读；浏览器使用明确的 CSS 材质近似。图片、正文和来源信息保持清晰。用户已否定割裂的 Olla 装饰循环与覆盖内容的大块白色磨砂面板。",
+    "northStar": "Creative Tech Dark · Motion Studio",
+    "overview": "iPhone 延续已认可的 SHIJI V2 深色画廊、紫色品牌舞台与荧光绿收藏语言，同时把浏览、层级、搜索和编辑交给原生系统结构。真实大图、工具来源和可读文本摘要构成收藏的视觉主体。\n\n原生默认使用 Creative Tech 深色外观，管理页可选择浅色或跟随系统。品牌通过 tint、显示排版、几何和有限动作表达；导航、TabView、Form、系统菜单、文件选取与 QuickLook 继续遵守 iPhone 使用习惯。它是独立 SwiftUI 应用，不能把网页手机预览当成源码或验收结果。",
     "keyCharacteristics": [
-      "实际资源图像提供主要视觉变化",
-      "暖白纸面、鼠尾草绿操作、清晰深色文字",
-      "小型原生操作浮层与稳定的内容平面",
-      "动作触发的有限形变与可见键盘焦点"
+      "深色优先、浅色与跟随系统可选的语义配色",
+      "NavigationStack、三项 TabView 与系统搜索",
+      "动态字体、单列大图、较紧凑的无封面卡片",
+      "紫色品牌几何与少量荧光绿关键状态",
+      "原生收藏材料、可恢复保存与受控过渡"
     ],
     "rules": [
       {
-        "name": "The Content Color Rule",
-        "body": "让实际资源图像提供颜色；界面配色服务于搜索、选择和编辑，不补造装饰性主题色。",
+        "name": "The Semantic Tint Rule",
+        "body": "普通交互用自适应 AccentColor 与系统语义文字；固定品牌色只进入明确的展示几何。",
         "section": "colors"
       },
       {
-        "name": "The Clear Content Rule",
-        "body": "玻璃属于操作层；资源预览与正文不附加磨砂、光晕或图像倾斜。",
-        "section": "elevation"
-      },
-      {
-        "name": "The Deliberate Motion Rule",
-        "body": "形变回应明确操作或布局变化；不恢复自动循环的装饰舞台。",
+        "name": "The Platform Structure Rule",
+        "body": "品牌进入 tint、内容和展示动作，导航、搜索、表单、系统模态与材料继续由原生组件承担。",
         "section": "elevation"
       }
     ],
     "dos": [
-      "Do 使用实际封面、准确名称、真实数量和来源信息。",
-      "Do 在深色和浅色图像上检查浮层标签与图标的可读性。",
-      "Do 让控件保留可见焦点、明确动作名及加载、失败、禁用反馈。",
-      "Do 保留原生材质、减少动态效果与不透明回退的区别。"
+      "Do 延续 Creative Tech Dark 品牌，并保留浅色／跟随系统的语义配色。",
+      "Do 使用 Dynamic Type、SF Symbols、原生导航、系统搜索与系统任务模态。",
+      "Do 保留至少 44pt 的主要触控规格，并在空间和字号变化时退回可用布局。",
+      "Do 在真实本地保存成功后显示反馈，失败保留编辑与恢复路径。",
+      "Do 在 Studio 与系统减少动态效果之间始终让系统偏好优先。"
     ],
     "donts": [
-      "Don’t 把 CSS backdrop-filter 称为原生 Liquid Glass。",
-      "Don’t 恢复 Olla 循环装饰或在资源图像上叠加磨砂面板。",
-      "Don’t 通过截图、示例封面或颜色推断资源的价格与许可。",
-      "Don’t 将整个界面截图当作组件，或用外部图标依赖代替可独立渲染的图标。"
+      "Don't 把网页 CSS、HTML 片段或手机浏览器截图宣称为原生组件与原生验收。",
+      "Don't 用固定白字／深色专用绿替代自适应文字与 AccentColor。",
+      "Don't 让原生品牌循环绕过 Calm、系统减少动态、scene 与可见性条件，或引入 hover 专用交互和第二套导航模型。",
+      "Don't 宣称分享扩展、旧系统回退或全部 iPhone 机型已通过本轮验证。"
     ]
   }
 }

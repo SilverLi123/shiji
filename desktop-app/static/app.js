@@ -173,7 +173,7 @@ document.addEventListener('click',async event=>{
     else if(action==='detail')detail(r);
     else if(action==='edit')edit(r);
     else if(action==='derive'&&r)edit(null,{parentId:r.id,sourceUrl:r.url,category:r.category,projects:r.projects});
-    else if(action==='favorite'&&r){el.disabled=true;await api('/api/resources/'+r.id+'/edit','POST',{changes:{favorite:!r.favorite},expected:{favorite:r.favorite}});await reload();if(state.detail===r.id)detail(find(r.id));}
+    else if(action==='favorite'&&r){const sourceRect=el.getBoundingClientRect(),adding=!r.favorite;el.disabled=true;await api('/api/resources/'+r.id+'/edit','POST',{changes:{favorite:adding},expected:{favorite:r.favorite}});await reload();if(state.detail===r.id)detail(find(r.id));if(adding)motion.favoriteConfirmed({sourceRect});}
     else if(action==='close')closeDrawer();
     else if(action==='remove-filter'){state.filters=ShijiControls.remove(state.filters,el.dataset.key,JSON.parse(el.dataset.value));syncFilters();render();}
     else if(action==='reset')selectScope('all');

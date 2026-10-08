@@ -30,22 +30,26 @@
   function savePreviewMode(storage,mode){try{storage.setItem('shiji-preview-mode',mode==='fit'?'fit':'frame');}catch{}}
   function create(grid,button){
     const reduce=matchMedia('(prefers-reduced-motion: reduce)'),fine=matchMedia('(hover: hover) and (pointer: fine)');
-    let previous=new Map(),lastWidth=0,frame=0,destroyed=false;
-    const seen=new Set(),animations=new Set();
+    let previous=new Map(),previousNodes=new Map(),lastWidth=0,frame=0,destroyed=false;
+    const seen=new Set(),animations=new Set(),ghosts=new Set();
     const calm=()=>grid.ownerDocument?.documentElement?.dataset.shijiMotion==='calm';
+    const studio=()=>grid.ownerDocument?.documentElement?.dataset.shijiMotion==='studio';
     let tilted=null;
     function resetTilt(){
       if(!tilted)return;
       tilted.classList.remove('bits-tilt-active');
-      tilted.style.removeProperty('--tilt-x');tilted.style.removeProperty('--tilt-y');tilted=null;
+      tilted.classList.remove('bits-glow-active');
+      for(const key of ['--tilt-x','--tilt-y','--glow-x','--glow-y'])tilted.style.removeProperty(key);tilted=null;
     }
     function tiltMove(e){
       if(reduce.matches||calm()||!fine.matches||e.pointerType!=='mouse'||!grid.classList.contains('bits-masonry')||grid.classList.contains('preview-fit')||grid.hidden){resetTilt();return;}
       const preview=e.target.closest?.('.card-preview');
       const img=preview?.querySelector('.cover-image');
-      if(!preview||!grid.contains(preview)||preview.matches(':focus-visible')||preview.disabled||!img?.complete||!img.naturalWidth){resetTilt();return;}
+      if(!preview||!grid.contains(preview)||preview.matches(':focus-visible')||preview.disabled){resetTilt();return;}
       if(tilted!==preview){resetTilt();tilted=preview;}
-      const p=tiltPoint(e.clientX,e.clientY,preview.getBoundingClientRect());
+      const rect=preview.getBoundingClientRect(),p=tiltPoint(e.clientX,e.clientY,rect);
+      preview.style.setProperty('--glow-x',Math.max(0,Math.min(100,(e.clientX-rect.left)/Math.max(1,rect.width)*100))+'%');preview.style.setProperty('--glow-y',Math.max(0,Math.min(100,(e.clientY-rect.top)/Math.max(1,rect.height)*100))+'%');preview.classList.add('bits-glow-active');
+      if(!img?.complete||!img.naturalWidth)return;
       preview.style.setProperty('--tilt-x',p.x+'deg');preview.style.setProperty('--tilt-y',p.y+'deg');
       preview.classList.add('bits-tilt-active');
     }
@@ -57,9 +61,22 @@
     }
     function begin(){
       resetTilt();
-      previous=new Map();
-      for(const el of grid.querySelectorAll(':scope > .resource-card'))previous.set(el.dataset.resourceId,el.getBoundingClientRect());
+      previous=new Map();previousNodes=new Map();
+      for(const el of grid.querySelectorAll(':scope > .resource-card')){previous.set(el.dataset.resourceId,el.getBoundingClientRect());previousNodes.set(el.dataset.resourceId,el);}
       for(const a of animations)a.cancel();animations.clear();
+      for(const el of ghosts)el.remove();ghosts.clear();
+    }
+    function departures(cards){
+      if(!studio()||reduce.matches||calm())return;
+      const ids=new Set(cards.map(el=>el.dataset.resourceId));
+      for(const [id,source] of previousNodes){
+        const r=previous.get(id);if(ids.has(id)||ghosts.size>=9||!r?.width||r.bottom<0||r.top>root.innerHeight)continue;
+        const preview=source.querySelector('.card-preview');if(!preview)continue;
+        const el=grid.ownerDocument.createElement('div');el.className='shiji-leaving-ghost';el.setAttribute('aria-hidden','true');el.inert=true;
+        const copy=preview.cloneNode(true);for(const node of [copy,...copy.querySelectorAll('[id],[data-action],button,a,input')]){node.removeAttribute('id');node.removeAttribute('data-action');node.setAttribute('tabindex','-1');}el.append(copy);
+        Object.assign(el.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px'});grid.ownerDocument.body.append(el);ghosts.add(el);
+        const a=animate(el,[{opacity:.85,transform:'scale(1)',filter:'blur(0px)'},{opacity:0,transform:'scale(.79) rotate(-5deg) translateY(-24px)',filter:'blur(9px)'}],{duration:500,easing:'cubic-bezier(.22,1,.36,1)'});a?.finished.then(()=>{el.remove();ghosts.delete(el);},()=>{el.remove();ghosts.delete(el);});
+      }
     }
     function layout(enter=false){
       if(destroyed)return;
@@ -69,7 +86,7 @@
       }
       const eligible=!grid.hidden&&!grid.classList.contains('list-layout')&&!grid.classList.contains('board-layout');
       grid.classList.toggle('bits-masonry',eligible);
-      if(!eligible){grid.style.height='';for(const el of grid.querySelectorAll(':scope > .resource-card')){el.style.width='';el.style.left='';el.style.top='';}return;}
+      if(!eligible){grid.style.height='';const cards=[...grid.querySelectorAll(':scope > .resource-card')];for(const el of cards){el.style.width='';el.style.left='';el.style.top='';}departures(cards);previous=new Map();previousNodes=new Map();return;}
       const width=grid.clientWidth,n=grid.dataset?.galleryColumns==='2'&&innerWidth>480?2:columns(innerWidth),gap=innerWidth<=760?18:22;
       if(!width)return;
       lastWidth=width;
@@ -85,14 +102,15 @@
       cards.forEach((el,i)=>{
         const id=el.dataset.resourceId;
         const old=previous.get(id),now=rects[i];
-        if(old&&(Math.abs(old.left-now.left)>1||Math.abs(old.top-now.top)>1)){
-          animate(el,[{transform:`translate(${old.left-now.left}px,${old.top-now.top}px)`},{transform:'translate(0,0)'}],{duration:320,easing:'cubic-bezier(.16,1,.3,1)'});
+        if(studio()&&(now.bottom<0||now.top>root.innerHeight+300)){seen.add(id);return;}
+        if(old&&(Math.abs(old.left-now.left)>1||Math.abs(old.top-now.top)>1||studio()&&Math.abs(old.width-now.width)>1)){
+          animate(el,studio()?[{transform:`translate(${old.left-now.left}px,${old.top-now.top}px) scale(${old.width/Math.max(1,now.width)},${old.height/Math.max(1,now.height)})`,opacity:.72,filter:'blur(1px)'},{transform:'translate(0,0) scale(1)',opacity:1,filter:'blur(0px)'}]:[{transform:`translate(${old.left-now.left}px,${old.top-now.top}px)`},{transform:'translate(0,0)'}],{duration:studio()?680:320,easing:'cubic-bezier(.16,1,.3,1)'});
         }else if(enter&&!seen.has(id)){
-          animate(el,[{transform:'translateY(8px)',opacity:1},{transform:'translateY(0)',opacity:1}],{duration:360,delay:Math.min(i*30,120),easing:'cubic-bezier(.16,1,.3,1)'});
+          animate(el,studio()?[{transform:'translateY(56px) scale(.91) rotateX(9deg)',opacity:.2,filter:'blur(10px)'},{transform:'translateY(0) scale(1) rotateX(0)',opacity:1,filter:'blur(0px)'}]:[{transform:'translateY(8px)',opacity:1},{transform:'translateY(0)',opacity:1}],{duration:studio()?850:360,delay:studio()?Math.min(i,7)*65:Math.min(i*30,120),easing:'cubic-bezier(.16,1,.3,1)'});
         }
         seen.add(id);
       });
-      previous=new Map();
+      departures(cards);previous=new Map();previousNodes=new Map();
     }
     function schedule(){cancelAnimationFrame(frame);frame=requestAnimationFrame(()=>{begin();layout();});}
     function imageReady(e){if(grid.classList.contains('preview-fit')&&e.target.matches('.cover-image'))schedule();}
@@ -104,7 +122,7 @@
       const p=magnetPoint(e.clientX,e.clientY,button.getBoundingClientRect());
       button.style.transform=`translate3d(${p.x}px,${p.y}px,0)`;
     }
-    function preference(){resetTilt();for(const a of animations)a.cancel();animations.clear();resetButton();}
+    function preference(){resetTilt();for(const a of animations)a.cancel();animations.clear();for(const el of ghosts)el.remove();ghosts.clear();resetButton();}
     root.addEventListener('resize',schedule);
     root.addEventListener('pointermove',move,{passive:true});
     root.addEventListener('blur',preference);root.addEventListener('shiji:motion',preference);

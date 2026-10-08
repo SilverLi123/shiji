@@ -4,6 +4,7 @@ import QuickLook
 import PhotosUI
 @MainActor final class MobileLibrary: ObservableObject {
     @Published var captureSequence=0
+    @Published var introSequence=0
     @Published var editing=false
     @Published var resources=[Resource]()
     @Published var error:String?
@@ -13,7 +14,7 @@ import PhotosUI
     init(){do{files=try LibraryFiles(root:LibraryFiles.appRoot());reload()}catch{self.error=error.localizedDescription}}
     func reload(){do{resources=try files?.resources() ?? []}catch{self.error=error.localizedDescription}}
     @discardableResult func perform(_ action:() throws -> Void)->Bool {do{try action();reload();return true}catch{self.error=error.localizedDescription;return false}}
-    func change(_ id:String,_ key:String,_ value:Any){perform{try files?.set(id,key:key,value:value)}}
+    @discardableResult func change(_ id:String,_ key:String,_ value:Any)->Bool{perform{try files?.set(id,key:key,value:value)}}
     func preview(_ url:URL) async -> ImportPlan? {
         guard let files else{return nil};busy=true;defer{busy=false}
         do{return try await Task.detached{let allowed=url.startAccessingSecurityScopedResource();defer{if allowed{url.stopAccessingSecurityScopedResource()}};let size=try url.resourceValues(forKeys:[.fileSizeKey]).fileSize ?? 0;guard size<=PortableZIP.maxTotal else{throw fail("导入文件超过手机端 512 MB 上限。")};return try files.preview(Data(contentsOf:url))}.value}catch{self.error=error.localizedDescription;return nil}
@@ -44,6 +45,12 @@ struct BackupDocument:FileDocument {
 }
 struct RootView:View {
     @AppStorage("shiji-v2-appearance") var appearance="dark"
+    @AppStorage("shiji-v2-motion-mode") var motionMode="studio"
+    @SceneStorage("shiji-v2-intro-shown") var introShown=false
+    @Environment(\.accessibilityReduceMotion) var reduceMotion
+    @Environment(\.scenePhase) var scenePhase
+    @State var introVisible=false
+    @State var introTask:Task<Void,Never>?
 
     @EnvironmentObject var library:MobileLibrary
     @EnvironmentObject var sync:ComputerSync
@@ -52,15 +59,28 @@ struct RootView:View {
             NavigationStack{GalleryView()}.tabItem{Label("资源库",systemImage:"square.grid.2x2")}
             NavigationStack{ProjectsView()}.tabItem{Label("集合",systemImage:"folder")}
             NavigationStack{SettingsView()}.tabItem{Label("管理",systemImage:"slider.horizontal.3")}
-        }.preferredColorScheme(appearance=="system" ? nil : appearance=="light" ? .light : .dark).sheet(isPresented:$sync.pairingOpen){NavigationStack{ComputerSyncView().toolbar{ToolbarItem(placement:.cancellationAction){Button("完成"){sync.pairingOpen=false}.disabled(sync.busy)}}}}
+        }.overlay{if introVisible{NativeMotionIntro().id(library.introSequence).allowsHitTesting(false).accessibilityHidden(true)}}
+            .overlay(alignment:.bottomTrailing){if introVisible{Button("跳过开场"){stopIntro()}.padding(16).background(Color(uiColor:NativePalette.raised),in:Capsule()).padding(24)}}
+            .task{if !introShown{introShown=true;library.introSequence+=1}}
+            .onChange(of:library.introSequence){_,_ in playIntro()}
+            .onChange(of:motionMode){_,_ in if motionMode=="calm"{stopIntro()}}
+            .onChange(of:reduceMotion){_,value in if value{stopIntro()}}
+            .onChange(of:scenePhase){_,value in if value != .active{stopIntro()}}
+            .onDisappear{stopIntro()}
+            .preferredColorScheme(appearance=="system" ? nil : appearance=="light" ? .light : .dark).sheet(isPresented:$sync.pairingOpen){NavigationStack{ComputerSyncView().toolbar{ToolbarItem(placement:.cancellationAction){Button("完成"){sync.pairingOpen=false}.disabled(sync.busy)}}}}
             .alert("暂时无法完成",isPresented:Binding(get:{library.error != nil},set:{if !$0{library.error=nil}})){Button("知道了",role:.cancel){library.error=nil}}message:{Text(library.error ?? "")}
             .alert("已完成",isPresented:Binding(get:{library.notice != nil},set:{if !$0{library.notice=nil}})){Button("好",role:.cancel){library.notice=nil}}message:{Text(library.notice ?? "")}
     }
+    func stopIntro(){introTask?.cancel();introVisible=false}
+    func playIntro(){stopIntro();guard !reduceMotion,motionMode=="studio",scenePhase == .active else{return};introVisible=true;introTask=Task{try? await Task.sleep(nanoseconds:1_450_000_000);if !Task.isCancelled{introVisible=false}}}
 }
 struct GalleryView:View {
     @EnvironmentObject var library:MobileLibrary
     @AppStorage("shiji-v2-motion-mode") var motionMode="studio"
     @State var captureVisible=false
+    @State var stamp:String?
+    @State var stampID=UUID()
+    @State var stampTask:Task<Void,Never>?
     @State var captureTask:Task<Void,Never>?
     @State var search=""
     @State var category="全部"
@@ -78,7 +98,7 @@ struct GalleryView:View {
         ScrollView {
             VStack(alignment:.leading,spacing:20){
                 if search.isEmpty && category=="全部" && scope=="全部" && !typeSize.isAccessibilitySize {
-                    NativeBrandHero(calm:reduceMotion || motionMode=="calm")
+                    NativeBrandHero(calm:reduceMotion || motionMode=="calm",replay:{library.introSequence+=1})
                 }
 
                 ScrollView(.horizontal){HStack(spacing:8){ForEach(categories,id:\.self){name in Button{nameButton(name)}label:{Text(name).font(.subheadline.weight(.medium)).padding(.horizontal,16).frame(minHeight:44).background(category==name ? Color.accentColor : Color(uiColor:NativePalette.raised),in:Capsule()).foregroundStyle(category==name ? Color(uiColor:NativePalette.onAccent) : Color.primary)}.buttonStyle(.plain).accessibilityAddTraits(category==name ? .isSelected : [])}}}.scrollIndicators(.hidden)
@@ -100,20 +120,25 @@ struct GalleryView:View {
                         Button("收藏第一个资源",systemImage:"plus"){editor=true}.buttonStyle(.borderedProminent).foregroundStyle(Color(uiColor:NativePalette.onAccent)).controlSize(.large).frame(maxWidth:.infinity,minHeight:44)
                         NavigationLink{ComputerSyncView()}label:{Label("连接电脑",systemImage:"desktopcomputer").frame(maxWidth:.infinity,minHeight:44)}
                     }else{Button("清除搜索与筛选"){search="";category="全部";scope="全部"}.frame(maxWidth:.infinity,minHeight:44)}
-                } else {LazyVStack(spacing:28){ForEach(filtered){resource in resourceLink(resource)}}}
+                } else {LazyVStack(spacing:28){ForEach(filtered){resource in resourceLink(resource).modifier(NativeMotionReveal()).transition(.asymmetric(insertion:.move(edge:.bottom).combined(with:.opacity),removal:.scale(scale:0.79).combined(with:.opacity)))}}}
             }.padding(.horizontal,20).padding(.top,10).padding(.bottom,24)
         }.scrollDismissesKeyboard(.interactively).background(Color(uiColor:NativePalette.background)).navigationTitle("拾集 SHIJI®")
             .searchable(text:$search,prompt:"搜索资源、标签与灵感")
             .toolbar{ToolbarItem(placement:.topBarLeading){NavigationLink{ComputerSyncView()}label:{Image(systemName:"desktopcomputer").frame(width:44,height:44)}.accessibilityLabel("电脑同步")};ToolbarItem(placement:.topBarTrailing){Menu{Picker("浏览范围",selection:$scope){ForEach(["全部","常用","待整理"],id:\.self){Text($0)}}}label:{Label(scope,systemImage:"line.3.horizontal.decrease")}}}
             .safeAreaInset(edge:.bottom,alignment:.trailing){if !active.isEmpty{captureDock.padding(.horizontal,20).padding(.bottom,10)}}
-            .overlay(alignment:.top){if captureVisible{Label("已收藏到拾集",systemImage:"checkmark.circle.fill").font(.subheadline.weight(.semibold)).padding(14).background(Color.accentColor,in:Capsule()).foregroundStyle(Color(uiColor:NativePalette.onAccent)).padding(.top,8).transition(.move(edge:.top).combined(with:.opacity))}}
+            .overlay{if let stamp,!reduceMotion,motionMode=="studio"{ZStack{NativeMotionBurst(count:6);Text(stamp).font(.title.weight(.black)).italic().padding(24).background(Color.accentColor).foregroundStyle(Color(uiColor:NativePalette.onAccent)).rotationEffect(.degrees(-4))}.id(stampID).allowsHitTesting(false).accessibilityHidden(true).transition(.scale(scale:1.4).combined(with:.opacity))}}
+            .overlay(alignment:.top){if captureVisible{ZStack{if !reduceMotion,motionMode=="studio"{NativeMotionBurst(count:15).frame(width:160,height:160);NativeSavedFlight().id(library.captureSequence)};Label("已收藏到拾集",systemImage:"checkmark.circle.fill").font(.subheadline.weight(.semibold)).padding(14).background(Color.accentColor,in:Capsule()).foregroundStyle(Color(uiColor:NativePalette.onAccent)).padding(.top,8).transition(.move(edge:.top).combined(with:.opacity))}}}
             .animation(reduceMotion || motionMode=="calm" ? nil : .spring(response:0.35,dampingFraction:0.85),value:captureVisible)
             .onChange(of:library.captureSequence){_,_ in
                 captureTask?.cancel();captureVisible=true
                 UIAccessibility.post(notification:.announcement,argument:"已收藏到拾集")
                 captureTask=Task{try? await Task.sleep(nanoseconds:1_600_000_000);if !Task.isCancelled{captureVisible=false}}
             }
-            .onDisappear{captureTask?.cancel();captureVisible=false}
+            .onChange(of:category){_,value in showStamp(value)}
+            .onChange(of:scope){_,value in showStamp(value)}
+            .onChange(of:motionMode){_,value in if value=="calm"{stampTask?.cancel();stamp=nil}}
+            .onChange(of:reduceMotion){_,value in if value{stampTask?.cancel();stamp=nil}}
+            .onDisappear{captureTask?.cancel();captureVisible=false;stampTask?.cancel();stamp=nil}
             .sheet(isPresented:$editor){EditorView(resource:nil)}
             .fileImporter(isPresented:$filesOpen,allowedContentTypes:[.image,.audio,.movie,.pdf,.plainText],allowsMultipleSelection:false){result in if case .success(let urls)=result,let url=urls.first{Task{await library.addFile(url)}}else if case .failure(let error)=result{library.error=error.localizedDescription}}
     }
@@ -122,6 +147,7 @@ struct GalleryView:View {
             NavigationLink{DetailView(id:resource.id).navigationTransition(.zoom(sourceID:resource.id,in:namespace))}label:{ResourceCard(resource:resource).matchedTransitionSource(id:resource.id,in:namespace)}.buttonStyle(.plain)
         }else{NavigationLink{DetailView(id:resource.id)}label:{ResourceCard(resource:resource)}.buttonStyle(.plain)}
     }
+    func showStamp(_ label:String){stampTask?.cancel();guard !reduceMotion,motionMode=="studio" else{stamp=nil;return};stampID=UUID();withAnimation(.easeOut(duration:0.18)){stamp=label};stampTask=Task{try? await Task.sleep(nanoseconds:650_000_000);if !Task.isCancelled{withAnimation(.easeOut(duration:0.25)){stamp=nil}}}}
     func nameButton(_ name:String){withAnimation(reduceMotion || motionMode=="calm" ? nil : .spring(response:0.35,dampingFraction:0.9)){category=name}}
     @ViewBuilder var captureDock:some View {
         if typeSize.isAccessibilitySize {
@@ -176,14 +202,18 @@ struct DetailView:View {
     @State var deleteConfirm=false
     @State var filePicker=false
     @State var previewURL:URL?
+    @State var favoriteMoment=false
+    @State var favoriteTask:Task<Void,Never>?
+    @AppStorage("shiji-v2-motion-mode") var motionMode="studio"
+    @Environment(\.accessibilityReduceMotion) var reduceMotion
     var resource:Resource? {library.resources.first{$0.id==id}}
     var body:some View {
         Group{if let r=resource {
             ScrollView{VStack(alignment:.leading,spacing:24){
                 LocalCover(resource:r).frame(height:240).clipped().clipShape(RoundedRectangle(cornerRadius:14))
-                VStack(alignment:.leading,spacing:8){Text(r.title).font(.title2.weight(.semibold));Text((URL(string:r.text("url"))?.host ?? "本机素材")+" · "+String(r.text("createdAt").prefix(10))).font(.subheadline).foregroundStyle(Color(uiColor:NativePalette.secondaryText))}
+                VStack(alignment:.leading,spacing:8){Text(r.title).font(.title2.weight(.semibold));Text((URL(string:r.text("url"))?.host ?? "本机素材")+" · "+String(r.text("createdAt").prefix(10))).font(.subheadline).foregroundStyle(Color(uiColor:NativePalette.secondaryText))}.modifier(NativeMotionReveal(delay:0.12))
                 if let url=URL(string:r.text("url")),["http","https"].contains(url.scheme ?? ""){Link("打开原网页",destination:url).frame(minHeight:44)}
-                if !r.text("description").isEmpty{Text(r.text("description"))}
+                if !r.text("description").isEmpty{Text(r.text("description")).modifier(NativeMotionReveal(delay:0.26))}
                 VStack(alignment:.leading,spacing:12){Text("来源与授权").font(.headline);Text(r.text("author").isEmpty ? "作者待补充" : r.text("author")).foregroundStyle(Color(uiColor:NativePalette.secondaryText))
                     Text(r.text("license").isEmpty ? "待确认" : r.text("license")).font(.subheadline.weight(.medium)).padding(8).background((r.text("license").isEmpty || r.text("license")=="待确认") ? Color.yellow.opacity(0.2) : Color(uiColor:.tertiarySystemFill),in:Capsule())
                     if let url=URL(string:r.text("sourceUrl")),["http","https"].contains(url.scheme ?? ""){Link("查看来源",destination:url).frame(minHeight:44)}
@@ -194,11 +224,15 @@ struct DetailView:View {
                 if !r.text("notes").isEmpty{VStack(alignment:.leading,spacing:12){Text("收藏备注").font(.headline);Text(r.text("notes")).textSelection(.enabled)}}
                 VStack(alignment:.leading,spacing:12){HStack{Text("附件").font(.headline);Spacer();Button("添加",systemImage:"plus"){filePicker=true}.frame(minHeight:44)};ForEach(r.attachments.indices,id:\.self){i in let a=r.attachments[i];Button{openAttachment(a)}label:{HStack{Image(systemName:"doc");Text(a["name"] as? String ?? "附件").lineLimit(2);Spacer();Image(systemName:"chevron.right")}.frame(minHeight:44)}.buttonStyle(.plain)}}
             }.padding(20)}.background(Color(uiColor:NativePalette.background)).navigationTitle(r.title).navigationBarTitleDisplayMode(.inline)
-                .toolbar{ToolbarItem(placement:.topBarTrailing){Menu{Button(r.flag("favorite") ? "取消常用" : "设为常用",systemImage:"star"){library.change(id,"favorite",!r.flag("favorite"))};Button(r.flag("inbox") ? "标为已整理" : "放入待整理",systemImage:"tray"){library.change(id,"inbox",!r.flag("inbox"))};Button("移到回收站",systemImage:"trash",role:.destructive){deleteConfirm=true}}label:{Image(systemName:"ellipsis").frame(width:44,height:44)}}}
+                .toolbar{ToolbarItem(placement:.topBarTrailing){Menu{Button(r.flag("favorite") ? "取消常用" : "设为常用",systemImage:"star"){if library.change(id,"favorite",!r.flag("favorite")),!r.flag("favorite"),!reduceMotion,motionMode=="studio"{favoriteTask?.cancel();favoriteMoment=true;favoriteTask=Task{try? await Task.sleep(nanoseconds:850_000_000);if !Task.isCancelled{favoriteMoment=false}}}};Button(r.flag("inbox") ? "标为已整理" : "放入待整理",systemImage:"tray"){library.change(id,"inbox",!r.flag("inbox"))};Button("移到回收站",systemImage:"trash",role:.destructive){deleteConfirm=true}}label:{Image(systemName:"ellipsis").frame(width:44,height:44)}}}
                 .safeAreaInset(edge:.bottom){Button("编辑",systemImage:"pencil"){editor=true}.buttonStyle(.borderedProminent).foregroundStyle(Color(uiColor:NativePalette.onAccent)).controlSize(.large).frame(maxWidth:.infinity).padding(16).background(.bar)}
                 .sheet(isPresented:$editor){EditorView(resource:r)}
                 .confirmationDialog("移到回收站？可在管理页恢复。",isPresented:$deleteConfirm,titleVisibility:.visible){Button("移到回收站",role:.destructive){library.change(id,"deleted",true);dismiss()}}
                 .fileImporter(isPresented:$filePicker,allowedContentTypes:[.image,.audio,.movie,.pdf,.plainText]){result in switch result{case .success(let url):Task{await library.addFile(url,id:id)};case .failure(let e):library.error=e.localizedDescription}}
+                .overlay{if favoriteMoment{NativeMotionBurst(count:6).allowsHitTesting(false).accessibilityHidden(true)}}
+                .onChange(of:reduceMotion){_,value in if value{favoriteMoment=false}}
+                .onChange(of:motionMode){_,value in if value=="calm"{favoriteMoment=false}}
+                .onDisappear{favoriteTask?.cancel();favoriteMoment=false}
                 .quickLookPreview($previewURL)
         }else{ContentUnavailableView("资源暂时不可用",systemImage:"doc")}}
     }
@@ -281,6 +315,7 @@ struct SettingsView:View {
     @AppStorage("shiji-v2-appearance") var appearance="dark"
     @AppStorage("shiji-v2-motion-mode") var motionMode="studio"
 
+
     @EnvironmentObject var library:MobileLibrary
     @EnvironmentObject var sync:ComputerSync
     @State var importer=false
@@ -322,22 +357,72 @@ struct NativeBookmark:Shape {
 }
 struct NativeBrandHero:View {
     let calm:Bool
+    let replay:()->Void
     @Environment(\.scenePhase) var phase
-    @State private var entered=false
+    @State private var visible=false
+    @State private var epoch=Date()
     private let lime=Color(red:215/255,green:1,blue:101/255)
     private let violet=Color(red:165/255,green:140/255,blue:1)
     var body:some View {
         VStack(alignment:.leading,spacing:20){
-            (Text("好灵感，\n")+Text("值得拾起。").foregroundColor(Color.accentColor)).font(.largeTitle.weight(.black)).tracking(-1)
+            (Text("好灵感，\n")+Text("值得拾起。").foregroundColor(Color.accentColor)).font(.largeTitle.weight(.black)).tracking(-1).modifier(NativeMotionReveal())
             Text("把散落各处的灵感，收进你的创作宇宙。").font(.subheadline).foregroundStyle(Color(uiColor:NativePalette.secondaryText))
-            ZStack(alignment:.bottomLeading){
-                violet
-                Circle().stroke(.black.opacity(0.12),lineWidth:1).padding(15)
-                NativeBookmark().fill(lime).frame(width:90,height:128).overlay{NativeBookmark().fill(Color(red:12/255,green:13/255,blue:16/255)).frame(width:45,height:94)}.rotationEffect(.degrees(entered ? -22 : -34)).offset(x:160,y:entered ? -30 : -15)
-                Text("KEEP IDEAS.").font(.largeTitle.weight(.black)).tracking(-1).foregroundStyle(.black).padding(20)
+            TimelineView(.animation(minimumInterval:1/30,paused:calm || phase != .active || !visible)){context in
+                let t=calm ? 0 : context.date.timeIntervalSince(epoch)
+                GeometryReader{bounds in
+                    ZStack(alignment:.bottomLeading){
+                        violet
+                        Ellipse().stroke(.black.opacity(0.15),style:StrokeStyle(lineWidth:1,dash:[4,4])).padding(15).rotationEffect(.degrees(t*20))
+                        Ellipse().stroke(.black.opacity(0.15),lineWidth:1).frame(width:bounds.size.width*1.8,height:180).rotationEffect(.degrees(-30+sin(t/4)*35)).offset(x:35,y:-12)
+                        RoundedRectangle(cornerRadius:CGFloat(20+sin(t)*16)).stroke(lime,lineWidth:12).frame(width:56,height:56).rotationEffect(.degrees(t*38)).scaleEffect(0.9+sin(t)*0.1).offset(x:25,y:-60)
+                        Image(systemName:"sparkle").font(.system(size:28,weight:.bold)).foregroundStyle(lime).scaleEffect(1+sin(t*1.5)*0.2).rotationEffect(.degrees(sin(t)*20)).offset(x:55,y:-135)
+                        NativeBookmark().fill(lime).frame(width:90,height:128).overlay{NativeBookmark().fill(Color(red:12/255,green:13/255,blue:16/255)).frame(width:45,height:94)}.rotationEffect(.degrees(-22+sin(t)*5)).offset(x:bounds.size.width*0.51,y:-30+sin(t)*12)
+                        Text("KEEP IDEAS.").font(.largeTitle.weight(.black)).tracking(-1).foregroundStyle(.black).padding(20)
+                    }
+                }
             }.frame(height:190).clipShape(RoundedRectangle(cornerRadius:16)).accessibilityHidden(true)
-        }.onAppear{withAnimation(calm ? nil : .spring(response:0.55,dampingFraction:0.82)){entered=true}}
-         .onChange(of:calm){_,value in if value{entered=true}}
-         .onChange(of:phase){_,value in if value != .active{entered=true}}
+                .background{GeometryReader{proxy in Color.clear.preference(key:NativeHeroVisibility.self,value:proxy.frame(in:.global).intersects(UIScreen.main.bounds))}}
+                .onPreferenceChange(NativeHeroVisibility.self){visible=$0}
+            Button("重播品牌开场",systemImage:"arrow.clockwise",action:replay).font(.caption.weight(.semibold)).frame(minHeight:44).disabled(calm)
+        }.onAppear{visible=true;epoch=Date()}.onDisappear{visible=false}
     }
+}
+struct NativeMotionReveal:ViewModifier {
+    var delay:Double=0
+    @AppStorage("shiji-v2-motion-mode") var mode="studio"
+    @Environment(\.accessibilityReduceMotion) var reduce
+    @State private var entered=false
+    func body(content:Content)->some View {
+        let moving = !reduce && mode=="studio" && !entered
+        content.opacity(moving ? 0.2 : 1).offset(y:moving ? 28 : 0).blur(radius:moving ? 6 : 0)
+            .onAppear{withAnimation(reduce || mode=="calm" ? nil : .timingCurve(0.16,1,0.24,1,duration:0.85).delay(delay)){entered=true}}
+    }
+}
+struct NativeCurtain:Shape {
+    var progress:Double
+    var animatableData:Double{get{progress}set{progress=newValue}}
+    func path(in rect:CGRect)->Path {let height=progress<0.21 ? progress/0.21 : progress<0.65 ? 1 : max(0,(1-progress)/0.35);return Path(CGRect(x:0,y:0,width:rect.width,height:rect.height*height))}
+}
+struct NativeMotionIntro:View {
+    @State private var progress=0.0
+    var body:some View {
+        ZStack{Color(red:215/255,green:1,blue:101/255);VStack(spacing:14){(Text("SHIJI")+Text("®").foregroundColor(Color(red:131/255,green:92/255,blue:244/255))).font(.system(size:85,weight:.black)).tracking(-3).rotationEffect(.degrees(-6));Text("KEEP WHAT MOVES YOU.").font(.caption.weight(.bold)).tracking(1)}}.foregroundStyle(Color(red:12/255,green:13/255,blue:16/255)).clipShape(NativeCurtain(progress:progress)).ignoresSafeArea().onAppear{withAnimation(.timingCurve(0.65,0,0.25,1,duration:1.37)){progress=1}}
+    }
+}
+struct NativeMotionBurst:View {
+    var count=6
+    @State private var expanded=false
+    private let colors=[Color(red:215/255,green:1,blue:101/255),Color(red:165/255,green:140/255,blue:1),Color(red:121/255,green:223/255,blue:1),Color(red:1,green:157/255,blue:135/255)]
+    var body:some View {ZStack{Circle().stroke(colors[0],lineWidth:2).frame(width:30,height:30).scaleEffect(expanded ? 5.2 : 0.2).opacity(expanded ? 0 : 0.95);ForEach(0..<count,id:\.self){i in let angle=Double(i)*Double.pi*2/Double(count);RoundedRectangle(cornerRadius:i%4==0 ? 4 : 1).fill(colors[i%4]).frame(width:8,height:8).rotationEffect(.degrees(expanded ? Double(i)*36 : 0)).offset(x:expanded ? cos(angle)*80 : 0,y:expanded ? sin(angle)*80 : 0).opacity(expanded ? 0 : 1)}}.frame(width:180,height:180).onAppear{withAnimation(.timingCurve(0.18,1,0.4,1,duration:0.85)){expanded=true}}}
+}
+
+struct NativeHeroVisibility:PreferenceKey {static var defaultValue=false;static func reduce(value:inout Bool,nextValue:()->Bool){value=nextValue()}}
+struct NativeSavedFlight:View {
+    @State private var progress:CGFloat=0
+    var body:some View{NativeBookmark().fill(Color.accentColor).frame(width:32,height:42).modifier(NativeFlightPath(progress:progress)).onAppear{withAnimation(.timingCurve(0.25,0.84,0.28,1,duration:0.9)){progress=1}}}
+}
+struct NativeFlightPath:AnimatableModifier {
+    var progress:CGFloat
+    var animatableData:CGFloat{get{progress}set{progress=newValue}}
+    func body(content:Content)->some View{content.offset(x:sin(progress * .pi)*40,y:(1-progress)*150).rotationEffect(.degrees(Double(progress)*210-15)).scaleEffect(max(0.1,1-progress*0.9)).opacity(progress>0.8 ? Double((1-progress)*5) : 1)}
 }

@@ -1,241 +1,469 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-06T12:26:17.811223+00:00",
-  "title": "Design System: 拾集 · 桌面 App 与浏览器采集助手",
+  "generatedAt": "2026-10-08T14:55:39.108276+00:00",
+  "title": "Design System: 拾集 SHIJI V2 · Desktop Motion Studio",
   "extensions": {
+    "sources": [
+      "static/shiji-v2.css",
+      "static/shiji-v2.js",
+      "static/shiji-v2-motion.js",
+      "static/resource-bits.js",
+      "static/stable-cards.js",
+      "static/liquid-glass.js",
+      "desktop/App.swift"
+    ],
     "colorMeta": {
-      "accent": {
+      "shiji-lime": {
         "role": "primary",
-        "displayName": "鼠尾草深绿",
-        "canonical": "#325a4a"
+        "displayName": "荧光绿",
+        "purpose": "主要操作、选择与品牌几何。"
       },
-      "bg": {
-        "role": "neutral",
-        "displayName": "暖白纸面",
-        "canonical": "#f7f7f2"
+      "shiji-violet": {
+        "role": "secondary",
+        "displayName": "创意紫",
+        "purpose": "品牌舞台。"
       },
-      "ink": {
-        "role": "neutral",
-        "displayName": "深绿墨色",
-        "canonical": "#243631"
+      "shiji-cyan": {
+        "role": "tertiary",
+        "displayName": "技术青",
+        "purpose": "Short-lived burst accent; regular links remain lime."
       },
-      "muted": {
+      "shiji-bg": {
         "role": "neutral",
-        "displayName": "叶灰绿",
-        "canonical": "#596963"
+        "displayName": "画廊黑"
       },
-      "native-capture-ink": {
+      "shiji-sidebar": {
         "role": "neutral",
-        "displayName": "原生采集墨色",
-        "canonical": "rgb(8% 13% 10%)"
+        "displayName": "侧栏黑"
       },
-      "capture-fill": {
+      "shiji-surface": {
         "role": "neutral",
-        "displayName": "浏览器透明暖白",
-        "canonical": "rgba(250,253,248,.57)"
+        "displayName": "操作平面"
+      },
+      "shiji-surface-raised": {
+        "role": "neutral",
+        "displayName": "抬升平面"
+      },
+      "shiji-fg": {
+        "role": "neutral",
+        "displayName": "主文字"
+      },
+      "shiji-muted": {
+        "role": "neutral",
+        "displayName": "辅助灰"
+      },
+      "brand-wash": {
+        "role": "secondary",
+        "displayName": "Brand spotlight"
+      },
+      "brand-gradient-start": {
+        "role": "secondary",
+        "displayName": "Stage gradient start"
+      },
+      "brand-gradient-end": {
+        "role": "secondary",
+        "displayName": "Stage gradient end"
+      },
+      "intro-symbol": {
+        "role": "secondary",
+        "displayName": "Intro violet symbol"
+      },
+      "feedback-coral": {
+        "role": "tertiary",
+        "displayName": "Feedback coral"
       }
     },
     "typographyMeta": {
       "display": {
-        "displayName": "工作区标题",
-        "purpose": "常规宽屏标题；窄屏按实际断点减小。"
+        "displayName": "编辑式 Hero",
+        "purpose": "主图库品牌标题。"
+      },
+      "headline": {
+        "displayName": "资源区域标题",
+        "purpose": "图库和浏览范围。"
       },
       "title": {
         "displayName": "资源名称",
-        "purpose": "真实预览图下的资源名称。"
+        "purpose": "真实卡片名称，可换行。"
       },
       "body": {
-        "displayName": "正文",
-        "purpose": "详情与编辑内容。"
+        "displayName": "基础正文",
+        "purpose": "系统字体栈，没有远程字体依赖。"
       },
-      "metadata": {
+      "control": {
+        "displayName": "主要操作",
+        "purpose": "主要网页按钮。"
+      },
+      "description": {
+        "displayName": "资源说明",
+        "purpose": "卡片两行摘要。"
+      },
+      "label": {
         "displayName": "辅助信息",
-        "purpose": "域名、数量与附件说明。"
+        "purpose": "域名、分类等。"
+      },
+      "intro": {
+        "displayName": "Brand curtain wordmark",
+        "purpose": "First-session / replay only; <=760px clamp(90px,23vw,150px)."
       }
     },
     "shadows": [
       {
-        "name": "toolbar",
-        "value": "0 8px 28px rgba(30,48,36,.09)",
-        "purpose": "浏览器顶栏操作层。"
+        "name": "browse-panel",
+        "value": "0 16px 40px #0006",
+        "purpose": "展开工具面板。"
       },
       {
-        "name": "control",
-        "value": "0 3px 14px rgba(30,48,36,.06)",
-        "purpose": "分类与浏览工具。"
-      },
-      {
-        "name": "tool-panel",
-        "value": "0 12px 40px rgba(30,48,36,.17)",
-        "purpose": "筛选等工具面板。"
-      },
-      {
-        "name": "drawer",
-        "value": "-14px 0 50px rgba(30,48,36,.15)",
+        "name": "detail-drawer",
+        "value": "-16px 0 50px #0008",
         "purpose": "详情抽屉。"
       },
       {
         "name": "dialog",
-        "value": "0 16px 50px rgba(30,48,36,.2)",
-        "purpose": "对话框。"
+        "value": "0 24px 80px #0009",
+        "purpose": "聚焦任务。"
       },
       {
-        "name": "browser-capture",
-        "value": "inset 0 1px 0 rgba(255,255,255,.85), inset 0 -1px 0 rgba(255,255,255,.5), 0 6px 22px rgba(26,44,34,.16)",
-        "purpose": "浏览器采集层的中性光缘与投影；不代表原生材料。"
+        "name": "capture-deck",
+        "value": "0 8px 32px #0006",
+        "purpose": "网页采集层。"
+      },
+      {
+        "name": "toast",
+        "value": "0 10px 30px #0006",
+        "purpose": "真实反馈。"
       }
     ],
     "motion": [
       {
-        "name": "selection-duration",
-        "value": "320ms",
-        "purpose": "分类指示器与继承的有限网格重排。"
+        "name": "ease-brand",
+        "value": "cubic-bezier(.22,1,.36,1)",
+        "purpose": "V2 standard smooth curve."
       },
       {
-        "name": "ease-out",
-        "value": "cubic-bezier(.16,1,.3,1)",
-        "purpose": "已可见状态的有限过渡。"
+        "name": "intro-curtain",
+        "value": "1370ms; cubic-bezier(.65,0,.25,1); clip-path checkpoints 0/.21/.65/1",
+        "purpose": "sessionStorage shiji-v2-intro first session / replay; hidden after1400ms; Skip / Esc cancel."
       },
       {
-        "name": "native-expansion",
-        "value": "spring(response: 0.38, dampingFraction: 0.82)",
-        "purpose": "只用于原生采集展开；Reduce Motion时无spring。"
+        "name": "intro-brand",
+        "value": "800ms; cubic-bezier(.22,1,.36,1)",
+        "purpose": "Wordmark enters from y-60px / scale .3."
+      },
+      {
+        "name": "hero-heading-entry",
+        "value": "840ms; delay650ms; cubic-bezier(.22,1,.36,1)",
+        "purpose": "translateY30px / skewY3deg / blur9px to rest."
+      },
+      {
+        "name": "hero-stage-entry",
+        "value": "1300ms; cubic-bezier(.22,1,.36,1)",
+        "purpose": "Stage clip-path and opacity entrance."
+      },
+      {
+        "name": "brand-bookmark-loop",
+        "value": "7600ms infinite; ease-in-out",
+        "purpose": "Bookmark float / rotation; shared pause conditions."
+      },
+      {
+        "name": "brand-orbit-grid-loop",
+        "value": "18000ms infinite; linear",
+        "purpose": "Orbit rotation and grid translation."
+      },
+      {
+        "name": "brand-cutout-loop",
+        "value": "6000ms alternate infinite; cubic-bezier(.45,0,.4,1)",
+        "purpose": "Rotation, scale and corner morph."
+      },
+      {
+        "name": "brand-tracer-loop",
+        "value": "9000ms alternate infinite; ease-in-out",
+        "purpose": "Tracer skew; hidden <=760px."
+      },
+      {
+        "name": "brand-spark-loop",
+        "value": "4000ms infinite; ease-in-out",
+        "purpose": "Spark scale / rotation."
+      },
+      {
+        "name": "mode-beacon-loop",
+        "value": "1500ms infinite; ease-in-out",
+        "purpose": "Mode opacity cycle; shared pause conditions."
+      },
+      {
+        "name": "ticker-loop",
+        "value": "22000ms infinite; linear",
+        "purpose": "Ticker translateX(-50%); shared pause conditions."
+      },
+      {
+        "name": "pointer-parallax",
+        "value": "14px normalized span; CSS550ms cubic-bezier(.2,.8,.2,1)",
+        "purpose": "Fine pointer rAF parallax and stage radial spotlight."
+      },
+      {
+        "name": "card-flip-studio",
+        "value": "680ms; cubic-bezier(.16,1,.3,1)",
+        "purpose": "Bits sole owner; position / size FLIP and mild blur."
+      },
+      {
+        "name": "card-entry-studio",
+        "value": "850ms; delay min(index,7)*65ms; cubic-bezier(.16,1,.3,1)",
+        "purpose": "Bits real-card y56px / scale.91 / rotateX9deg / blur10px entrance."
+      },
+      {
+        "name": "card-exit-studio",
+        "value": "500ms; cubic-bezier(.22,1,.36,1); max9 visible proxies",
+        "purpose": "Bits inert / aria-hidden preview ghosts; begin / mode / destroy cleanup."
+      },
+      {
+        "name": "image-tilt",
+        "value": "maximum +/-3deg; perspective800px; scale1.025; 320ms var(--shiji-ease)",
+        "purpose": "Bits alone tilts valid images with fine mouse; full preview / focus / scroll / blur reset."
+      },
+      {
+        "name": "hover-light",
+        "value": "spotlight opacity250ms; sheen translateX900ms var(--shiji-ease)",
+        "purpose": "Pointer glow and preview pseudo-element sheen; Calm / reduce off."
+      },
+      {
+        "name": "category-indicator",
+        "value": "320ms; cubic-bezier(.16,1,.3,1)",
+        "purpose": "ShijiGlass owns selected-pill indicator only."
+      },
+      {
+        "name": "category-pill-count",
+        "value": "pill450ms cubic-bezier(.2,1.8,.25,1); count500ms ease-out",
+        "purpose": "Studio CSS pill settle and count entrance."
+      },
+      {
+        "name": "scene-stamp",
+        "value": "910ms; cubic-bezier(.22,1,.36,1)",
+        "purpose": "Browse-signature change; inert stamp and separate360ms real title entrance."
+      },
+      {
+        "name": "detail-proxy",
+        "value": "710ms; cubic-bezier(.2,.85,.25,1)",
+        "purpose": "One inert pointer-events:none proxy; fades after83%; real detail immediately available."
+      },
+      {
+        "name": "content-stagger",
+        "value": "650ms; delay50+index*70ms; max8 elements; cubic-bezier(.16,1,.22,1)",
+        "purpose": "Detail / dialog copy layers; detail close cancels owned animations."
+      },
+      {
+        "name": "dialog-entry",
+        "value": "400ms; cubic-bezier(.22,1,.36,1)",
+        "purpose": "Dialog transform / opacity entrance."
+      },
+      {
+        "name": "search-focus",
+        "value": "220ms; background200ms var(--shiji-ease)",
+        "purpose": "Search-focus feedback; Esc restores origin focus."
+      },
+      {
+        "name": "save-flight",
+        "value": "900ms; cubic-bezier(.25,.84,.28,1)",
+        "purpose": "After real persistence, fly then success burst; without sourceRect burst immediately."
+      },
+      {
+        "name": "feedback-burst",
+        "value": "save15 particles; action/favorite6; ring650ms; particles650/750/850ms",
+        "purpose": "Save and persisted favorite feedback are separate from generic category / primary click microfeedback; four colors, bounded count."
+      },
+      {
+        "name": "capture-highlight",
+        "value": "600ms brightness1->1.35->1",
+        "purpose": "Saved-target highlight."
+      },
+      {
+        "name": "native-capture-dock",
+        "value": ".spring(response:0.38,dampingFraction:0.82)",
+        "purpose": "macOS dock; nil when OS Reduce Motion OR validated libraryMotion effective Calm."
       }
     ],
     "breakpoints": [
       {
-        "name": "collapsed-sidebar",
-        "value": "1170px"
+        "name": "full-sidebar",
+        "value": "min-width:1280px"
       },
       {
-        "name": "compact-controls",
-        "value": "760px"
+        "name": "drawer-sidebar",
+        "value": "max-width:1279px"
       },
       {
-        "name": "single-column",
-        "value": "480px"
+        "name": "stacked-hero",
+        "value": "max-width:760px"
+      },
+      {
+        "name": "single-gallery-column",
+        "value": "max-width:480px"
       }
-    ]
+    ],
+    "accessibility": {
+      "focus": "2px solid var(--focus), offset 4px",
+      "reducedMotion": "prefers-reduced-motion overrides Studio; Calm cancels Bits / Glass too.",
+      "reducedTransparency": "Solid shiji-surface for affected controls; no CSS backdrop-filter.",
+      "moreContrast": {
+        "muted": "#c1c1ca",
+        "line": "#646570"
+      }
+    },
+    "layout": {
+      "gallery": "data-gallery-columns=2; two columns above 480px, one below; ShijiBits packing uses 22px gap or 18px at <=760px.",
+      "hero": "Conditional main-gallery expression; see SURFACE_BRIEF.md.",
+      "keyedCards": "Stable resource-ID nodes, decoded image reuse, preserve available focus."
+    },
+    "nativeComponents": [
+      {
+        "name": "macOS CaptureDock",
+        "runtime": "SwiftUI",
+        "spec": "macOS26 GlassEffectContainer spacing:16; HStack spacing:12; 46pt icon buttons; system font size:14 semibold; lime foreground; regularMaterial fallback; system Reduce Motion OR libraryMotion effective Calm guard."
+      },
+      {
+        "name": "macOS Search",
+        "runtime": "SwiftUI",
+        "spec": "Native toolbar TextField width:250, HStack spacing:9, horizontal padding:12, vertical padding:8; commands existing web search."
+      }
+    ],
+    "verification": {
+      "basis": "Existing QA evidence; this documentation pass did not rerun builds, interactions or tests.",
+      "evidence": [
+        "../docs/shiji-v2/evidence/p5-web-desktop.png",
+        "../docs/shiji-v2/evidence/p5-gallery.png",
+        "../docs/shiji-v2/evidence/p5-web-mobile.png",
+        "../docs/shiji-v2/evidence/p5-native-mac-active.png",
+        "../docs/shiji-v2/evidence/p5-native-mac-expanded.png",
+        "../docs/shiji-v2/evidence/motion-desktop.png",
+        "../docs/shiji-v2/evidence/motion-web-mobile.png",
+        "../docs/shiji-v2/evidence/motion-category.png",
+        "../docs/shiji-v2/evidence/motion-capture-flight.png",
+        "../docs/shiji-v2/evidence/motion-calm.png"
+      ],
+      "limits": [
+        "Inactive-window macOS glass not runtime verified.",
+        "Older macOS material fallback not runtime accepted.",
+        "Web mobile screenshot is not native iPhone acceptance."
+      ]
+    },
+    "motionControl": {
+      "preference": "shiji-v2-motion-mode",
+      "default": "studio",
+      "systemOverride": "prefers-reduced-motion:reduce",
+      "loopsPauseWhen": [
+        "Calm / OS reduce",
+        "document.hidden",
+        "stage offscreen or hidden",
+        "drawer or dialog open"
+      ],
+      "nativeBridge": "Main-frame 127.0.0.1 matching runtime port; libraryMotion passes effective data-shiji-motion to CaptureDock.",
+      "overlayOwnership": "No pointer / focus ownership; cancel and cleanup on mode / background / close / destroy."
+    }
   },
   "components": [
     {
       "name": "Primary Button",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "深绿主要动作；等待期间禁用。",
-      "html": "<button class=\"ds-primary\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 5v14M5 12h14\"/></svg>收藏资源</button>",
-      "css": ".ds-primary{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:9px;background:#325a4a;color:#fff;border:0;border-radius:999px;min-height:40px;padding:11px 18px;font-size:14px;font-weight:600;cursor:pointer;transition:background .15s}.ds-primary:hover{background:#234737}.ds-primary:focus-visible{outline:2px solid #52715a;outline-offset:3px;}.ds-primary:active{background:#234737}.ds-primary:disabled{opacity:.55;cursor:wait}@media(prefers-reduced-motion:reduce){.ds-primary{transition:none}}"
+      "description": "真实网页主要按钮的样式示例；不执行资源写入。",
+      "html": "<button class=\"ds-primary\">收藏资源</button>",
+      "css": ".ds-primary{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",\"Noto Sans SC\",\"Microsoft YaHei\",sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:42px;padding:11px 18px;border:0;border-radius:8px;background:var(--shiji-lime,#d7ff65);color:var(--shiji-bg,#0c0d10);font-size:14px;font-weight:700;cursor:pointer;transition:background .15s}.ds-primary:hover{background:var(--accent-hover,#e5ff9d)}.ds-primary:focus-visible{outline:2px solid var(--shiji-lime,#d7ff65);outline-offset:4px}.ds-primary:disabled{opacity:.55;cursor:wait}@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){.ds-primary:hover{transform:translateY(-3px) scale(1.03)}}"
     },
     {
       "name": "Secondary Button",
       "kind": "button",
       "refersTo": "button-secondary",
-      "description": "详情和工具的次要动作。",
-      "html": "<button class=\"ds-secondary\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 7V5h6l2 2h10v12H3z\"/></svg>加入项目</button>",
-      "css": ".ds-secondary{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",sans-serif;display:inline-flex;align-items:center;gap:8px;background:#e8eee6;color:#243631;border:0;border-radius:999px;padding:10px 16px;font-size:14px;cursor:pointer;transition:background .15s}.ds-secondary:hover{background:#dbe5d8}.ds-secondary:focus-visible{outline:2px solid #52715a;outline-offset:3px;}.ds-secondary:active{background:#dbe5d8}.ds-secondary:disabled{opacity:.55;cursor:wait}@media(prefers-reduced-motion:reduce){.ds-secondary{transition:none}}"
+      "description": "真实网页次要操作样式。",
+      "html": "<button class=\"ds-secondary\">取消</button>",
+      "css": ".ds-secondary{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",\"Noto Sans SC\",\"Microsoft YaHei\",sans-serif;display:inline-flex;align-items:center;justify-content:center;padding:10px 16px;border:1px solid var(--shiji-line,rgba(255,255,255,.095));border-radius:8px;background:var(--shiji-surface-raised,#1d2027);color:var(--shiji-fg,#f5f5f3);font-size:14px;cursor:pointer}.ds-secondary:hover{background:#292d34}.ds-secondary:focus-visible{outline:2px solid var(--shiji-lime,#d7ff65);outline-offset:4px}.ds-secondary:disabled{opacity:.55;cursor:wait}"
     },
     {
       "name": "Search Field",
       "kind": "input",
       "refersTo": "search-field",
-      "description": "搜索输入聚焦在整体表面，使用底线。",
-      "html": "<label class=\"ds-search\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"10.5\" cy=\"10.5\" r=\"6.5\"/><path d=\"m16 16 4 4\"/></svg><input class=\"ds-search-input\" type=\"search\" aria-label=\"搜索资源、素材与灵感\" placeholder=\"搜索资源、素材与灵感\"></label>",
-      "css": ".ds-search{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",sans-serif;display:flex;align-items:center;gap:10px;color:#243631;padding:0 10px;border-radius:14px;min-height:40px;background:transparent}.ds-search:hover{background:#edf2e9}.ds-search:focus-within{background:#e6eee5;box-shadow:inset 0 -2px #526b58}.ds-search-input{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",sans-serif;min-width:0;width:100%;font-size:14px;color:#243631;background:transparent;border:0;caret-color:#325a4a;padding:8px 0}.ds-search-input::placeholder{color:#596963}.ds-search-input:focus-visible{outline:0}.ds-search-input:disabled{opacity:.55;cursor:wait}"
+      "description": "保留暗色输入平面、焦点底线与明确标签；完整焦点归还由真实运行时负责。",
+      "html": "<label class=\"ds-search\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" aria-hidden=\"true\"><circle cx=\"10.5\" cy=\"10.5\" r=\"6.5\"/><path d=\"m16 16 5 5\"/></svg><input aria-label=\"搜索资源\" placeholder=\"搜索你的灵感…\"></label>",
+      "css": ".ds-search{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",\"Noto Sans SC\",\"Microsoft YaHei\",sans-serif;display:flex;align-items:center;gap:11px;max-width:270px;min-height:38px;padding:0 12px;border:1px solid var(--shiji-line,rgba(255,255,255,.095));border-radius:8px;background:var(--shiji-surface,#15171d);color:var(--shiji-muted,#90919c);transition:background-color .2s cubic-bezier(.22,1,.36,1)}.ds-search input{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",\"Noto Sans SC\",\"Microsoft YaHei\",sans-serif;width:100%;min-width:0;padding:8px 0;background:transparent;border:0;color:var(--shiji-fg,#f5f5f3);font-size:13px;caret-color:var(--shiji-lime,#d7ff65)}.ds-search input::placeholder{color:var(--shiji-muted,#90919c)}.ds-search:focus-within{background:var(--shiji-surface-raised,#1d2027);border-color:var(--shiji-lime,#d7ff65);box-shadow:inset 0 -2px var(--shiji-lime,#d7ff65)}.ds-search input:focus-visible{outline:0}@media(prefers-reduced-motion:reduce){.ds-search{transition:none}}"
     },
     {
       "name": "Sidebar Navigation",
       "kind": "nav",
       "refersTo": "navigation-active",
-      "description": "文字与真实数量构成稳定的导航项；示例数字只是组件演示。",
-      "html": "<nav class=\"ds-sidebar\" aria-label=\"资源导航示例\"><button class=\"ds-nav-item\" aria-current=\"page\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 7V5h6l2 2h10v12H3z\"/></svg>全部资源<span class=\"ds-nav-count\">6</span></button><button class=\"ds-nav-item\">常用收藏</button></nav>",
-      "css": ".ds-sidebar{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",sans-serif;width:220px;color:#243631}.ds-nav-item{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",sans-serif;display:flex;align-items:center;gap:11px;text-align:left;width:100%;min-height:40px;margin:2px 0;padding:9px 12px;font-size:14px;background:transparent;color:#596963;border:0;border-radius:11px;cursor:pointer}.ds-nav-item:hover,.ds-nav-item[aria-current=page]{background:#dce8dc;color:#243631}.ds-nav-item[aria-current=page]{font-weight:600}.ds-nav-item:focus-visible{outline:2px solid #52715a;outline-offset:3px;}.ds-nav-item:active{background:#d1e1d0}.ds-nav-count{margin-left:auto;font-size:12px;font-variant-numeric:tabular-nums}"
+      "description": "当前页面以真实网页抬升平面和绿色文字表达；示例不含虚构数量。",
+      "html": "<nav aria-label=\"资源范围\"><button class=\"ds-nav\" aria-current=\"page\">全部资源</button><button class=\"ds-nav\">常用收藏</button></nav>",
+      "css": ".ds-nav{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",\"Noto Sans SC\",\"Microsoft YaHei\",sans-serif;display:flex;align-items:center;gap:11px;width:100%;min-height:40px;margin:2px 0;padding:9px 12px;border:0;border-radius:8px;background:transparent;color:#a3a4ae;font-size:13px;text-align:left;cursor:pointer}.ds-nav:hover,.ds-nav[aria-current=page]{background:var(--shiji-surface-raised,#1d2027);color:var(--shiji-lime,#d7ff65)}.ds-nav[aria-current=page]{font-weight:600}.ds-nav:focus-visible{outline:2px solid var(--shiji-lime,#d7ff65);outline-offset:4px}"
     },
     {
-      "name": "Category Navigation",
-      "kind": "nav",
+      "name": "Category Chip",
+      "kind": "chip",
       "refersTo": "category-active",
-      "description": "分类胶囊；实际应用的指示器在选择改变时移动。示例数量不是产品统计。",
-      "html": "<div class=\"ds-categories\" role=\"tablist\" aria-label=\"分类示例\"><button class=\"ds-category\" role=\"tab\" aria-selected=\"true\">全部 <span class=\"ds-category-count\">6</span></button><button class=\"ds-category\" role=\"tab\" aria-selected=\"false\">UI / 设计 <span class=\"ds-category-count\">1</span></button></div>",
-      "css": ".ds-categories{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",sans-serif;display:flex;gap:2px;padding:5px;border-radius:999px;background:rgba(253,254,249,.86);box-shadow:0 3px 14px rgba(30,48,36,.06);overflow-x:auto}.ds-category{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",sans-serif;display:flex;align-items:center;gap:7px;flex:none;min-height:38px;padding:7px 13px;border:0;border-radius:999px;background:transparent;color:#596963;font-size:13px;cursor:pointer;transition:color 160ms}.ds-category:hover{background:#e5ede1;color:#243631}.ds-category[aria-selected=true]{background:#325a4a;color:#fff}.ds-category:focus-visible{outline:2px solid #52715a;outline-offset:3px;}.ds-category:active{background:#d1e1d0;color:#243631}.ds-category-count{font-size:11px;font-variant-numeric:tabular-nums}@media(prefers-reduced-motion:reduce){.ds-category{transition:none}}"
+      "description": "分类真实样式；实际运行时指示器由 ShijiGlass 维护。",
+      "html": "<button class=\"ds-category\" aria-pressed=\"true\">全部</button><button class=\"ds-category\" aria-pressed=\"false\">开发工具</button>",
+      "css": ".ds-category{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",\"Noto Sans SC\",\"Microsoft YaHei\",sans-serif;display:inline-flex;align-items:center;gap:7px;min-height:34px;padding:7px 12px;border:1px solid var(--shiji-line,rgba(255,255,255,.095));border-radius:99px;background:transparent;color:var(--shiji-muted,#90919c);font-size:11px;cursor:pointer;transition:color 160ms}.ds-category:hover{background:var(--shiji-surface-raised,#1d2027)}.ds-category[aria-pressed=true]{background:var(--shiji-lime,#d7ff65);color:var(--shiji-bg,#0c0d10);font-weight:600}.ds-category:focus-visible{outline:2px solid var(--shiji-lime,#d7ff65);outline-offset:4px}@media(prefers-reduced-motion:reduce){.ds-category{transition:none}}@media(prefers-reduced-motion:no-preference){.ds-category[aria-pressed=true]{animation:ds-pill-settle .45s cubic-bezier(.2,1.8,.25,1)}}@keyframes ds-pill-settle{0%{transform:scale(.85)}50%{transform:scale(1.07)}100%{transform:scale(1)}}"
     },
     {
       "name": "Exact Tag",
       "kind": "chip",
       "refersTo": "tag",
-      "description": "标签名称完整显示，包括逗号。",
+      "description": "标签名称保持完整，包括逗号。",
       "html": "<button class=\"ds-tag\" aria-pressed=\"false\">New, exact</button>",
-      "css": ".ds-tag{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",sans-serif;padding:6px 12px;border:0;border-radius:999px;background:#e7ece3;color:#596963;font-size:13px;cursor:pointer}.ds-tag:hover{background:#dce8dc;color:#243631}.ds-tag[aria-pressed=true],.ds-tag:active{background:#d1e1d0;color:#243631}.ds-tag:focus-visible{outline:2px solid #52715a;outline-offset:3px;}"
+      "css": ".ds-tag{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",\"Noto Sans SC\",\"Microsoft YaHei\",sans-serif;padding:6px 12px;border:0;border-radius:999px;background:var(--shiji-surface-raised,#1d2027);color:#b5b6be;font-size:12px;cursor:pointer}.ds-tag:hover{border-color:#839496}.ds-tag[aria-pressed=true]{background:#303b1c;color:var(--shiji-lime,#d7ff65)}.ds-tag:focus-visible{outline:2px solid var(--shiji-lime,#d7ff65);outline-offset:4px}"
     },
     {
       "name": "Resource Metadata",
       "kind": "card",
       "refersTo": "resource-metadata",
-      "description": "平置的资源信息原语；实际封面由应用提供，本示例不虚构图片。",
-      "html": "<article class=\"ds-resource\"><button class=\"ds-resource-title\">资源名称</button><p class=\"ds-resource-domain\">example.com <span class=\"ds-resource-count\">1 个附件</span></p><div class=\"ds-resource-footer\"><span>其他 · 网站</span><button class=\"ds-resource-preview\">预览</button></div></article>",
-      "css": ".ds-resource{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",sans-serif;width:min(100%,420px);padding:14px 2px 0;background:transparent;color:#243631}.ds-resource-title{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",sans-serif;display:block;text-align:left;padding:0;border:0;background:transparent;color:#243631;font-size:18px;font-weight:600;line-height:1.35;letter-spacing:-.015em;cursor:pointer}.ds-resource-title:hover{text-decoration:underline;text-underline-offset:3px}.ds-resource-title:focus-visible{outline:2px solid #52715a;outline-offset:3px;}.ds-resource-domain{display:flex;gap:12px;margin:3px 0;color:#596963;font-size:12px;line-height:1.6}.ds-resource-count{margin-left:auto}.ds-resource-footer{display:flex;align-items:center;gap:12px;margin-top:4px;min-height:24px;font-size:12px;color:#596963}.ds-resource-preview{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",sans-serif;border:0;border-radius:999px;background:transparent;color:#596963;padding:4px 8px;cursor:pointer}.ds-resource-preview:hover{background:#e0e9dd;color:#243631}.ds-resource-preview:focus-visible{outline:2px solid #52715a;outline-offset:3px;}.ds-resource-preview:active{background:#d1e1d0}.ds-resource-preview:disabled{opacity:.55;cursor:wait}"
+      "description": "平置的真实信息结构；示例不虚构图像或数量。",
+      "html": "<article class=\"ds-resource\"><button class=\"ds-resource-title\">资源名称</button><div class=\"ds-resource-domain\">example.com</div><p class=\"ds-resource-description\">保存的资源说明。</p></article>",
+      "css": ".ds-resource{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",\"Noto Sans SC\",\"Microsoft YaHei\",sans-serif;max-width:420px;padding:16px 0 0;background:transparent;color:var(--shiji-fg,#f5f5f3)}.ds-resource-title{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",\"Noto Sans SC\",\"Microsoft YaHei\",sans-serif;padding:0;border:0;background:transparent;color:var(--shiji-fg,#f5f5f3);font-size:19px;font-weight:650;line-height:1.4;letter-spacing:-.015em;text-align:left;overflow-wrap:anywhere;cursor:pointer}.ds-resource-title:hover{color:var(--shiji-lime,#d7ff65)}.ds-resource-title:focus-visible{outline:2px solid var(--shiji-lime,#d7ff65);outline-offset:4px}.ds-resource-domain{margin-top:5px;color:var(--shiji-muted,#90919c);font-size:11px}.ds-resource-description{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin:10px 0;color:var(--shiji-muted,#90919c);font-size:13px;line-height:1.6}"
     },
     {
       "name": "Form Field",
       "kind": "input",
       "refersTo": "form-field",
-      "description": "表单字段保留浅底与明确边界。",
+      "description": "普通表单输入的实际暗色样式。",
       "html": "<label class=\"ds-field-label\">资源名称<input class=\"ds-field\" type=\"text\" value=\"保存的参考\"></label>",
-      "css": ".ds-field-label{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",sans-serif;display:flex;flex-direction:column;gap:6px;color:#243631;font-size:14px}.ds-field{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",sans-serif;padding:10px 12px;font-size:16px;color:#243631;background:#f8faf4;border:1px solid #aebbaa;border-radius:10px;caret-color:#325a4a}.ds-field:hover{border-color:#596963}.ds-field:focus-visible{outline:2px solid #52715a;outline-offset:3px;}.ds-field:disabled{opacity:.55;cursor:wait}.ds-field[aria-invalid=true]{border-color:#943c20}"
-    },
-    {
-      "name": "Browser Capture Deck",
-      "kind": "custom",
-      "refersTo": "browser-capture-deck",
-      "description": "仅浏览器CSS材质近似；不是SwiftUI原生Liquid Glass或整页构图。",
-      "html": "<div class=\"ds-capture\"><button class=\"ds-capture-file\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 16V3m-5 5 5-5 5 5M4 14v6h16v-6\"/></svg>添加素材</button><button class=\"ds-capture-save\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 5v14M5 12h14\"/></svg>收藏资源</button></div>",
-      "css": ".ds-capture{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",sans-serif;display:inline-flex;align-items:center;gap:5px;padding:6px;border-radius:999px;background:rgba(250,253,248,.57);backdrop-filter:blur(12px) saturate(1.5);-webkit-backdrop-filter:blur(12px) saturate(1.5);box-shadow:inset 0 1px 0 rgba(255,255,255,.85),inset 0 -1px 0 rgba(255,255,255,.5),0 6px 22px rgba(26,44,34,.16)}.ds-capture-file,.ds-capture-save{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",sans-serif;display:inline-flex;align-items:center;gap:8px;min-height:42px;font-size:13px;border:0;border-radius:999px;cursor:pointer}.ds-capture-file{padding:10px 16px;color:#243631;background:transparent}.ds-capture-save{padding:10px 18px;color:#fff;background:#325a4a;font-weight:600}.ds-capture-file:hover{background:#e0e9dd}.ds-capture-save:hover,.ds-capture-save:active{background:#234737}.ds-capture-file:focus-visible,.ds-capture-save:focus-visible{outline:2px solid #52715a;outline-offset:3px;}.ds-capture-file:disabled,.ds-capture-save:disabled{opacity:.55;cursor:wait}@supports not (backdrop-filter:blur(1px)){.ds-capture{background:#f5f8ef}}@media(prefers-reduced-transparency:reduce){.ds-capture{background:#f5f8ef;backdrop-filter:none;-webkit-backdrop-filter:none}}"
-    },
-    {
-      "name": "Extension Capture Button",
-      "kind": "button",
-      "refersTo": "extension-button",
-      "description": "扩展中的整行采集动作；按钮等待时禁用。",
-      "html": "<button class=\"ds-extension\">收藏网页与选中文字<span class=\"ds-extension-hint\">保存到本机拾集</span></button>",
-      "css": ".ds-extension{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",sans-serif;width:100%;max-width:312px;border:0;border-radius:15px;padding:12px 14px;background:#325a4a;color:#fff;font-size:14px;line-height:1.6;cursor:pointer}.ds-extension-hint{display:block;font-size:12px;color:#eef6ea;font-weight:400}.ds-extension:hover,.ds-extension:active{background:#234737}.ds-extension:focus-visible{outline:2px solid #52715a;outline-offset:3px;}.ds-extension:disabled{opacity:.6;cursor:wait}"
+      "css": ".ds-field-label{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",\"Noto Sans SC\",\"Microsoft YaHei\",sans-serif;display:flex;flex-direction:column;gap:7px;color:var(--shiji-fg,#f5f5f3);font-size:13px}.ds-field{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",\"Noto Sans SC\",\"Microsoft YaHei\",sans-serif;padding:10px 12px;background:var(--shiji-surface-raised,#1d2027);border:1px solid #424650;border-radius:8px;color:var(--shiji-fg,#f5f5f3);font-size:14px;caret-color:var(--shiji-lime,#d7ff65)}.ds-field:focus-visible{outline:2px solid var(--shiji-lime,#d7ff65);outline-offset:4px}.ds-field:disabled{opacity:.55;cursor:wait}"
     }
   ],
   "narrative": {
-    "northStar": "清晰画廊上的采集层",
-    "overview": "拾集的视觉重心是实际收藏的大图、名称与来源。暖白纸面、深绿文字和低饱和鼠尾草绿让内容自己的颜色进入画廊；系统字体承担持续搜索与整理的工作，不制造另一个展示品牌。\n\n玻璃用于操作层的浮起与上下文联系。macOS 原生采集浮层读取下方资源图像的颜色，标签和图标保持深色可读；浏览器使用明确的 CSS 材质近似。图片、正文和来源信息保持清晰。用户已否定割裂的 Olla 装饰循环与覆盖内容的大块白色磨砂面板。",
+    "northStar": "Creative Tech Dark · Motion Studio",
+    "overview": "拾集把真实收藏放进深色创意画廊：荧光绿指出可以执行的动作，紫色几何舞台承载品牌，低边框的内容平面保持图片、工具来源和文本摘要清晰。排版有编辑式的大标题，也保留技术工作台的信息秩序。\n\n本文件固化已经认可并实现的 SHIJI V2 世界，替换旧的暖白／鼠尾草／整页玻璃方向。视觉权威是 `../docs/shiji-v2/IMPLEMENTATION_PLAN.md`、`CODEX_MASTER_PROMPT.md` 与 `reference/motion-studio.html`；实际令牌从 `static/shiji-v2.css` 及其保留的基础层提取。网页管理区仍由 WKWebView 承载，原生 macOS 操作使用独立的系统材料；两者共享品牌，保留各自平台结构。",
     "keyCharacteristics": [
-      "实际资源图像提供主要视觉变化",
-      "暖白纸面、鼠尾草绿操作、清晰深色文字",
-      "小型原生操作浮层与稳定的内容平面",
-      "动作触发的有限形变与可见键盘焦点"
+      "深色内容平面、紫色品牌舞台、荧光绿关键操作",
+      "Visual / Tool / Text 三类真实资源表达",
+      "编辑式标题与紧凑、清楚的管理控件",
+      "Studio / Calm 与系统减少动态效果共同控制动效",
+      "原生操作材料和网页不透明阅读层各自承担职责"
     ],
     "rules": [
       {
-        "name": "The Content Color Rule",
-        "body": "让实际资源图像提供颜色；界面配色服务于搜索、选择和编辑，不补造装饰性主题色。",
+        "name": "The Accent Restraint Rule",
+        "body": "荧光绿集中于主要操作、选择和必要反馈；图片颜色与紫色舞台保留自己的表达空间。",
         "section": "colors"
       },
       {
-        "name": "The Clear Content Rule",
-        "body": "玻璃属于操作层；资源预览与正文不附加磨砂、光晕或图像倾斜。",
+        "name": "The Material Boundary Rule",
+        "body": "原生系统材料属于原生操作层；网页 CSS 与暗色阅读平面不得被称为原生 Liquid Glass。",
         "section": "elevation"
       },
       {
-        "name": "The Deliberate Motion Rule",
-        "body": "形变回应明确操作或布局变化；不恢复自动循环的装饰舞台。",
-        "section": "elevation"
+        "name": "The Single Motion Owner Rule",
+        "body": "`ShijiBits` 独占资源卡片 FLIP 与图片 tilt；编排层不得在同一实际节点上叠加第二套 transform。",
+        "section": "components"
       }
     ],
     "dos": [
-      "Do 使用实际封面、准确名称、真实数量和来源信息。",
-      "Do 在深色和浅色图像上检查浮层标签与图标的可读性。",
-      "Do 让控件保留可见焦点、明确动作名及加载、失败、禁用反馈。",
-      "Do 保留原生材质、减少动态效果与不透明回退的区别。"
+      "Do 延续已经认可的 Creative Tech Dark · Motion Studio，按真实源码提取令牌。",
+      "Do 使用真实封面、域名、资源名称、数量、附件和文本摘要。",
+      "Do 让 Studio、Calm、系统减少动态效果与弹层生命周期控制装饰动效。",
+      "Do 在写入成功后反馈收藏，失败保留输入与恢复动作。",
+      "Do 保留可见焦点、键盘操作、清晰错误与原生系统结构。"
     ],
     "donts": [
-      "Don’t 把 CSS backdrop-filter 称为原生 Liquid Glass。",
-      "Don’t 恢复 Olla 循环装饰或在资源图像上叠加磨砂面板。",
-      "Don’t 通过截图、示例封面或颜色推断资源的价格与许可。",
-      "Don’t 将整个界面截图当作组件，或用外部图标依赖代替可独立渲染的图标。"
+      "Don't 恢复旧的暖白／鼠尾草／整页玻璃视觉，或复活旧 Olla 装饰模块。",
+      "Don't 用 Demo 的示例内容、localStorage 资源模型或模拟成功替代真实 API。",
+      "Don't 给实际卡片叠加第二套 FLIP／tilt，或让代理元素阻挡内容操作。",
+      "Don't 将网页预览截图作为 iPhone 原生实现或全平台验收证据。"
     ]
   }
 }

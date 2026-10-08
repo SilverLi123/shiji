@@ -1,248 +1,158 @@
 ---
-name: "拾集 · 桌面 App 与浏览器采集助手"
-description: "清晰的大图资源画廊，连接本机浏览器采集与整理。"
+name: "拾集 SHIJI V2 · Native iPhone"
+description: "Creative Tech Dark 品牌下的原生 iPhone 收藏画廊，保留系统导航与动态字体。"
 colors:
-  bg: "#f7f7f2"
-  sidebar: "#eeeee7"
-  paper: "#fff"
-  ink: "#243631"
-  muted: "#596963"
-  line: "#daddd4"
-  accent: "#325a4a"
-  accent-hover: "#234737"
-  accent-soft: "#e1ebe2"
-  glass-fill: "rgba(253,254,249,.86)"
-  capture-fill: "rgba(250,253,248,.57)"
-  native-capture-ink: "rgb(8% 13% 10%)"
-  nav-active: "#dce8dc"
-  secondary-fill: "#e8eee6"
-  tag-fill: "#e7ece3"
-  tag-active: "#d1e1d0"
-  field-fill: "#f8faf4"
-  field-stroke: "#aebbaa"
-  focus-ring: "#52715a"
-  selection: "#cddfce"
-  opaque-material: "#f5f8ef"
+  background-dark: "#0c0d10"
+  background-light: "#f7f7f2"
+  surface-dark: "#15171d"
+  surface-light: "#ffffff"
+  raised-dark: "#1d2027"
+  raised-light: "#ededf0"
+  secondary-text-dark: "#9d9eaa"
+  secondary-text-light: "#555661"
+  on-accent-dark: "#0c0d10"
+  on-accent-light: "#ffffff"
+  accent-dark: "color(srgb 0.843137 1.000000 0.396078)"
+  accent-light: "color(srgb 0.313725 0.376471 0.117647)"
+  brand-lime: "#d7ff65"
+  brand-violet: "#a58cff"
+  intro-symbol: "#835cf4"
+  feedback-cyan: "#79dfff"
+  feedback-coral: "#ff9d87"
 typography:
   display:
-    fontFamily: "-apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Noto Sans SC\", \"Microsoft YaHei\", sans-serif"
-    fontSize: "34px"
-    fontWeight: 600
-    lineHeight: 1.25
-    letterSpacing: "-.025em"
+    fontFamily: "-apple-system"
+    fontWeight: 900
+    letterSpacing: "-1pt"
+  intro:
+    fontFamily: "-apple-system"
+    fontSize: "85pt"
+    fontWeight: 900
+    letterSpacing: "-3pt"
   title:
-    fontFamily: "-apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Noto Sans SC\", \"Microsoft YaHei\", sans-serif"
-    fontSize: "18px"
+    fontFamily: "-apple-system"
     fontWeight: 600
-    lineHeight: 1.35
-    letterSpacing: "-.015em"
+  headline:
+    fontFamily: "-apple-system"
   body:
-    fontFamily: "-apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Noto Sans SC\", \"Microsoft YaHei\", sans-serif"
-    fontSize: "16px"
-    lineHeight: 1.6
-  control:
-    fontFamily: "-apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Noto Sans SC\", \"Microsoft YaHei\", sans-serif"
-    fontSize: "14px"
-    fontWeight: 600
+    fontFamily: "-apple-system"
   label:
-    fontFamily: "-apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Noto Sans SC\", \"Microsoft YaHei\", sans-serif"
-    fontSize: "13px"
-    lineHeight: 1.5
-  metadata:
-    fontFamily: "-apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Noto Sans SC\", \"Microsoft YaHei\", sans-serif"
-    fontSize: "12px"
-    lineHeight: 1.6
+    fontFamily: "-apple-system"
+    fontWeight: 600
+    letterSpacing: "1pt"
+  snippet:
+    fontFamily: "ui-monospace"
 rounded:
-  preview: "14px"
-  navigation: "11px"
-  field: "10px"
-  toolbar: "22px"
-  dialog: "24px"
-  popup-control: "15px"
-  pill: "999px"
+  preview: "14pt"
+  brand-stage: "16pt"
 spacing:
-  small: "8px"
-  control-gap: "12px"
-  medium: "16px"
-  section: "24px"
-  workspace: "32px"
-components:
-  button-primary:
-    backgroundColor: "{colors.accent}"
-    textColor: "{colors.paper}"
-    typography: "{typography.control}"
-    rounded: "{rounded.pill}"
-    padding: "11px 18px"
-    height: "40px"
-  button-primary-hover:
-    backgroundColor: "{colors.accent-hover}"
-  button-secondary:
-    backgroundColor: "{colors.secondary-fill}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.pill}"
-    padding: "10px 16px"
-  search-field:
-    textColor: "{colors.ink}"
-    rounded: "{rounded.preview}"
-    padding: "0 10px"
-  navigation-active:
-    backgroundColor: "{colors.nav-active}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.navigation}"
-    padding: "9px 12px"
-    height: "40px"
-  category-active:
-    backgroundColor: "{colors.accent}"
-    textColor: "{colors.paper}"
-    rounded: "{rounded.pill}"
-    padding: "7px 13px"
-    height: "38px"
-  tag:
-    backgroundColor: "{colors.tag-fill}"
-    textColor: "{colors.muted}"
-    rounded: "{rounded.pill}"
-    padding: "6px 12px"
-  resource-metadata:
-    textColor: "{colors.ink}"
-    typography: "{typography.title}"
-    padding: "14px 2px 0"
-  form-field:
-    backgroundColor: "{colors.field-fill}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.field}"
-  browser-capture-deck:
-    backgroundColor: "{colors.capture-fill}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.pill}"
-    padding: "6px"
-  native-capture:
-    textColor: "{colors.native-capture-ink}"
-    rounded: "{rounded.pill}"
-    padding: "14px 22px"
-  extension-button:
-    backgroundColor: "{colors.accent}"
-    textColor: "{colors.paper}"
-    rounded: "{rounded.popup-control}"
-    padding: "12px 14px"
+  small: "8pt"
+  control-gap: "10pt"
+  metadata: "12pt"
+  gallery-inline: "20pt"
+  text-preview: "22pt"
+  detail-section: "24pt"
+  gallery-card-gap: "28pt"
+components: {}
 ---
 
-# Design System: 拾集 · 桌面 App 与浏览器采集助手
+# Design System: 拾集 SHIJI V2 · Native iPhone
 
 ## Overview
 
-**Creative North Star: "清晰画廊上的采集层"**
+**Creative North Star: "Creative Tech Dark · Motion Studio"**
 
-拾集的视觉重心是实际收藏的大图、名称与来源。暖白纸面、深绿文字和低饱和鼠尾草绿让内容自己的颜色进入画廊；系统字体承担持续搜索与整理的工作，不制造另一个展示品牌。
+iPhone 延续已认可的 SHIJI V2 深色画廊、紫色品牌舞台与荧光绿收藏语言，同时把浏览、层级、搜索和编辑交给原生系统结构。真实大图、工具来源和可读文本摘要构成收藏的视觉主体。
 
-玻璃用于操作层的浮起与上下文联系。macOS 原生采集浮层读取下方资源图像的颜色，标签和图标保持深色可读；浏览器使用明确的 CSS 材质近似。图片、正文和来源信息保持清晰。用户已否定割裂的 Olla 装饰循环与覆盖内容的大块白色磨砂面板。
+原生默认使用 Creative Tech 深色外观，管理页可选择浅色或跟随系统。品牌通过 tint、显示排版、几何和有限动作表达；导航、TabView、Form、系统菜单、文件选取与 QuickLook 继续遵守 iPhone 使用习惯。它是独立 SwiftUI 应用，不能把网页手机预览当成源码或验收结果。
 
 **Key Characteristics:**
-- 实际资源图像提供主要视觉变化
-- 暖白纸面、鼠尾草绿操作、清晰深色文字
-- 小型原生操作浮层与稳定的内容平面
-- 动作触发的有限形变与可见键盘焦点
+- 深色优先、浅色与跟随系统可选的语义配色
+- NavigationStack、三项 TabView 与系统搜索
+- 动态字体、单列大图、较紧凑的无封面卡片
+- 紫色品牌几何与少量荧光绿关键状态
+- 原生收藏材料、可恢复保存与受控过渡
 
 ## Colors
 
-规范值在 frontmatter；最终网页叠层来自 `static/liquid-glass.css`，它覆盖基础样式与旧资源动效样式。不要从较早的 Solarized 或 Recent Motion 声明重新提取主题。
+frontmatter 的浅／深色值来自 `Shared/iOSImage.swift` 的 `NativePalette`。AccentColor 精确保留 Asset Catalog 的 sRGB 小数，而不是另造近似十六进制规范；brand-lime 与 brand-violet 来自 `NativeBrandHero` 的真实 RGB 比例。
 
 ### Primary
 
-**鼠尾草深绿**（accent / accent-hover）用于主要操作、选中分类与链接；**浅鼠尾草**（accent-soft、nav-active、tag-active）为导航与标签的选中提示。普通分类与标签使用 muted，活动分类在深绿底上使用 paper。
+**交互荧光绿**（accent-dark）用于深色下的 tint、分类选择、常用标志与保存反馈；浅色使用较深的 accent-light，白色 on-accent-light 承接选中内容。原生 tint 读取 `Color("AccentColor")`，不得在普通控件中硬编码深色专用绿。
+
+### Secondary
+
+**创意紫**（brand-violet）与 **几何荧光绿**（brand-lime）属于 Hero 装饰，保持同一品牌形象。intro-symbol 用于开场的紫色符号，feedback-cyan／feedback-coral 与绿／紫共同组成短暂 burst。Text 预览目前使用系统 `Color.purple`，不是网页 text-preview-ink 的复制。
 
 ### Neutral
 
-**暖白纸面**（bg）承接画廊；paper 用于详情与表单。**深绿墨色**（ink）用于主体，**叶灰绿**（muted）用于域名、数量和提示，line 用于已有信息分隔。secondary-fill 和 tag-fill 是小型控件的浅色背景。
+background、surface、raised 与 secondary-text 成对适配系统外观。主体文字使用 SwiftUI `.primary`，不能用固定白字替换。表单／列表继续使用系统语义背景、分隔与提示颜色；授权待确认沿用系统黄的透明填色，并同时显示文字。
 
-**透明暖白**（glass-fill / capture-fill）是浏览器的材质填色，不是原生材料令牌。**原生采集墨色**（native-capture-ink）精确保留 SwiftUI 的 RGB 比例；它与白色轻染的原生玻璃共同保障图像上方的文字对比。focus-ring、selection、field-stroke 与 opaque-material 分别用于焦点、选区、输入边界及不透明回退。
-
-**The Content Color Rule.** 让实际资源图像提供颜色；界面配色服务于搜索、选择和编辑，不补造装饰性主题色。
+**The Semantic Tint Rule.** 普通交互用自适应 AccentColor 与系统语义文字；固定品牌色只进入明确的展示几何。
 
 ## Typography
 
-**Display / Body Font:** 系统与中文字体栈，规范值在 frontmatter。原生壳与配对面板使用 SwiftUI 系统字体；浏览器扩展也沿用系统字体。这是当前工具界面的排版选择，不宣称自有展示字体。
+**Display / Body Font:** San Francisco，由 SwiftUI `.system` 和原生文本样式提供；中文由系统字体回退。**Snippet Font:** 系统 `.body` 的 monospaced 设计。
 
-### Hierarchy
+日常 UI 的 frontmatter 不声明固定原生字号；`.largeTitle`、`.title2`、`.title3`、`.headline`、`.subheadline`、`.caption` 与 `.caption2` 是实际 Dynamic Type 规格，映射记录在 sidecar。Hero 使用 `.largeTitle.weight(.black)` 与字距（-1pt）；卡片标题为 `.title3.weight(.semibold)`；详情标题为 `.title2.weight(.semibold)`；类型标签为 `.caption2.weight(.semibold)` 与字距（1pt）。来源／附件为 `.caption`，卡片说明与分类为 `.subheadline`。
 
-- **Display:** 工作区标题，常规宽屏使用 display；760px 以下降至30px，480px 以下28px。
-- **Title:** 图片下资源名称使用 title；480px 以下为19px。标题保留自然换行，不通过缩小字体隐藏长名称。
-- **Body:** 详情说明与编辑正文使用 body；来源和许可随真实内容显示。
-- **Control / Label:** 主按钮与搜索为14px，快速分类为13px；480px 以下分类为12px。原生采集入口为14px semibold。
-- **Metadata:** 域名、附件数量、分类与辅助说明使用 metadata；数量沿用 tabular-nums。扩展正文为14px/1.6，标题为21px/1.3、600字重，连接状态为11px。
+辅助字号随系统文本样式变化，不把网页的微型英文工作台标签移植成固定点数。资源名可换行；来源与分类用 `ViewThatFits` 从横排降为纵排。无障碍字号时隐藏装饰 Hero，并使用更简单的空状态与收藏菜单。开场 `intro` 是一次性的品牌字标，源码使用固定展示字号，不能推广为正文或操作控件字号。
 
 ## Layout
 
-采用内容平面加操作层的空间关系。资源网格、名称、来源是连续的阅读区域；表单与详情承接选中的资源，面板具有真实的编辑或检查目的。
+根结构是三个各自包含 NavigationStack 的 Tab：资源库、集合、管理。图库使用 ScrollView 与 LazyVStack，水平内边距（20pt），顶部（10pt），底部（24pt）；卡片间距（28pt），卡内间距（12pt）。分类横向滚动，间距（8pt），每项左右内边距（16pt），最小高度（44pt）。
 
-当前桌面画廊固定为两列最短列排列，480px 及以下一列；桌面列间距22px，760px 及以下18px。网页侧栏为226px；1170px 及以下改为可展开导航。常规工作区左右32px，1170px 以下24px，760px 以下20px，480px 以下16px，最大宽度1500px。底部保留110px滚动余量。默认预览框比例为1.6；完整显示使用真实已加载图像比例，已有96–560px高度约束与 contain 适应不改写原图元数据。
+真实图片封面高（220pt），无可用图片的类型预览高（142pt）；详情封面高（240pt）。图库是单列原生布局，没有网页 CSS breakpoints。Hero 品牌舞台高（190pt），并通过字号条件退让给内容。详情分区间距（24pt），整体内边距（20pt）。
 
-浏览工具是分类、筛选、显示和选择。760px 以下分类横向滚动，并与工具入口分行。移动端只让分类自身滚动，不让整个文档产生横向溢出。列表与按形式分组的参考板继续使用各自布局，不套用灵感板的列数。
-
-原生与浏览器的首屏构图、浮层位置和验证尺度记录在 `.impeccable/surfaces/desktop-app.md`，不是其他未来页面必须复制的模板。
+收藏层通过 `safeAreaInset` 放在底部右侧，保留系统 TabView 和安全区。正常字号使用横向可容纳的系统玻璃胶囊，`ViewThatFits` 在空间不足时退回菜单；无障碍字号直接使用菜单。系统搜索承接键盘，详情使用原生返回与边缘滑回。
 
 ## Elevation & Depth
 
-内容卡片平置，无独立背景、边框或悬停投影。浏览器顶栏与分类操作区使用轻透明暖白和柔软、有偏移的投影；详情与编辑面板以更明确的层级承接工作。原生玻璃由 macOS 渲染，不能由 CSS 阴影参数替代。
+图库默认是清晰的内容平面，卡片没有额外手工阴影或磨砂蒙版。iOS 26 的收藏控件使用 `.glassEffect(.regular.interactive())` 与 `GlassEffectContainer`；较早系统及布局回退使用 `.regularMaterial` Capsule 菜单。底部编辑操作使用系统 `.bar` 背景。材质不是资源图像的滤镜，不使用 CSS 玻璃模拟。
 
-### Shadow Vocabulary
+**The Platform Structure Rule.** 品牌进入 tint、内容和展示动作，导航、搜索、表单、系统模态与材料继续由原生组件承担。
 
-- **操作层低浮起:** `0 8px 28px rgba(30,48,36,.09)`，浏览器顶栏。
-- **小控件浮起:** `0 3px 14px rgba(30,48,36,.06)`，分类与浏览工具。
-- **工具面板:** `0 12px 40px rgba(30,48,36,.17)`，筛选等面板。
-- **详情抽屉:** `-14px 0 50px rgba(30,48,36,.15)`。
-- **对话框:** `0 16px 50px rgba(30,48,36,.2)`。
-- **浏览器采集层:** 两条中性内侧光缘与 `0 6px 22px rgba(26,44,34,.16)`，背景模糊12px、饱和度1.5。光缘是透明材质边界，不为卡片增加装饰性双重轮廓。
+`shiji-v2-motion-mode` 保存 Studio／Calm；`accessibilityReduceMotion` 优先。原生以 `NativeMotionIntro` 实现（1370ms）品牌幕布，SceneStorage 控制首次展示，Hero 提供重播；跳过、Calm、系统减少动态或离开 active scene 会结束开场。Hero 用 TimelineView 请求最小（1/30s）更新时间，驱动书签、虚线轨道、tracer、cutout 和 spark；Calm、非 active scene、不可见时暂停。此为调度规格，不代表实测帧率。
 
-**The Clear Content Rule.** 玻璃属于操作层；资源预览与正文不附加磨砂、光晕或图像倾斜。
-
-**The Deliberate Motion Rule.** 形变回应明确操作或布局变化；不恢复自动循环的装饰舞台。
-
-原生展开使用有界 spring（response 0.38、dampingFraction 0.82），稳定 glassEffectID 在同一 namespace 内关联动作。分类指示器只在选择或布局改变时运行320ms、cubic-bezier(.16,1,.3,1)。继承的画廊重排为有限320ms，首次进入从已可见状态作有限360ms位移，不形成新装饰循环；最终叠层禁用图片倾斜和 CSS 卡片入场。Reduce Motion 关闭原生 spring 与相应网页空间动画；浏览器减少透明度或不支持 backdrop-filter 时使用 opaque-material。macOS 14/15 使用系统 regularMaterial 回退，macOS 26 使用原生材料及系统辅助功能处理。
+`NativeMotionReveal` 使用（850ms）有限模糊／位移进入，详情文字有分层延迟；分类／范围变化使用短暂 stamp 与（6）粒子，网址写入成功后同时出现原生（900ms）飞入、（15）粒子和文字提示。常用状态真实写入成功后才显示（6）粒子。系统 zoom 与 spring 保留平台过渡；详细参数与系统可用性见 sidecar。
 
 ## Shapes
 
-大图使用柔和圆角（preview），不将整张资源包进带阴影的圆角卡片。navigation 与 field 比浮层更克制；toolbar、dialog 给工具面板足够舒适的转角。胶囊仅用于小型按钮、分类、标签和采集控件；原生关闭与扩展入口为圆形。扩展按钮保持 popup-control 的轻圆角，不将整页所有表面改成胶囊。
+预览采用 RoundedRectangle（14pt），Hero 舞台采用 RoundedRectangle（16pt）；分类、保存反馈和收藏控件使用系统 Capsule／Circle。书签几何的缺口在高度（72%）处，装饰与真实资源缩略图分开。表单、分组列表与系统 Alert 使用平台轮廓，不添加网页式全局自定义容器。
 
 ## Components
 
-### Buttons
+本文件的 frontmatter `components` 与 sidecar `components` 留空：应用没有可直接注入 Shadow DOM 的 HTML 组件。真实 SwiftUI 规格在下列条目及 sidecar `extensions.nativeComponents`；不以 HTML 示意伪装实际原生运行时。
 
-主要按钮为深绿填色、白字、胶囊与清晰动作名；悬停使用 accent-hover。次要按钮用 secondary-fill 和 ink，悬停浅绿。详情页“编辑”为唯一主要动作，来源、常用、加入项目与加标签保持次级。等待和禁用状态不得伪装成已完成；键盘焦点使用可见两像素轮廓。
+### Navigation / Search
 
-### Chips
+TabView 只承载“资源库／集合／管理”三项页面；收藏动作留在独立收藏层。图库显示系统大标题和 `.searchable`；深层详情切换 inline 标题。工具栏保留电脑同步与浏览范围菜单；SF Symbols 承担原生图标。
 
-标签和可移除筛选条件保持小而稳定。普通标签为 tag-fill / muted，活动标签为 tag-active / ink。准确名称按完整字符串显示，逗号不作为视觉分隔符。选中与可移除状态不能只通过动画表达。
+### Cards / Covers
 
-### Cards / Containers
+Visual 使用实际本地封面；Tool 来自 `kind=website` 且分类“开发工具”；Text 来自 `kind=code/prompt`。呈现类型是派生值，不序列化到 schema 3。缺图显示系统符号和真实域名／类别；Text 有摘要时最多显示实际内容的前（240）字符。卡片合并为 VoiceOver 可读组，纯封面装饰从可访问性树隐藏。图库卡片通过 NativeMotionReveal 入场，并在分类 spring 的上下文中采用非对称插入／移除过渡；系统减少动态或 Calm 省略这类动画。
 
-资源以真实预览图、标题、域名、附件数量、分类和预览动作组成；图片下信息内边距14px 2px 0。封面区域和标题均可进入详情，常用控件有单独的操作名称和状态。完整预览保持原图，不给图片额外倾斜或悬停放大。侧车中的资源组件只展示可复用的信息原语，不放整页截图或虚构图片。
+### Capture Dock
 
-### Inputs / Fields
+iOS 26 使用 `GlassEffectContainer(spacing:14)`，内部间距（10pt）。网址与素材按钮左右内边距（18pt）、最小高度（48pt）；收起图标（48×48pt）；默认收藏按钮左右（20pt）且最小高度（48pt）。系统菜单回退保持相同两项动作，文件选取使用系统 fileImporter。
 
-搜索是透明、无边框的小型输入；聚焦时整体底线与浅绿表面提示位置，输入文字区域不另加矩形描边。编辑字段为 field-fill、field-stroke 与 field 圆角；聚焦轮廓与错误文本清晰可见。扩展字段保留白底、9px圆角与相同主题焦点。
+### Editor / Persistence Feedback
 
-### Navigation
+编辑使用原生 Form，导航栏明确“取消／保存”；未保存草稿阻止滑动误关闭并提供放弃确认。真实 `files.save` 成功、重新载入后才递增 captureSequence、关闭编辑并触发“已收藏到拾集”与 VoiceOver announcement。保存错误保持编辑页及输入，不能在点击时提前播放成功反馈。当前新增文件路径会刷新库，但不递增同一 URL 保存反馈计数；不要声称所有采集方式已有同一成功动画。
 
-侧栏选中项为 nav-active 与加重的 ink。快速分类使用固定文字、真实库数量和胶囊点击区，选中深绿底配白字；指示器不改变按钮的可点击尺寸。窄屏导航可关闭，Esc 与焦点返回沿用已有行为。不要恢复被隐藏的 Dock 放大图标作为当前设计系统。
+### Detail / Management
 
-### Capture Layer
-
-macOS 26 的采集入口使用 `GlassEffectContainer`、交互式 `glassEffect` 与稳定 `glassEffectID`，白色 tint opacity 0.65、native-capture-ink 前景。按“收藏”展开为真正的“收藏网址 / 添加素材”，选择动作收起；扩展入口打开原生配对面板。详情、编辑和对话框打开时浮层隐藏。浏览器的两个采集动作固定显示，以 CSS 模糊和中性光缘近似；侧车仅预览这份浏览器原语，不能预览或证明 SwiftUI 材质。
-
-### Pairing / Extension
-
-配对面板使用系统标题、分组、真实本地地址、文件夹动作和复制按钮。加载、失败与重试分别显示；仅有效配对码才启用复制。扩展为360px宽、24px内边距的简洁动作面板，连接状态有文字，失败提示可恢复。不要将配置值画成产品装饰。
+详情保留来源、授权、备注、标签和附件；编辑是底部主要操作。管理、集合和回收站使用原生 List／Form／Picker，备份确认与冲突选择继续采用可读文字和系统模态。同步、备份与分享能力的事实以 PRODUCT.md 为准；分享扩展空白页没有因视觉升级而修复。
 
 ## Do's and Don'ts
 
-### Do:
-- Do 使用实际封面、准确名称、真实数量和来源信息。
-- Do 在深色和浅色图像上检查浮层标签与图标的可读性。
-- Do 让控件保留可见焦点、明确动作名及加载、失败、禁用反馈。
-- Do 保留原生材质、减少动态效果与不透明回退的区别。
-
-### Don't:
-- Don’t 把 CSS backdrop-filter 称为原生 Liquid Glass。
-- Don’t 恢复 Olla 循环装饰或在资源图像上叠加磨砂面板。
-- Don’t 通过截图、示例封面或颜色推断资源的价格与许可。
-- Don’t 将整个界面截图当作组件，或用外部图标依赖代替可独立渲染的图标。
+- Do 延续 Creative Tech Dark 品牌，并保留浅色／跟随系统的语义配色。
+- Do 使用 Dynamic Type、SF Symbols、原生导航、系统搜索与系统任务模态。
+- Do 保留至少 44pt 的主要触控规格，并在空间和字号变化时退回可用布局。
+- Do 在真实本地保存成功后显示反馈，失败保留编辑与恢复路径。
+- Do 在 Studio 与系统减少动态效果之间始终让系统偏好优先。
+- Don't 把网页 CSS、HTML 片段或手机浏览器截图宣称为原生组件与原生验收。
+- Don't 用固定白字／深色专用绿替代自适应文字与 AccentColor。
+- Don't 让原生品牌循环绕过 Calm、系统减少动态、scene 与可见性条件，或引入 hover 专用交互和第二套导航模型。
+- Don't 宣称分享扩展、旧系统回退或全部 iPhone 机型已通过本轮验证。
