@@ -278,3 +278,12 @@ Quick Capture 的成功反馈来自真实保存完成；SQLite 成功之前不�
 根据用户对整张卡片摇晃／拖动手感的反馈，`card-motion-surface` 包含封面、标题、来源、操作与选择控件。ShijiBits 复用原指针 owner：外层 article 仅管理稳定 ID／瀑布流／FLIP，内层 surface 管理整卡姿态；不在图片上再叠加 tilt。仅鼠标／精细指针、Motion Studio、画廊 frame 模式响应。静止卡片没有 transform 或 will-change。
 
 鼠标轻晃上限 5°、抬升 8px；按压抬升 12px、缩放 1.025；封面拖动采用 tanh 阻力、位移上限 36px 和侧转上限 4°。超过 6px 后松手消耗本次点击，以免误开详情；小幅按压仍按既有详情流程处理。550ms 弹性回落可被下一次手势中断，不保存排序。滚动、焦点移出、Esc、重排、失去捕获、页面隐藏、Calm／系统减少动态及销毁清理姿态和捕获。列表／看板用 display:contents 保留原布局，触摸／笔仍使用原生点击与滚动。
+
+
+## Cover Studio 2.0 · P0–P3
+
+Cover Studio supersedes the fixed per-type poster treatment above, while preserving the complete Hero, three-column/featured masonry and whole-card tactile owner. Saved semantics select eight art families; an immutable ID (canonical URL fallback) independently selects one of three compositions and a coordinated palette. Mutable tags, favorite state, sorting and view dimensions do not pick a new variant/theme. User/local/actual website images keep precedence. The frozen old renderer is QA-only.
+
+Nine cover-only palettes are cream/ink, acid lime/charcoal, electric violet/deep blue, signal cyan/navy, coral/burgundy, yellow/black, monochrome, chrome and dark navy. Titles use local system sans, Georgia / Songti SC for editorial serif, and ui-monospace / SFMono-Regular / Menlo for terminal and actual code. Typography bounds are 16–96px for titles, 10–15px source/caption/excerpt and 10–19px code/title; container width, native glyph measurement, word packing and per-composition height determine intermediate sizes. Negative tracking stays at −0.02 to −0.035em, title line-height 1.1. Actual saved code is syntax-colored with readable dark ink on light editor surfaces.
+
+No new cover pointer/FLIP owner, continuous cover animation, runtime dependency, database field or stored cover preference was introduced in this phase. Calm and reduced-motion behavior remain under the existing controllers. Variants, actual screenshots, isolated QA reproduction, initial long-task result and pending P4–P9 are documented in `../docs/cover-studio-2/REPORT.md`.

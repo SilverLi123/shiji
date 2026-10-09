@@ -99,3 +99,8 @@ iPhone 的网址保存先 `files.save`，然后重新载入、更新 captureSequ
 
 
 Card tactile follow-up: move the entire cover/title/metadata surface under the existing ShijiBits pointer owner. Bounded mouse-only elastic pickup/release, stable outer card FLIP and IDs, drag/click arbitration, interruptible cancellation. Preserve the complete Hero, Calm, reduced motion and native touch scrolling. No persisted drag ordering.
+
+
+## Cover Studio 2.0 · 2026-10-09
+
+The desktop gallery remains an Experience surface inside the existing local resource app. Retain the entire approved Hero, brand stage, stable masonry/featured footprints and Bits tactile interaction. Replace only the automatic cover art direction with saved semantics → stable structural variant → independent coordinated palette. Actual covers remain first. Use local glyph-aware typography, intentional safe zones and real code/excerpts instead of uniform placeholders or invented metadata. P0–P3 provide 24 static poster structures / nine palettes and a runnable temporary-data comparison. Internal spatial motion and custom persistence await the user's art-quality confirmation; see [Cover Studio report](../cover-studio-2/REPORT.md).

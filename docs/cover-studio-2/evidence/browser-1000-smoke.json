@@ -1,0 +1,69 @@
+{
+  "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+  "viewport": {
+    "width": 1255,
+    "height": 706
+  },
+  "resources": "1000 条资源",
+  "cards": 60,
+  "hidden": false,
+  "hiddenFrames": 0,
+  "longTaskSupported": true,
+  "longTasks": [
+    {
+      "start": 463.5,
+      "duration": 141
+    }
+  ],
+  "events": [],
+  "samples": {
+    "scroll": {
+      "count": 33,
+      "p50": 16.69999999999709,
+      "p95": 33.299999999995634,
+      "max": 33.39999999999998,
+      "over25ms": 2
+    },
+    "idle": {
+      "count": 2655,
+      "p50": 16.69999999999891,
+      "p95": 17.600000000002183,
+      "max": 150.00000000000006,
+      "over25ms": 2
+    }
+  },
+  "loops": [
+    {
+      "target": "shiji-bookmark",
+      "state": "paused"
+    },
+    {
+      "target": "shiji-orbit",
+      "state": "paused"
+    },
+    {
+      "target": "shiji-stage-grid",
+      "state": "paused"
+    },
+    {
+      "target": "shiji-cutout",
+      "state": "paused"
+    },
+    {
+      "target": "shiji-tracer",
+      "state": "paused"
+    },
+    {
+      "target": {},
+      "state": "paused"
+    },
+    {
+      "target": "v2-motion-control",
+      "state": "paused"
+    },
+    {
+      "target": "",
+      "state": "paused"
+    }
+  ]
+}

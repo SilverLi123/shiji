@@ -1,0 +1,7 @@
+{
+  "runtime": "v24.16.0",
+  "resources": 1000,
+  "htmlGenerationMs": 24.3,
+  "htmlBytes": 588335,
+  "note": "Node fallback font metrics; excludes browser layout, painting, scrolling and native app performance."
+}
