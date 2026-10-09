@@ -91,3 +91,8 @@ iPhone 的网址保存先 `files.save`，然后重新载入、更新 captureSequ
 - 不同 iPhone 机型、真实手机和旧 OS fallback 没有运行验收；源码可用性判断不等于实际测试。
 - 现有截图不代表全部 VoiceOver、对比度、性能或设备矩阵已通过。
 - PRODUCT.md 的能力与约束保持原样；完整安装、分发、配对和业务限制不由本视觉文档重新承诺。
+
+
+## Desktop card restoration addendum · 2026-10-09
+
+依据用户本轮明确要求，桌面卡片采用三列基准、真实技术字段决定的两列特色 Tool 卡和八类派生海报封面，替换上文旧的双列／域名占位契约。分页、稳定 ID、完整数据筛选与真实封面优先仍保留；首页大尺寸 Hero 和全部品牌动画完全保留。原生 iPhone 当前呈现不变。实际代码、对比截图和验收边界见 [card-restoration/REPORT.md](card-restoration/REPORT.md)。

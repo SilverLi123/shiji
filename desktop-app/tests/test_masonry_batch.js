@@ -7,7 +7,7 @@ const cards=Array.from({length:1000},(_,i)=>({dataset:{resourceId:String(i)},sty
  get offsetHeight(){measure();return 100+i%3*20;},
  getBoundingClientRect(){measure();return {left:parseFloat(this.style.left)||0,top:parseFloat(this.style.top)||0,width:parseFloat(this.style.width)||0,height:100+i%3*20};}
 }));
-const classes=new Set(),grid={children:cards,hidden:false,clientWidth:600,style:style(),classList:{contains:c=>classes.has(c),toggle(c,on){on?classes.add(c):classes.delete(c);}},querySelectorAll:()=>cards,addEventListener(){},removeEventListener(){}};
+const classes=new Set(),grid={children:cards,hidden:false,clientWidth:600,style:style(),classList:{contains:c=>classes.has(c),toggle(c,on){on?classes.add(c):classes.delete(c);}},querySelectorAll:s=>s==='.card-preview'?[]:cards,addEventListener(){},removeEventListener(){}};
 const ctx={module:{exports:{}},innerWidth:1280,matchMedia:()=>({matches:true,addEventListener(){},removeEventListener(){}}),addEventListener(){},removeEventListener(){},requestAnimationFrame:()=>1,cancelAnimationFrame(){}};
 vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../static/resource-bits.js'),'utf8'),ctx);
 const ui=ctx.module.exports.create(grid,null);ui.render();assert.equal(flushes,2,'one width/height pass and one position/rect pass regardless of card count');
@@ -16,4 +16,9 @@ for(const card of cards){const r=card.getBoundingClientRect(),previous=columns.g
 assert.equal(columns.size,3);
 ui.begin();flushes=0;ctx.innerWidth=390;ui.render();assert.equal(flushes,2);assert.equal(cards[0].getBoundingClientRect().width,600);assert.equal(cards[1].getBoundingClientRect().top,118);
 assert.equal(Number.parseFloat(grid.style.height),cards.at(-1).getBoundingClientRect().top+cards.at(-1).getBoundingClientRect().height);
-ui.destroy();console.log('1000-card measured layout uses two bounded flush phases, correct shortest columns and responsive reflow');
+ui.begin();ctx.innerWidth=1280;cards.forEach((card,i)=>card.dataset.gallerySpan=i%7===0?'2':'1');flushes=0;ui.render();assert.equal(flushes,2,'mixed spans retain the two bounded measurement phases');
+assert.equal(cards[0].dataset.galleryWide,'true');assert.equal(cards[1].dataset.galleryWide,'false');
+assert.ok(cards[0].getBoundingClientRect().width>cards[1].getBoundingClientRect().width);
+classes.add('density-compact');ui.begin();ui.render();assert.ok(cards.every(card=>card.dataset.galleryWide==='false'),'compact keeps uniform columns');
+classes.delete('density-compact');classes.add('preview-fit');ui.begin();ui.render();assert.ok(cards.every(card=>card.dataset.galleryWide==='false'),'fit keeps uniform columns');
+ui.destroy();console.log('1000-card measured layout: two bounded flush phases, mixed spans, compact/fit and responsive reflow passed');

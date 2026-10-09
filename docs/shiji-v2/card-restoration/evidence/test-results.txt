@@ -1,0 +1,22 @@
+Python baseline/final
+127.0.0.1 - - [09/Oct/2026 15:03:07] "POST /api/remote-cover HTTP/1.1" 200 -
+127.0.0.1 - - [09/Oct/2026 15:03:08] "POST /api/remote-cover HTTP/1.1" 200 -
+----------------------------------------------------------------------
+Ran 202 tests in 36.896s
+
+OK
+
+Node final
+PASS: 38 Node groups
+
+Native Swift + desktop ZIP exchange
+Desktop PDF/text fixtures, website URL, title limits and URL normalization passed
+Sync first merge, both directions, duplicate identity, conflicts, trash and late-share protection passed
+Identical URL identity collisions and recreated records require visible choices
+V2 resource presentation derivation leaves schema untouched
+V2 offline quick capture persists hostname and repository titles
+PASS: all native core and desktop exchange checks
+
+macOS arm64 packaging
+/Users/silver/shiji-card-restoration/desktop-app/dist/Dev Resource Library.app: replacing existing signature
+/Users/silver/shiji-card-restoration/desktop-app/dist/Dev Resource Library.app

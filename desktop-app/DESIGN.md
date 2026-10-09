@@ -22,6 +22,10 @@ colors:
   control-muted: "#b5b6be"
   control-hover: "#292d34"
   field-stroke: "#424650"
+  cover-oat: "#f0ece3"
+  cover-yellow: "#ffd954"
+  cover-coral: "#f5b8a9"
+  cover-blue: "#171b36"
   tool-preview: "#181e17"
   text-preview: "#191b27"
   text-preview-ink: "#c5b7ff"
@@ -193,7 +197,7 @@ frontmatter 是规范值。`static/shiji-v2.css` 最后加载，覆盖旧主题�
 
 ## Layout
 
-完整侧栏宽（238px）；主工作区最大宽（1500px），宽屏内边距为（34px 36px 110px）。顶部栏贴住页面顶边，无旧版悬浮玻璃卡片外观。图库保留 `data-gallery-columns="2"` 的稳定短列瀑布流：视口大于（480px）时两列，以下一列；列间距在（760px）以内为（18px），其余为（22px）。不要把 Bits 的通用三列辅助函数误写为当前主图库列数。
+完整侧栏宽（238px）；主工作区最大宽（1500px），宽屏内边距为（34px 36px 110px）。顶部栏贴住页面顶边，无旧版悬浮玻璃卡片外观。图库采用 `data-gallery-columns="3"`：视口大于 900px 为三列，481–900px 为两列，480px 以下一列。保存了非空 `language` 技术字段的 Tool 卡在三列、舒适密度、构图预览中跨两列；由真实资源字段决定，不按列表序号、常用状态或筛选结果重新挑选。紧凑密度、完整图片预览与窄屏保持统一列宽。ShijiBits 在同一写宽／读高／写位置／读矩形批次计算连续列跨度，仍保留 keyed ID 与每次 60 条追加。
 
 在（1279px）及以下，侧栏成为可抽出的固定导航，宽（260px），工作区内边距变为（28px 24px 110px）。在（760px）及以下，Hero 上下排列，分类横向滚动，工具条换行；工作区使用（24px 20px 110px）。在（480px）及以下，工作区使用（22px 16px 110px），搜索独占一行，列表与详情内容允许换行。
 
@@ -257,3 +261,14 @@ Quick Capture 的成功反馈来自真实保存完成；SQLite 成功之前不�
 - Don't 用 Demo 的示例内容、localStorage 资源模型或模拟成功替代真实 API。
 - Don't 给实际卡片叠加第二套 FLIP／tilt，或让代理元素阻挡内容操作。
 - Don't 将网页预览截图作为 iPhone 原生实现或全平台验收证据。
+
+
+## Resource cover art · desktop restoration
+
+本轮依据用户的卡片还原要求覆盖原先双列／域名占位表达；首页 Hero、品牌动画、原生 iPhone 不变。详见 `../docs/shiji-v2/card-restoration/REPORT.md`。
+
+真实 `coverId` 附件、`thumbnail` 和已有网站截图仍优先。仅无图或加载失败时显示派生排版封面，不写回资源。Tool 用 oat 底、大字、点阵和实际技术字段；Design 用 cyan 底、裁切环与标题；Motion 用 lime 底、斜体大字、透视线场和紫／珊瑚环；Code 用 blue 底、真实缩进／行号和本地词法着色；Prompt 用 coral 底、轻旋转标题、真实摘要与紫色星形；Article 用 yellow 底、大标题与编辑横线；Audio 用 violet 底和装饰信号线；其他 File 用暗底和折叠几何。装饰信号线不代表解析过音频。
+
+新增封面材料：oat #f0ece3、yellow #ffd954、coral #f5b8a9、blue #171b36。封面墨色 #171b25；环墨色 #193950；Prompt 星形 #7543cb；文章星形 #b64d18；音频线色 #32234c。代码正文 #e8e9fb、行号 #9298ba、注释 #a3b1cd、字符串 lime、关键字 #c5b7ff、数字 #ffb8a4。颜色只属于封面内容，不改变产品状态语义。字体沿用认可的系统字族；代码采用系统等宽。
+
+封面标题使用容器字号和有限行数，完整名称仍在卡片正文与详情标题可读。SVG 只做自绘几何，不借用其他品牌标志或外部作品。内部指针反馈复用 Bits 已有监听，最多 6px；无新增循环、FLIP 或 Tilt owner。Calm／系统减少动态禁用内部位移和过渡。详情代理复制真实图像或当前海报，期间暂时隐藏目标视觉，完成／取消后恢复，避免双影。

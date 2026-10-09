@@ -8,7 +8,7 @@ const dom=new JSDOM(fs.readFileSync(path.join(__dirname,'../static/index.html'),
 ui.render(dom.window.document,{scope:'all',view:'grid',filters:{search:''}});assert.equal(dom.window.document.querySelector('#shiji-hero').hidden,false);
 ui.render(dom.window.document,{scope:'trash',view:'grid',filters:{}});assert.equal(dom.window.document.querySelector('#shiji-hero').hidden,true);
 ui.render(dom.window.document,{scope:'all',view:'grid',filters:{search:'hello'}});assert.equal(dom.window.document.querySelector('#shiji-hero').hidden,true);
-assert.equal(dom.window.document.querySelector('#resource-grid').dataset.galleryColumns,'2');
+assert.equal(dom.window.document.querySelector('#resource-grid').dataset.galleryColumns,'3');
 for(const id of ['search','resource-form','filter-panel','display-panel','selection-panel','drawer','collection-nav','smart-nav','import-file'])assert.ok(dom.window.document.getElementById(id),id);
 assert.ok(dom.window.document.querySelector('link[href="shiji-v2.css"]'));
 dom.window.close();console.log('V2 real resource types, contextual Hero and retained business hooks passed');

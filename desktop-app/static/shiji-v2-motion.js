@@ -10,7 +10,7 @@
   const enabled=()=>!dead&&mode==='studio'&&!reduced.matches;
   function listen(el,type,fn,options){if(!el)return;el.addEventListener(type,fn,options);listeners.push(()=>el.removeEventListener(type,fn,options));}
   function animate(el,frames,options,collection=finite){if(!enabled()||!el?.animate)return null;const a=el.animate(frames,options);collection.add(a);if(options.iterations!==Infinity)a.finished?.then(()=>collection.delete(a),()=>collection.delete(a));else a.finished?.catch(()=>{});return a;}
-  function closeDetail(){for(const a of detailAnimations){a.cancel();finite.delete(a);}detailAnimations.clear();if(ghost){ghost.animation?.cancel();ghost.el.remove();ghost=null;}}
+  function closeDetail(){for(const a of detailAnimations){a.cancel();finite.delete(a);}detailAnimations.clear();if(ghost){ghost.target?.classList.remove('shiji-preview-in-flight');ghost.animation?.cancel();ghost.el.remove();ghost=null;}}
   function clearParticles(){flight?.animation?.cancel();flight?.el.remove();flight=null;for(const a of fxAnimations)a.cancel();fxAnimations.clear();for(const el of particles)el.remove();particles.clear();}
   function stopIntro(){win.clearTimeout(introTimer);introTimer=0;if(skip)skip.hidden=true;if($('#shiji-intro'))$('#shiji-intro').hidden=true;}
   function clearStamp(){stamp?.animation?.cancel();stamp?.el.remove();stamp=null;}
@@ -49,9 +49,15 @@
    stagger($('#drawer'),'.drawer-header h2,.detail-domain,.detail-actions,.detail-grid,.detail-block,.drawer-footer',detailAnimations);
    const from=sourceElement.getBoundingClientRect(),to=detailElement.getBoundingClientRect();if(!from.width||!to.width||from.bottom<0||from.top>win.innerHeight)return;
    const el=doc.createElement('div');el.className='shiji-detail-ghost';el.setAttribute('aria-hidden','true');el.inert=true;
-   const image=sourceElement.querySelector('img.cover-image:not([hidden]),img:not([hidden])');if(image){const copy=image.cloneNode();copy.removeAttribute('id');copy.alt='';el.append(copy);}else{el.textContent=sourceElement.textContent.slice(0,160);}
+   el.dataset.galleryWide=sourceElement.closest('.resource-card')?.dataset.galleryWide||'false';
+   const image=sourceElement.querySelector('img.cover-image:not([hidden])'),art=sourceElement.querySelector('.cover-art:not([hidden])');
+   if(image){const copy=image.cloneNode();copy.removeAttribute('id');copy.alt='';el.append(copy);}
+   else if(art){const copy=art.cloneNode(true);for(const node of [copy,...copy.querySelectorAll('*')]){node.removeAttribute('id');for(const attr of [...node.attributes])if(attr.name.startsWith('data-action')||attr.name.startsWith('on'))node.removeAttribute(attr.name);}el.append(copy);}
+   else{el.textContent=sourceElement.textContent.slice(0,160);}
    Object.assign(el.style,{left:from.left+'px',top:from.top+'px',width:from.width+'px',height:from.height+'px'});doc.body.append(el);
-   const end=`translate(${to.left-from.left}px,${to.top-from.top}px) scale(${to.width/from.width},${to.height/from.height})`;const a=animate(el,[{transform:'translate(0,0) scale(1)',opacity:1},{transform:end,opacity:1,offset:.83},{transform:end,opacity:0}],{duration:710,easing:'cubic-bezier(.2,.85,.25,1)'});ghost={el,animation:a};a?.finished?.then(()=>{el.remove();if(ghost?.el===el)ghost=null;},()=>el.remove());
+   detailElement.classList.add('shiji-preview-in-flight');
+   const end=`translate(${to.left-from.left}px,${to.top-from.top}px) scale(${to.width/from.width},${to.height/from.height})`;const a=animate(el,[{transform:'translate(0,0) scale(1)',opacity:1},{transform:end,opacity:1}],{duration:710,easing:'cubic-bezier(.2,.85,.25,1)'});ghost={el,animation:a,target:detailElement};
+   const done=()=>{el.remove();if(ghost?.el===el){detailElement.classList.remove('shiji-preview-in-flight');ghost=null;}};if(a)a.finished.then(done,done);else done();
   }
   function captureConfirmed({resourceId,sourceElement,sourceRect}={}){if(!enabled())return;clearParticles();let target=[...doc.querySelectorAll('.resource-card')].find(e=>e.dataset.resourceId===resourceId);const candidate=target?.getBoundingClientRect();if(!candidate||candidate.top<0||candidate.bottom>win.innerHeight)target=$('.brand-mark')||modeButton;const r=target?.getBoundingClientRect();if(!r)return;
    if(sourceRect&&sourceRect.width){const el=doc.createElement('span');el.className='shiji-capture-flight';el.setAttribute('aria-hidden','true');const x=Math.max(54,Math.min(win.innerWidth-64,sourceRect.left+sourceRect.width/2)),y=Math.max(80,Math.min(win.innerHeight-72,sourceRect.top+sourceRect.height/2));Object.assign(el.style,{left:x+'px',top:y+'px'});doc.body.append(el);const dx=r.left+r.width/2-x,dy=r.top+Math.min(r.height/2,32)-y;const a=animate(el,[{transform:'translate(-50%,-50%) rotate(-15deg)',opacity:1},{transform:`translate(calc(-50% + ${dx*.4}px),calc(-50% + ${dy*.2-65}px)) scale(1.35) rotate(13deg)`,opacity:1,offset:.42},{transform:`translate(calc(-50% + ${dx}px),calc(-50% + ${dy}px)) scale(.1) rotate(210deg)`,opacity:0}],{duration:900,easing:'cubic-bezier(.25,.84,.28,1)'});flight={el,animation:a};a?.finished?.then(()=>{el.remove();if(flight?.el===el){flight=null;burstAt(r,'save');}},()=>el.remove());}else burstAt(r,'save');

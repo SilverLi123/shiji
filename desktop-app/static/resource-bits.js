@@ -5,10 +5,19 @@
  */
 (function(root){
   'use strict';
-  function pack(heights,width,columns,gap=22){
+  function pack(heights,width,columns,gap=22,spans=[]){
     columns=Math.max(1,Math.floor(columns));
     const w=Math.max(0,(width-gap*(columns-1))/columns),ends=Array(columns).fill(0);
-    const items=heights.map(h=>{const col=ends.indexOf(Math.min(...ends)),y=ends[col];ends[col]+=Math.max(0,h)+gap;return {x:col*(w+gap),y,w,h};});
+    const items=heights.map((h,i)=>{
+      const span=Math.max(1,Math.min(columns,Math.floor(spans[i])||1));
+      let col=0,y=Infinity;
+      for(let start=0;start<=columns-span;start++){
+        const next=Math.max(...ends.slice(start,start+span));
+        if(next<y){col=start;y=next;}
+      }
+      for(let j=col;j<col+span;j++)ends[j]=y+Math.max(0,h)+gap;
+      return {x:col*(w+gap),y,w:w*span+gap*(span-1),h};
+    });
     return {items,height:heights.length?Math.max(...ends)-gap:0};
   }
   function magnetPoint(x,y,rect,strength=9,padding=20){
@@ -39,7 +48,7 @@
       if(!tilted)return;
       tilted.classList.remove('bits-tilt-active');
       tilted.classList.remove('bits-glow-active');
-      for(const key of ['--tilt-x','--tilt-y','--glow-x','--glow-y'])tilted.style.removeProperty(key);tilted=null;
+      for(const key of ['--tilt-x','--tilt-y','--glow-x','--glow-y','--cover-x','--cover-y'])tilted.style.removeProperty(key);tilted=null;
     }
     function tiltMove(e){
       if(reduce.matches||calm()||!fine.matches||e.pointerType!=='mouse'||!grid.classList.contains('bits-masonry')||grid.classList.contains('preview-fit')||grid.hidden){resetTilt();return;}
@@ -49,6 +58,8 @@
       if(tilted!==preview){resetTilt();tilted=preview;}
       const rect=preview.getBoundingClientRect(),p=tiltPoint(e.clientX,e.clientY,rect);
       preview.style.setProperty('--glow-x',Math.max(0,Math.min(100,(e.clientX-rect.left)/Math.max(1,rect.width)*100))+'%');preview.style.setProperty('--glow-y',Math.max(0,Math.min(100,(e.clientY-rect.top)/Math.max(1,rect.height)*100))+'%');preview.classList.add('bits-glow-active');
+      // The same pointer owner drives decorative cover layers, never the card.
+      preview.style.setProperty('--cover-x',p.y*2+'px');preview.style.setProperty('--cover-y',-p.x*2+'px');
       if(!img?.complete||!img.naturalWidth)return;
       preview.style.setProperty('--tilt-x',p.x+'deg');preview.style.setProperty('--tilt-y',p.y+'deg');
       preview.classList.add('bits-tilt-active');
@@ -86,13 +97,16 @@
       }
       const eligible=!grid.hidden&&!grid.classList.contains('list-layout')&&!grid.classList.contains('board-layout');
       grid.classList.toggle('bits-masonry',eligible);
-      if(!eligible){grid.style.height='';const cards=[...grid.querySelectorAll(':scope > .resource-card')];for(const el of cards){el.style.width='';el.style.left='';el.style.top='';}departures(cards);previous=new Map();previousNodes=new Map();return;}
+      if(!eligible){grid.style.height='';const cards=[...grid.querySelectorAll(':scope > .resource-card')];for(const el of cards){el.style.width='';el.style.left='';el.style.top='';el.dataset.galleryWide='false';}departures(cards);previous=new Map();previousNodes=new Map();return;}
       const width=grid.clientWidth,n=grid.dataset?.galleryColumns==='2'&&innerWidth>480?2:columns(innerWidth),gap=innerWidth<=760?18:22;
       if(!width)return;
       lastWidth=width;
       const cards=Array.from(grid.children),w=Math.max(0,(width-gap*(n-1))/n);
-      cards.forEach(el=>el.style.width=w+'px');
-      const positions=pack(cards.map(el=>el.offsetHeight),width,n,gap);
+      const feature=n===3&&!grid.classList.contains('density-compact')&&!grid.classList.contains('preview-fit');
+      const spans=cards.map(el=>feature&&el.dataset.gallerySpan==='2'?2:1);
+      // Write all widths and feature states before the single height read pass.
+      cards.forEach((el,i)=>{el.style.width=(w*spans[i]+gap*(spans[i]-1))+'px';el.dataset.galleryWide=spans[i]===2?'true':'false';});
+      const positions=pack(cards.map(el=>el.offsetHeight),width,n,gap,spans);
       grid.style.height=positions.height+'px';
       // Set every position before measuring again, so layout is resolved once.
       cards.forEach((el,i)=>{
