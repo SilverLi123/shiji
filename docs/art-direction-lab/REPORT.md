@@ -81,3 +81,15 @@ Superseded or wrong-width captures were discarded. Browser viewport override res
 - Semantic matching, variant customization, 1000-resource generation, iPhone cover templates and merging the divergent V2.1 branch remain future work.
 - Platform font fallback is intentional/offline and follows the references. Cross-platform font reproduction still needs evaluation before integration.
 - Independent finish review: **SHIP FOR STANDALONE USER ART REVIEW**, with no unresolved material finding at board scope. Full record in `REVIEW.md`; this verdict does not represent user acceptance or production readiness.
+
+## Poly Haven correction — 2026-10-09
+
+User accepted the other eleven covers and flagged Poly Haven. The earlier Lab cover retained screenshot navigation, original branding and roadmap UI, then overlaid another large title and blurred caption. This duplicated the hierarchy and obscured the real image.
+
+Only the Poly Haven markup and CSS were changed: a cream photographic print on a forest-green surface, actual saved 3D category, one authored title, and a CSS crop of the existing website image's architectural detail. The 1280×720 source window is x=820..1240, y=120..510; it avoids site navigation, logo and embedded title without altering the source image. Its label and alt text explicitly say this is a cropped website preview. This crop is specific to this curated reference image, not a general content-aware cropping engine.
+
+The other eleven master blocks, shared layout and motion code were compared with commit `9fe3adb` and are byte-identical outside the Poly Haven block. Source image, saved resources and runtime code remain unchanged. The existing finish review in REVIEW.md applies to the original board; it is not a new independent verdict on this correction.
+
+Validation actually performed for this correction: existing Lab JavaScript tests and actual saved-resource DOM/control/reduced-motion checks passed; `git diff --check` passed. Python, the full Node suite and Swift were not rerun for this local visual adjustment. Actual CUA inspection confirmed the two-column current browser layout (652 CSS px) and the 390 CSS-pixel mobile review frame. The attempted wider browser override did not change the background Lab's reported viewport, so no new three-column capture is claimed. The temporary override was reset.
+
+Final browser evidence: `evidence/polyhaven-board-v2.jpg`, `evidence/polyhaven-mobile-v2.jpg`, `evidence/polyhaven-comparison-v2.jpg`. Earlier board/pair images remain historical before evidence. The comparison-v2 screenshot is Cover Studio 2.0 versus corrected Lab, not original-Lab versus corrected-Lab. Current mobile evidence is web, not native iPhone. No production integration or remote push.

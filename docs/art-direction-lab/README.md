@@ -26,6 +26,10 @@ python3 docs/art-direction-lab/run.py
 
 原始参考位于 [`../shiji-v2/reference/v3-poster-lab/`](../shiji-v2/reference/v3-poster-lab/) 与 [`../shiji-v2/reference/v5-spatial-poster/`](../shiji-v2/reference/v5-spatial-poster/)，六份 HTML／PNG／MP4 字节一致性记录见 [reference-sha256.txt](reference-sha256.txt)。[REFERENCE_README.md](REFERENCE_README.md) 保留提供者说明，其中早期下载步骤是历史说明；本机已取得并复制文件。
 
+## Poly Haven 单张修正
+
+用户已认可其余十一张。Poly Haven 已单独改为深绿底、奶油大字与倾斜照片，用 CSS 裁取既有截图的建筑局部，避开导航、Logo 和重复标题；原始图片未修改。最新截图见 [修正对照](evidence/polyhaven-comparison-v2.jpg)、[设计板](evidence/polyhaven-board-v2.jpg)、[390 px 网页](evidence/polyhaven-mobile-v2.jpg)。原有截图保留为上一版证据，测试边界与说明见 REPORT 的修正记录。
+
 ## 验证与证据
 
 本轮执行结果详见 REPORT：Lab Python **2 项通过**，JavaScript **12 母版与实际资源 DOM 检查通过**，既有 Node **40 组通过**。文档整理没有重复运行这些测试。基线 202 项 Python 没有在本轮重跑，Swift 没有重建。
