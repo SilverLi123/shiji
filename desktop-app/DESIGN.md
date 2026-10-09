@@ -257,3 +257,9 @@ Quick Capture 的成功反馈来自真实保存完成；SQLite 成功之前不�
 - Don't 用 Demo 的示例内容、localStorage 资源模型或模拟成功替代真实 API。
 - Don't 给实际卡片叠加第二套 FLIP／tilt，或让代理元素阻挡内容操作。
 - Don't 将网页预览截图作为 iPhone 原生实现或全平台验收证据。
+
+## V2.1 refinement
+
+Large Hero, purple stage, ticker and brand geometry remain pinned to V2. Covers are derived from saved fields in `shiji-v2.js`: real images first; tool / code / prompt / editorial / file fallback typography in `shiji-v21.css`. Code uses the existing `ui-monospace, SFMono-Regular, Menlo, monospace` stack, preserving whitespace and numbered lines. Saved URLs/categories/language alone supply metadata. Functional cover and navigation labels use at least 11px; compact code previews retain their content-specific monospace scale. Error/recovery text uses #ffb396 on the dark surface; demo state uses #1b2420 with semantic ink.
+
+Bits owns card FLIP exclusively. Studio reorder 480ms, entry 520ms with capped 175ms stagger, exit 240ms; detail proxy 560ms preserves the visible rich cover; modal entry 320ms / inert exit 160ms; search focus owns one 220ms search-field transition. All owners cancel on repeat, Calm and system reduced motion. Hero motion parameters and sizing remain unchanged. See `../docs/shiji-v2.1/IMPLEMENTATION_REPORT.md` for measured intervals and limitations.

@@ -21,3 +21,10 @@
 
 .shiji-dialog-exit{position:fixed;z-index:100;pointer-events:none;overflow:hidden;background:var(--shiji-surface);color:var(--ink);border-radius:16px;padding:28px;box-shadow:0 24px 80px #0009;contain:layout paint}.shiji-dialog-exit input,.shiji-dialog-exit select,.shiji-dialog-exit textarea{background:var(--shiji-surface-raised);color:var(--ink)}.shiji-detail-ghost .resource-cover{width:100%;height:100%;padding:28px}.shiji-detail-ghost .cover-image{object-fit:cover}
 @media(prefers-reduced-motion:reduce){.shiji-dialog-exit{display:none!important}}
+/* Functional labels and recovery states retain contrast in the dark gallery. */
+.nav-label,.v2-breadcrumb,.v2-motion-control{font-size:11px;letter-spacing:.04em}
+.resource-cover .cover-meta,.resource-cover .cover-bottom{font-size:11px}
+.card-price,.field-help,.detail-note,.detail-block h3,.detail-grid dt,.extra-fields summary,.workspace-footer{color:var(--muted)}
+.required,.danger,.broken-label,.image-dialog .image-error,.health-warning,.bookmark-warnings{color:#ffb396}
+.demo-banner{background:#1b2420;color:var(--ink)}
+.demo-banner span{color:var(--muted)}

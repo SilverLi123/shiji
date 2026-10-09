@@ -2,6 +2,8 @@
 
 用于收藏和管理开发资源的本地工具：网站、美术素材、设计参考、音频、视频、代码与灵感。包含 macOS App、Chrome / Edge 浏览器采集扩展和原生 iPhone App；手机和电脑可通过同一 Wi-Fi 配对同步。
 
+V2.1 候选开发状态见 [实施与验收报告](docs/shiji-v2.1/IMPLEMENTATION_REPORT.md)：桌面视觉与动效已完成；原生精修已构建，分享扩展空白页仍未解决，完整原生验收待恢复 Device Hub 操作后继续。
+
 ## 代码结构
 
 - `desktop-app/`：Python 本地服务、资源管理网页、SwiftUI macOS 窗口及测试。
