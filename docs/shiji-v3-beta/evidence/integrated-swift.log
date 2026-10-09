@@ -1,0 +1,18 @@
+Shared persistence, 16 concurrent captures, comma tags, trash, JSON/ZIP roundtrip, corrupt/path ZIP tests passed
+Preflight cancellation, checksum rejection, collision atomicity and trash backup passed
+Desktop PDF/text fixtures, website URL, title limits and URL normalization passed
+Sync first merge, both directions, duplicate identity, conflicts, trash and late-share protection passed
+Identical URL identity collisions and recreated records require visible choices
+V2 resource presentation derivation leaves schema untouched
+V2 offline quick capture persists hostname and repository titles
+V2.1 native real-field covers, exact host, whitespace, bounded previews and schema preservation passed
+Mobile ZIP accepted by existing desktop manifest2 validator; desktop compressed fixture generated using temp Store
+Shared persistence, 16 concurrent captures, comma tags, trash, JSON/ZIP roundtrip, corrupt/path ZIP tests passed
+Preflight cancellation, checksum rejection, collision atomicity and trash backup passed
+Desktop PDF/text fixtures, website URL, title limits and URL normalization passed
+Sync first merge, both directions, duplicate identity, conflicts, trash and late-share protection passed
+Identical URL identity collisions and recreated records require visible choices
+V2 resource presentation derivation leaves schema untouched
+V2 offline quick capture persists hostname and repository titles
+V2.1 native real-field covers, exact host, whitespace, bounded previews and schema preservation passed
+PASS: all native core and desktop exchange checks

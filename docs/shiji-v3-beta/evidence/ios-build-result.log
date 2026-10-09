@@ -1,0 +1,35 @@
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --generate-entitlement-der /var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v3-beta-vgd0y_63/ios-build/Build/Products/Debug-iphonesimulator/Shiji.app/__preview.dylib
+
+CodeSign /var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v3-beta-vgd0y_63/ios-build/Build/Products/Debug-iphonesimulator/Shiji.app (in target 'Shiji' from project 'Shiji')
+    cd /Users/silver/shiji-card-restoration/mobile-app
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --entitlements /var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v3-beta-vgd0y_63/ios-build/Build/Intermediates.noindex/Shiji.build/Debug-iphonesimulator/Shiji.build/Shiji.app.xcent --timestamp\=none --generate-entitlement-der /var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v3-beta-vgd0y_63/ios-build/Build/Products/Debug-iphonesimulator/Shiji.app
+
+ValidateEmbeddedBinary /var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v3-beta-vgd0y_63/ios-build/Build/Products/Debug-iphonesimulator/Shiji.app/PlugIns/ShijiShare.appex (in target 'Shiji' from project 'Shiji')
+    cd /Users/silver/shiji-card-restoration/mobile-app
+    /Applications/Xcode.app/Contents/Developer/usr/bin/embeddedBinaryValidationUtility /var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v3-beta-vgd0y_63/ios-build/Build/Products/Debug-iphonesimulator/Shiji.app/PlugIns/ShijiShare.appex -signing-cert - -info-plist-path /var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v3-beta-vgd0y_63/ios-build/Build/Products/Debug-iphonesimulator/Shiji.app/Info.plist
+
+RegisterExecutionPolicyException /var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v3-beta-vgd0y_63/ios-build/Build/Products/Debug-iphonesimulator/Shiji.app (in target 'Shiji' from project 'Shiji')
+    cd /Users/silver/shiji-card-restoration/mobile-app
+    builtin-RegisterExecutionPolicyException /var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v3-beta-vgd0y_63/ios-build/Build/Products/Debug-iphonesimulator/Shiji.app
+
+Validate /var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v3-beta-vgd0y_63/ios-build/Build/Products/Debug-iphonesimulator/Shiji.app (in target 'Shiji' from project 'Shiji')
+    cd /Users/silver/shiji-card-restoration/mobile-app
+    builtin-validationUtility /var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v3-beta-vgd0y_63/ios-build/Build/Products/Debug-iphonesimulator/Shiji.app -shallow-bundle -infoplist-subpath Info.plist
+
+Touch /var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v3-beta-vgd0y_63/ios-build/Build/Products/Debug-iphonesimulator/Shiji.app (in target 'Shiji' from project 'Shiji')
+    cd /Users/silver/shiji-card-restoration/mobile-app
+    /usr/bin/touch -c /var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v3-beta-vgd0y_63/ios-build/Build/Products/Debug-iphonesimulator/Shiji.app
+
+PruneExplicitPrecompiledModules /var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v3-beta-vgd0y_63/ios-build/Build/Intermediates.noindex/ExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v3-beta-vgd0y_63/ios-build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v3-beta-vgd0y_63/ios-build/SDKExplicitPrecompiledModules
+
+** BUILD SUCCEEDED **
+

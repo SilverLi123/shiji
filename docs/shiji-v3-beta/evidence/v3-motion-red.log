@@ -1,0 +1,20 @@
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+710 !== 560
+
+    at /Users/silver/shiji-card-restoration/desktop-app/tests/test_v3_motion.js:13:467
+    at Object.<anonymous> (/Users/silver/shiji-card-restoration/desktop-app/tests/test_v3_motion.js:21:3)
+    at Module._compile (node:internal/modules/cjs/loader:1854:14)
+    at Object..js (node:internal/modules/cjs/loader:1985:10)
+    at Module.load (node:internal/modules/cjs/loader:1577:32)
+    at Module._load (node:internal/modules/cjs/loader:1379:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+    at node:internal/main/run_main_module:33:47 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 710,
+  expected: 560,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
