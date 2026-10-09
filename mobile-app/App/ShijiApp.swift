@@ -125,7 +125,7 @@ struct GalleryView:View {
         }.scrollDismissesKeyboard(.interactively).background(Color(uiColor:NativePalette.background)).navigationTitle("拾集 SHIJI®")
             .searchable(text:$search,prompt:"搜索资源、标签与灵感")
             .toolbar{ToolbarItem(placement:.topBarLeading){NavigationLink{ComputerSyncView()}label:{Image(systemName:"desktopcomputer").frame(width:44,height:44)}.accessibilityLabel("电脑同步")};ToolbarItem(placement:.topBarTrailing){Menu{Picker("浏览范围",selection:$scope){ForEach(["全部","常用","待整理"],id:\.self){Text($0)}}}label:{Label(scope,systemImage:"line.3.horizontal.decrease")}}}
-            .safeAreaInset(edge:.bottom,alignment:.trailing){if !active.isEmpty{captureDock.padding(.horizontal,20).padding(.bottom,10)}}
+            .safeAreaInset(edge:.bottom,spacing:0){if !active.isEmpty{captureDock.frame(maxWidth:.infinity,alignment:.trailing).padding(.horizontal,20).padding(.vertical,10).background(Color(uiColor:NativePalette.background))}}
             .overlay{if let stamp,!reduceMotion,motionMode=="studio"{ZStack{NativeMotionBurst(count:6);Text(stamp).font(.title.weight(.black)).italic().padding(24).background(Color.accentColor).foregroundStyle(Color(uiColor:NativePalette.onAccent)).rotationEffect(.degrees(-4))}.id(stampID).allowsHitTesting(false).accessibilityHidden(true).transition(.scale(scale:1.4).combined(with:.opacity))}}
             .overlay(alignment:.top){if captureVisible{ZStack{if !reduceMotion,motionMode=="studio"{NativeMotionBurst(count:15).frame(width:160,height:160);NativeSavedFlight().id(library.captureSequence)};Label("已收藏到拾集",systemImage:"checkmark.circle.fill").font(.subheadline.weight(.semibold)).padding(14).background(Color.accentColor,in:Capsule()).foregroundStyle(Color(uiColor:NativePalette.onAccent)).padding(.top,8).transition(.move(edge:.top).combined(with:.opacity))}}}
             .animation(reduceMotion || motionMode=="calm" ? nil : .spring(response:0.35,dampingFraction:0.85),value:captureVisible)
@@ -168,17 +168,17 @@ struct GalleryView:View {
 struct ResourceCard:View {
     @EnvironmentObject var library:MobileLibrary
     var resource:Resource
+    @Environment(\.dynamicTypeSize) var typeSize
     var body:some View {
-        VStack(alignment:.leading,spacing:12){LocalCover(resource:resource).frame(height:coverHeight).clipShape(RoundedRectangle(cornerRadius:14))
-            Text(resource.presentation=="tool" ? "TOOL / 开发工具" : resource.presentation=="text" ? "TEXT / 灵感笔记" : "VISUAL / 视觉素材").font(.caption2.weight(.semibold)).tracking(1).foregroundStyle(Color(uiColor:NativePalette.secondaryText))
+        VStack(alignment:.leading,spacing:12){LocalCover(resource:resource).frame(height:typeSize.isAccessibilitySize ? 160 : 238).clipShape(RoundedRectangle(cornerRadius:14))
             HStack(alignment:.top){Text(resource.title).font(.title3.weight(.semibold)).foregroundStyle(.primary).multilineTextAlignment(.leading);Spacer();if resource.flag("favorite"){Image(systemName:"star.fill").foregroundStyle(Color.accentColor).accessibilityLabel("常用资源")}}
             ViewThatFits(in:.horizontal){HStack{Text(source).lineLimit(1);Spacer();Text(resource.text("category"))};VStack(alignment:.leading,spacing:4){Text(source).lineLimit(2);Text(resource.text("category"))}}.font(.caption).foregroundStyle(Color(uiColor:NativePalette.secondaryText))
             if !resource.text("description").isEmpty{Text(resource.text("description")).font(.subheadline).foregroundStyle(Color(uiColor:NativePalette.secondaryText)).lineLimit(2).multilineTextAlignment(.leading)}
             if !resource.attachments.isEmpty{Label("\(resource.attachments.count) 个附件",systemImage:"paperclip").font(.caption).foregroundStyle(Color(uiColor:NativePalette.secondaryText))}
         }.contentShape(Rectangle()).accessibilityElement(children:.combine)
     }
-    private var source:String{URL(string:resource.text("url"))?.host ?? "本机素材"}
-    private var coverHeight:CGFloat{let cover=resource.text("coverId");let images=resource.attachments.filter{($0["mime"] as? String ?? "").hasPrefix("image/")};return images.contains{library.files?.file($0["id"] as? String ?? "") != nil} || !cover.isEmpty && library.files?.file(cover) != nil ? 220 : 142}
+    private var source:String{resource.sourceHost}
+
 }
 struct LocalCover:View {
     @EnvironmentObject var library:MobileLibrary
@@ -188,10 +188,39 @@ struct LocalCover:View {
         GeometryReader { bounds in
             Group {
                 if let url=library.files?.file(cover),let image=LocalImage.image(url:url){Image(uiImage:image).resizable().scaledToFill()}
-                else if resource.presentation=="text",!resource.text("snippet").isEmpty{ZStack(alignment:.topLeading){Color(uiColor:NativePalette.raised);Text(resource.text("snippet").prefix(240)).font(.system(.body,design:.monospaced)).foregroundStyle(Color.purple).padding(22)}}
-                else{ZStack{Color(uiColor:NativePalette.raised);VStack(spacing:12){Image(systemName:resource.presentation=="tool" ? "curlybraces" : resource.text("kind")=="file" ? "doc.richtext" : "link").font(.largeTitle).foregroundStyle(Color.accentColor);Text(URL(string:resource.text("url"))?.host ?? resource.text("category")).font(.headline).foregroundStyle(Color(uiColor:NativePalette.secondaryText)).lineLimit(2).padding(.horizontal,20)}}}
+                else{NativeResourceCover(resource:resource)}
             }.frame(width:bounds.size.width,height:bounds.size.height).clipped().accessibilityHidden(true)
         }
+    }
+}
+// Typography is derived from saved fields; image attachments still take precedence.
+struct NativeResourceCover:View {
+    let resource:Resource
+    @Environment(\.colorScheme) var scheme
+    @Environment(\.dynamicTypeSize) var typeSize
+    private var isCode:Bool{resource.coverKind=="code"}
+    private var paper:UIColor {switch resource.coverKind {
+        case "code":return UIColor(red:0.075,green:0.11,blue:0.13,alpha:1)
+        case "prompt":return UIColor(red:0.90,green:0.875,blue:0.81,alpha:1)
+        case "tool":return scheme == .dark ? UIColor(red:0.09,green:0.125,blue:0.105,alpha:1) : UIColor(red:0.90,green:0.93,blue:0.865,alpha:1)
+        default:return UIColor(red:0.83,green:0.78,blue:0.94,alpha:1)
+    }}
+    private var ink:Color {if isCode{return Color(red:0.83,green:0.93,blue:0.89)};if resource.coverKind=="tool",scheme == .dark{return Color(red:0.82,green:0.95,blue:0.77)};return Color(red:0.15,green:0.12,blue:0.20)}
+    var body:some View {
+        VStack(alignment:.leading,spacing:16){
+            ViewThatFits(in:.horizontal){HStack{Text(resource.sourceHost);Spacer();Text(resource.text(isCode ? "language" : "category"))};Text(resource.sourceHost)}.font(.caption.weight(.medium)).lineLimit(1)
+            if !typeSize.isAccessibilitySize {
+                if isCode {
+                    VStack(alignment:.leading,spacing:3){ForEach(Array(resource.coverLines.enumerated()),id:\.offset){index,line in HStack(alignment:.top,spacing:12){Text("\(index+1)").opacity(0.65).frame(width:16,alignment:.trailing);Text(line.isEmpty ? " " : line).frame(maxWidth:.infinity,alignment:.leading).lineLimit(1)}}}.font(.system(.caption,design:.monospaced)).fixedSize(horizontal:false,vertical:true)
+                }else{
+                    Text(resource.title).font(.title.weight(.bold)).tracking(-0.6).multilineTextAlignment(.leading).lineLimit(3)
+                    if !resource.coverContent.isEmpty{Text(resource.coverContent).font(.subheadline).lineLimit(2).multilineTextAlignment(.leading)}
+                }
+            }else{Text(resource.title).font(.headline).lineLimit(2).multilineTextAlignment(.leading)}
+            Spacer(minLength:0)
+            if !resource.repositoryPath.isEmpty{Text(resource.repositoryPath).font(.caption).lineLimit(1)}
+            else if resource.coverKind=="file",let name=resource.attachments.first?["name"] as? String{Text(name).font(.caption).lineLimit(1)}
+        }.padding(22).frame(maxWidth:.infinity,maxHeight:.infinity,alignment:.topLeading).foregroundStyle(ink).background(Color(uiColor:paper))
     }
 }
 struct DetailView:View {
@@ -213,6 +242,7 @@ struct DetailView:View {
                 LocalCover(resource:r).frame(height:240).clipped().clipShape(RoundedRectangle(cornerRadius:14))
                 VStack(alignment:.leading,spacing:8){Text(r.title).font(.title2.weight(.semibold));Text((URL(string:r.text("url"))?.host ?? "本机素材")+" · "+String(r.text("createdAt").prefix(10))).font(.subheadline).foregroundStyle(Color(uiColor:NativePalette.secondaryText))}.modifier(NativeMotionReveal(delay:0.12))
                 if let url=URL(string:r.text("url")),["http","https"].contains(url.scheme ?? ""){Link("打开原网页",destination:url).frame(minHeight:44)}
+                if ["code","prompt"].contains(r.text("kind")),!r.text("snippet").isEmpty{VStack(alignment:.leading,spacing:12){Text(r.text("kind")=="code" ? "代码" : "提示词").font(.headline);Text(r.text("snippet")).font(r.text("kind")=="code" ? .system(.body,design:.monospaced) : .body).textSelection(.enabled).frame(maxWidth:.infinity,alignment:.leading)}}
                 if !r.text("description").isEmpty{Text(r.text("description")).modifier(NativeMotionReveal(delay:0.26))}
                 VStack(alignment:.leading,spacing:12){Text("来源与授权").font(.headline);Text(r.text("author").isEmpty ? "作者待补充" : r.text("author")).foregroundStyle(Color(uiColor:NativePalette.secondaryText))
                     Text(r.text("license").isEmpty ? "待确认" : r.text("license")).font(.subheadline.weight(.medium)).padding(8).background((r.text("license").isEmpty || r.text("license")=="待确认") ? Color.yellow.opacity(0.2) : Color(uiColor:.tertiarySystemFill),in:Capsule())

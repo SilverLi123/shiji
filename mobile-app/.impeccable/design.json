@@ -115,7 +115,7 @@
         "dark": "{colors.accent-dark}"
       },
       "primaryText": ".primary (SwiftUI semantic)",
-      "textPreview": "Color.purple (system semantic)",
+      "textPreview": "real code: #131c21 / mint; prompt: warm paper; editorial: lavender",
       "pendingLicense": "Color.yellow.opacity(0.2) with explicit text"
     },
     "shadows": [],
@@ -229,7 +229,7 @@
       {
         "name": "ResourceCard",
         "runtime": "SwiftUI",
-        "spec": "VStack spacing:12; true image 220pt, fallback 142pt; RoundedRectangle cornerRadius:14; title3 semibold; accessibilityElement(children:.combine)."
+        "spec": "VStack spacing:12; preview 238pt; accessibility preview 160pt; RoundedRectangle cornerRadius:14; title3 semibold; accessibilityElement(children:.combine)."
       },
       {
         "name": "Category",
@@ -289,6 +289,15 @@
         "No complete accessibility / device matrix claim."
       ],
       "recordingScope": "18-second actual interaction trim includes brand replay and category changes; does not claim saved-flight was captured."
+    },
+    "v21Covers": {
+      "previewHeight": 238,
+      "accessibilityPreviewHeight": 160,
+      "codeLines": 7,
+      "lineCharacters": 160,
+      "captureRail": "safeAreaInset edge bottom spacing 0; adaptive background; trailing actions",
+      "imagePriority": true,
+      "persistence": "derived only; schema 3 unchanged"
     }
   },
   "components": [],

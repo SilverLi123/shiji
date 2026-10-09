@@ -12,6 +12,14 @@ struct Resource: Identifiable {
         if ["code","prompt"].contains(text("kind")){return "text"}
         return text("kind")=="website" && text("category")=="开发工具" ? "tool" : "visual"
     }
+    var sourceHost:String {URL(string:text("url"))?.host?.lowercased() ?? "本机素材"}
+    var coverKind:String {
+        if ["code","prompt","file"].contains(text("kind")){return text("kind")}
+        return text("category")=="开发工具" || ["github.com","www.github.com"].contains(sourceHost) ? "tool" : "editorial"
+    }
+    var coverContent:String {for key in ["snippet","description","notes"] {let value=text(key);if !value.isEmpty{return value}};return ""}
+    var coverLines:[String] {Array(coverContent.components(separatedBy:"\n").prefix(7)).map{String($0.prefix(160))}}
+    var repositoryPath:String {guard ["github.com","www.github.com"].contains(sourceHost),let url=URL(string:text("url")) else{return ""};return url.path.split(separator:"/").prefix(2).joined(separator:"/")}
     var attachments:[[String:Any]] {raw["attachments"] as? [[String:Any]] ?? []}
 }
 struct ImportPlan { var manifest:[String:Any];var files:[String:Data];var resources:[Resource];var fileCount:Int {files.count} }
