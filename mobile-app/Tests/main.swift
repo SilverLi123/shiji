@@ -108,3 +108,13 @@ let quickRaw=LibraryFiles.newRecord(title:LibraryFiles.quickTitle("https://examp
 try quick.save(quickRaw)
 check(try LibraryFiles(root:quick.root).resources()[0].title=="example.com","quick capture is durable without network")
 print("V2 offline quick capture persists hostname and repository titles")
+
+let coverRecord=Resource(raw:["kind":"website","url":"https://github.com/SilverLi123/shiji","title":"SHIJI","language":"Swift"])
+check(coverRecord.coverKind=="tool" && coverRecord.repositoryPath=="SilverLi123/shiji","real repository cover")
+check(Resource(raw:["kind":"website","url":"https://github.com.evil.test/repo"]).coverKind=="editorial","exact cover hostname")
+let codeCover=Resource(raw:["kind":"code","snippet":"  let x = 1\n\n  print(x)","notes":"other"])
+check(codeCover.coverLines==["  let x = 1","","  print(x)"],"code whitespace and empty lines retained")
+check(Resource(raw:["kind":"prompt","description":"real description","notes":"note"]).coverContent=="real description","real cover fallback")
+check(codeCover.raw["coverKind"]==nil && codeCover.raw["coverLines"]==nil,"native cover fields never serialized")
+check(Resource(raw:["kind":"code","snippet":String(repeating:"line\n",count:1000)]).coverLines.count==7,"bounded native preview")
+print("V2.1 native real-field covers, exact host, whitespace, bounded previews and schema preservation passed")

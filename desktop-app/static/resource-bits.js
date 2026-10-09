@@ -135,7 +135,7 @@
     function focusCard(e){if(!drag||e.target!==drag.preview)scrollReset();}
     function keyCard(e){if(drag&&e.key==='Escape'){e.preventDefault();scrollReset();}}
     function scrollReset(){resetTilt(false);for(const surface of returning.keys())stopReturn(surface);}
-    function visibility(){if(grid.ownerDocument?.hidden)preference();}
+
     function animate(el,frames,options){
       if(reduce.matches||calm()||!el.animate)return;
       const a=el.animate(frames,options);animations.add(a);
@@ -157,7 +157,7 @@
         const el=grid.ownerDocument.createElement('div');el.className='shiji-leaving-ghost';el.setAttribute('aria-hidden','true');el.inert=true;
         const copy=preview.cloneNode(true);for(const node of [copy,...copy.querySelectorAll('[id],[data-action],button,a,input')]){node.removeAttribute('id');node.removeAttribute('data-action');node.setAttribute('tabindex','-1');}el.append(copy);
         Object.assign(el.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px'});grid.ownerDocument.body.append(el);ghosts.add(el);
-        const a=animate(el,[{opacity:.85,transform:'scale(1)',filter:'blur(0px)'},{opacity:0,transform:'scale(.79) rotate(-5deg) translateY(-24px)',filter:'blur(9px)'}],{duration:500,easing:'cubic-bezier(.22,1,.36,1)'});a?.finished.then(()=>{el.remove();ghosts.delete(el);},()=>{el.remove();ghosts.delete(el);});
+        const a=animate(el,[{opacity:.85,transform:'scale(1)',filter:'blur(0px)'},{opacity:0,transform:'scale(.94) rotate(-2deg) translateY(-14px)',filter:'blur(3px)'}],{duration:240,easing:'cubic-bezier(.22,1,.36,1)'});a?.finished.then(()=>{el.remove();ghosts.delete(el);},()=>{el.remove();ghosts.delete(el);});
       }
     }
     function layout(enter=false){
@@ -189,15 +189,16 @@
         const old=previous.get(id),now=rects[i];
         if(studio()&&(now.bottom<0||now.top>root.innerHeight+300)){seen.add(id);return;}
         if(old&&(Math.abs(old.left-now.left)>1||Math.abs(old.top-now.top)>1||studio()&&Math.abs(old.width-now.width)>1)){
-          animate(el,studio()?[{transform:`translate(${old.left-now.left}px,${old.top-now.top}px) scale(${old.width/Math.max(1,now.width)},${old.height/Math.max(1,now.height)})`,opacity:.72,filter:'blur(1px)'},{transform:'translate(0,0) scale(1)',opacity:1,filter:'blur(0px)'}]:[{transform:`translate(${old.left-now.left}px,${old.top-now.top}px)`},{transform:'translate(0,0)'}],{duration:studio()?680:320,easing:'cubic-bezier(.16,1,.3,1)'});
+          animate(el,studio()?[{transform:`translate(${old.left-now.left}px,${old.top-now.top}px) scale(${old.width/Math.max(1,now.width)},${old.height/Math.max(1,now.height)})`,opacity:.85},{transform:'translate(0,0) scale(1)',opacity:1}]:[{transform:`translate(${old.left-now.left}px,${old.top-now.top}px)`},{transform:'translate(0,0)'}],{duration:studio()?480:320,easing:'cubic-bezier(.16,1,.3,1)'});
         }else if(enter&&!seen.has(id)){
-          animate(el,studio()?[{transform:'translateY(56px) scale(.91) rotateX(9deg)',opacity:.2,filter:'blur(10px)'},{transform:'translateY(0) scale(1) rotateX(0)',opacity:1,filter:'blur(0px)'}]:[{transform:'translateY(8px)',opacity:1},{transform:'translateY(0)',opacity:1}],{duration:studio()?850:360,delay:studio()?Math.min(i,7)*65:Math.min(i*30,120),easing:'cubic-bezier(.16,1,.3,1)'});
+          animate(el,studio()?[{transform:'translateY(28px) scale(.96) rotateX(4deg)',opacity:.5,filter:'blur(3px)'},{transform:'translateY(0) scale(1) rotateX(0)',opacity:1,filter:'blur(0px)'}]:[{transform:'translateY(8px)',opacity:1},{transform:'translateY(0)',opacity:1}],{duration:studio()?520:360,delay:studio()?Math.min(i,5)*35:Math.min(i*30,120),easing:'cubic-bezier(.16,1,.3,1)'});
         }
         seen.add(id);
       });
       departures(cards);previous=new Map();previousNodes=new Map();
     }
     function schedule(){cancelAnimationFrame(frame);frame=requestAnimationFrame(()=>{begin();layout();});}
+    function visibility(){if(grid.ownerDocument?.hidden){cancelAnimationFrame(frame);preference();}else schedule();}
     function imageReady(e){if(grid.classList.contains('preview-fit')&&e.target.matches('.cover-image'))schedule();}
     const ro=typeof ResizeObserver==='function'?new ResizeObserver(entries=>{if(Math.abs(entries[0].contentRect.width-lastWidth)>1)schedule();}):null;
     ro?.observe(grid);

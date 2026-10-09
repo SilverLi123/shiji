@@ -69,7 +69,7 @@ iPhone 延续已认可的 SHIJI V2 深色画廊、紫色品牌舞台与荧光绿
 **Key Characteristics:**
 - 深色优先、浅色与跟随系统可选的语义配色
 - NavigationStack、三项 TabView 与系统搜索
-- 动态字体、单列大图、较紧凑的无封面卡片
+- 动态字体、单列大图、真实字段生成的无封面排版
 - 紫色品牌几何与少量荧光绿关键状态
 - 原生收藏材料、可恢复保存与受控过渡
 
@@ -83,7 +83,7 @@ frontmatter 的浅／深色值来自 `Shared/iOSImage.swift` 的 `NativePalette`
 
 ### Secondary
 
-**创意紫**（brand-violet）与 **几何荧光绿**（brand-lime）属于 Hero 装饰，保持同一品牌形象。intro-symbol 用于开场的紫色符号，feedback-cyan／feedback-coral 与绿／紫共同组成短暂 burst。Text 预览目前使用系统 `Color.purple`，不是网页 text-preview-ink 的复制。
+**创意紫**（brand-violet）与 **几何荧光绿**（brand-lime）属于 Hero 装饰，保持同一品牌形象。intro-symbol 用于开场的紫色符号，feedback-cyan／feedback-coral 与绿／紫共同组成短暂 burst。代码预览使用深蓝黑底与浅薄荷文字；Prompt 使用暖纸色、文章使用淡紫色，工具封面适配浅深主题。颜色仅改变原生呈现，不写入资源模型。
 
 ### Neutral
 
@@ -103,9 +103,9 @@ background、surface、raised 与 secondary-text 成对适配系统外观。主�
 
 根结构是三个各自包含 NavigationStack 的 Tab：资源库、集合、管理。图库使用 ScrollView 与 LazyVStack，水平内边距（20pt），顶部（10pt），底部（24pt）；卡片间距（28pt），卡内间距（12pt）。分类横向滚动，间距（8pt），每项左右内边距（16pt），最小高度（44pt）。
 
-真实图片封面高（220pt），无可用图片的类型预览高（142pt）；详情封面高（240pt）。图库是单列原生布局，没有网页 CSS breakpoints。Hero 品牌舞台高（190pt），并通过字号条件退让给内容。详情分区间距（24pt），整体内边距（20pt）。
+图库预览高（238pt），无障碍字号缩至（160pt）以保留可读标题；详情封面高（240pt）。图库是单列原生布局，没有网页 CSS breakpoints。Hero 品牌舞台高（190pt），并通过字号条件退让给内容。详情分区间距（24pt），整体内边距（20pt）。
 
-收藏层通过 `safeAreaInset` 放在底部右侧，保留系统 TabView 和安全区。正常字号使用横向可容纳的系统玻璃胶囊，`ViewThatFits` 在空间不足时退回菜单；无障碍字号直接使用菜单。系统搜索承接键盘，详情使用原生返回与边缘滑回。
+收藏层通过 `safeAreaInset(spacing:0)` 放在底部全宽自适应背景的独立操作区内，按钮右对齐，保留系统 TabView 和安全区。正常字号使用横向可容纳的系统玻璃胶囊，`ViewThatFits` 在空间不足时退回菜单；无障碍字号直接使用菜单。系统搜索承接键盘，详情使用原生返回与边缘滑回。
 
 ## Elevation & Depth
 
@@ -131,7 +131,7 @@ TabView 只承载“资源库／集合／管理”三项页面；收藏动作留
 
 ### Cards / Covers
 
-Visual 使用实际本地封面；Tool 来自 `kind=website` 且分类“开发工具”；Text 来自 `kind=code/prompt`。呈现类型是派生值，不序列化到 schema 3。缺图显示系统符号和真实域名／类别；Text 有摘要时最多显示实际内容的前（240）字符。卡片合并为 VoiceOver 可读组，纯封面装饰从可访问性树隐藏。图库卡片通过 NativeMotionReveal 入场，并在分类 spring 的上下文中采用非对称插入／移除过渡；系统减少动态或 Calm 省略这类动画。
+Visual 使用实际本地封面；Tool 来自 `kind=website` 且分类“开发工具”；Text 来自 `kind=code/prompt`。呈现类型是派生值，不序列化到 schema 3。缺图使用 NativeResourceCover 的真实域名、分类、名称与内容排版；GitHub 仅按精确域名提取真实 owner/repo，代码保留前七行的缩进和空行，每行最多 160 字符，Prompt 保持正文排版。代码与提示词详情另有可选择的完整 snippet。卡片合并为 VoiceOver 可读组，纯封面装饰从可访问性树隐藏。图库卡片通过 NativeMotionReveal 入场，并在分类 spring 的上下文中采用非对称插入／移除过渡；系统减少动态或 Calm 省略这类动画。
 
 ### Capture Dock
 

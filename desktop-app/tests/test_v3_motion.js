@@ -1,0 +1,21 @@
+'use strict';
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),{JSDOM}=require('jsdom');
+const {init}=require('../static/shiji-v2-motion'),covers=require('../static/shiji-v2');
+(async()=>{
+ const dom=new JSDOM(fs.readFileSync(path.join(__dirname,'../static/index.html'),'utf8'),{url:'http://localhost'}),w=dom.window,d=w.document,animations=[];
+ let hidden=false;Object.defineProperty(d,'hidden',{get:()=>hidden});
+ w.matchMedia=q=>({matches:!q.includes('reduced-motion'),addEventListener(){},removeEventListener(){}});w.requestAnimationFrame=()=>1;w.cancelAnimationFrame=()=>{};
+ w.Element.prototype.getBoundingClientRect=()=>({left:20,top:60,width:320,height:240,bottom:300,right:340});
+ w.Element.prototype.animate=function(frames,options){let resolve,reject;const a={el:this,frames,options,finished:new Promise((r,j)=>{resolve=r;reject=j}),cancel(){this.cancelled=true;reject(new Error('cancelled'));},finish(){resolve();},play(){this.paused=false;},pause(){this.paused=true;}};animations.push(a);return a;};
+ const ui=init({document:d,window:w});d.querySelector('#motion-skip').click();
+ const source=d.createElement('button');source.innerHTML=covers.coverMarkup({kind:'prompt',title:'Real title',snippet:'Exact prompt text',category:'灵感'})+'<span hidden>Hidden fallback</span>';source.querySelector('.cover-title').id='original-title';d.body.append(source);
+ ui.openDetail({sourceElement:source,detailElement:d.querySelector('#drawer')});
+ let ghost=d.querySelector('.shiji-detail-ghost');assert.equal(ghost.querySelector('.cover-title').textContent,'Real title');assert.equal(ghost.querySelector('.cover-excerpt').textContent,'Exact prompt text');assert.equal(ghost.querySelector('[id],[data-action]'),null);assert.equal(ghost.textContent.includes('Hidden fallback'),false);assert.equal(ghost.inert,true);assert.equal(d.querySelector('#drawer').classList.contains('shiji-preview-in-flight'),true);assert.equal(animations.findLast(a=>a.el===ghost).options.duration,560);
+ ui.openDetail({sourceElement:source,detailElement:d.querySelector('#drawer')});assert.equal(d.querySelectorAll('.shiji-detail-ghost').length,1);ui.closeDetail();assert.equal(d.querySelectorAll('.shiji-detail-ghost').length,0);assert.equal(d.querySelector('#drawer').classList.contains('shiji-preview-in-flight'),false);
+ const dialog=d.querySelector('#quick-capture-dialog');dialog.setAttribute('open','');await Promise.resolve();const entry=animations.findLast(a=>a.el===dialog);assert.ok(entry.options.duration<=400);dialog.removeAttribute('open');dialog.dispatchEvent(new w.Event('close'));assert.ok(entry.cancelled);assert.equal(d.querySelectorAll('.shiji-dialog-exit').length,1);assert.equal(d.querySelector('.shiji-dialog-exit').querySelector('[id],[data-action],[autofocus]'),null);
+ dialog.setAttribute('open','');await Promise.resolve();assert.equal(d.querySelectorAll('.shiji-dialog-exit').length,0,'reopening clears old exit');dialog.removeAttribute('open');dialog.dispatchEvent(new w.Event('close'));assert.equal(d.querySelectorAll('.shiji-dialog-exit').length,1);
+ ui.setMode('calm');assert.equal(d.querySelectorAll('.shiji-dialog-exit').length,0);dialog.setAttribute('open','');await Promise.resolve();dialog.removeAttribute('open');dialog.dispatchEvent(new w.Event('close'));assert.equal(d.querySelectorAll('.shiji-dialog-exit').length,0);
+ ui.setMode('studio');hidden=true;d.dispatchEvent(new w.Event('visibilitychange'));assert.ok(animations.filter(a=>a.options.iterations===Infinity&&!a.cancelled).every(a=>a.paused),'background pauses surviving brand loops');assert.equal(d.querySelectorAll('.shiji-detail-ghost,.shiji-dialog-exit,.shiji-capture-particle').length,0);
+ hidden=false;d.dispatchEvent(new w.Event('visibilitychange'));assert.ok(animations.filter(a=>a.options.iterations===Infinity&&!a.cancelled).every(a=>!a.paused));
+ ui.destroy();await Promise.resolve();dom.window.close();console.log('PASS: actual rich-cover detail continuity, sanitized single proxies, modal exit/reopen cancellation, Calm and background pause/resume.');
+})().catch(e=>{console.error(e);process.exitCode=1;});
