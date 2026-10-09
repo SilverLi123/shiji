@@ -1,0 +1,7 @@
+36e1a244b8af8392936e6f88b6f81198d24b5349a73acec0cfab85d4a17ef23a  README.md
+9bd3b8f498c5c6224fe122240276f444ae1e022c1e780e566f12669cab1ba480  docs/shiji-v2/reference/v3-poster-lab/desktop.png
+96c4f70924861576810b026fa4bc18929be1985420cff10ee4c900f39f61cedb  docs/shiji-v2/reference/v3-poster-lab/index.html
+6c47fb96b9cbc49b5e3dc9ecc4014b882823018ee2cd8da9cbf14b4ae3289e61  docs/shiji-v2/reference/v3-poster-lab/motion.mp4
+30f7a20f4cbbd0f3abf916478257c929c15855c6df7f2e2e7f05c37964974439  docs/shiji-v2/reference/v5-spatial-poster/desktop.png
+175215bc0888a8220668b1bdbb9ecb425e9815db0bd234d99dc716f9b51660e5  docs/shiji-v2/reference/v5-spatial-poster/index.html
+62e8c5cc5e746d1b7ea57a40d08835ab8a2b3e8407eed06aaf966f6be408b0a6  docs/shiji-v2/reference/v5-spatial-poster/motion.mp4
