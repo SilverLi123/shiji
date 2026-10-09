@@ -96,3 +96,6 @@ iPhone 的网址保存先 `files.save`，然后重新载入、更新 captureSequ
 ## Desktop card restoration addendum · 2026-10-09
 
 依据用户本轮明确要求，桌面卡片采用三列基准、真实技术字段决定的两列特色 Tool 卡和八类派生海报封面，替换上文旧的双列／域名占位契约。分页、稳定 ID、完整数据筛选与真实封面优先仍保留；首页大尺寸 Hero 和全部品牌动画完全保留。原生 iPhone 当前呈现不变。实际代码、对比截图和验收边界见 [card-restoration/REPORT.md](card-restoration/REPORT.md)。
+
+
+Card tactile follow-up: move the entire cover/title/metadata surface under the existing ShijiBits pointer owner. Bounded mouse-only elastic pickup/release, stable outer card FLIP and IDs, drag/click arbitration, interruptible cancellation. Preserve the complete Hero, Calm, reduced motion and native touch scrolling. No persisted drag ordering.

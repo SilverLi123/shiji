@@ -25,8 +25,8 @@
     if(Math.abs(dx)>rect.width/2+padding||Math.abs(dy)>rect.height/2+padding)return {x:0,y:0};
     return {x:Math.max(-8,Math.min(8,dx/strength)),y:Math.max(-8,Math.min(8,dy/strength))};
   }
-  // TiltedCard's centered pointer mapping. The stable preview button owns input;
-  // only its image rotates, so gallery positions and controls never move.
+  // TiltedCard's centered mapping. The outer card keeps FLIP/layout ownership;
+  // its inner presentation surface shares this single pointer/gesture owner.
   function tiltPoint(x,y,rect,amplitude=3){
     if(!(rect.width>0&&rect.height>0)||!Number.isFinite(x)||!Number.isFinite(y))return {x:0,y:0};
     const bounded=v=>Math.max(-1,Math.min(1,v));
@@ -43,35 +43,106 @@
     const seen=new Set(),animations=new Set(),ghosts=new Set();
     const calm=()=>grid.ownerDocument?.documentElement?.dataset.shijiMotion==='calm';
     const studio=()=>grid.ownerDocument?.documentElement?.dataset.shijiMotion==='studio';
-    let tilted=null;
-    function resetTilt(){
+    let tilted=null,pose=null,drag=null,consumed=null;
+    const returning=new Map();
+    function stopReturn(surface){
+      const old=returning.get(surface);if(!old)return;
+      root.clearTimeout(old.timer);surface.classList.remove('bits-card-return');
+      old.card.classList.remove('bits-card-raised');returning.delete(surface);
+    }
+    function releaseDrag(settle=false){
+      if(!drag)return;
+      const old=drag;drag=null;
+      // Resolve the final drag pose once so even a quick flick can spring back.
+      if(settle&&old.moved)old.surface.getBoundingClientRect();
+      if(old.moved)consumed={card:old.card,until:Date.now()+700};
+      old.card.classList.remove('bits-card-pressed','bits-card-dragging');
+      try{old.preview.releasePointerCapture?.(old.id);}catch{/* Capture can already be lost. */}
+    }
+    function resetTilt(settle=true){
+      releaseDrag(settle);
+      if(pose){
+        const {surface,card}=pose;stopReturn(surface);
+        card.classList.remove('bits-card-active');
+        if(settle){
+          surface.classList.add('bits-card-return');
+          returning.set(surface,{card,timer:root.setTimeout(()=>stopReturn(surface),560)});
+        }else card.classList.remove('bits-card-raised');
+        for(const key of ['--card-tilt-x','--card-tilt-y','--card-drag-x','--card-drag-y','--card-roll'])surface.style.removeProperty(key);
+        pose=null;
+      }
       if(!tilted)return;
-      tilted.classList.remove('bits-tilt-active');
-      tilted.classList.remove('bits-glow-active');
+      tilted.classList.remove('bits-tilt-active','bits-glow-active');
       for(const key of ['--tilt-x','--tilt-y','--glow-x','--glow-y','--cover-x','--cover-y'])tilted.style.removeProperty(key);tilted=null;
     }
-    function tiltMove(e){
-      if(reduce.matches||calm()||!fine.matches||e.pointerType!=='mouse'||!grid.classList.contains('bits-masonry')||grid.classList.contains('preview-fit')||grid.hidden){resetTilt();return;}
-      const preview=e.target.closest?.('.card-preview');
-      const img=preview?.querySelector('.cover-image');
-      if(!preview||!grid.contains(preview)||preview.matches(':focus-visible')||preview.disabled){resetTilt();return;}
-      if(tilted!==preview){resetTilt();tilted=preview;}
-      const rect=preview.getBoundingClientRect(),p=tiltPoint(e.clientX,e.clientY,rect);
-      preview.style.setProperty('--glow-x',Math.max(0,Math.min(100,(e.clientX-rect.left)/Math.max(1,rect.width)*100))+'%');preview.style.setProperty('--glow-y',Math.max(0,Math.min(100,(e.clientY-rect.top)/Math.max(1,rect.height)*100))+'%');preview.classList.add('bits-glow-active');
-      // The same pointer owner drives decorative cover layers, never the card.
+    function eligible(e){return !destroyed&&!reduce.matches&&!calm()&&fine.matches&&e.pointerType==='mouse'&&grid.classList.contains('bits-masonry')&&!grid.classList.contains('preview-fit')&&!grid.hidden&&!grid.ownerDocument?.hidden;}
+    function setPose(preview,card,surface,e){
+      if(tilted!==preview){
+        resetTilt();tilted=preview;
+        if(surface){stopReturn(surface);pose={surface,card,rect:card.getBoundingClientRect()};}
+      }
+      // Measure the stable outer card once, never its transformed descendant.
+      const rect=pose?.rect||preview.getBoundingClientRect(),p=tiltPoint(e.clientX,e.clientY,rect,surface?5:3);
+      preview.style.setProperty('--glow-x',Math.max(0,Math.min(100,(e.clientX-rect.left)/Math.max(1,rect.width)*100))+'%');
+      preview.style.setProperty('--glow-y',Math.max(0,Math.min(100,(e.clientY-rect.top)/Math.max(1,rect.height)*100))+'%');preview.classList.add('bits-glow-active');
+      if(surface){
+        card.classList.add('bits-card-active','bits-card-raised');
+        surface.style.setProperty('--card-tilt-x',p.x+'deg');surface.style.setProperty('--card-tilt-y',p.y+'deg');
+        // Cover, title, metadata and controls move as one object; no image tilt.
+        return;
+      }
+      // Legacy embedded previews retain the same owner without a second system.
       preview.style.setProperty('--cover-x',p.y*2+'px');preview.style.setProperty('--cover-y',-p.x*2+'px');
-      if(!img?.complete||!img.naturalWidth)return;
-      preview.style.setProperty('--tilt-x',p.x+'deg');preview.style.setProperty('--tilt-y',p.y+'deg');
-      preview.classList.add('bits-tilt-active');
+      const img=preview.querySelector('.cover-image');if(!img?.complete||!img.naturalWidth)return;
+      preview.style.setProperty('--tilt-x',p.x+'deg');preview.style.setProperty('--tilt-y',p.y+'deg');preview.classList.add('bits-tilt-active');
     }
-    function tiltOut(e){if(tilted&&!tilted.contains(e.relatedTarget))resetTilt();}
+    function tiltMove(e){
+      if(!eligible(e)){resetTilt(false);return;}
+      if(drag){
+        if(e.pointerId!==drag.id)return;
+        const dx=e.clientX-drag.x,dy=e.clientY-drag.y;
+        if(Math.hypot(dx,dy)>6)drag.moved=true;
+        setPose(drag.preview,drag.card,drag.surface,e);
+        if(drag.moved){
+          drag.card.classList.add('bits-card-dragging');
+          const elastic=v=>36*Math.tanh(v/110);
+          drag.surface.style.setProperty('--card-drag-x',elastic(dx)+'px');drag.surface.style.setProperty('--card-drag-y',elastic(dy)+'px');
+          drag.surface.style.setProperty('--card-roll',Math.max(-4,Math.min(4,dx/45))+'deg');
+        }
+        return;
+      }
+      const card=e.target.closest?.('.resource-card'),preview=card?.querySelector('.card-preview')||e.target.closest?.('.card-preview'),surface=card?.querySelector('.card-motion-surface');
+      if(!preview||!grid.contains(preview)||preview.matches(':focus-visible')||preview.disabled){resetTilt();return;}
+      setPose(preview,card,surface,e);
+    }
+    function tiltOut(e){if(!drag&&tilted&&!(pose?.card||tilted).contains(e.relatedTarget))resetTilt();}
+    function pressCard(e){
+      consumed=null;
+      if(!eligible(e)||e.button!==0||drag)return;
+      const preview=e.target.closest?.('.card-preview'),card=preview?.closest('.resource-card'),surface=card?.querySelector('.card-motion-surface');
+      if(!surface||!grid.contains(preview)||preview.disabled)return;
+      setPose(preview,card,surface,e);
+      drag={preview,card,surface,id:e.pointerId,x:e.clientX,y:e.clientY,moved:false};card.classList.add('bits-card-pressed');
+      try{preview.setPointerCapture?.(e.pointerId);}catch{/* Release outside is also handled on window. */}
+    }
+    function releaseCard(e){if(drag&&e.pointerId===drag.id)resetTilt();}
+    function cancelCard(e){if(drag&&e.pointerId===drag.id)resetTilt(false);}
+    function clickCard(e){
+      const old=consumed;consumed=null;
+      if(old&&e.detail!==0&&Date.now()<=old.until&&e.target.closest?.('.resource-card')===old.card){e.preventDefault();e.stopImmediatePropagation();}
+    }
+    function nativeDrag(e){if(e.target.closest?.('.card-preview')&&eligible({pointerType:'mouse'}))e.preventDefault();}
+    function focusCard(e){if(!drag||e.target!==drag.preview)scrollReset();}
+    function keyCard(e){if(drag&&e.key==='Escape'){e.preventDefault();scrollReset();}}
+    function scrollReset(){resetTilt(false);for(const surface of returning.keys())stopReturn(surface);}
+    function visibility(){if(grid.ownerDocument?.hidden)preference();}
     function animate(el,frames,options){
       if(reduce.matches||calm()||!el.animate)return;
       const a=el.animate(frames,options);animations.add(a);
       a.finished.then(()=>animations.delete(a),()=>animations.delete(a));return a;
     }
     function begin(){
-      resetTilt();
+      scrollReset();
       previous=new Map();previousNodes=new Map();
       for(const el of grid.querySelectorAll(':scope > .resource-card')){previous.set(el.dataset.resourceId,el.getBoundingClientRect());previousNodes.set(el.dataset.resourceId,el);}
       for(const a of animations)a.cancel();animations.clear();
@@ -136,16 +207,16 @@
       const p=magnetPoint(e.clientX,e.clientY,button.getBoundingClientRect());
       button.style.transform=`translate3d(${p.x}px,${p.y}px,0)`;
     }
-    function preference(){resetTilt();for(const a of animations)a.cancel();animations.clear();for(const el of ghosts)el.remove();ghosts.clear();resetButton();}
+    function preference(){scrollReset();for(const a of animations)a.cancel();animations.clear();for(const el of ghosts)el.remove();ghosts.clear();resetButton();}
     root.addEventListener('resize',schedule);
     root.addEventListener('pointermove',move,{passive:true});
     root.addEventListener('blur',preference);root.addEventListener('shiji:motion',preference);
-    root.addEventListener('scroll',resetTilt,true);
-    grid.addEventListener('pointermove',tiltMove,{passive:true});grid.addEventListener('pointerout',tiltOut);grid.addEventListener('focusin',resetTilt);
+    root.addEventListener('scroll',scrollReset,true);root.addEventListener('keydown',keyCard);root.addEventListener('pointerup',releaseCard);root.addEventListener('pointercancel',cancelCard);grid.ownerDocument?.addEventListener?.('visibilitychange',visibility);
+    grid.addEventListener('pointermove',tiltMove,{passive:true});grid.addEventListener('pointerout',tiltOut);grid.addEventListener('focusin',focusCard);grid.addEventListener('pointerdown',pressCard);grid.addEventListener('lostpointercapture',cancelCard);grid.addEventListener('click',clickCard,true);grid.addEventListener('dragstart',nativeDrag);
     grid.addEventListener('load',imageReady,true);grid.addEventListener('error',imageReady,true);
     button?.addEventListener('focus',resetButton);
     reduce.addEventListener('change',preference);fine.addEventListener('change',preference);
-    return {begin,render(){layout(true);},destroy(){destroyed=true;cancelAnimationFrame(frame);ro?.disconnect();preference();grid.removeEventListener('load',imageReady,true);grid.removeEventListener('error',imageReady,true);root.removeEventListener('resize',schedule);root.removeEventListener('pointermove',move);root.removeEventListener('blur',preference);root.removeEventListener('shiji:motion',preference);root.removeEventListener('scroll',resetTilt,true);grid.removeEventListener('pointermove',tiltMove);grid.removeEventListener('pointerout',tiltOut);grid.removeEventListener('focusin',resetTilt);button?.removeEventListener('focus',resetButton);reduce.removeEventListener('change',preference);fine.removeEventListener('change',preference);}};
+    return {begin,render(){layout(true);},destroy(){destroyed=true;cancelAnimationFrame(frame);ro?.disconnect();preference();grid.removeEventListener('load',imageReady,true);grid.removeEventListener('error',imageReady,true);root.removeEventListener('resize',schedule);root.removeEventListener('pointermove',move);root.removeEventListener('blur',preference);root.removeEventListener('shiji:motion',preference);root.removeEventListener('scroll',scrollReset,true);root.removeEventListener('keydown',keyCard);root.removeEventListener('pointerup',releaseCard);root.removeEventListener('pointercancel',cancelCard);grid.ownerDocument?.removeEventListener?.('visibilitychange',visibility);grid.removeEventListener('pointermove',tiltMove);grid.removeEventListener('pointerout',tiltOut);grid.removeEventListener('focusin',focusCard);grid.removeEventListener('pointerdown',pressCard);grid.removeEventListener('lostpointercapture',cancelCard);grid.removeEventListener('click',clickCard,true);grid.removeEventListener('dragstart',nativeDrag);button?.removeEventListener('focus',resetButton);reduce.removeEventListener('change',preference);fine.removeEventListener('change',preference);}};
   }
   // Dock's distance-to-magnification mapping, adapted to stable native buttons.
   // Only the icon scales: labels and hit targets keep their positions.

@@ -43,6 +43,15 @@ for(const image of [{coverId:'local'}, {thumbnail:'https://images.example/actual
  img.onload();assert.equal(img.hidden,false);assert.equal(img.nextElementSibling.hidden,true);dom.window.close();
 }
 assert.equal(new JSDOM(context.preview(records[3])).window.document.querySelector('img'),null);
+// The actual card renderer puts every visual/control inside the same surface,
+// while preserving the resource ID and the existing delegated actions.
+Object.assign(context,{state:{selected:new Set(),selectMode:true,filters:{}},domain:url=>{try{return new URL(url).hostname;}catch{return '';}},KINDS:{website:'网站',snippet:'代码'},visual:()=>['','#fff','#000'],icon:()=>'<svg></svg>',ShijiGallery:{media:()=>[]}});
+vm.runInContext(app.slice(app.indexOf('function card(r)'),app.indexOf('\n',app.indexOf('function card(r)'))),context);
+for(const record of records){
+ const r={...record,attachments:[],favorite:false,price:'待确认',projects:[]},doc=new JSDOM(context.card(r)).window.document,el=doc.querySelector('.resource-card'),surface=el.querySelector('.card-motion-surface');
+ assert.equal(el.dataset.resourceId,r.id);assert.equal(el.children.length,1);assert.ok(surface.querySelector('.card-preview'));assert.ok(surface.querySelector('.card-title'));assert.ok(surface.querySelector('.card-footer'));assert.ok(surface.querySelector('[data-select]'));assert.ok(surface.querySelector('[data-action="favorite"]'));
+ doc.defaultView.close();
+}
 // Span packing uses contiguous columns and must stay deterministic, bounded,
 // and free of overlap across long lists, responsive widths and mixed heights.
 for(const n of [1,2,3]){

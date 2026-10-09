@@ -10,7 +10,13 @@
   output.textContent=JSON.stringify({userAgent:navigator.userAgent,viewport:{width:innerWidth,height:innerHeight},resources:document.querySelector('#resource-total')?.textContent,cards:document.querySelectorAll('#resource-grid .resource-card').length,hidden:document.hidden,hiddenFrames,longTaskSupported,longTasks,events,samples,loops});
  }
  function tick(t){if(last){const name=performance.now()<scrollUntil?'scroll':performance.now()<phaseUntil?phase:'idle',values=bins.get(name)||[];if(values.length<6000)values.push(t-last);bins.set(name,values);}last=t;if(document.hidden)hiddenFrames++;requestAnimationFrame(tick);}
- document.addEventListener('click',e=>{const el=e.target.closest('button');if(!el)return;phase=el.dataset.action||el.id||'button';phaseUntil=performance.now()+1200;events.push({time:performance.now(),phase,label:el.getAttribute('aria-label')||el.textContent.slice(0,80)});summary();},true);
+ document.addEventListener('click',e=>{const el=e.target.closest('button');if(!el)return;phase=el.dataset.action||el.id||'button';phaseUntil=performance.now()+1200;events.push({time:performance.now(),phase,label:el.getAttribute('aria-label')||el.textContent.slice(0,80)});summary();});
+ // Inline styles only: gesture observations do not force layout each frame.
+ document.addEventListener('pointermove',e=>{if(e.pointerType==='mouse'&&e.target.closest('.resource-card')){phase='card-gesture';phaseUntil=performance.now()+650;}},{passive:true});
+ document.addEventListener('pointerup',e=>{
+  const card=e.target.closest('.resource-card'),surface=card?.querySelector('.card-motion-surface');
+  if(surface&&events.length<100)events.push({time:performance.now(),phase:'gesture-release',id:card.dataset.resourceId,classes:card.className,pose:surface.style.cssText,outerTransform:card.style.transform});
+ },{passive:true,capture:true});
  document.addEventListener('scroll',()=>{scrollUntil=performance.now()+250;},{passive:true,capture:true});
  document.addEventListener('visibilitychange',()=>{events.push({time:performance.now(),visibility:document.visibilityState});last=0;setTimeout(summary,50);});
  requestAnimationFrame(tick);setInterval(summary,1000);summary();

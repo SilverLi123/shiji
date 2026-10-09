@@ -131,3 +131,21 @@ html[data-shiji-motion=studio] .browse-category.active{animation:shiji-pill-sett
 html[data-shiji-motion=calm] .cover-geometry,html[data-shiji-motion=calm] .cover-wave{translate:none!important;transition:none}
 @media(prefers-reduced-motion:reduce){.cover-geometry,.cover-wave{translate:none!important;transition:none!important}}
 @media(max-width:480px){.resource-grid.bits-masonry .card-title{font-size:18px}.cover-art .cover-source,.cover-art .cover-caption{font-size:12px}}
+
+/* Whole-card tactile surface: Bits owns input; outer articles still own FLIP. */
+.card-motion-surface{display:contents}
+.bits-masonry .card-motion-surface{display:block;position:relative;transform-origin:50% 45%}
+.bits-masonry .resource-card.bits-card-raised{z-index:3}
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  html[data-shiji-motion=studio] .bits-masonry:not(.preview-fit) .bits-card-active .card-motion-surface,html[data-shiji-motion=studio] .bits-masonry:not(.preview-fit) .card-motion-surface.bits-card-return{transform:perspective(1100px) translate3d(var(--card-drag-x,0px),calc(var(--card-drag-y,0px) + var(--card-lift,0px)),0) rotateX(var(--card-tilt-x,0deg)) rotateY(var(--card-tilt-y,0deg)) rotateZ(var(--card-roll,0deg)) scale(var(--card-scale,1))}
+  html[data-shiji-motion=studio] .bits-masonry:not(.preview-fit) .bits-card-active .card-motion-surface{--card-lift:-8px;--card-scale:1.014;will-change:transform;transition:transform 150ms cubic-bezier(.16,1,.3,1)}
+  html[data-shiji-motion=studio] .bits-masonry:not(.preview-fit) .bits-card-pressed .card-motion-surface{--card-lift:-12px;--card-scale:1.025}
+  html[data-shiji-motion=studio] .bits-masonry:not(.preview-fit) .bits-card-dragging .card-motion-surface{transition:none}
+  html[data-shiji-motion=studio] .bits-masonry:not(.preview-fit) .card-motion-surface.bits-card-return{will-change:transform;transition:transform 550ms cubic-bezier(.18,1.32,.32,1)}
+  html[data-shiji-motion=studio] .bits-masonry .bits-card-active .card-preview{box-shadow:0 22px 48px -16px #000c;cursor:grab}
+  html[data-shiji-motion=studio] .bits-masonry .bits-card-pressed .card-preview{cursor:grabbing}
+  html[data-shiji-motion=studio] .bits-masonry:not(.preview-fit) .card-preview{user-select:none}
+  html[data-shiji-motion=studio] .bits-masonry .card-preview img{-webkit-user-drag:none}
+}
+html[data-shiji-motion=calm] .card-motion-surface{transform:none!important;transition:none!important}
+@media(prefers-reduced-motion:reduce){.card-motion-surface{transform:none!important;transition:none!important}}

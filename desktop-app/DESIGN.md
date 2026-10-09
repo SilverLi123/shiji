@@ -240,7 +240,7 @@ Hero 的具体出现条件、首屏叙事和不同任务模式见 `../docs/shiji
 
 Visual 优先真实可用封面；Tool 对应 `kind=website` 且分类为“开发工具”；Text 对应 `kind=code/prompt`，呈现实际摘要。缺封面显示域名／类型识别，不虚构作品。卡片标题、来源、介绍、标签与附件来自资源记录；列表与参考板沿用同一真实记录。
 
-**The Single Motion Owner Rule.** `ShijiBits` 独占资源卡片 FLIP 与图片 tilt；编排层不得在同一实际节点上叠加第二套 transform。
+**The Single Motion Owner Rule.** `ShijiBits` 独占资源卡片 FLIP 与整卡 pointer pose；编排层不得在同一实际节点上叠加第二套 transform。
 
 ### Capture / Detail
 
@@ -271,4 +271,10 @@ Quick Capture 的成功反馈来自真实保存完成；SQLite 成功之前不�
 
 新增封面材料：oat #f0ece3、yellow #ffd954、coral #f5b8a9、blue #171b36。封面墨色 #171b25；环墨色 #193950；Prompt 星形 #7543cb；文章星形 #b64d18；音频线色 #32234c。代码正文 #e8e9fb、行号 #9298ba、注释 #a3b1cd、字符串 lime、关键字 #c5b7ff、数字 #ffb8a4。颜色只属于封面内容，不改变产品状态语义。字体沿用认可的系统字族；代码采用系统等宽。
 
-封面标题使用容器字号和有限行数，完整名称仍在卡片正文与详情标题可读。SVG 只做自绘几何，不借用其他品牌标志或外部作品。内部指针反馈复用 Bits 已有监听，最多 6px；无新增循环、FLIP 或 Tilt owner。Calm／系统减少动态禁用内部位移和过渡。详情代理复制真实图像或当前海报，期间暂时隐藏目标视觉，完成／取消后恢复，避免双影。
+封面标题使用容器字号和有限行数，完整名称仍在卡片正文与详情标题可读。SVG 只做自绘几何，不借用其他品牌标志或外部作品。原先仅内部图形的 6px 指针反馈已由下述整卡姿态替代，继续复用 Bits 已有监听；无新增循环、FLIP 或 Tilt owner。Calm／系统减少动态禁用内部位移和过渡。详情代理复制真实图像或当前海报，期间暂时隐藏目标视觉，完成／取消后恢复，避免双影。
+
+### Whole-card tactile follow-up
+
+根据用户对整张卡片摇晃／拖动手感的反馈，`card-motion-surface` 包含封面、标题、来源、操作与选择控件。ShijiBits 复用原指针 owner：外层 article 仅管理稳定 ID／瀑布流／FLIP，内层 surface 管理整卡姿态；不在图片上再叠加 tilt。仅鼠标／精细指针、Motion Studio、画廊 frame 模式响应。静止卡片没有 transform 或 will-change。
+
+鼠标轻晃上限 5°、抬升 8px；按压抬升 12px、缩放 1.025；封面拖动采用 tanh 阻力、位移上限 36px 和侧转上限 4°。超过 6px 后松手消耗本次点击，以免误开详情；小幅按压仍按既有详情流程处理。550ms 弹性回落可被下一次手势中断，不保存排序。滚动、焦点移出、Esc、重排、失去捕获、页面隐藏、Calm／系统减少动态及销毁清理姿态和捕获。列表／看板用 display:contents 保留原布局，触摸／笔仍使用原生点击与滚动。

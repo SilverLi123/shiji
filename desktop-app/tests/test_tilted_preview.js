@@ -5,7 +5,7 @@ assert.deepEqual(tiltPoint(200,150,{left:100,top:50,width:200,height:200}),{x:-0
 assert.deepEqual(tiltPoint(300,50,{left:100,top:50,width:200,height:200}),{x:3,y:3});
 assert.deepEqual(tiltPoint(-999,999,{left:100,top:50,width:200,height:200}),{x:-3,y:-3});
 assert.deepEqual(tiltPoint(1,1,{width:0,height:2}),{x:0,y:0});
-const dom=new JSDOM('<div id="grid"><article class="resource-card" data-resource-id="one"><button class="card-preview"><img class="cover-image"></button></article></div><button id="save"></button>',{runScripts:'outside-only'});
+const dom=new JSDOM('<div id="grid"><article class="resource-card" data-resource-id="one"><button class="card-preview"><img class="cover-image"></button></article></div><button id="save"></button>',{runScripts:'outside-only',pretendToBeVisual:true});
 const w=dom.window;const grid=w.document.getElementById('grid'),preview=grid.querySelector('button'),img=grid.querySelector('img');
 const queries=new Map();w.matchMedia=q=>{if(!queries.has(q)){const a=new w.EventTarget();a.matches=!q.includes('reduced');queries.set(q,a);}return queries.get(q);};
 w.ResizeObserver=class{observe(){}disconnect(){}};w.requestAnimationFrame=()=>1;w.cancelAnimationFrame=()=>{};
