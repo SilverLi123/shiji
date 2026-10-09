@@ -7,9 +7,10 @@ final class ShareViewController:UIViewController {
     private var url="",note="",attachment:(Data,String,String)?
     private var host:UIHostingController<ShareForm>?
     override func viewDidLoad(){super.viewDidLoad();trace.info("Share controller view loaded");show(loading:true);Task{await readProviders()}}
-    private func show(loading:Bool,error:String?=nil){trace.info("Rendering share form, loading=\(loading), failure=\(error != nil)");let form=ShareForm(url:url,note:note,loading:loading,error:error,save:{[weak self] title,note in try self?.save(title:title,note:note)},cancel:{[weak self] in self?.extensionContext?.completeRequest(returningItems:nil)})
+    private func show(loading:Bool,error:String?=nil){trace.info("Rendering share form, loading=\(loading), failure=\(error != nil)");let form=ShareForm(url:url,note:note,loading:loading,error:error,save:{[weak self] title,note in guard let self else{throw fail("分享会话已结束，请重新打开分享。")};try self.save(title:title,note:note)},cancel:{[weak self] in self?.extensionContext?.completeRequest(returningItems:nil)})
         if let host{host.rootView=form}else{let controller=UIHostingController(rootView:form);host=controller;addChild(controller);view.addSubview(controller.view);controller.view.translatesAutoresizingMaskIntoConstraints=false;NSLayoutConstraint.activate([controller.view.leadingAnchor.constraint(equalTo:view.leadingAnchor),controller.view.trailingAnchor.constraint(equalTo:view.trailingAnchor),controller.view.topAnchor.constraint(equalTo:view.topAnchor),controller.view.bottomAnchor.constraint(equalTo:view.bottomAnchor)]);controller.didMove(toParent:self)}}
     override func viewDidAppear(_ animated:Bool){super.viewDidAppear(animated);trace.info("Share controller appeared, width=\(self.view.bounds.width), height=\(self.view.bounds.height), children=\(self.children.count)")}
+    override func viewDidLayoutSubviews(){super.viewDidLayoutSubviews();guard let host else{return};trace.debug("Share layout: root=\(self.view.bounds.width)x\(self.view.bounds.height), host=\(host.view.bounds.width)x\(host.view.bounds.height), window=\(self.view.window != nil), hidden=\(host.view.isHidden), alpha=\(host.view.alpha)")}
     private func object(_ p:NSItemProvider,_ type:String) async throws -> NSSecureCoding {try await withCheckedThrowingContinuation{continuation in p.loadItem(forTypeIdentifier:type,options:nil){value,error in if let error{continuation.resume(throwing:error)}else if let value{continuation.resume(returning:value)}else{continuation.resume(throwing:fail("无法读取分享内容。"))}}}}
     private func readProviders() async {
         do {let providers=(extensionContext?.inputItems as? [NSExtensionItem] ?? []).flatMap{$0.attachments ?? []};guard !providers.isEmpty else{throw fail("没有可收藏的内容。")}
@@ -20,7 +21,7 @@ final class ShareViewController:UIViewController {
             };guard !url.isEmpty || !note.isEmpty || attachment != nil else{throw fail("当前分享内容不支持收藏，请分享网址、文字或图片。")};show(loading:false)
         }catch{show(loading:false,error:error.localizedDescription)}
     }
-    private func save(title:String,note:String) throws{let files=try LibraryFiles(root:LibraryFiles.appRoot());try files.capture(url:url,title:title,text:note,attachment:attachment);extensionContext?.completeRequest(returningItems:nil)}
+    private func save(title:String,note:String) throws{guard let context=extensionContext else{throw fail("分享会话已结束，请重新打开分享。")};let files=try LibraryFiles(root:LibraryFiles.appRoot());try files.capture(url:url,title:title,text:note,attachment:attachment);context.completeRequest(returningItems:nil)}
 }
 struct ShareForm:View {
     let url:String,note:String,loading:Bool,error:String?,save:(String,String)throws->Void,cancel:()->Void
