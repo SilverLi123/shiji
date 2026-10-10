@@ -8,6 +8,7 @@ import sqlite3
 import subprocess
 import sys
 import tempfile
+import time
 import unittest
 import zipfile
 from pathlib import Path
@@ -124,7 +125,10 @@ class Integration(unittest.TestCase):
         self.req('/api/restore','POST',raw=bad.getvalue(),status=400,headers={'Content-Type':'application/zip'})
         self.assertFalse((Path(self.temp.name).parent/'escape').exists())
     def test_automatic_and_manual_backups_are_recoverable(self):
-        self.assertGreaterEqual(len(self.req('/api/backups')['snapshots']),1)
+        deadline=time.monotonic()+5
+        while not self.req('/api/backups')['snapshots'] and time.monotonic()<deadline:
+            time.sleep(.02)
+        self.assertGreaterEqual(len(self.req('/api/backups')['snapshots']),1,'async startup snapshot must complete')
         self.assertEqual(self.req('/api/backups')['backups'],[],'startup must not produce a full ZIP')
         self.add();created=self.req('/api/backups','POST',{})
         self.assertIn(created['name'],[b['name'] for b in self.req('/api/backups')['backups']])

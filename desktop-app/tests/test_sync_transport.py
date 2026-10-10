@@ -40,8 +40,24 @@ class SyncTransportTests(unittest.TestCase):
   first=self.service.der;cert,_=self.service._certificate(['127.0.0.1','192.168.1.10']);changed=cert.read_bytes()
   self.assertNotEqual(ssl.PEM_cert_to_DER_cert(cert.read_text()),first)
   self.service._certificate(['127.0.0.1','192.168.1.10']);self.assertEqual(cert.read_bytes(),changed)
-  self.service._certificate(['127.0.0.1','192.168.1.11']);self.assertNotEqual(cert.read_bytes(),changed)
-  decoded=ssl._ssl._test_decode_cert(str(cert));ssl.match_hostname(decoded,'192.168.1.11')
-  with self.assertRaises(ssl.CertificateError):ssl.match_hostname(decoded,'192.168.1.10')
+  cert,key=self.service._certificate(['127.0.0.1','192.168.1.11']);self.assertNotEqual(cert.read_bytes(),changed)
+  # Use the real TLS verifier, including IP SANs, on every supported Python.
+  def handshake(address):
+   server=ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER);server.load_cert_chain(str(cert),str(key))
+   client=ssl.create_default_context(cafile=str(self.service.root/'authority.pem'))
+   ci,co,si,so=[ssl.MemoryBIO() for _ in range(4)]
+   c=client.wrap_bio(ci,co,server_hostname=address);s=server.wrap_bio(si,so,server_side=True)
+   for _ in range(20):
+    try:c.do_handshake();return
+    except ssl.SSLWantReadError:pass
+    raw=co.read()
+    if raw:si.write(raw)
+    try:s.do_handshake()
+    except ssl.SSLWantReadError:pass
+    raw=so.read()
+    if raw:ci.write(raw)
+   self.fail('TLS handshake did not finish')
+  handshake('192.168.1.11')
+  with self.assertRaises(ssl.SSLCertVerificationError):handshake('192.168.1.10')
   authority=subprocess.check_output(['/usr/bin/openssl','x509','-in',str(self.service.root/'authority.pem'),'-text','-noout'],text=True)
   self.assertIn('ASN1 OID: prime256v1',authority)
