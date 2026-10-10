@@ -235,3 +235,16 @@ html[data-shiji-motion=calm] .card-motion-surface{transform:none!important;trans
 @media(max-width:480px){.cover-art.cs-cover .cover-source,.cover-art.cs-cover .cover-caption{font-size:12px}}
 /* Small alternate views keep their existing framing and accessible full titles. */
 .list-layout .cs-cover .cover-title{left:7%!important;right:7%!important;rotate:none!important;font-family:inherit!important}.list-layout .cs-cover .cs-paper-sheet{display:none}
+
+/* Approved Lab photographic print; only the bundled architecture capture is cropped. */
+.cover-photo{position:absolute;inset:0;display:block;overflow:hidden;container-type:inline-size;text-align:left;background:#19392e;color:#f3f0d9;isolation:isolate}
+.cover-photo-domain{position:absolute;top:5.8%;left:5.4%;right:5.4%;color:#d4e6db;font-size:clamp(10px,2.35cqw,13px);font-weight:700;letter-spacing:.04em;overflow-wrap:anywhere;z-index:3}
+.cover-photo-sheet{position:absolute;right:7%;top:10%;width:58%;padding:4cqw 2cqw 2cqw;background:#e8e6d4;transform:rotate(7deg);box-shadow:12px 18px 22px #061c1659;z-index:1}
+.cover-photo-window{position:relative;display:block;width:100%;aspect-ratio:420/390;overflow:hidden;background:#455949}
+.cover-photo .cover-photo-window .cover-photo-image{position:absolute;width:304.761905%;max-width:none;height:auto;min-height:0;left:-195.238095%;top:-30.769231%;right:auto;bottom:auto;object-fit:fill;transform:none!important;transition:none!important}
+.cover-photo-caption{position:absolute;left:2cqw;top:1cqw;font-size:clamp(9px,2.15cqw,12px);font-weight:700;line-height:1;color:#244334}
+.cover-photo-title{position:absolute;left:5.4%;top:36%;width:69%;max-height:60%;font-size:clamp(22px,var(--photo-title-size),96px);font-weight:900;line-height:.94;letter-spacing:-.03em;text-align:left;text-shadow:0 5px 12px #09271f80;z-index:2;overflow-wrap:anywhere;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;overflow:hidden}
+.cover-photo-category{position:absolute;left:5.4%;top:17%;max-width:32%;font-size:clamp(14px,5.7cqw,27px);font-weight:800;line-height:1.1;color:#d7ff65;z-index:2;overflow-wrap:anywhere}
+.detail-preview:has(>.cover-photo:not([hidden])){aspect-ratio:1.22}
+.list-layout .cover-photo-domain,.list-layout .cover-photo-caption,.list-layout .cover-photo-category,.project-column .cover-photo-domain,.project-column .cover-photo-caption{display:none}
+.list-layout .cover-photo-title{font-size:20px;top:30%;-webkit-line-clamp:2}

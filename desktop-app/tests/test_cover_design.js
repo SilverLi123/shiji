@@ -38,9 +38,9 @@ vm.createContext(context);vm.runInContext(app.slice(app.indexOf('function previe
 vm.runInContext(app.slice(app.indexOf('function attachImageFallbacks(root)'),app.indexOf('\nconst resourceBits=')),context);
 for(const image of [{coverId:'local'}, {thumbnail:'https://images.example/actual.jpg'}, {url:'https://polyhaven.com/'}]){
  const r={...records[0],...image},dom=new JSDOM(context.preview(r)),doc=dom.window.document,img=doc.querySelector('img.cover-image');
- assert.ok(img);assert.equal(img.getAttribute('src'),board.cover(r));assert.ok(img.nextElementSibling.matches('.cover-art'));
- context.attachImageFallbacks(doc);img.onerror();assert.equal(img.hidden,true);assert.equal(img.nextElementSibling.hidden,false);
- img.onload();assert.equal(img.hidden,false);assert.equal(img.nextElementSibling.hidden,true);dom.window.close();
+ assert.ok(img);assert.equal(img.getAttribute('src'),board.cover(r));const media=img.closest('.cover-photo')||img,fallback=media.nextElementSibling;assert.ok(fallback.matches('.cover-art'));
+ context.attachImageFallbacks(doc);img.onerror();assert.equal(img.hidden,true);assert.equal(media.hidden,true);assert.equal(fallback.hidden,false);
+ img.onload();assert.equal(img.hidden,false);assert.equal(media.hidden,false);assert.equal(fallback.hidden,true);dom.window.close();
 }
 assert.equal(new JSDOM(context.preview(records[3])).window.document.querySelector('img'),null);
 // The actual card renderer puts every visual/control inside the same surface,

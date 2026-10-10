@@ -1,0 +1,8 @@
+test_capture_survives_offline_and_manual_edit_then_real_fields_reach_renderer (test_v3_foundation.V3FoundationTests) ... ok
+test_cross_origin_write_is_rejected_without_mutating_library (test_v3_foundation.V3FoundationTests) ... ok
+test_zip_preflight_cancel_is_read_only_and_confirm_restores_identity_and_bytes (test_v3_foundation.V3FoundationTests) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 1.744s
+
+OK

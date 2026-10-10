@@ -112,5 +112,13 @@
   }else art=variant==='0'?'<span class="cs-fold-corner"></span>':variant==='1'?'<span class="cs-file-stack"><i></i><i></i><i></i></span>':'<span class="cs-print-disc"></span><span class="cs-margin-rule"></span>';
   return `<span class="cover-art cs-cover cover-${kind} cs-v${variant} cs-theme-${theme}" data-cover-variant="${variant}" data-cover-theme="${theme}" data-cover-semantic="${profile.semantic}" aria-hidden="true">${art}${top}${body}${foot}</span>`;
  }
- const api={cardType,render,coverKind,coverMarkup,gallerySpan,coverRatio,coverProfile,titleMetrics,canonicalURL};if(typeof module==='object')module.exports=api;else root.ShijiV2=api;
+ // The approved print composition crops only this bundled 1280×720 snapshot.
+ // Arbitrary thumbnails and user attachments retain their own uncropped image.
+ function photoCoverMarkup(r,source){
+  if(source!=='previews/polyhaven.jpg')return '';
+  const title=String(r.title||host(r)),longest=Math.max(1,...title.split(/\s+/u).map(word=>glyphMeasure(word)));
+  const font=Math.min(20,Math.max(9,68/longest));
+  return `<span class="cover-photo" data-preview-art="photographic-print"><span class="cover-photo-domain">${escape(host(r))}</span><span class="cover-photo-sheet"><span class="cover-photo-window"><img class="cover-image cover-photo-image" src="${escape(source)}" alt="${escape(title)} 实际网站预览的建筑局部" loading="lazy" referrerpolicy="no-referrer"></span><span class="cover-photo-caption">网站预览 · 局部</span></span><span class="cover-photo-title" style="--photo-title-size:${font.toFixed(2)}cqw">${escape(title)}</span><span class="cover-photo-category">${escape(r.category||'')}</span></span>`;
+ }
+ const api={cardType,render,coverKind,coverMarkup,photoCoverMarkup,gallerySpan,coverRatio,coverProfile,titleMetrics,canonicalURL};if(typeof module==='object')module.exports=api;else root.ShijiV2=api;
 })(typeof window==='object'?window:globalThis);
