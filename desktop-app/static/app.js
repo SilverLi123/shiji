@@ -35,6 +35,7 @@ const categoryDock=ShijiBits.createDock($('#browse-categories'));
 const spatial=typeof ShijiV5!=='undefined'?ShijiV5.create({document,preview,reconcile:ShijiCards.render}):{render(){},destroy(){}};
 const browseWindow=ShijiBrowse.create();
 function render(){
+  const renderStart=performance.now();
   const focus=ShijiCards.captureFocus($('.app-shell'));
   motion.beforeListUpdate();resourceBits.begin();ShijiV2.render(document,state);
   // V5 keeps its complete brand scene while exploring, matching the supplied Demo.
@@ -77,6 +78,7 @@ function render(){
   const emptyProject=state.scope==='collection'&&!resources.some(r=>ShijiLibrary.matches(r,{collection:state.scopeValue},state.collectionMeta));
   if(!shown.length)$('#empty-state').innerHTML=`<div class="empty-mark">${icon(state.scope==='trash'?'trash-2':'search')}</div><h2>${state.scope==='trash'?'回收站是空的':emptyProject?'这个项目还没有资源':state.resources.length?'没有匹配的资源':'从第一个好资源开始'}</h2><p>${state.scope==='trash'?'资源删除后会留在这里，附件也能一起恢复。':emptyProject?'收藏网站或添加素材，默认加入此项目；也可以从全部资源批量加入。':state.resources.length?'试试其他关键词或标签，也可以清除筛选条件。':'粘贴网址、拖入素材或保存截图，建立自己的开发资源库。'}</p>${state.scope==='trash'?'':`<div class="empty-actions"><button class="primary" data-action="add">收藏资源</button><button class="secondary" data-action="${state.resources.length?'reset':'import-files'}">${emptyProject?'浏览全部资源':state.resources.length?'清除筛选':'添加素材'}</button></div>`}`;
   ShijiCards.restoreFocus($('.app-shell'),focus,$('#search'));
+  document.dispatchEvent(new CustomEvent('shiji:rendered',{detail:{ms:performance.now()-renderStart,total:shown.length}}));
 }
 function browseMore(){
   const ids=new Set(Array.from($('#resource-grid').querySelectorAll('.resource-card'),el=>el.dataset.resourceId));

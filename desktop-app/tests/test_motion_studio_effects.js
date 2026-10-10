@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),{JSDOM}=require('jsdom');
-const dom=new JSDOM(fs.readFileSync(path.join(__dirname,'../static/index.html'),'utf8'),{url:'http://localhost',runScripts:'outside-only'}),w=dom.window,d=w.document;
+const dom=new JSDOM(fs.readFileSync(path.join(__dirname,'../static/index.html'),'utf8'),{pretendToBeVisual:true,url:'http://localhost',runScripts:'outside-only'}),w=dom.window,d=w.document;
 const queries=new Map(),animations=[];
 w.matchMedia=q=>{if(!queries.has(q)){const mq=new w.EventTarget();mq.matches=!q.includes('reduced-motion');queries.set(q,mq);}return queries.get(q);};
 w.requestAnimationFrame=()=>1;w.cancelAnimationFrame=()=>{};w.ResizeObserver=undefined;
