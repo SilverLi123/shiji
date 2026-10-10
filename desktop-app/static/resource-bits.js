@@ -5,7 +5,7 @@
  */
 (function(root){
   'use strict';
-  function pack(heights,width,columns,gap=22,spans=[]){
+  function pack(heights,width,columns,gap=22,spans=[],rowGap=gap){
     columns=Math.max(1,Math.floor(columns));
     const w=Math.max(0,(width-gap*(columns-1))/columns),ends=Array(columns).fill(0);
     const items=heights.map((h,i)=>{
@@ -15,10 +15,10 @@
         const next=Math.max(...ends.slice(start,start+span));
         if(next<y){col=start;y=next;}
       }
-      for(let j=col;j<col+span;j++)ends[j]=y+Math.max(0,h)+gap;
+      for(let j=col;j<col+span;j++)ends[j]=y+Math.max(0,h)+rowGap;
       return {x:col*(w+gap),y,w:w*span+gap*(span-1),h};
     });
-    return {items,height:heights.length?Math.max(...ends)-gap:0};
+    return {items,height:heights.length?Math.max(...ends)-rowGap:0};
   }
   function magnetPoint(x,y,rect,strength=9,padding=20){
     const dx=x-rect.left-rect.width/2,dy=y-rect.top-rect.height/2;
@@ -68,7 +68,7 @@
           surface.classList.add('bits-card-return');
           returning.set(surface,{card,timer:root.setTimeout(()=>stopReturn(surface),560)});
         }else card.classList.remove('bits-card-raised');
-        for(const key of ['--card-tilt-x','--card-tilt-y','--card-drag-x','--card-drag-y','--card-roll'])surface.style.removeProperty(key);
+        for(const key of ['--card-tilt-x','--card-tilt-y','--card-drag-x','--card-drag-y','--card-roll','--poster-x','--poster-y'])surface.style.removeProperty(key);
         pose=null;
       }
       if(!tilted)return;
@@ -87,6 +87,7 @@
       preview.style.setProperty('--glow-y',Math.max(0,Math.min(100,(e.clientY-rect.top)/Math.max(1,rect.height)*100))+'%');preview.classList.add('bits-glow-active');
       if(surface){
         card.classList.add('bits-card-active','bits-card-raised');
+        surface.style.setProperty('--poster-x',p.y*1.4+'px');surface.style.setProperty('--poster-y',-p.x*1.4+'px');
         surface.style.setProperty('--card-tilt-x',p.x+'deg');surface.style.setProperty('--card-tilt-y',p.y+'deg');
         // Cover, title, metadata and controls move as one object; no image tilt.
         return;
@@ -169,7 +170,8 @@
       const eligible=!grid.hidden&&!grid.classList.contains('list-layout')&&!grid.classList.contains('board-layout');
       grid.classList.toggle('bits-masonry',eligible);
       if(!eligible){grid.style.height='';const cards=[...grid.querySelectorAll(':scope > .resource-card')];for(const el of cards){el.style.width='';el.style.left='';el.style.top='';el.dataset.galleryWide='false';}departures(cards);previous=new Map();previousNodes=new Map();return;}
-      const width=grid.clientWidth,n=grid.dataset?.galleryColumns==='2'&&innerWidth>480?2:columns(innerWidth),gap=innerWidth<=760?18:22;
+      const v5=grid.ownerDocument?.documentElement?.dataset.shijiVersion==='v5';
+      const width=grid.clientWidth,n=v5&&innerWidth<=620?1:grid.dataset?.galleryColumns==='2'&&innerWidth>480?2:columns(innerWidth),gap=v5?18:innerWidth<=760?18:22;
       if(!width)return;
       lastWidth=width;
       const cards=Array.from(grid.children),w=Math.max(0,(width-gap*(n-1))/n);
@@ -177,7 +179,7 @@
       const spans=cards.map(el=>feature&&el.dataset.gallerySpan==='2'?2:1);
       // Write all widths and feature states before the single height read pass.
       cards.forEach((el,i)=>{el.style.width=(w*spans[i]+gap*(spans[i]-1))+'px';el.dataset.galleryWide=spans[i]===2?'true':'false';});
-      const positions=pack(cards.map(el=>el.offsetHeight),width,n,gap,spans);
+      const positions=pack(cards.map(el=>el.offsetHeight),width,n,gap,spans,v5?33:gap);
       grid.style.height=positions.height+'px';
       // Set every position before measuring again, so layout is resolved once.
       cards.forEach((el,i)=>{

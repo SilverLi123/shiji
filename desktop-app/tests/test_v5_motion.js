@@ -1,0 +1,31 @@
+'use strict';
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),{JSDOM}=require('jsdom');
+const {init}=require('../static/shiji-v2-motion');
+(async()=>{
+ const dom=new JSDOM(fs.readFileSync(path.join(__dirname,'../static/index.html'),'utf8'),{url:'http://localhost'}),w=dom.window,d=w.document;
+ let hidden=false,reduced=false,nextFrame=0;const frames=new Map(),observers=[],animations=[];
+ Object.defineProperty(d,'hidden',{get:()=>hidden});
+ const media=[];w.matchMedia=q=>{const m={get matches(){return q.includes('reduced-motion')?reduced:true;},addEventListener(type,fn){m.changed=fn;},removeEventListener(){}};media.push(m);return m;};
+ w.requestAnimationFrame=fn=>{frames.set(++nextFrame,fn);return nextFrame;};w.cancelAnimationFrame=id=>frames.delete(id);
+ const flush=()=>{const pending=[...frames.values()];frames.clear();pending.forEach(fn=>fn());};
+ w.Element.prototype.getBoundingClientRect=()=>({left:20,top:60,width:320,height:240,bottom:300,right:340});
+ w.Element.prototype.animate=function(frames,options){const a={el:this,options,finished:new Promise(()=>{}),cancel(){this.cancelled=true;},play(){this.paused=false;},pause(){this.paused=true;}};animations.push(a);return a;};
+ w.IntersectionObserver=class{constructor(cb){this.cb=cb;this.nodes=new Set();observers.push(this);}observe(el){this.nodes.add(el);}unobserve(el){this.nodes.delete(el);}disconnect(){this.nodes.clear();}};
+ const art=d.createElement('span');art.className='art-v3';d.querySelector('#resource-grid').append(art);
+ const ui=init({document:d,window:w});d.querySelector('#motion-skip').click();
+ assert.equal(d.documentElement.dataset.shijiSpace,'depth');
+ const posterObserver=observers.find(o=>o.nodes.has(art));posterObserver.cb([{target:art,isIntersecting:true}]);assert.ok(art.classList.contains('art-in-view'));
+ posterObserver.cb([{target:art,isIntersecting:false}]);assert.ok(!art.classList.contains('art-in-view'));
+ const scene=d.querySelector('.space-scene'),stage=d.querySelector('.shiji-brand-stage');
+ function pointer(el,type){const e=new w.Event(type);Object.assign(e,{clientX:260,clientY:200,pointerType:'mouse'});el.dispatchEvent(e);}
+ pointer(scene,'pointerenter');pointer(scene,'pointermove');flush();assert.ok(scene.style.getPropertyValue('--scene-ry'));
+ pointer(stage,'pointerenter');pointer(stage,'pointermove');flush();assert.ok(stage.style.getPropertyValue('--hero-ry'));
+ pointer(scene,'pointermove');d.querySelector('#space-mode').click();flush();assert.equal(d.documentElement.dataset.shijiSpace,'flat');assert.equal(scene.style.getPropertyValue('--scene-ry'),'');assert.equal(stage.style.getPropertyValue('--hero-ry'),'');assert.equal(frames.size,0);assert.equal(w.localStorage.getItem('shiji-v5-space-mode'),'flat');
+ d.querySelector('#space-mode').click();ui.setMode('calm');assert.equal(d.documentElement.dataset.shijiSpace,'flat');assert.ok(d.body.classList.contains('calm'));
+ ui.setMode('studio');reduced=true;media[0].changed();assert.equal(d.documentElement.dataset.shijiMotion,'calm');assert.equal(d.documentElement.dataset.shijiSpace,'flat');
+ reduced=false;media[0].changed();hidden=true;d.dispatchEvent(new w.Event('visibilitychange'));assert.ok(d.body.classList.contains('v5-background'));assert.ok(animations.filter(a=>!a.cancelled&&a.options.iterations===Infinity).every(a=>a.paused));
+ hidden=false;d.dispatchEvent(new w.Event('visibilitychange'));assert.ok(!d.body.classList.contains('v5-background'));
+ const drawer=d.querySelector('#drawer');drawer.hidden=false;await Promise.resolve();assert.ok(d.body.classList.contains('v5-overlay-paused'));drawer.hidden=true;await Promise.resolve();assert.ok(!d.body.classList.contains('v5-overlay-paused'));
+ art.remove();await Promise.resolve();assert.ok(!posterObserver.nodes.has(art));ui.destroy();assert.ok(observers.every(o=>o.nodes.size===0));assert.equal(frames.size,0);dom.window.close();
+ console.log('PASS: V5 single-owner spatial parallax, flat/Calm/system reduce, offscreen artwork, overlay/background pause and teardown');
+})().catch(e=>{console.error(e);process.exitCode=1;});

@@ -10,4 +10,10 @@ reduce.matches=true;preference();x=150;resized();next();assert.ok(animations[0].
 ui.destroy();assert.equal(doc.querySelector('.glass-indicator'),null);assert.equal(preference,null);
 const html=fs.readFileSync(require('path').join(__dirname,'../static/index.html'),'utf8');assert.ok(!html.includes('src="olla-motion.js"'));assert.ok(!html.includes('motion-decor'));assert.ok(html.includes('liquid-glass.css'));dom.window.close();console.log('Functional glass finite morph, reduced motion and disposal passed');
 
-const surface=new JSDOM(html),deck=surface.window.document.querySelector('.capture-deck');assert.ok(deck);assert.equal(deck.closest('.topbar'),null);assert.equal(deck.querySelectorAll('[data-action="add"]').length,1);assert.equal(deck.querySelectorAll('[data-action="import-files"]').length,1);surface.window.close();
+const surface=new JSDOM(html),docSurface=surface.window.document;
+// V5 moves capture into the studio toolbar; file import remains in management.
+assert.equal(docSurface.querySelector('.capture-deck'),null);
+assert.equal(docSurface.querySelectorAll('.topbar [data-action="add"]').length,1);
+assert.equal(docSurface.querySelectorAll('.utility-nav [data-action="import-files"]').length,1);
+assert.ok(docSurface.querySelector('#v5-mobile-nav [data-action="add"]'));
+surface.window.close();

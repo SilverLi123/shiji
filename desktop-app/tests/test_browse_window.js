@@ -21,7 +21,7 @@ win.matchMedia=()=>({matches:false,addEventListener(){},removeEventListener(){}}
 win.requestAnimationFrame=()=>1;win.cancelAnimationFrame=()=>{};win.scrollTo=()=>{};win.HTMLElement.prototype.scrollIntoView=function(){win.lastScrolled=this;};
 Object.defineProperty(win.document.querySelector('#resource-grid'),'clientWidth',{value:600});
 win.projectNavigation=()=>'';win.smartSummary=()=>{};win.healthTimer=null;win.renderHealth=()=>{};win.closeMenu=()=>{};
-for(const name of ['library.js','board-model.js','gallery-model.js','resource-bits.js','stable-cards.js','browse-window.js','browse-controls.js','shiji-v2.js','shiji-v2-motion.js','quick-capture.js'])vm.runInContext(fs.readFileSync(path.join(root,name),'utf8'),ctx);
+for(const name of ['library.js','board-model.js','gallery-model.js','resource-bits.js','stable-cards.js','browse-window.js','browse-controls.js','shiji-v2.js','shiji-v5.js','shiji-v2-motion.js','quick-capture.js'])vm.runInContext(fs.readFileSync(path.join(root,name),'utf8'),ctx);
 const app=fs.readFileSync(path.join(root,'app.js'),'utf8');
 vm.runInContext(app.slice(0,app.indexOf('function syncNavigation')),ctx);
 vm.runInContext(app.slice(app.indexOf("document.addEventListener('click'"),app.indexOf("$('#resource-form').addEventListener")),ctx);
@@ -29,7 +29,18 @@ for(const line of app.split('\n'))if(line.startsWith('for(const [id,key] of')||l
 const fixtures=Array.from({length:201},(_,i)=>({id:String(i),title:'Item '+String(i).padStart(3,'0'),kind:i<170?'website':i<183?'file':i<194?'code':'prompt',category:'其他',url:'https://example.test/'+i,thumbnail:'https://example.test/preview.png',createdAt:'2026-01-01T00:00:00Z',updatedAt:'2026-01-01T00:00:00Z',tags:[],attachments:[],projects:[],projectNotes:{},license:'待确认',price:'待确认',linkStatus:'unchecked',favorite:false}));
 win.fixtureJSON=JSON.stringify(fixtures);vm.runInContext('state.resources=JSON.parse(fixtureJSON);render();',ctx);
 const doc=win.document,grid=doc.querySelector('#resource-grid'),run=s=>vm.runInContext(s,ctx),count=()=>grid.querySelectorAll('.resource-card').length;
-assert.equal(count(),60);assert.equal(doc.querySelector('#resource-total').textContent,'201 条资源');assert.match(doc.querySelector('#result-count').textContent,/已显示 60 条/);
+const coverOnlyStyle=doc.createElement('style');
+const v5CSS=fs.readFileSync(path.join(root,'shiji-v5.css'),'utf8');
+coverOnlyStyle.textContent=v5CSS.slice(v5CSS.indexOf('/* Pure-cover gallery:'));
+doc.head.append(coverOnlyStyle);
+assert.equal(win.getComputedStyle(grid.querySelector('.card-body')).display,'none');
+assert.equal(win.getComputedStyle(grid.querySelector('.card-footer')).display,'none');
+assert.equal(win.getComputedStyle(doc.querySelector('.space-meta')).display,'none');
+run('function quickNoteMayLeave(){return true;} function detail(r){ window.openedResource=r; }');
+grid.querySelector('.card-preview').click();
+assert.equal(win.openedResource.id,'0','pure-cover card still opens the actual resource');
+assert.equal(grid.querySelector('.card-preview').getAttribute('aria-label'),'查看 Item 000');
+assert.equal(count(),60);assert.equal(doc.querySelectorAll('#scene-stack .space-pane').length,3);assert.equal(doc.querySelector('#scene-stack .space-pane').dataset.id,'0');assert.equal(doc.querySelector('#resource-total').textContent,'201 条资源');assert.match(doc.querySelector('#result-count').textContent,/已显示 60 条/);
 const retained=grid.firstElementChild;doc.querySelector('#browse-more-button').click();assert.equal(count(),120);assert.equal(grid.firstElementChild,retained);assert.equal(doc.activeElement.dataset.id,'60');assert.equal(win.lastScrolled.dataset.resourceId,'60');
 run("state.density='compact';state.previewMode='fit';render();");assert.equal(count(),120);
 doc.querySelector('#list-view').click();assert.equal(count(),120);assert.equal(grid.style.height,'');

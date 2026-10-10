@@ -1,0 +1,57 @@
+{
+  "desktop.jpg": {
+    "requested": [
+      1440,
+      1000
+    ],
+    "domViewport": [
+      1412,
+      980
+    ],
+    "documentWidth": 1404,
+    "bitmapPixels": [
+      1375,
+      2432
+    ],
+    "mode": "Calm, flat space",
+    "presentation": "pure-cover gallery, metadata opens in detail"
+  },
+  "mobile.jpg": {
+    "requested": [
+      390,
+      620
+    ],
+    "domViewport": [
+      382,
+      608
+    ],
+    "documentWidth": 374,
+    "bitmapPixels": [
+      367,
+      4516
+    ],
+    "mode": "Calm, flat space",
+    "supplementary": [
+      "mobile-hero.jpg"
+    ],
+    "presentation": "pure-cover gallery, metadata opens in detail"
+  },
+  "user-1255.jpg": {
+    "requested": [
+      1255,
+      706
+    ],
+    "domViewport": [
+      1230,
+      692
+    ],
+    "documentWidth": 1222,
+    "bitmapPixels": [
+      1198,
+      2411
+    ],
+    "mode": "Calm, flat space",
+    "presentation": "pure-cover gallery, metadata opens in detail"
+  },
+  "note": "In-app browser viewport emulation returns effective DOM dimensions about 1/1.02 of requested dimensions; full-page output is further scaled about 1/1.02, excluding an 8px scrollbar. These are original browser screenshots, no manual crop or scaling. The user capture was recaptured with only the product tab open and explicit 1255x706 emulation; it now shows desktop, not mobile. Compare reference and desktop by their bitmap dimensions; do not claim requested dimensions were effective CSS dimensions. Mobile was recaptured after actual native page scrolling to load all images, then returned to scrollTop 0. Fixed bottom navigation appears at the original viewport bottom within full-page output; supplementary viewport captures show its actual fixed placement."
+}

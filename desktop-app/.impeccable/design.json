@@ -1,469 +1,787 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-08T14:55:39.108276+00:00",
-  "title": "Design System: 拾集 SHIJI V2 · Desktop Motion Studio",
+  "generatedAt": "2026-10-10T06:41:39.215597+00:00",
+  "title": "Design System: 拾集 SHIJI V5 · Spatial Poster",
   "extensions": {
-    "sources": [
-      "static/shiji-v2.css",
-      "static/shiji-v2.js",
-      "static/shiji-v2-motion.js",
-      "static/resource-bits.js",
-      "static/stable-cards.js",
-      "static/liquid-glass.js",
-      "desktop/App.swift"
-    ],
     "colorMeta": {
+      "shiji-bg": {
+        "role": "neutral",
+        "displayName": "画廊黑",
+        "tonalRamp": [
+          "oklch(15.00% 0.0066 270.98)",
+          "oklch(26.43% 0.0066 270.98)",
+          "oklch(37.86% 0.0066 270.98)",
+          "oklch(49.29% 0.0066 270.98)",
+          "oklch(60.71% 0.0066 270.98)",
+          "oklch(72.14% 0.0066 270.98)",
+          "oklch(83.57% 0.0066 270.98)",
+          "oklch(95.00% 0.0066 270.98)"
+        ]
+      },
+      "shiji-sidebar": {
+        "role": "neutral",
+        "displayName": "侧栏黑",
+        "tonalRamp": [
+          "oklch(15.00% 0.0084 274.41)",
+          "oklch(26.43% 0.0084 274.41)",
+          "oklch(37.86% 0.0084 274.41)",
+          "oklch(49.29% 0.0084 274.41)",
+          "oklch(60.71% 0.0084 274.41)",
+          "oklch(72.14% 0.0084 274.41)",
+          "oklch(83.57% 0.0084 274.41)",
+          "oklch(95.00% 0.0084 274.41)"
+        ]
+      },
+      "shiji-surface": {
+        "role": "neutral",
+        "displayName": "操作平面",
+        "tonalRamp": [
+          "oklch(15.00% 0.0123 270.75)",
+          "oklch(26.43% 0.0123 270.75)",
+          "oklch(37.86% 0.0123 270.75)",
+          "oklch(49.29% 0.0123 270.75)",
+          "oklch(60.71% 0.0123 270.75)",
+          "oklch(72.14% 0.0123 270.75)",
+          "oklch(83.57% 0.0123 270.75)",
+          "oklch(95.00% 0.0123 270.75)"
+        ]
+      },
+      "shiji-surface-raised": {
+        "role": "neutral",
+        "displayName": "抬升平面",
+        "tonalRamp": [
+          "oklch(15.00% 0.0141 266.99)",
+          "oklch(26.43% 0.0141 266.99)",
+          "oklch(37.86% 0.0141 266.99)",
+          "oklch(49.29% 0.0141 266.99)",
+          "oklch(60.71% 0.0141 266.99)",
+          "oklch(72.14% 0.0141 266.99)",
+          "oklch(83.57% 0.0141 266.99)",
+          "oklch(95.00% 0.0141 266.99)"
+        ]
+      },
+      "shiji-fg": {
+        "role": "neutral",
+        "displayName": "主要文字",
+        "tonalRamp": [
+          "oklch(15.00% 0.0026 106.45)",
+          "oklch(26.43% 0.0026 106.45)",
+          "oklch(37.86% 0.0026 106.45)",
+          "oklch(49.29% 0.0026 106.45)",
+          "oklch(60.71% 0.0026 106.45)",
+          "oklch(72.14% 0.0026 106.45)",
+          "oklch(83.57% 0.0026 106.45)",
+          "oklch(95.00% 0.0026 106.45)"
+        ]
+      },
+      "shiji-muted": {
+        "role": "neutral",
+        "displayName": "辅助文字",
+        "tonalRamp": [
+          "oklch(15.00% 0.0162 281.79)",
+          "oklch(26.43% 0.0162 281.79)",
+          "oklch(37.86% 0.0162 281.79)",
+          "oklch(49.29% 0.0162 281.79)",
+          "oklch(60.71% 0.0162 281.79)",
+          "oklch(72.14% 0.0162 281.79)",
+          "oklch(83.57% 0.0162 281.79)",
+          "oklch(95.00% 0.0162 281.79)"
+        ]
+      },
+      "shiji-line": {
+        "role": "neutral",
+        "displayName": "精细边界",
+        "tonalRamp": [
+          "oklch(15.00% 0.0000 89.88)",
+          "oklch(26.43% 0.0000 89.88)",
+          "oklch(37.86% 0.0000 89.88)",
+          "oklch(49.29% 0.0000 89.88)",
+          "oklch(60.71% 0.0000 89.88)",
+          "oklch(72.14% 0.0000 89.88)",
+          "oklch(83.57% 0.0000 89.88)",
+          "oklch(95.00% 0.0000 89.88)"
+        ]
+      },
       "shiji-lime": {
         "role": "primary",
         "displayName": "荧光绿",
-        "purpose": "主要操作、选择与品牌几何。"
+        "tonalRamp": [
+          "oklch(15.00% 0.1835 122.31)",
+          "oklch(26.43% 0.1835 122.31)",
+          "oklch(37.86% 0.1835 122.31)",
+          "oklch(49.29% 0.1835 122.31)",
+          "oklch(60.71% 0.1835 122.31)",
+          "oklch(72.14% 0.1835 122.31)",
+          "oklch(83.57% 0.1835 122.31)",
+          "oklch(95.00% 0.1835 122.31)"
+        ]
+      },
+      "accent-hover": {
+        "role": "primary",
+        "displayName": "悬停浅绿",
+        "tonalRamp": [
+          "oklch(15.00% 0.1258 120.93)",
+          "oklch(26.43% 0.1258 120.93)",
+          "oklch(37.86% 0.1258 120.93)",
+          "oklch(49.29% 0.1258 120.93)",
+          "oklch(60.71% 0.1258 120.93)",
+          "oklch(72.14% 0.1258 120.93)",
+          "oklch(83.57% 0.1258 120.93)",
+          "oklch(95.00% 0.1258 120.93)"
+        ]
       },
       "shiji-violet": {
         "role": "secondary",
         "displayName": "创意紫",
-        "purpose": "品牌舞台。"
+        "tonalRamp": [
+          "oklch(15.00% 0.1641 291.68)",
+          "oklch(26.43% 0.1641 291.68)",
+          "oklch(37.86% 0.1641 291.68)",
+          "oklch(49.29% 0.1641 291.68)",
+          "oklch(60.71% 0.1641 291.68)",
+          "oklch(72.14% 0.1641 291.68)",
+          "oklch(83.57% 0.1641 291.68)",
+          "oklch(95.00% 0.1641 291.68)"
+        ]
       },
       "shiji-cyan": {
         "role": "tertiary",
-        "displayName": "技术青",
-        "purpose": "Short-lived burst accent; regular links remain lime."
-      },
-      "shiji-bg": {
-        "role": "neutral",
-        "displayName": "画廊黑"
-      },
-      "shiji-sidebar": {
-        "role": "neutral",
-        "displayName": "侧栏黑"
-      },
-      "shiji-surface": {
-        "role": "neutral",
-        "displayName": "操作平面"
-      },
-      "shiji-surface-raised": {
-        "role": "neutral",
-        "displayName": "抬升平面"
-      },
-      "shiji-fg": {
-        "role": "neutral",
-        "displayName": "主文字"
-      },
-      "shiji-muted": {
-        "role": "neutral",
-        "displayName": "辅助灰"
+        "displayName": "空间青",
+        "tonalRamp": [
+          "oklch(15.00% 0.1050 220.67)",
+          "oklch(26.43% 0.1050 220.67)",
+          "oklch(37.86% 0.1050 220.67)",
+          "oklch(49.29% 0.1050 220.67)",
+          "oklch(60.71% 0.1050 220.67)",
+          "oklch(72.14% 0.1050 220.67)",
+          "oklch(83.57% 0.1050 220.67)",
+          "oklch(95.00% 0.1050 220.67)"
+        ]
       },
       "brand-wash": {
         "role": "secondary",
-        "displayName": "Brand spotlight"
+        "displayName": "舞台光晕",
+        "tonalRamp": [
+          "oklch(15.00% 0.1070 303.95)",
+          "oklch(26.43% 0.1070 303.95)",
+          "oklch(37.86% 0.1070 303.95)",
+          "oklch(49.29% 0.1070 303.95)",
+          "oklch(60.71% 0.1070 303.95)",
+          "oklch(72.14% 0.1070 303.95)",
+          "oklch(83.57% 0.1070 303.95)",
+          "oklch(95.00% 0.1070 303.95)"
+        ]
       },
       "brand-gradient-start": {
         "role": "secondary",
-        "displayName": "Stage gradient start"
+        "displayName": "舞台渐变起点",
+        "tonalRamp": [
+          "oklch(15.00% 0.1450 293.34)",
+          "oklch(26.43% 0.1450 293.34)",
+          "oklch(37.86% 0.1450 293.34)",
+          "oklch(49.29% 0.1450 293.34)",
+          "oklch(60.71% 0.1450 293.34)",
+          "oklch(72.14% 0.1450 293.34)",
+          "oklch(83.57% 0.1450 293.34)",
+          "oklch(95.00% 0.1450 293.34)"
+        ]
       },
       "brand-gradient-end": {
         "role": "secondary",
-        "displayName": "Stage gradient end"
+        "displayName": "舞台渐变终点",
+        "tonalRamp": [
+          "oklch(15.00% 0.1728 293.54)",
+          "oklch(26.43% 0.1728 293.54)",
+          "oklch(37.86% 0.1728 293.54)",
+          "oklch(49.29% 0.1728 293.54)",
+          "oklch(60.71% 0.1728 293.54)",
+          "oklch(72.14% 0.1728 293.54)",
+          "oklch(83.57% 0.1728 293.54)",
+          "oklch(95.00% 0.1728 293.54)"
+        ]
       },
-      "intro-symbol": {
-        "role": "secondary",
-        "displayName": "Intro violet symbol"
+      "control-muted": {
+        "role": "neutral",
+        "displayName": "control-muted",
+        "tonalRamp": [
+          "oklch(15.00% 0.0115 274.85)",
+          "oklch(26.43% 0.0115 274.85)",
+          "oklch(37.86% 0.0115 274.85)",
+          "oklch(49.29% 0.0115 274.85)",
+          "oklch(60.71% 0.0115 274.85)",
+          "oklch(72.14% 0.0115 274.85)",
+          "oklch(83.57% 0.0115 274.85)",
+          "oklch(95.00% 0.0115 274.85)"
+        ]
       },
-      "feedback-coral": {
+      "control-hover": {
+        "role": "neutral",
+        "displayName": "control-hover",
+        "tonalRamp": [
+          "oklch(15.00% 0.0139 261.70)",
+          "oklch(26.43% 0.0139 261.70)",
+          "oklch(37.86% 0.0139 261.70)",
+          "oklch(49.29% 0.0139 261.70)",
+          "oklch(60.71% 0.0139 261.70)",
+          "oklch(72.14% 0.0139 261.70)",
+          "oklch(83.57% 0.0139 261.70)",
+          "oklch(95.00% 0.0139 261.70)"
+        ]
+      },
+      "field-stroke": {
+        "role": "neutral",
+        "displayName": "field-stroke",
+        "tonalRamp": [
+          "oklch(15.00% 0.0177 268.23)",
+          "oklch(26.43% 0.0177 268.23)",
+          "oklch(37.86% 0.0177 268.23)",
+          "oklch(49.29% 0.0177 268.23)",
+          "oklch(60.71% 0.0177 268.23)",
+          "oklch(72.14% 0.0177 268.23)",
+          "oklch(83.57% 0.0177 268.23)",
+          "oklch(95.00% 0.0177 268.23)"
+        ]
+      },
+      "poster-ink": {
+        "role": "neutral",
+        "displayName": "poster-ink",
+        "tonalRamp": [
+          "oklch(15.00% 0.0123 270.75)",
+          "oklch(26.43% 0.0123 270.75)",
+          "oklch(37.86% 0.0123 270.75)",
+          "oklch(49.29% 0.0123 270.75)",
+          "oklch(60.71% 0.0123 270.75)",
+          "oklch(72.14% 0.0123 270.75)",
+          "oklch(83.57% 0.0123 270.75)",
+          "oklch(95.00% 0.0123 270.75)"
+        ]
+      },
+      "poster-paper": {
         "role": "tertiary",
-        "displayName": "Feedback coral"
+        "displayName": "海报终端纸",
+        "tonalRamp": [
+          "oklch(15.00% 0.0107 100.83)",
+          "oklch(26.43% 0.0107 100.83)",
+          "oklch(37.86% 0.0107 100.83)",
+          "oklch(49.29% 0.0107 100.83)",
+          "oklch(60.71% 0.0107 100.83)",
+          "oklch(72.14% 0.0107 100.83)",
+          "oklch(83.57% 0.0107 100.83)",
+          "oklch(95.00% 0.0107 100.83)"
+        ]
+      },
+      "poster-cream": {
+        "role": "tertiary",
+        "displayName": "海报奶油纸",
+        "tonalRamp": [
+          "oklch(15.00% 0.0120 101.49)",
+          "oklch(26.43% 0.0120 101.49)",
+          "oklch(37.86% 0.0120 101.49)",
+          "oklch(49.29% 0.0120 101.49)",
+          "oklch(60.71% 0.0120 101.49)",
+          "oklch(72.14% 0.0120 101.49)",
+          "oklch(83.57% 0.0120 101.49)",
+          "oklch(95.00% 0.0120 101.49)"
+        ]
+      },
+      "poster-acid": {
+        "role": "tertiary",
+        "displayName": "海报酸绿",
+        "tonalRamp": [
+          "oklch(15.00% 0.1808 121.51)",
+          "oklch(26.43% 0.1808 121.51)",
+          "oklch(37.86% 0.1808 121.51)",
+          "oklch(49.29% 0.1808 121.51)",
+          "oklch(60.71% 0.1808 121.51)",
+          "oklch(72.14% 0.1808 121.51)",
+          "oklch(83.57% 0.1808 121.51)",
+          "oklch(95.00% 0.1808 121.51)"
+        ]
+      },
+      "poster-gold": {
+        "role": "tertiary",
+        "displayName": "海报金黄",
+        "tonalRamp": [
+          "oklch(15.00% 0.1494 90.56)",
+          "oklch(26.43% 0.1494 90.56)",
+          "oklch(37.86% 0.1494 90.56)",
+          "oklch(49.29% 0.1494 90.56)",
+          "oklch(60.71% 0.1494 90.56)",
+          "oklch(72.14% 0.1494 90.56)",
+          "oklch(83.57% 0.1494 90.56)",
+          "oklch(95.00% 0.1494 90.56)"
+        ]
+      },
+      "poster-rose": {
+        "role": "tertiary",
+        "displayName": "海报玫瑰粉",
+        "tonalRamp": [
+          "oklch(15.00% 0.0781 22.84)",
+          "oklch(26.43% 0.0781 22.84)",
+          "oklch(37.86% 0.0781 22.84)",
+          "oklch(49.29% 0.0781 22.84)",
+          "oklch(60.71% 0.0781 22.84)",
+          "oklch(72.14% 0.0781 22.84)",
+          "oklch(83.57% 0.0781 22.84)",
+          "oklch(95.00% 0.0781 22.84)"
+        ]
+      },
+      "poster-turquoise": {
+        "role": "tertiary",
+        "displayName": "海报绿松石",
+        "tonalRamp": [
+          "oklch(15.00% 0.0904 204.43)",
+          "oklch(26.43% 0.0904 204.43)",
+          "oklch(37.86% 0.0904 204.43)",
+          "oklch(49.29% 0.0904 204.43)",
+          "oklch(60.71% 0.0904 204.43)",
+          "oklch(72.14% 0.0904 204.43)",
+          "oklch(83.57% 0.0904 204.43)",
+          "oklch(95.00% 0.0904 204.43)"
+        ]
+      },
+      "poster-lavender": {
+        "role": "tertiary",
+        "displayName": "海报薰衣草",
+        "tonalRamp": [
+          "oklch(15.00% 0.1014 295.55)",
+          "oklch(26.43% 0.1014 295.55)",
+          "oklch(37.86% 0.1014 295.55)",
+          "oklch(49.29% 0.1014 295.55)",
+          "oklch(60.71% 0.1014 295.55)",
+          "oklch(72.14% 0.1014 295.55)",
+          "oklch(83.57% 0.1014 295.55)",
+          "oklch(95.00% 0.1014 295.55)"
+        ]
+      },
+      "poster-coral": {
+        "role": "tertiary",
+        "displayName": "海报珊瑚",
+        "tonalRamp": [
+          "oklch(15.00% 0.1374 32.01)",
+          "oklch(26.43% 0.1374 32.01)",
+          "oklch(37.86% 0.1374 32.01)",
+          "oklch(49.29% 0.1374 32.01)",
+          "oklch(60.71% 0.1374 32.01)",
+          "oklch(72.14% 0.1374 32.01)",
+          "oklch(83.57% 0.1374 32.01)",
+          "oklch(95.00% 0.1374 32.01)"
+        ]
+      },
+      "terminal-surface": {
+        "role": "neutral",
+        "displayName": "terminal-surface",
+        "tonalRamp": [
+          "oklch(15.00% 0.0119 186.99)",
+          "oklch(26.43% 0.0119 186.99)",
+          "oklch(37.86% 0.0119 186.99)",
+          "oklch(49.29% 0.0119 186.99)",
+          "oklch(60.71% 0.0119 186.99)",
+          "oklch(72.14% 0.0119 186.99)",
+          "oklch(83.57% 0.0119 186.99)",
+          "oklch(95.00% 0.0119 186.99)"
+        ]
+      },
+      "terminal-ink": {
+        "role": "neutral",
+        "displayName": "terminal-ink",
+        "tonalRamp": [
+          "oklch(15.00% 0.0366 146.53)",
+          "oklch(26.43% 0.0366 146.53)",
+          "oklch(37.86% 0.0366 146.53)",
+          "oklch(49.29% 0.0366 146.53)",
+          "oklch(60.71% 0.0366 146.53)",
+          "oklch(72.14% 0.0366 146.53)",
+          "oklch(83.57% 0.0366 146.53)",
+          "oklch(95.00% 0.0366 146.53)"
+        ]
+      },
+      "error-fill": {
+        "role": "neutral",
+        "displayName": "error-fill",
+        "tonalRamp": [
+          "oklch(15.00% 0.0250 26.87)",
+          "oklch(26.43% 0.0250 26.87)",
+          "oklch(37.86% 0.0250 26.87)",
+          "oklch(49.29% 0.0250 26.87)",
+          "oklch(60.71% 0.0250 26.87)",
+          "oklch(72.14% 0.0250 26.87)",
+          "oklch(83.57% 0.0250 26.87)",
+          "oklch(95.00% 0.0250 26.87)"
+        ]
+      },
+      "error-ink": {
+        "role": "neutral",
+        "displayName": "error-ink",
+        "tonalRamp": [
+          "oklch(15.00% 0.0914 25.80)",
+          "oklch(26.43% 0.0914 25.80)",
+          "oklch(37.86% 0.0914 25.80)",
+          "oklch(49.29% 0.0914 25.80)",
+          "oklch(60.71% 0.0914 25.80)",
+          "oklch(72.14% 0.0914 25.80)",
+          "oklch(83.57% 0.0914 25.80)",
+          "oklch(95.00% 0.0914 25.80)"
+        ]
+      },
+      "error-stroke": {
+        "role": "neutral",
+        "displayName": "error-stroke",
+        "tonalRamp": [
+          "oklch(15.00% 0.0571 27.15)",
+          "oklch(26.43% 0.0571 27.15)",
+          "oklch(37.86% 0.0571 27.15)",
+          "oklch(49.29% 0.0571 27.15)",
+          "oklch(60.71% 0.0571 27.15)",
+          "oklch(72.14% 0.0571 27.15)",
+          "oklch(83.57% 0.0571 27.15)",
+          "oklch(95.00% 0.0571 27.15)"
+        ]
+      },
+      "pending-license-fill": {
+        "role": "neutral",
+        "displayName": "pending-license-fill",
+        "tonalRamp": [
+          "oklch(15.00% 0.0512 92.72)",
+          "oklch(26.43% 0.0512 92.72)",
+          "oklch(37.86% 0.0512 92.72)",
+          "oklch(49.29% 0.0512 92.72)",
+          "oklch(60.71% 0.0512 92.72)",
+          "oklch(72.14% 0.0512 92.72)",
+          "oklch(83.57% 0.0512 92.72)",
+          "oklch(95.00% 0.0512 92.72)"
+        ]
+      },
+      "pending-license-ink": {
+        "role": "neutral",
+        "displayName": "pending-license-ink",
+        "tonalRamp": [
+          "oklch(15.00% 0.1017 90.48)",
+          "oklch(26.43% 0.1017 90.48)",
+          "oklch(37.86% 0.1017 90.48)",
+          "oklch(49.29% 0.1017 90.48)",
+          "oklch(60.71% 0.1017 90.48)",
+          "oklch(72.14% 0.1017 90.48)",
+          "oklch(83.57% 0.1017 90.48)",
+          "oklch(95.00% 0.1017 90.48)"
+        ]
       }
     },
     "typographyMeta": {
       "display": {
-        "displayName": "编辑式 Hero",
-        "purpose": "主图库品牌标题。"
+        "displayName": "display",
+        "purpose": "两行品牌主标题"
       },
       "headline": {
-        "displayName": "资源区域标题",
-        "purpose": "图库和浏览范围。"
+        "displayName": "headline",
+        "purpose": "空间说明标题"
+      },
+      "section-title": {
+        "displayName": "section-title",
+        "purpose": "资源库标题"
+      },
+      "poster-title": {
+        "displayName": "poster-title",
+        "purpose": "真实名称派生的封面标题"
+      },
+      "brand-display": {
+        "displayName": "brand-display",
+        "purpose": "KEEP IDEAS. 舞台图形字"
       },
       "title": {
-        "displayName": "资源名称",
-        "purpose": "真实卡片名称，可换行。"
+        "displayName": "title",
+        "purpose": "列表资源名称"
       },
       "body": {
-        "displayName": "基础正文",
-        "purpose": "系统字体栈，没有远程字体依赖。"
-      },
-      "control": {
-        "displayName": "主要操作",
-        "purpose": "主要网页按钮。"
+        "displayName": "body",
+        "purpose": "基础阅读层"
       },
       "description": {
-        "displayName": "资源说明",
-        "purpose": "卡片两行摘要。"
+        "displayName": "description",
+        "purpose": "Hero 说明"
       },
-      "label": {
-        "displayName": "辅助信息",
-        "purpose": "域名、分类等。"
+      "control": {
+        "displayName": "control",
+        "purpose": "搜索与紧凑操作"
       },
-      "intro": {
-        "displayName": "Brand curtain wordmark",
-        "purpose": "First-session / replay only; <=760px clamp(90px,23vw,150px)."
+      "navigation": {
+        "displayName": "navigation",
+        "purpose": "侧栏导航"
+      },
+      "code": {
+        "displayName": "code",
+        "purpose": "真实保存代码的海报终端"
       }
     },
     "shadows": [
       {
-        "name": "browse-panel",
-        "value": "0 16px 40px #0006",
-        "purpose": "展开工具面板。"
+        "name": "gallery-rest",
+        "value": "0 5px 18px #0003",
+        "purpose": "图库静态预览"
       },
       {
-        "name": "detail-drawer",
+        "name": "gallery-space-hover",
+        "value": "0 28px 70px #000b,0 0 0 1px #c9e0ff38 inset",
+        "purpose": "空间模式的预览 hover／focus"
+      },
+      {
+        "name": "brand-space",
+        "value": "0 26px 65px #0009,0 0 0 1px #ffffff12 inset",
+        "purpose": "空间模式品牌舞台"
+      },
+      {
+        "name": "spatial-shell",
+        "value": "0 22px 48px rgba(0,0,0,.58),inset 0 0 0 1px rgba(255,255,255,.06)",
+        "purpose": "空间卡外壳"
+      },
+      {
+        "name": "tool-panel",
+        "value": "0 16px 40px #0006",
+        "purpose": "展开工具"
+      },
+      {
+        "name": "detail",
         "value": "-16px 0 50px #0008",
-        "purpose": "详情抽屉。"
+        "purpose": "真实详情抽屉"
       },
       {
         "name": "dialog",
         "value": "0 24px 80px #0009",
-        "purpose": "聚焦任务。"
+        "purpose": "任务对话框"
       },
       {
-        "name": "capture-deck",
+        "name": "capture",
         "value": "0 8px 32px #0006",
-        "purpose": "网页采集层。"
+        "purpose": "网页采集层"
       },
       {
         "name": "toast",
         "value": "0 10px 30px #0006",
-        "purpose": "真实反馈。"
+        "purpose": "保存与撤销提示"
       }
     ],
     "motion": [
       {
-        "name": "ease-brand",
+        "name": "ease-standard",
         "value": "cubic-bezier(.22,1,.36,1)",
-        "purpose": "V2 standard smooth curve."
+        "purpose": "品牌与一般状态"
+      },
+      {
+        "name": "ease-art",
+        "value": "cubic-bezier(.16,1,.3,1)",
+        "purpose": "海报与 Bits 布局过渡"
+      },
+      {
+        "name": "bits-flip-studio",
+        "value": "480ms",
+        "purpose": "Studio 资源重排；Bits 单一 owner"
+      },
+      {
+        "name": "bits-flip-calm",
+        "value": "320ms",
+        "purpose": "Calm 保留低幅度布局转换"
+      },
+      {
+        "name": "poster-sheen",
+        "value": "850ms",
+        "purpose": "hover 单次光带"
+      },
+      {
+        "name": "spatial-float",
+        "value": "11s ease-in-out infinite",
+        "purpose": "Studio／Depth 空间循环；后台、弹层、不可见暂停"
+      },
+      {
+        "name": "brand-bookmark",
+        "value": "7600ms ease-in-out infinite",
+        "purpose": "ShijiMotion 品牌几何循环"
       },
       {
         "name": "intro-curtain",
-        "value": "1370ms; cubic-bezier(.65,0,.25,1); clip-path checkpoints 0/.21/.65/1",
-        "purpose": "sessionStorage shiji-v2-intro first session / replay; hidden after1400ms; Skip / Esc cancel."
-      },
-      {
-        "name": "intro-brand",
-        "value": "800ms; cubic-bezier(.22,1,.36,1)",
-        "purpose": "Wordmark enters from y-60px / scale .3."
-      },
-      {
-        "name": "hero-heading-entry",
-        "value": "840ms; delay650ms; cubic-bezier(.22,1,.36,1)",
-        "purpose": "translateY30px / skewY3deg / blur9px to rest."
-      },
-      {
-        "name": "hero-stage-entry",
-        "value": "1300ms; cubic-bezier(.22,1,.36,1)",
-        "purpose": "Stage clip-path and opacity entrance."
-      },
-      {
-        "name": "brand-bookmark-loop",
-        "value": "7600ms infinite; ease-in-out",
-        "purpose": "Bookmark float / rotation; shared pause conditions."
-      },
-      {
-        "name": "brand-orbit-grid-loop",
-        "value": "18000ms infinite; linear",
-        "purpose": "Orbit rotation and grid translation."
-      },
-      {
-        "name": "brand-cutout-loop",
-        "value": "6000ms alternate infinite; cubic-bezier(.45,0,.4,1)",
-        "purpose": "Rotation, scale and corner morph."
-      },
-      {
-        "name": "brand-tracer-loop",
-        "value": "9000ms alternate infinite; ease-in-out",
-        "purpose": "Tracer skew; hidden <=760px."
-      },
-      {
-        "name": "brand-spark-loop",
-        "value": "4000ms infinite; ease-in-out",
-        "purpose": "Spark scale / rotation."
-      },
-      {
-        "name": "mode-beacon-loop",
-        "value": "1500ms infinite; ease-in-out",
-        "purpose": "Mode opacity cycle; shared pause conditions."
-      },
-      {
-        "name": "ticker-loop",
-        "value": "22000ms infinite; linear",
-        "purpose": "Ticker translateX(-50%); shared pause conditions."
-      },
-      {
-        "name": "pointer-parallax",
-        "value": "14px normalized span; CSS550ms cubic-bezier(.2,.8,.2,1)",
-        "purpose": "Fine pointer rAF parallax and stage radial spotlight."
-      },
-      {
-        "name": "card-flip-studio",
-        "value": "680ms; cubic-bezier(.16,1,.3,1)",
-        "purpose": "Bits sole owner; position / size FLIP and mild blur."
-      },
-      {
-        "name": "card-entry-studio",
-        "value": "850ms; delay min(index,7)*65ms; cubic-bezier(.16,1,.3,1)",
-        "purpose": "Bits real-card y56px / scale.91 / rotateX9deg / blur10px entrance."
-      },
-      {
-        "name": "card-exit-studio",
-        "value": "500ms; cubic-bezier(.22,1,.36,1); max9 visible proxies",
-        "purpose": "Bits inert / aria-hidden preview ghosts; begin / mode / destroy cleanup."
-      },
-      {
-        "name": "image-tilt",
-        "value": "maximum +/-3deg; perspective800px; scale1.025; 320ms var(--shiji-ease)",
-        "purpose": "Bits alone tilts valid images with fine mouse; full preview / focus / scroll / blur reset."
-      },
-      {
-        "name": "hover-light",
-        "value": "spotlight opacity250ms; sheen translateX900ms var(--shiji-ease)",
-        "purpose": "Pointer glow and preview pseudo-element sheen; Calm / reduce off."
-      },
-      {
-        "name": "category-indicator",
-        "value": "320ms; cubic-bezier(.16,1,.3,1)",
-        "purpose": "ShijiGlass owns selected-pill indicator only."
-      },
-      {
-        "name": "category-pill-count",
-        "value": "pill450ms cubic-bezier(.2,1.8,.25,1); count500ms ease-out",
-        "purpose": "Studio CSS pill settle and count entrance."
-      },
-      {
-        "name": "scene-stamp",
-        "value": "910ms; cubic-bezier(.22,1,.36,1)",
-        "purpose": "Browse-signature change; inert stamp and separate360ms real title entrance."
+        "value": "1370ms",
+        "purpose": "可跳过开场"
       },
       {
         "name": "detail-proxy",
-        "value": "710ms; cubic-bezier(.2,.85,.25,1)",
-        "purpose": "One inert pointer-events:none proxy; fades after83%; real detail immediately available."
-      },
-      {
-        "name": "content-stagger",
-        "value": "650ms; delay50+index*70ms; max8 elements; cubic-bezier(.16,1,.22,1)",
-        "purpose": "Detail / dialog copy layers; detail close cancels owned animations."
-      },
-      {
-        "name": "dialog-entry",
-        "value": "400ms; cubic-bezier(.22,1,.36,1)",
-        "purpose": "Dialog transform / opacity entrance."
-      },
-      {
-        "name": "search-focus",
-        "value": "220ms; background200ms var(--shiji-ease)",
-        "purpose": "Search-focus feedback; Esc restores origin focus."
+        "value": "560ms cubic-bezier(.2,.85,.25,1)",
+        "purpose": "当前封面到详情的非交互代理"
       },
       {
         "name": "save-flight",
-        "value": "900ms; cubic-bezier(.25,.84,.28,1)",
-        "purpose": "After real persistence, fly then success burst; without sourceRect burst immediately."
+        "value": "900ms",
+        "purpose": "真实保存成功后的飞入"
       },
       {
-        "name": "feedback-burst",
-        "value": "save15 particles; action/favorite6; ring650ms; particles650/750/850ms",
-        "purpose": "Save and persisted favorite feedback are separate from generic category / primary click microfeedback; four colors, bounded count."
+        "name": "dialog-enter",
+        "value": "320ms",
+        "purpose": "真实对话框打开"
       },
       {
-        "name": "capture-highlight",
-        "value": "600ms brightness1->1.35->1",
-        "purpose": "Saved-target highlight."
-      },
-      {
-        "name": "native-capture-dock",
-        "value": ".spring(response:0.38,dampingFraction:0.82)",
-        "purpose": "macOS dock; nil when OS Reduce Motion OR validated libraryMotion effective Calm."
+        "name": "focus-ring",
+        "value": "2px solid var(--lime); outline-offset:4px",
+        "purpose": "键盘焦点；为 schema 外的组件状态扩展"
       }
     ],
     "breakpoints": [
       {
-        "name": "full-sidebar",
-        "value": "min-width:1280px"
+        "name": "toolbar-compress",
+        "value": "1380px"
       },
       {
-        "name": "drawer-sidebar",
-        "value": "max-width:1279px"
+        "name": "spatial-medium",
+        "value": "1180px"
       },
       {
-        "name": "stacked-hero",
-        "value": "max-width:760px"
+        "name": "desktop-compact",
+        "value": "1120px"
       },
       {
-        "name": "single-gallery-column",
-        "value": "max-width:480px"
+        "name": "gallery-two-columns",
+        "value": "900px"
+      },
+      {
+        "name": "sidebar-drawer",
+        "value": "880px"
+      },
+      {
+        "name": "phone-single-column",
+        "value": "620px"
+      },
+      {
+        "name": "inherited-touch-controls",
+        "value": "480px"
+      },
+      {
+        "name": "demo-narrow-calibration",
+        "value": "430px"
       }
     ],
-    "accessibility": {
-      "focus": "2px solid var(--focus), offset 4px",
-      "reducedMotion": "prefers-reduced-motion overrides Studio; Calm cancels Bits / Glass too.",
-      "reducedTransparency": "Solid shiji-surface for affected controls; no CSS backdrop-filter.",
-      "moreContrast": {
-        "muted": "#c1c1ca",
-        "line": "#646570"
-      }
-    },
-    "layout": {
-      "gallery": "data-gallery-columns=2; two columns above 480px, one below; ShijiBits packing uses 22px gap or 18px at <=760px.",
-      "hero": "Conditional main-gallery expression; see SURFACE_BRIEF.md.",
-      "keyedCards": "Stable resource-ID nodes, decoded image reuse, preserve available focus."
-    },
-    "nativeComponents": [
+    "accessibility": [
       {
-        "name": "macOS CaptureDock",
-        "runtime": "SwiftUI",
-        "spec": "macOS26 GlassEffectContainer spacing:16; HStack spacing:12; 46pt icon buttons; system font size:14 semibold; lime foreground; regularMaterial fallback; system Reduce Motion OR libraryMotion effective Calm guard."
+        "name": "high-contrast-content",
+        "value": "#d2d4dd",
+        "purpose": "prefers-contrast:more 的资源辅助文字／空间说明"
       },
       {
-        "name": "macOS Search",
-        "runtime": "SwiftUI",
-        "spec": "Native toolbar TextField width:250, HStack spacing:9, horizontal padding:12, vertical padding:8; commands existing web search."
+        "name": "high-contrast-navigation",
+        "value": "#c5c8d3",
+        "purpose": "prefers-contrast:more 的导航标签"
       }
-    ],
-    "verification": {
-      "basis": "Existing QA evidence; this documentation pass did not rerun builds, interactions or tests.",
-      "evidence": [
-        "../docs/shiji-v2/evidence/p5-web-desktop.png",
-        "../docs/shiji-v2/evidence/p5-gallery.png",
-        "../docs/shiji-v2/evidence/p5-web-mobile.png",
-        "../docs/shiji-v2/evidence/p5-native-mac-active.png",
-        "../docs/shiji-v2/evidence/p5-native-mac-expanded.png",
-        "../docs/shiji-v2/evidence/motion-desktop.png",
-        "../docs/shiji-v2/evidence/motion-web-mobile.png",
-        "../docs/shiji-v2/evidence/motion-category.png",
-        "../docs/shiji-v2/evidence/motion-capture-flight.png",
-        "../docs/shiji-v2/evidence/motion-calm.png"
-      ],
-      "limits": [
-        "Inactive-window macOS glass not runtime verified.",
-        "Older macOS material fallback not runtime accepted.",
-        "Web mobile screenshot is not native iPhone acceptance."
-      ]
-    },
-    "motionControl": {
-      "preference": "shiji-v2-motion-mode",
-      "default": "studio",
-      "systemOverride": "prefers-reduced-motion:reduce",
-      "loopsPauseWhen": [
-        "Calm / OS reduce",
-        "document.hidden",
-        "stage offscreen or hidden",
-        "drawer or dialog open"
-      ],
-      "nativeBridge": "Main-frame 127.0.0.1 matching runtime port; libraryMotion passes effective data-shiji-motion to CaptureDock.",
-      "overlayOwnership": "No pointer / focus ownership; cancel and cleanup on mode / background / close / destroy."
-    }
+    ]
   },
   "components": [
     {
-      "name": "Primary Button",
+      "name": "快速收藏",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "真实网页主要按钮的样式示例；不执行资源写入。",
-      "html": "<button class=\"ds-primary\">收藏资源</button>",
-      "css": ".ds-primary{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",\"Noto Sans SC\",\"Microsoft YaHei\",sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:42px;padding:11px 18px;border:0;border-radius:8px;background:var(--shiji-lime,#d7ff65);color:var(--shiji-bg,#0c0d10);font-size:14px;font-weight:700;cursor:pointer;transition:background .15s}.ds-primary:hover{background:var(--accent-hover,#e5ff9d)}.ds-primary:focus-visible{outline:2px solid var(--shiji-lime,#d7ff65);outline-offset:4px}.ds-primary:disabled{opacity:.55;cursor:wait}@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){.ds-primary:hover{transform:translateY(-3px) scale(1.03)}}"
+      "description": "工具栏中的主要收藏入口。",
+      "html": "<button class=\"ds-primary\"><svg viewBox=\"0 0 24 24\" width=\"17\" height=\"17\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" aria-hidden=\"true\"><path d=\"M12 5v14M5 12h14\"/></svg>快速收藏</button>",
+      "css": ".ds-primary{font-family:Inter, \"SF Pro Display\", -apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Microsoft YaHei\", Arial, sans-serif;display:inline-flex;align-items:center;gap:8px;background:var(--lime,#d7ff65);color:#15161a;border:0;border-radius:11px;padding:11px 16px;font-size:12px;font-weight:900;min-height:40px;cursor:pointer;transition:transform .22s,box-shadow .22s,background .2s}.ds-primary:hover{background:var(--accent-hover,#e5ff9d);transform:translateY(-2px);box-shadow:0 7px 30px #c9ff6150}.ds-primary:focus-visible{outline:2px solid var(--lime,#d7ff65);outline-offset:4px}"
     },
     {
-      "name": "Secondary Button",
+      "name": "Hero 收藏",
+      "kind": "button",
+      "refersTo": "button-hero",
+      "description": "品牌标题下的胶囊收藏动作。",
+      "html": "<button class=\"ds-hero\"><svg viewBox=\"0 0 24 24\" width=\"17\" height=\"17\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" aria-hidden=\"true\"><path d=\"M12 5v14M5 12h14\"/></svg>拾起新灵感</button>",
+      "css": ".ds-hero{font-family:Inter, \"SF Pro Display\", -apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Microsoft YaHei\", Arial, sans-serif;display:inline-flex;align-items:center;gap:8px;background:var(--lime,#d7ff65);color:#141515;border:0;border-radius:30px;padding:13px 17px;font-size:13px;font-weight:850;cursor:pointer;transition:transform .3s var(--ease,cubic-bezier(.22,1,.36,1)),box-shadow .3s}.ds-hero:hover{background:var(--accent-hover,#e5ff9d);transform:translateY(-3px) scale(1.03);box-shadow:0 12px 32px #d7ff6538}.ds-hero:focus-visible{outline:2px solid var(--lime,#d7ff65);outline-offset:4px}"
+    },
+    {
+      "name": "次要任务",
       "kind": "button",
       "refersTo": "button-secondary",
-      "description": "真实网页次要操作样式。",
-      "html": "<button class=\"ds-secondary\">取消</button>",
-      "css": ".ds-secondary{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",\"Noto Sans SC\",\"Microsoft YaHei\",sans-serif;display:inline-flex;align-items:center;justify-content:center;padding:10px 16px;border:1px solid var(--shiji-line,rgba(255,255,255,.095));border-radius:8px;background:var(--shiji-surface-raised,#1d2027);color:var(--shiji-fg,#f5f5f3);font-size:14px;cursor:pointer}.ds-secondary:hover{background:#292d34}.ds-secondary:focus-visible{outline:2px solid var(--shiji-lime,#d7ff65);outline-offset:4px}.ds-secondary:disabled{opacity:.55;cursor:wait}"
+      "description": "详情与管理表单中的次要操作。",
+      "html": "<button class=\"ds-secondary\">下载附件</button>",
+      "css": ".ds-secondary{font-family:Inter, \"SF Pro Display\", -apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Microsoft YaHei\", Arial, sans-serif;background:var(--surface2,#1d2027);color:var(--fg,#f5f5f3);border:1px solid var(--line,rgba(255,255,255,.095));border-radius:8px;padding:10px 16px;font-size:12px;min-height:38px;cursor:pointer}.ds-secondary:hover{background:#292d34}.ds-secondary:focus-visible{outline:2px solid var(--lime,#d7ff65);outline-offset:4px}"
     },
     {
-      "name": "Search Field",
+      "name": "资源搜索",
       "kind": "input",
       "refersTo": "search-field",
-      "description": "保留暗色输入平面、焦点底线与明确标签；完整焦点归还由真实运行时负责。",
-      "html": "<label class=\"ds-search\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" aria-hidden=\"true\"><circle cx=\"10.5\" cy=\"10.5\" r=\"6.5\"/><path d=\"m16 16 5 5\"/></svg><input aria-label=\"搜索资源\" placeholder=\"搜索你的灵感…\"></label>",
-      "css": ".ds-search{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",\"Noto Sans SC\",\"Microsoft YaHei\",sans-serif;display:flex;align-items:center;gap:11px;max-width:270px;min-height:38px;padding:0 12px;border:1px solid var(--shiji-line,rgba(255,255,255,.095));border-radius:8px;background:var(--shiji-surface,#15171d);color:var(--shiji-muted,#90919c);transition:background-color .2s cubic-bezier(.22,1,.36,1)}.ds-search input{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",\"Noto Sans SC\",\"Microsoft YaHei\",sans-serif;width:100%;min-width:0;padding:8px 0;background:transparent;border:0;color:var(--shiji-fg,#f5f5f3);font-size:13px;caret-color:var(--shiji-lime,#d7ff65)}.ds-search input::placeholder{color:var(--shiji-muted,#90919c)}.ds-search:focus-within{background:var(--shiji-surface-raised,#1d2027);border-color:var(--shiji-lime,#d7ff65);box-shadow:inset 0 -2px var(--shiji-lime,#d7ff65)}.ds-search input:focus-visible{outline:0}@media(prefers-reduced-motion:reduce){.ds-search{transition:none}}"
+      "description": "暗底圆角搜索，焦点边界为荧光绿。",
+      "html": "<label class=\"ds-search\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" aria-hidden=\"true\"><circle cx=\"10.5\" cy=\"10.5\" r=\"6.5\"/><path d=\"m16 16 5 5\"/></svg><input type=\"search\" placeholder=\"搜索一切灵感…\" aria-label=\"搜索资源\"></label>",
+      "css": ".ds-search{font-family:Inter, \"SF Pro Display\", -apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Microsoft YaHei\", Arial, sans-serif;display:inline-flex;align-items:center;gap:11px;background:var(--surface,#15171d);color:var(--muted,#90919c);border:1px solid var(--line,rgba(255,255,255,.095));border-radius:12px;padding:0 12px;min-height:38px;width:260px;max-width:100%}.ds-search input{font-family:inherit;font-size:12px;width:100%;min-width:0;background:transparent;border:0;color:var(--fg,#f5f5f3);padding:8px 0}.ds-search input::placeholder{color:var(--muted,#90919c)}.ds-search:hover{border-color:#5f6650}.ds-search:focus-within{border-color:var(--lime,#d7ff65)}.ds-search input:focus-visible{outline:2px solid var(--lime,#d7ff65);outline-offset:4px}"
     },
     {
-      "name": "Sidebar Navigation",
-      "kind": "nav",
-      "refersTo": "navigation-active",
-      "description": "当前页面以真实网页抬升平面和绿色文字表达；示例不含虚构数量。",
-      "html": "<nav aria-label=\"资源范围\"><button class=\"ds-nav\" aria-current=\"page\">全部资源</button><button class=\"ds-nav\">常用收藏</button></nav>",
-      "css": ".ds-nav{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",\"Noto Sans SC\",\"Microsoft YaHei\",sans-serif;display:flex;align-items:center;gap:11px;width:100%;min-height:40px;margin:2px 0;padding:9px 12px;border:0;border-radius:8px;background:transparent;color:#a3a4ae;font-size:13px;text-align:left;cursor:pointer}.ds-nav:hover,.ds-nav[aria-current=page]{background:var(--shiji-surface-raised,#1d2027);color:var(--shiji-lime,#d7ff65)}.ds-nav[aria-current=page]{font-weight:600}.ds-nav:focus-visible{outline:2px solid var(--shiji-lime,#d7ff65);outline-offset:4px}"
-    },
-    {
-      "name": "Category Chip",
-      "kind": "chip",
-      "refersTo": "category-active",
-      "description": "分类真实样式；实际运行时指示器由 ShijiGlass 维护。",
-      "html": "<button class=\"ds-category\" aria-pressed=\"true\">全部</button><button class=\"ds-category\" aria-pressed=\"false\">开发工具</button>",
-      "css": ".ds-category{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",\"Noto Sans SC\",\"Microsoft YaHei\",sans-serif;display:inline-flex;align-items:center;gap:7px;min-height:34px;padding:7px 12px;border:1px solid var(--shiji-line,rgba(255,255,255,.095));border-radius:99px;background:transparent;color:var(--shiji-muted,#90919c);font-size:11px;cursor:pointer;transition:color 160ms}.ds-category:hover{background:var(--shiji-surface-raised,#1d2027)}.ds-category[aria-pressed=true]{background:var(--shiji-lime,#d7ff65);color:var(--shiji-bg,#0c0d10);font-weight:600}.ds-category:focus-visible{outline:2px solid var(--shiji-lime,#d7ff65);outline-offset:4px}@media(prefers-reduced-motion:reduce){.ds-category{transition:none}}@media(prefers-reduced-motion:no-preference){.ds-category[aria-pressed=true]{animation:ds-pill-settle .45s cubic-bezier(.2,1.8,.25,1)}}@keyframes ds-pill-settle{0%{transform:scale(.85)}50%{transform:scale(1.07)}100%{transform:scale(1)}}"
-    },
-    {
-      "name": "Exact Tag",
-      "kind": "chip",
-      "refersTo": "tag",
-      "description": "标签名称保持完整，包括逗号。",
-      "html": "<button class=\"ds-tag\" aria-pressed=\"false\">New, exact</button>",
-      "css": ".ds-tag{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",\"Noto Sans SC\",\"Microsoft YaHei\",sans-serif;padding:6px 12px;border:0;border-radius:999px;background:var(--shiji-surface-raised,#1d2027);color:#b5b6be;font-size:12px;cursor:pointer}.ds-tag:hover{border-color:#839496}.ds-tag[aria-pressed=true]{background:#303b1c;color:var(--shiji-lime,#d7ff65)}.ds-tag:focus-visible{outline:2px solid var(--shiji-lime,#d7ff65);outline-offset:4px}"
-    },
-    {
-      "name": "Resource Metadata",
-      "kind": "card",
-      "refersTo": "resource-metadata",
-      "description": "平置的真实信息结构；示例不虚构图像或数量。",
-      "html": "<article class=\"ds-resource\"><button class=\"ds-resource-title\">资源名称</button><div class=\"ds-resource-domain\">example.com</div><p class=\"ds-resource-description\">保存的资源说明。</p></article>",
-      "css": ".ds-resource{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",\"Noto Sans SC\",\"Microsoft YaHei\",sans-serif;max-width:420px;padding:16px 0 0;background:transparent;color:var(--shiji-fg,#f5f5f3)}.ds-resource-title{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",\"Noto Sans SC\",\"Microsoft YaHei\",sans-serif;padding:0;border:0;background:transparent;color:var(--shiji-fg,#f5f5f3);font-size:19px;font-weight:650;line-height:1.4;letter-spacing:-.015em;text-align:left;overflow-wrap:anywhere;cursor:pointer}.ds-resource-title:hover{color:var(--shiji-lime,#d7ff65)}.ds-resource-title:focus-visible{outline:2px solid var(--shiji-lime,#d7ff65);outline-offset:4px}.ds-resource-domain{margin-top:5px;color:var(--shiji-muted,#90919c);font-size:11px}.ds-resource-description{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin:10px 0;color:var(--shiji-muted,#90919c);font-size:13px;line-height:1.6}"
-    },
-    {
-      "name": "Form Field",
+      "name": "管理字段",
       "kind": "input",
       "refersTo": "form-field",
-      "description": "普通表单输入的实际暗色样式。",
-      "html": "<label class=\"ds-field-label\">资源名称<input class=\"ds-field\" type=\"text\" value=\"保存的参考\"></label>",
-      "css": ".ds-field-label{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",\"Noto Sans SC\",\"Microsoft YaHei\",sans-serif;display:flex;flex-direction:column;gap:7px;color:var(--shiji-fg,#f5f5f3);font-size:13px}.ds-field{font-family:-apple-system,BlinkMacSystemFont,\"PingFang SC\",\"Noto Sans SC\",\"Microsoft YaHei\",sans-serif;padding:10px 12px;background:var(--shiji-surface-raised,#1d2027);border:1px solid #424650;border-radius:8px;color:var(--shiji-fg,#f5f5f3);font-size:14px;caret-color:var(--shiji-lime,#d7ff65)}.ds-field:focus-visible{outline:2px solid var(--shiji-lime,#d7ff65);outline-offset:4px}.ds-field:disabled{opacity:.55;cursor:wait}"
+      "description": "沿用管理区表单材料与输入边界。",
+      "html": "<label class=\"ds-field\">资源名称<input value=\"我的收藏\" aria-label=\"资源名称\"></label>",
+      "css": ".ds-field{font-family:Inter, \"SF Pro Display\", -apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Microsoft YaHei\", Arial, sans-serif;display:grid;gap:7px;color:var(--fg,#f5f5f3);font-size:13px}.ds-field input{font-family:inherit;font-size:16px;color:var(--fg,#f5f5f3);background:var(--surface2,#1d2027);border:1px solid #424650;border-radius:8px;padding:12px}.ds-field input:hover{border-color:#787c88}.ds-field input:focus-visible{outline:2px solid var(--lime,#d7ff65);outline-offset:4px}"
+    },
+    {
+      "name": "当前导航",
+      "kind": "nav",
+      "refersTo": "navigation-active",
+      "description": "侧栏白字、绿色图标和左侧内边线。",
+      "html": "<nav class=\"ds-nav\"><button class=\"ds-nav-item\" aria-current=\"page\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" aria-hidden=\"true\"><path d=\"M4 4h16v16H4zM4 10h16M10 10v10\"/></svg>全部资源<span class=\"ds-nav-count\">11</span></button></nav>",
+      "css": ".ds-nav{font-family:Inter, \"SF Pro Display\", -apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Microsoft YaHei\", Arial, sans-serif;background:var(--side,#101115);padding:12px;width:220px}.ds-nav-item{font-family:inherit;display:flex;align-items:center;gap:12px;width:100%;text-align:left;border:1px solid transparent;border-radius:11px;min-height:43px;padding:11px 12px;background:#25272a;color:var(--fg,#f5f5f3);font-size:13px;font-weight:620;box-shadow:inset 3px 0 var(--lime,#d7ff65);cursor:pointer;transition:background .22s,transform .22s}.ds-nav-item svg{color:var(--lime,#d7ff65)}.ds-nav-count{margin-left:auto;font-size:11px;color:#a2a5af}.ds-nav-item:hover{background:#202127;transform:translateX(3px)}.ds-nav-item:focus-visible{outline:2px solid var(--lime,#d7ff65);outline-offset:4px}"
+    },
+    {
+      "name": "分类筛选",
+      "kind": "chip",
+      "refersTo": "category-active",
+      "description": "真实类别数量与选中状态；示例数量仅供面板展示。",
+      "html": "<div class=\"ds-categories\"><button class=\"ds-category\" aria-pressed=\"false\">全部 <span>11</span></button><button class=\"ds-category ds-category-active\" aria-pressed=\"true\">开发工具 <span>3</span></button></div>",
+      "css": ".ds-categories{font-family:Inter, \"SF Pro Display\", -apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Microsoft YaHei\", Arial, sans-serif;display:flex;gap:7px;flex-wrap:wrap}.ds-category{font-family:inherit;display:inline-flex;align-items:center;gap:8px;background:#16181d;color:#b5b7bf;border:1px solid var(--line,rgba(255,255,255,.095));border-radius:999px;padding:10px 14px;font-size:12px;cursor:pointer;transition:background .18s,color .18s}.ds-category span{font-size:10px;opacity:.75}.ds-category-active{background:var(--lime,#d7ff65);color:#15171a;border-color:var(--lime,#d7ff65)}.ds-category:hover{background:var(--surface2,#1d2027)}.ds-category-active:hover{background:var(--lime,#d7ff65)}.ds-category:focus-visible{outline:2px solid var(--lime,#d7ff65);outline-offset:4px}"
+    },
+    {
+      "name": "纯封面海报",
+      "kind": "card",
+      "refersTo": "poster-card",
+      "description": "V5 派生海报；名称和来源在封面内，没有封面外管理正文。",
+      "html": "<button class=\"ds-poster\" aria-label=\"查看 我的灵感\"><span class=\"ds-poster-grid\"></span><span class=\"ds-poster-source\">个人收藏</span><span class=\"ds-poster-title\">我的<br>灵感</span><span class=\"ds-poster-ring\"></span><span class=\"ds-poster-foot\">收藏资源</span></button>",
+      "css": ".ds-poster{font-family:Inter, \"SF Pro Display\", -apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Microsoft YaHei\", Arial, sans-serif;position:relative;display:block;width:320px;max-width:100%;height:230px;padding:0;overflow:hidden;isolation:isolate;text-align:left;background:#daff67;color:#13191a;border:0;border-radius:12px;box-shadow:0 5px 18px #0003;cursor:pointer;transition:box-shadow .3s,filter .3s}.ds-poster-grid{position:absolute;inset:-55%;background-image:linear-gradient(currentColor 1px,transparent 1px),linear-gradient(90deg,currentColor 1px,transparent 1px);background-size:28px 28px;opacity:.13;transform:rotate(-12deg)}.ds-poster-source{position:absolute;top:7%;left:6%;font-size:9px;letter-spacing:1.1px;font-weight:850}.ds-poster-title{position:absolute;left:6%;top:23%;font-size:66px;font-weight:900;line-height:.97;letter-spacing:-.065em;z-index:2}.ds-poster-ring{position:absolute;width:150px;height:150px;right:-40px;bottom:-110px;background:#ff8062;border:28px solid #1d1526;border-radius:50%;box-shadow:0 0 0 20px #8d5bfa,0 0 0 42px #121715}.ds-poster-foot{position:absolute;left:6%;bottom:6%;font-size:9px;font-weight:900;letter-spacing:1.1px}.ds-poster:hover{box-shadow:0 28px 70px #000b,0 0 0 1px #c9e0ff38 inset;filter:saturate(1.05)}.ds-poster:focus-visible{outline:2px solid var(--lime,#d7ff65);outline-offset:4px}"
     }
   ],
   "narrative": {
-    "northStar": "Creative Tech Dark · Motion Studio",
-    "overview": "拾集把真实收藏放进深色创意画廊：荧光绿指出可以执行的动作，紫色几何舞台承载品牌，低边框的内容平面保持图片、工具来源和文本摘要清晰。排版有编辑式的大标题，也保留技术工作台的信息秩序。\n\n本文件固化已经认可并实现的 SHIJI V2 世界，替换旧的暖白／鼠尾草／整页玻璃方向。视觉权威是 `../docs/shiji-v2/IMPLEMENTATION_PLAN.md`、`CODEX_MASTER_PROMPT.md` 与 `reference/motion-studio.html`；实际令牌从 `static/shiji-v2.css` 及其保留的基础层提取。网页管理区仍由 WKWebView 承载，原生 macOS 操作使用独立的系统材料；两者共享品牌，保留各自平台结构。",
+    "northStar": "Spatial Poster · Creative Archive",
+    "overview": "拾集把真实收藏置于深色空间画廊：荧光绿连接操作与选择，紫色品牌舞台以网格、裁切几何、半透明平面和漂浮层次表达创意。海报本身成为浏览表面；管理信息在列表和详情中保持清楚。\n\n当前世界由用户提供的 SHIJI_V5_Spatial_Poster_Demo.html 明确授权，原稿保存在 ../docs/shiji-v5/reference/spatial-poster.html，方向契约见 ../docs/shiji-v5/PLAN.md。规范以实际最后加载的 static/shiji-v5.css、static/shiji-v5.js、index.html 与保留的基础控件为准；本次合并替换 V2 世界和旧 Cover Studio 附录，保留已经确认的数据与原生平台边界。范围是 macOS WKWebView／响应式网页，原生 iPhone SwiftUI 未改变。",
     "keyCharacteristics": [
-      "深色内容平面、紫色品牌舞台、荧光绿关键操作",
-      "Visual / Tool / Text 三类真实资源表达",
-      "编辑式标题与紧凑、清楚的管理控件",
-      "Studio / Calm 与系统减少动态效果共同控制动效",
-      "原生操作材料和网页不透明阅读层各自承担职责"
+      "深色空间底、荧光绿动作、紫色层叠品牌舞台",
+      "海报、网格、颗粒和几何实体共同构成内容材质",
+      "图库和空间卡只展示封面，列表与详情承载管理信息",
+      "Studio／Calm、3D／Flat 与系统减少动态效果共同控制深度",
+      "真实图片优先，海报从真实记录派生，原生操作保持平台材料"
     ],
     "rules": [
       {
-        "name": "The Accent Restraint Rule",
-        "body": "荧光绿集中于主要操作、选择和必要反馈；图片颜色与紫色舞台保留自己的表达空间。",
+        "name": "The Content Color Rule",
+        "body": "海报颜色属于内容表达；常用、选择、焦点与主要操作仍使用荧光绿，错误与许可状态仍有明确文字。",
         "section": "colors"
       },
       {
-        "name": "The Material Boundary Rule",
-        "body": "原生系统材料属于原生操作层；网页 CSS 与暗色阅读平面不得被称为原生 Liquid Glass。",
-        "section": "elevation"
+        "name": "The Container Type Rule",
+        "body": "海报标题随封面容器和真实名称计算字号；不以视口字号覆盖派生标题，也不补造短标题。",
+        "section": "typography"
       },
       {
         "name": "The Single Motion Owner Rule",
-        "body": "`ShijiBits` 独占资源卡片 FLIP 与图片 tilt；编排层不得在同一实际节点上叠加第二套 transform。",
-        "section": "components"
+        "body": "ShijiBits 独占资源卡 FLIP、整卡指针姿态与拖动；ShijiMotion 负责品牌／空间舞台、有限反馈和暂停，不对同一个实际卡片节点叠加第二套 transform。",
+        "section": "elevation"
+      },
+      {
+        "name": "The Material Boundary Rule",
+        "body": "网页透明平面和 backdrop-filter 是 CSS 材质；macOS 原生操作使用系统材料，不把网页效果称为原生 Liquid Glass。",
+        "section": "elevation"
       }
     ],
     "dos": [
-      "Do 延续已经认可的 Creative Tech Dark · Motion Studio，按真实源码提取令牌。",
-      "Do 使用真实封面、域名、资源名称、数量、附件和文本摘要。",
-      "Do 让 Studio、Calm、系统减少动态效果与弹层生命周期控制装饰动效。",
-      "Do 在写入成功后反馈收藏，失败保留输入与恢复动作。",
-      "Do 保留可见焦点、键盘操作、清晰错误与原生系统结构。"
+      "Do 以用户批准的 V5 Spatial Poster 和最后加载的源码作为当前视觉权威。",
+      "Do 保留真实封面优先级、资源名称、来源、准确标签和实际代码／提示词内容。",
+      "Do 让图库和空间卡保持纯封面；保留详情入口、完整 aria-label 与选择控件，列表继续展示行内信息。",
+      "Do 让 Studio、Calm、Flat、系统减少动态效果与弹层／后台生命周期控制动效。",
+      "Do 在真实写入完成后显示保存反馈，失败保留草稿、错误说明和恢复动作。",
+      "Do 保留键盘焦点、稳定资源 ID、可追加浏览和原生平台边界。"
     ],
     "donts": [
-      "Don't 恢复旧的暖白／鼠尾草／整页玻璃视觉，或复活旧 Olla 装饰模块。",
-      "Don't 用 Demo 的示例内容、localStorage 资源模型或模拟成功替代真实 API。",
-      "Don't 给实际卡片叠加第二套 FLIP／tilt，或让代理元素阻挡内容操作。",
-      "Don't 将网页预览截图作为 iPhone 原生实现或全平台验收证据。"
+      "Don't 把历史 V2 字号、断点、Cover Studio 配色或变体规则重新当作当前海报规范。",
+      "Don't 用 Demo 示例、模拟持久化、虚构来源或技术字段替代真实资源。",
+      "Don't 给实际资源卡叠加第二套 FLIP／tilt，或让装饰代理阻挡点击和焦点。",
+      "Don't 隐藏海报内的文字来实现纯封面；移除的是封面外管理正文与空间元数据层。",
+      "Don't 让封面颜色构成价格、许可、AI 分析或音频解析的证据。",
+      "Don't 将响应式网页截图作为原生 iPhone 实现或全平台验收证据。"
     ]
   }
 }

@@ -2,8 +2,8 @@
 (function(root){
   'use strict';
   const htmlByNode=new WeakMap();
-  function render(container,items){
-    const old=new Map(Array.from(container.children).filter(el=>el.matches('.resource-card')).map(el=>[el.dataset.resourceId,el]));
+  function render(container,items,selector='.resource-card'){
+    const old=new Map(Array.from(container.children).filter(el=>el.matches(selector)).map(el=>[el.dataset.resourceId,el]));
     const keep=new Set();
     items.forEach((item,index)=>{
       let node=old.get(item.id);
