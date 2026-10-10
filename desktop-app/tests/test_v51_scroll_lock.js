@@ -1,0 +1,13 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm'),{JSDOM}=require('jsdom');
+const source=process.env.SHIJI_QA_BASELINE?require('node:child_process').execFileSync('git',['show','d7a6749:desktop-app/static/app.js'],{cwd:require('node:path').join(__dirname,'../..'),encoding:'utf8'}):fs.readFileSync(require.resolve('../static/app.js'),'utf8');
+const code=source.slice(source.indexOf('function openDrawer()'),source.indexOf('function manage('));
+const start=code.indexOf('function closeDrawer()'),end=code.indexOf('\n',start);
+const open=code.slice(0,code.indexOf('\n')),close=code.slice(start,end);
+const dom=new JSDOM('<div class="app-shell"></div><input id="search"><div id="drawer" hidden></div><div id="drawer-backdrop" hidden></div>'),d=dom.window.document;
+Object.defineProperty(d.documentElement,'clientWidth',{get:()=>d.querySelector('#drawer').hidden?644:652});
+const context=vm.createContext({document:d,window:{innerWidth:652},$:(s)=>d.querySelector(s),state:{formBusy:false},quickNoteMayLeave:()=>true,pausePreviewPlayers(){},motion:{closeDetail(){}},lastFocus:null,toast(){}});vm.runInContext(open+close,context);
+context.openDrawer();assert.equal(d.body.style.getPropertyValue('--drawer-scrollbar-space'),'8px','reserve width measured before scroll lock changes viewport');assert.equal(d.querySelector('.app-shell').inert,true);
+context.openDrawer();assert.equal(d.body.style.getPropertyValue('--drawer-scrollbar-space'),'8px','nested detail/edit preserves the original reservation');
+context.closeDrawer();assert.equal(d.body.style.getPropertyValue('--drawer-scrollbar-space'),'','release compensation with the lock');assert.equal(d.querySelector('.app-shell').inert,false);
+Object.defineProperty(context.window,'innerWidth',{value:644});context.openDrawer();assert.equal(d.body.style.getPropertyValue('--drawer-scrollbar-space'),'0px','overlay scrollbars do not add spacing');context.closeDrawer();
+context.state.formBusy=true;context.openDrawer();context.closeDrawer();assert.equal(d.querySelector('#drawer').hidden,false,'busy guard retains drawer and reservation');dom.window.close();console.log('PASS: detail scroll lock reserves real scrollbar width before mutation, repeated opens retain it, close releases it, overlay scrollbars and busy guard remain correct');

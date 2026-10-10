@@ -982,3 +982,6 @@ body.space-on .card-body,body.space-on .card-preview>.cover-art{transform:none}
 
 /* Hidden WebViews must pause legacy CSS loops as well as Motion-owned loops. */
 body.v5-background *,body.v5-background *::before,body.v5-background *::after{animation-play-state:paused!important}
+
+/* Keep the gallery width when the detail scroll lock hides the scrollbar. */
+body.drawer-open{padding-right:var(--drawer-scrollbar-space,0px)}
