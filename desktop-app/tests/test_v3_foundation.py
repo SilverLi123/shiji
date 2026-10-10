@@ -61,6 +61,24 @@ class V3FoundationTests(unittest.TestCase):
         self.request('POST', '/api/resources/' + rid + '/attachments', self.image(), {'X-Metadata': metadata})
         return self.store.get(rid)['coverId']
 
+    def test_v51_capture_enrich_during_press_keeps_original_click(self):
+        release=threading.Event()
+        original=server.Handler.do_POST
+        def post(handler):
+            if handler.path=='/qa-release':
+                release.set();body=b'{}';handler.send_response(200);handler.send_header('Content-Length',str(len(body)));handler.end_headers();handler.wfile.write(body)
+            else:original(handler)
+        def metadata(url):
+            if not release.wait(10):raise RuntimeError('metadata release deadline')
+            return {'status':'ok','title':'已补全的真实资源','description':'Controlled network result; actual storage enrichment'}
+        try:
+            with patch.object(server.Handler,'do_POST',post),patch('capture.metadata',side_effect=metadata):
+                result=subprocess.run(['node',str(Path(__file__).with_name('v51_capture_click.cjs'))],input=json.dumps({'base':self.base}),text=True,capture_output=True,timeout=20)
+        finally:
+            release.set()
+        self.assertEqual(result.returncode,0,result.stdout+result.stderr)
+        self.assertIn('one original detail click',result.stdout)
+
     def test_capture_survives_offline_and_manual_edit_then_real_fields_reach_renderer(self):
         row = self.resource()
         rid = row['id']

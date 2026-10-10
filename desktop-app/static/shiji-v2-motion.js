@@ -67,8 +67,9 @@
    clearStamp();if(enabled()){const el=doc.createElement('div');el.className='shiji-motion-stamp';el.setAttribute('aria-hidden','true');el.inert=true;el.textContent=$('#page-title')?.textContent||'';doc.body.append(el);const a=animate(el,[{transform:'translate(-50%,-35%) rotate(8deg) scale(1.45)',opacity:0,filter:'blur(11px)'},{transform:'translate(-50%,-50%) rotate(-4deg) scale(1)',opacity:.96,filter:'blur(0px)',offset:.16},{transform:'translate(-50%,-50%) rotate(-3deg) scale(1)',opacity:.92,filter:'blur(0px)',offset:.52},{transform:'translate(-50%,-60%) rotate(-10deg) scale(.78)',opacity:0,filter:'blur(10px)'}],{duration:910,easing:'cubic-bezier(.22,1,.36,1)'});stamp={el,animation:a};a?.finished?.then(()=>{el.remove();if(stamp?.el===el)stamp=null;},()=>el.remove());}
   }signature=next;updateLoops();}
   function openDetail({sourceElement,detailElement}){closeDetail();updateLoops();if(!enabled()||!sourceElement||!detailElement)return;
-   stagger($('#drawer'),'.drawer-header h2,.detail-domain,.detail-actions,.detail-grid,.detail-block,.drawer-footer',detailAnimations);
    const from=sourceElement.getBoundingClientRect(),to=detailElement.getBoundingClientRect();if(!from.width||!to.width||from.bottom<0||from.top>win.innerHeight)return;
+   // Read both endpoints before animation writes force style/layout resolution.
+   stagger($('#drawer'),'.drawer-header h2,.detail-domain,.detail-actions,.detail-grid,.detail-block,.drawer-footer',detailAnimations);
    const el=doc.createElement('div');el.className='shiji-detail-ghost';el.setAttribute('aria-hidden','true');el.inert=true;
    el.dataset.galleryWide=sourceElement.closest('.resource-card')?.dataset.galleryWide||'false';
    copyPresentation(sourceElement,el);

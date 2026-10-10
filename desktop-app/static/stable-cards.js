@@ -12,8 +12,11 @@
       if(node.getAttribute('src')!==next.getAttribute('src'))return next;
       node.alt=next.alt;return node; // Preserve decoding/error/fallback state.
     }
+    const artworkVisible=node.matches('.art-v3.art-in-view')&&next.matches('.art-v3');
     for(const attr of [...node.attributes])if(!next.hasAttribute(attr.name))node.removeAttribute(attr.name);
     for(const attr of next.attributes)if(node.getAttribute(attr.name)!==attr.value)node.setAttribute(attr.name,attr.value);
+    // IntersectionObserver will not re-emit just because the same target changed text.
+    if(artworkVisible)node.classList.add('art-in-view');
     if(node.matches('input[type=checkbox]'))node.checked=next.checked;
     const old=[...node.childNodes],children=[...next.childNodes],used=new Set();
     const key=el=>el.nodeType!==1?'':el.getAttribute('data-action')
