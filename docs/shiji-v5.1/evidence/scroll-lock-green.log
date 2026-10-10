@@ -1,0 +1,1 @@
+PASS: detail scroll lock reserves real scrollbar width before mutation, repeated opens retain it, close releases it, overlay scrollbars and busy guard remain correct

@@ -1,0 +1,1 @@
+PASS: detail layout reads precede animation writes; cached formatter preserves dates including invalid values

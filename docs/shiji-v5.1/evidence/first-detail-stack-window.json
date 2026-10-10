@@ -1,0 +1,290 @@
+{
+  "windowSeconds": [
+    2.8,
+    4.2
+  ],
+  "sampleWeightMs": 333.0,
+  "samples": 333,
+  "inclusiveMs": [
+    [
+      "_CFRunLoopRunSpecificWithOptions",
+      294.0
+    ],
+    [
+      "-[NSRunLoop(NSRunLoop) runMode:beforeDate:]",
+      294.0
+    ],
+    [
+      "_xpc_main",
+      294.0
+    ],
+    [
+      "_xpc_objc_main",
+      294.0
+    ],
+    [
+      "WebKit::XPCServiceMain(int, char const**)",
+      294.0
+    ],
+    [
+      "start",
+      294.0
+    ],
+    [
+      "__CFRunLoopRun",
+      294.0
+    ],
+    [
+      "-[NSRunLoop(NSRunLoop) run]",
+      294.0
+    ],
+    [
+      "xpc_main",
+      294.0
+    ],
+    [
+      "__CFRunLoopDoTimers",
+      136.0
+    ],
+    [
+      "__CFRunLoopDoTimer",
+      134.0
+    ],
+    [
+      "WTF::Detail::CallableWrapper<WebCore::ThreadTimers::setSharedTimer(WebCore::SharedTimer*)::$_0, void>::call()",
+      132.0
+    ],
+    [
+      "WebCore::timerFired(__CFRunLoopTimer*, void*)",
+      132.0
+    ],
+    [
+      "__CFRUNLOOP_IS_CALLING_OUT_TO_A_TIMER_CALLBACK_FUNCTION__",
+      132.0
+    ],
+    [
+      "__CFRunLoopDoSources0",
+      112.0
+    ],
+    [
+      "WTF::RunLoop::performWork()",
+      112.0
+    ],
+    [
+      "__CFRunLoopDoSource0",
+      112.0
+    ],
+    [
+      "WTF::RunLoop::performWork(void*)",
+      112.0
+    ],
+    [
+      "__CFRUNLOOP_IS_CALLING_OUT_TO_A_SOURCE0_PERFORM_FUNCTION__",
+      112.0
+    ],
+    [
+      "WebKit::RemoteLayerTreeDrawingArea::updateRendering()",
+      105.0
+    ],
+    [
+      "WTF::Detail::CallableWrapper<WebCore::Timer::Timer<WebKit::RemoteLayerTreeDrawingArea, WebKit::RemoteLayerTreeDrawingArea>(WebKit::RemoteLayerTreeDrawingArea&, void (WebKit::RemoteLayerTreeDrawingArea::*)())::'lambda'(), void>::call()",
+      105.0
+    ],
+    [
+      "JSC::profiledCall(JSC::JSGlobalObject*, JSC::ProfilingReason, JSC::JSValue, JSC::CallData const&, JSC::JSValue, JSC::ArgList const&, WTF::NakedPtr<JSC::Exception>&)",
+      99.0
+    ],
+    [
+      "0x114408427",
+      98.0
+    ],
+    [
+      "WebCore::AccessibilityObject::press()",
+      95.0
+    ],
+    [
+      "-[WebAccessibilityObjectWrapper _accessibilityPerformPressAction]",
+      95.0
+    ],
+    [
+      "WebCore::JSEventListener::handleEvent(WebCore::ScriptExecutionContext&, WebCore::Event&)",
+      95.0
+    ],
+    [
+      "WebCore::EventTarget::fireEventListeners(WebCore::Event&, WebCore::EventTarget::EventInvokePhase)",
+      95.0
+    ],
+    [
+      "WebCore::EventDispatcher::dispatchEvent(WebCore::Node&, WebCore::Event&)",
+      95.0
+    ],
+    [
+      "WebCore::simulateClick(WebCore::Element&, WebCore::Event*, WebCore::SimulatedClickMouseEventOptions, WebCore::SimulatedClickVisualOptions, WebCore::SimulatedClickSource)",
+      94.0
+    ],
+    [
+      "WebCore::HTMLElement::accessKeyAction(bool)",
+      94.0
+    ],
+    [
+      "0x114408067",
+      94.0
+    ],
+    [
+      "WebCore::Document::resolveStyle(WebCore::Document::ResolveStyleType)",
+      91.0
+    ],
+    [
+      "0x114408007",
+      89.0
+    ],
+    [
+      "0x114408247",
+      81.0
+    ],
+    [
+      "0x114414043",
+      79.0
+    ],
+    [
+      "WebCore::Page::updateRendering()",
+      59.0
+    ],
+    [
+      "WebKit::WebPage::updateRendering()",
+      59.0
+    ],
+    [
+      "WebCore::Document::updateLayout(WTF::OptionSet<WebCore::LayoutOptions, (WTF::ConcurrencyTag)0>, WebCore::Element const*)",
+      45.0
+    ],
+    [
+      "0x11451b71b",
+      45.0
+    ],
+    [
+      "WebCore::Element::boundingClientRect()",
+      44.0
+    ],
+    [
+      "WebCore::Document::updateLayoutIfDimensionsOutOfDate(WebCore::Element&, WTF::OptionSet<WebCore::DimensionsCheck, (WTF::ConcurrencyTag)0>, WTF::OptionSet<WebCore::LayoutOptions, (WTF::ConcurrencyTag)0>)",
+      44.0
+    ],
+    [
+      "WebCore::jsElementPrototypeFunction_getBoundingClientRect(JSC::JSGlobalObject*, JSC::CallFrame*)",
+      44.0
+    ],
+    [
+      "WebCore::Page::layoutIfNeeded(WTF::OptionSet<WebCore::LayoutOptions, (WTF::ConcurrencyTag)0>)",
+      35.0
+    ],
+    [
+      "WebCore::LocalFrameView::updateLayoutAndStyleIfNeededRecursive(WTF::OptionSet<WebCore::LayoutOptions, (WTF::ConcurrencyTag)0>)",
+      35.0
+    ],
+    [
+      "__CFRUNLOOP_IS_CALLING_OUT_TO_A_SOURCE1_PERFORM_FUNCTION__",
+      34.0
+    ],
+    [
+      "mshMIGPerform",
+      34.0
+    ],
+    [
+      "__CFRunLoopDoSource1",
+      34.0
+    ],
+    [
+      "WebKit::RemoteLayerTreeContext::buildTransaction(WebKit::RemoteLayerTreeTransaction&, WebCore::PlatformCALayer&, WTF::ObjectIdentifierGeneric<WebCore::FrameIdentifierType, WTF::ObjectIdentifierMainThreadAccessTraits<unsigned long long>, unsigned long long>)",
+      32.0
+    ],
+    [
+      "WebCore::RenderLayerCompositor::updateCompositingLayers(WebCore::CompositingUpdateType, WebCore::RenderLayer*)",
+      32.0
+    ],
+    [
+      "WebCore::LocalFrameViewLayoutContext::updateCompositingLayersAfterStyleChange()",
+      31.0
+    ],
+    [
+      "WebCore::Style::TreeResolver::resolve()",
+      25.0
+    ],
+    [
+      "WebCore::Page::forEachRenderableDocument(WTF::Function<void (WebCore::Document&)> const&) const",
+      25.0
+    ],
+    [
+      "WebCore::Style::TreeResolver::resolveComposedTree()",
+      24.0
+    ],
+    [
+      "_XCopyHierarchy",
+      22.0
+    ],
+    [
+      "_AXXMIGCopyHierarchy",
+      22.0
+    ],
+    [
+      "_pthread_start",
+      21.0
+    ],
+    [
+      "thread_start",
+      21.0
+    ],
+    [
+      "__AXCopyAttributeValueForHierarchy",
+      21.0
+    ],
+    [
+      "WebCore::Style::TreeResolver::resolveElement(WebCore::Element&, WebCore::RenderStyle const*, WebCore::Style::TreeResolver::ResolutionType)",
+      20.0
+    ],
+    [
+      "WebCore::RenderLayerCompositor::computeCompositingRequirements(WebCore::RenderLayer*, WebCore::RenderLayer&, WebCore::LayerOverlapMap&, WebCore::RenderLayerCompositor::CompositingState&, WebCore::RenderLayerCompositor::BackingSharingState&)",
+      20.0
+    ],
+    [
+      "CopyAppKitUIElementAttributeValueNoCatch",
+      20.0
+    ],
+    [
+      "WebCore::realizeNextFallback(WebCore::FontCascadeDescription const&, unsigned int&, WebCore::FontSelector*)",
+      20.0
+    ],
+    [
+      "WebCore::LocalFrameViewLayoutContext::performLayout(bool)",
+      19.0
+    ],
+    [
+      "start_wqthread",
+      18.0
+    ],
+    [
+      "-[NSObject(NSAccessibilityInternal) _accessibilityValueForAttribute:clientError:]",
+      18.0
+    ],
+    [
+      "JSC::dateProtoFuncToLocaleString(JSC::JSGlobalObject*, JSC::CallFrame*)",
+      18.0
+    ],
+    [
+      "JSC::IntlDateTimeFormat::initializeDateTimeFormat(JSC::JSGlobalObject*, JSC::JSValue, JSC::JSValue, JSC::IntlDateTimeFormat::RequiredComponent, JSC::IntlDateTimeFormat::Defaults)",
+      18.0
+    ],
+    [
+      "WebCore::Style::TreeResolver::styleForStyleable(WebCore::Styleable const&, WebCore::Style::TreeResolver::ResolutionType, WebCore::Style::ResolutionContext const&, WebCore::RenderStyle const*)",
+      17.0
+    ],
+    [
+      "CopyAttributeValue",
+      17.0
+    ],
+    [
+      "WTF::wtfThreadEntryPoint(void*)",
+      17.0
+    ]
+  ]
+}

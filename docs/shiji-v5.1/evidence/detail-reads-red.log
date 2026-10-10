@@ -1,0 +1,30 @@
+node:assert:152
+  throw new AssertionError(obj);
+  ^
+
+AssertionError [ERR_ASSERTION]: measure endpoints before starting drawer animations
++ actual - expected
+
+  [
++   'animate',
+    'read',
+-   'read'
+  ]
+
+    at Object.<anonymous> (/Users/silver/shiji-card-restoration/desktop-app/tests/test_v51_detail_reads.js:8:8)
+    at Module._compile (node:internal/modules/cjs/loader:1854:14)
+    at Object..js (node:internal/modules/cjs/loader:1985:10)
+    at Module.load (node:internal/modules/cjs/loader:1577:32)
+    at Module._load (node:internal/modules/cjs/loader:1379:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+    at node:internal/main/run_main_module:33:47 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: [ 'animate', 'read' ],
+  expected: [ 'read', 'read' ],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.16.0

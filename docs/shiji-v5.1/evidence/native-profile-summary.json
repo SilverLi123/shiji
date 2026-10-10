@@ -1,0 +1,405 @@
+{
+  "samples": 1543,
+  "inclusiveFrames": [
+    [
+      "WebCore::RenderLayerCompositor::computeCompositingRequirements(WebCore::RenderLayer*, WebCore::RenderLayer&, WebCore::LayerOverlapMap&, WebCore::RenderLayerCompositor::CompositingState&, WebCore::RenderLayerCompositor::BackingSharingState&)",
+      1706
+    ],
+    [
+      "WebKit::PlatformCALayerRemote::recursiveBuildTransaction(WebKit::RemoteLayerTreeContext&, WebKit::RemoteLayerTreeTransaction&)",
+      1557
+    ],
+    [
+      "_CFRunLoopRunSpecificWithOptions",
+      1427
+    ],
+    [
+      "-[NSRunLoop(NSRunLoop) runMode:beforeDate:]",
+      1427
+    ],
+    [
+      "-[NSRunLoop(NSRunLoop) run]",
+      1427
+    ],
+    [
+      "_xpc_objc_main",
+      1427
+    ],
+    [
+      "_xpc_main",
+      1427
+    ],
+    [
+      "xpc_main",
+      1427
+    ],
+    [
+      "WebKit::XPCServiceMain(int, char const**)",
+      1427
+    ],
+    [
+      "start",
+      1427
+    ],
+    [
+      "__CFRunLoopRun",
+      1418
+    ],
+    [
+      "__CFRunLoopDoTimers",
+      1035
+    ],
+    [
+      "__CFRunLoopDoTimer",
+      1031
+    ],
+    [
+      "__CFRUNLOOP_IS_CALLING_OUT_TO_A_TIMER_CALLBACK_FUNCTION__",
+      1028
+    ],
+    [
+      "WTF::Detail::CallableWrapper<WebCore::ThreadTimers::setSharedTimer(WebCore::SharedTimer*)::$_0, void>::call()",
+      1027
+    ],
+    [
+      "WebCore::timerFired(__CFRunLoopTimer*, void*)",
+      1027
+    ],
+    [
+      "WTF::Detail::CallableWrapper<WebCore::Timer::Timer<WebKit::RemoteLayerTreeDrawingArea, WebKit::RemoteLayerTreeDrawingArea>(WebKit::RemoteLayerTreeDrawingArea&, void (WebKit::RemoteLayerTreeDrawingArea::*)())::'lambda'(), void>::call()",
+      852
+    ],
+    [
+      "WebKit::RemoteLayerTreeDrawingArea::updateRendering()",
+      851
+    ],
+    [
+      "WebCore::GraphicsLayerCA::recursiveCommitChanges(WebCore::GraphicsLayerCA::CommitState&, WebCore::TransformState const&, float, WebCore::FloatPoint const&, bool)",
+      693
+    ],
+    [
+      "WebCore::Page::updateRendering()",
+      647
+    ],
+    [
+      "WebKit::WebPage::updateRendering()",
+      610
+    ],
+    [
+      "WebCore::Document::resolveStyle(WebCore::Document::ResolveStyleType)",
+      588
+    ],
+    [
+      "WebCore::Document::updateLayout(WTF::OptionSet<WebCore::LayoutOptions, (WTF::ConcurrencyTag)0>, WebCore::Element const*)",
+      476
+    ],
+    [
+      "WebCore::RenderBlock::layout()",
+      467
+    ],
+    [
+      "WebCore::Page::layoutIfNeeded(WTF::OptionSet<WebCore::LayoutOptions, (WTF::ConcurrencyTag)0>)",
+      453
+    ],
+    [
+      "WebCore::LocalFrameView::updateLayoutAndStyleIfNeededRecursive(WTF::OptionSet<WebCore::LayoutOptions, (WTF::ConcurrencyTag)0>)",
+      450
+    ],
+    [
+      "WebCore::RenderBlockFlow::layoutBlock(WebCore::RelayoutChildren, WebCore::LayoutUnit)",
+      359
+    ],
+    [
+      "WebCore::RenderLayerCompositor::updateBackingAndHierarchy(WebCore::RenderLayer&, WTF::Vector<WTF::Ref<WebCore::GraphicsLayer, WTF::RawPtrTraits<WebCore::GraphicsLayer>, WTF::DefaultRefDerefTraits<WebCore::GraphicsLayer>>, 0ul, WTF::CrashOnOverflow, 16ul, WTF::FastMalloc>&, WebCore::RenderLayerCompositor::UpdateBackingTraversalState&, WebCore::ScrollingTreeState&, WTF::OptionSet<WebCore::RenderLayerCompositor::UpdateLevel, (WTF::ConcurrencyTag)0>)",
+      298
+    ],
+    [
+      "WebCore::RenderLayerCompositor::updateCompositingLayers(WebCore::CompositingUpdateType, WebCore::RenderLayer*)",
+      292
+    ],
+    [
+      "WebCore::LocalFrameViewLayoutContext::updateCompositingLayersAfterStyleChange()",
+      290
+    ],
+    [
+      "WTF::RunLoop::performWork()",
+      198
+    ],
+    [
+      "WTF::RunLoop::performWork(void*)",
+      198
+    ],
+    [
+      "__CFRUNLOOP_IS_CALLING_OUT_TO_A_SOURCE0_PERFORM_FUNCTION__",
+      198
+    ],
+    [
+      "__CFRunLoopDoSource0",
+      198
+    ],
+    [
+      "__CFRunLoopDoSources0",
+      198
+    ],
+    [
+      "0x114408007",
+      190
+    ],
+    [
+      "0x114408067",
+      189
+    ],
+    [
+      "WebCore::Style::TreeResolver::resolve()",
+      181
+    ],
+    [
+      "WebCore::RenderBlock::simplifiedLayout()",
+      181
+    ],
+    [
+      "WebCore::Page::forEachRenderableDocument(WTF::Function<void (WebCore::Document&)> const&) const",
+      177
+    ],
+    [
+      "WebCore::Style::TreeResolver::resolveComposedTree()",
+      169
+    ],
+    [
+      "WebCore::RenderBox::computeVisibleRectsInContainer(WebCore::RenderObject::RepaintRects const&, WebCore::RenderLayerModelObject const*, WebCore::VisibleRectContext) const",
+      162
+    ],
+    [
+      "WebCore::EventDispatcher::dispatchEvent(WebCore::Node&, WebCore::Event&)",
+      161
+    ],
+    [
+      "WebCore::AccessibilityObject::press()",
+      159
+    ],
+    [
+      "-[WebAccessibilityObjectWrapper _accessibilityPerformPressAction]",
+      159
+    ],
+    [
+      "WebKit::RemoteLayerTreeContext::buildTransaction(WebKit::RemoteLayerTreeTransaction&, WebCore::PlatformCALayer&, WTF::ObjectIdentifierGeneric<WebCore::FrameIdentifierType, WTF::ObjectIdentifierMainThreadAccessTraits<unsigned long long>, unsigned long long>)",
+      157
+    ],
+    [
+      "JSC::profiledCall(JSC::JSGlobalObject*, JSC::ProfilingReason, JSC::JSValue, JSC::CallData const&, JSC::JSValue, JSC::ArgList const&, WTF::NakedPtr<JSC::Exception>&)",
+      157
+    ],
+    [
+      "0x114408427",
+      154
+    ],
+    [
+      "WebCore::JSEventListener::handleEvent(WebCore::ScriptExecutionContext&, WebCore::Event&)",
+      145
+    ],
+    [
+      "WebCore::EventTarget::fireEventListeners(WebCore::Event&, WebCore::EventTarget::EventInvokePhase)",
+      145
+    ],
+    [
+      "WebCore::RenderBlockFlow::layoutBlockChild(WebCore::RenderBox&, WebCore::RenderBlockFlow::MarginInfo&, WebCore::LayoutUnit&, WebCore::LayoutUnit&)",
+      145
+    ],
+    [
+      "WebCore::RenderBlockFlow::layoutBlockChildren(WebCore::RelayoutChildren, WebCore::LayoutUnit&)",
+      145
+    ],
+    [
+      "WebCore::HTMLElement::accessKeyAction(bool)",
+      138
+    ],
+    [
+      "WebCore::simulateClick(WebCore::Element&, WebCore::Event*, WebCore::SimulatedClickMouseEventOptions, WebCore::SimulatedClickVisualOptions, WebCore::SimulatedClickSource)",
+      133
+    ],
+    [
+      "mshMIGPerform",
+      130
+    ],
+    [
+      "__CFRUNLOOP_IS_CALLING_OUT_TO_A_SOURCE1_PERFORM_FUNCTION__",
+      130
+    ],
+    [
+      "__CFRunLoopDoSource1",
+      130
+    ],
+    [
+      "WebCore::RenderBlockFlow::simplifiedNormalFlowLayout()",
+      110
+    ],
+    [
+      "0x114414043",
+      106
+    ],
+    [
+      "WebCore::Style::TreeResolver::resolveElement(WebCore::Element&, WebCore::RenderStyle const*, WebCore::Style::TreeResolver::ResolutionType)",
+      98
+    ],
+    [
+      "WebCore::RenderBlock::layoutOutOfFlowBox(WebCore::RenderBox&, WebCore::RelayoutChildren, bool)",
+      96
+    ],
+    [
+      "WebCore::RenderBlock::paint(WebCore::PaintInfo&, WebCore::LayoutPoint const&)",
+      89
+    ],
+    [
+      "WebCore::RenderLayer::paintLayerContents(WebCore::GraphicsContext&, WebCore::RenderLayer::LayerPaintingInfo const&, WTF::OptionSet<WebCore::RenderLayer::PaintLayerFlag, (WTF::ConcurrencyTag)0>)",
+      89
+    ],
+    [
+      "WebCore::RenderBlock::paintObject(WebCore::PaintInfo&, WebCore::LayoutPoint const&)",
+      86
+    ],
+    [
+      "WebCore::RenderFlexibleBox::layoutBlock(WebCore::RelayoutChildren, WebCore::LayoutUnit)",
+      83
+    ],
+    [
+      "WebCore::Document::updateStyleIfNeeded()",
+      83
+    ],
+    [
+      "WTF::Detail::CallableWrapper<WebCore::Document::Document(WebCore::LocalFrame*, WebCore::Settings const&, WTF::URL const&, WTF::OptionSet<WebCore::DocumentClass, (WTF::ConcurrencyTag)0>, WTF::OptionSet<WebCore::Document::ConstructionFlag, (WTF::ConcurrencyTag)0>, std::__1::optional<WebCore::ProcessQualified<WTF::UUID>>)::$_0, void>::call()",
+      83
+    ],
+    [
+      "void WebCore::RenderLayer::recursiveUpdateLayerPositions<(WebCore::RenderLayer::UpdateLayerPositionsMode)0>(WTF::OptionSet<WebCore::RenderLayer::UpdateLayerPositionsFlag, (WTF::ConcurrencyTag)0>)",
+      82
+    ],
+    [
+      "0x114408247",
+      81
+    ],
+    [
+      "_AXXMIGCopyHierarchy",
+      74
+    ],
+    [
+      "_XCopyHierarchy",
+      74
+    ],
+    [
+      "JSC::IfElseNode::emitBytecode(JSC::BytecodeGenerator&, JSC::RegisterID*)",
+      70
+    ],
+    [
+      "__AXCopyAttributeValueForHierarchy",
+      69
+    ],
+    [
+      "WebCore::RenderLayerBacking::paintIntoLayer(WebCore::GraphicsLayer const*, WebCore::GraphicsContext&, WebCore::IntRect const&, WTF::OptionSet<WebCore::PaintBehavior, (WTF::ConcurrencyTag)0>, WebCore::RegionContext*)",
+      63
+    ],
+    [
+      "start_wqthread",
+      62
+    ],
+    [
+      "WebCore::Document::updateLayoutIfDimensionsOutOfDate(WebCore::Element&, WTF::OptionSet<WebCore::DimensionsCheck, (WTF::ConcurrencyTag)0>, WTF::OptionSet<WebCore::LayoutOptions, (WTF::ConcurrencyTag)0>)",
+      62
+    ],
+    [
+      "WebCore::Element::boundingClientRect()",
+      62
+    ],
+    [
+      "WebCore::LocalFrameViewLayoutContext::performLayout(bool)",
+      62
+    ],
+    [
+      "WebKit::WebPage::finalizeRenderingUpdate(WTF::OptionSet<WebCore::FinalizeRenderingUpdateFlags, (WTF::ConcurrencyTag)0>)",
+      61
+    ],
+    [
+      "WebCore::PlatformCALayer::drawLayerContents(WebCore::GraphicsContext&, WebCore::PlatformCALayer*, WTF::Vector<WebCore::FloatRect, 5ul, WTF::CrashOnOverflow, 16ul, WTF::FastMalloc>&, WTF::OptionSet<WebCore::GraphicsLayerPaintBehavior, (WTF::ConcurrencyTag)0>)",
+      61
+    ],
+    [
+      "WebKit::RemoteLayerBackingStore::drawInContext(WebCore::GraphicsContext&)",
+      61
+    ],
+    [
+      "WebKit::RemoteLayerWithRemoteRenderingBackingStore::createContextAndPaintContents()",
+      61
+    ],
+    [
+      "WebKit::RemoteLayerBackingStoreCollection::paintReachableBackingStoreContents()",
+      61
+    ],
+    [
+      "WebCore::RenderLayerBacking::paintContents(WebCore::GraphicsLayer const&, WebCore::GraphicsContext&, WebCore::FloatRect const&, WTF::OptionSet<WebCore::GraphicsLayerPaintBehavior, (WTF::ConcurrencyTag)0>)",
+      60
+    ],
+    [
+      "WebCore::GraphicsLayerCA::platformCALayerPaintContents(WebCore::PlatformCALayer*, WebCore::GraphicsContext&, WebCore::FloatRect const&, WTF::OptionSet<WebCore::GraphicsLayerPaintBehavior, (WTF::ConcurrencyTag)0>)",
+      60
+    ],
+    [
+      "WebCore::jsElementPrototypeFunction_getBoundingClientRect(JSC::JSGlobalObject*, JSC::CallFrame*)",
+      60
+    ],
+    [
+      "WebCore::RenderFlexibleBox::performFlexLayout(WebCore::RelayoutChildren)",
+      58
+    ],
+    [
+      "WebCore::Document::updateIntersectionObservations(WTF::Vector<WTF::WeakPtr<WebCore::IntersectionObserver, WTF::DefaultWeakPtrImpl, WTF::RawPtrTraits<WTF::DefaultWeakPtrImpl>>, 0ul, WTF::CrashOnOverflow, 16ul, WTF::FastMalloc> const&)",
+      57
+    ],
+    [
+      "WebCore::IntersectionObserver::updateObservations(WebCore::Frame const&)",
+      56
+    ],
+    [
+      "WebCore::GraphicsLayerCA::flushCompositingState(WebCore::FloatRect const&)",
+      55
+    ],
+    [
+      "WebCore::RenderLayerCompositor::flushPendingLayerChanges(bool)",
+      55
+    ],
+    [
+      "WebCore::LocalFrameView::flushCompositingStateForThisFrame(WebCore::LocalFrame const&)",
+      55
+    ],
+    [
+      "WebCore::LocalFrameView::flushCompositingStateIncludingSubframes()",
+      55
+    ],
+    [
+      "WebCore::Page::finalizeRenderingUpdateForRootFrame(WebCore::LocalFrame&, WTF::OptionSet<WebCore::FinalizeRenderingUpdateFlags, (WTF::ConcurrencyTag)0>)",
+      55
+    ],
+    [
+      "WebCore::Page::finalizeRenderingUpdate(WTF::OptionSet<WebCore::FinalizeRenderingUpdateFlags, (WTF::ConcurrencyTag)0>)",
+      55
+    ],
+    [
+      "WebCore::Document::updateRenderTree(std::__1::unique_ptr<WebCore::Style::Update, std::__1::default_delete<WebCore::Style::Update>>)",
+      55
+    ],
+    [
+      "WebCore::RenderView::layout()",
+      55
+    ],
+    [
+      "_pthread_start",
+      54
+    ],
+    [
+      "thread_start",
+      54
+    ],
+    [
+      "WebCore::RenderTreeUpdater::commit(std::__1::unique_ptr<WebCore::Style::Update, std::__1::default_delete<WebCore::Style::Update>>)",
+      53
+    ]
+  ]
+}

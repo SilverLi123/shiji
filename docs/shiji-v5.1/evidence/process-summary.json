@@ -1,0 +1,226 @@
+[
+  {
+    "source": "native-1000-calm-process.jsonl",
+    "processes": [
+      {
+        "pid": 81315,
+        "elapsedSeconds": 30,
+        "cpuOneCorePercent": 0.06540226333333332,
+        "peakFootprintMiB": 52.06352996826172,
+        "endFootprintMiB": 51.65727996826172,
+        "endResidentMiB": 70.109375,
+        "path": "/private/var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v5-stable-qa-isoz5ic4/Shiji Stable 1000 Preview.app/Contents/MacOS/DevResourceLibrary"
+      },
+      {
+        "pid": 81320,
+        "elapsedSeconds": 30,
+        "cpuOneCorePercent": 0.2710645933333333,
+        "peakFootprintMiB": 228.03218841552734,
+        "endFootprintMiB": 211.45406341552734,
+        "endResidentMiB": 73.421875,
+        "path": "/System/Volumes/Preboot/Cryptexes/OS/System/Library/Frameworks/WebKit.framework/Versions/A/XPCServices/com.apple.WebKit.WebContent.xpc/Contents/MacOS/com.apple.WebKit.WebContent"
+      },
+      {
+        "pid": 81316,
+        "elapsedSeconds": 30,
+        "cpuOneCorePercent": 0.03099643666666667,
+        "peakFootprintMiB": 26.062843322753906,
+        "endFootprintMiB": 26.062843322753906,
+        "endResidentMiB": 27.8125,
+        "path": "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python"
+      }
+    ]
+  },
+  {
+    "source": "native-1000-studio-process.jsonl",
+    "processes": [
+      {
+        "pid": 81315,
+        "elapsedSeconds": 30,
+        "cpuOneCorePercent": 0.11809267333333334,
+        "peakFootprintMiB": 54.37602996826172,
+        "endFootprintMiB": 39.28227996826172,
+        "endResidentMiB": 49.625,
+        "path": "/private/var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v5-stable-qa-isoz5ic4/Shiji Stable 1000 Preview.app/Contents/MacOS/DevResourceLibrary"
+      },
+      {
+        "pid": 81320,
+        "elapsedSeconds": 30,
+        "cpuOneCorePercent": 0.93908724,
+        "peakFootprintMiB": 272.48533630371094,
+        "endFootprintMiB": 268.28218841552734,
+        "endResidentMiB": 68.265625,
+        "path": "/System/Volumes/Preboot/Cryptexes/OS/System/Library/Frameworks/WebKit.framework/Versions/A/XPCServices/com.apple.WebKit.WebContent.xpc/Contents/MacOS/com.apple.WebKit.WebContent"
+      },
+      {
+        "pid": 81316,
+        "elapsedSeconds": 30,
+        "cpuOneCorePercent": 0.022555159999999998,
+        "peakFootprintMiB": 25.312843322753906,
+        "endFootprintMiB": 20.422218322753906,
+        "endResidentMiB": 23.234375,
+        "path": "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python"
+      }
+    ]
+  },
+  {
+    "source": "native-5000-calm-process.jsonl",
+    "processes": [
+      {
+        "pid": 82713,
+        "elapsedSeconds": 30.14991,
+        "cpuOneCorePercent": 0.06203492481403759,
+        "peakFootprintMiB": 53.70415496826172,
+        "endFootprintMiB": 39.23540496826172,
+        "endResidentMiB": 47.890625,
+        "path": "/private/var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v5-stable-qa-azujoc5s/Shiji Stable 5000 Preview.app/Contents/MacOS/DevResourceLibrary"
+      },
+      {
+        "pid": 82719,
+        "elapsedSeconds": 30.14991,
+        "cpuOneCorePercent": 0.2656898776812269,
+        "peakFootprintMiB": 269.8448486328125,
+        "endFootprintMiB": 269.8448486328125,
+        "endResidentMiB": 101.8125,
+        "path": "/System/Volumes/Preboot/Cryptexes/OS/System/Library/Frameworks/WebKit.framework/Versions/A/XPCServices/com.apple.WebKit.WebContent.xpc/Contents/MacOS/com.apple.WebKit.WebContent"
+      },
+      {
+        "pid": 82715,
+        "elapsedSeconds": 30.14991,
+        "cpuOneCorePercent": 0.09239821943083745,
+        "peakFootprintMiB": 60.375389099121094,
+        "endFootprintMiB": 27.5784912109375,
+        "endResidentMiB": 34.828125,
+        "path": "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python"
+      }
+    ]
+  },
+  {
+    "source": "native-5000-studio-process.jsonl",
+    "processes": [
+      {
+        "pid": 82713,
+        "elapsedSeconds": 30.087506,
+        "cpuOneCorePercent": 0.12626878744951475,
+        "peakFootprintMiB": 53.06352996826172,
+        "endFootprintMiB": 38.87602996826172,
+        "endResidentMiB": 64.390625,
+        "path": "/private/var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v5-stable-qa-azujoc5s/Shiji Stable 5000 Preview.app/Contents/MacOS/DevResourceLibrary"
+      },
+      {
+        "pid": 82719,
+        "elapsedSeconds": 30.087506,
+        "cpuOneCorePercent": 0.9686724316731337,
+        "peakFootprintMiB": 292.6573028564453,
+        "endFootprintMiB": 276.2041778564453,
+        "endResidentMiB": 104.140625,
+        "path": "/System/Volumes/Preboot/Cryptexes/OS/System/Library/Frameworks/WebKit.framework/Versions/A/XPCServices/com.apple.WebKit.WebContent.xpc/Contents/MacOS/com.apple.WebKit.WebContent"
+      },
+      {
+        "pid": 82715,
+        "elapsedSeconds": 30.087506,
+        "cpuOneCorePercent": 0.08057775210746947,
+        "peakFootprintMiB": 55.109764099121094,
+        "endFootprintMiB": 33.531639099121094,
+        "endResidentMiB": 56.125,
+        "path": "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python"
+      }
+    ]
+  },
+  {
+    "source": "native-calm-fixed-process.jsonl",
+    "processes": [
+      {
+        "pid": 83578,
+        "elapsedSeconds": 30.095765,
+        "cpuOneCorePercent": 0.05303536560708791,
+        "peakFootprintMiB": 41.92292785644531,
+        "endFootprintMiB": 41.70417785644531,
+        "endResidentMiB": 35.21875,
+        "path": "/private/var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v5-stable-qa-isoz5ic4/Shiji Stable 1000 Preview.app/Contents/MacOS/DevResourceLibrary"
+      },
+      {
+        "pid": 85739,
+        "elapsedSeconds": 30.095765,
+        "cpuOneCorePercent": 0.20762210895785504,
+        "peakFootprintMiB": 230.57915496826172,
+        "endFootprintMiB": 207.53227996826172,
+        "endResidentMiB": 67.4375,
+        "path": "/System/Volumes/Preboot/Cryptexes/OS/System/Library/Frameworks/WebKit.framework/Versions/A/XPCServices/com.apple.WebKit.WebContent.xpc/Contents/MacOS/com.apple.WebKit.WebContent"
+      },
+      {
+        "pid": 83579,
+        "elapsedSeconds": 30.095765,
+        "cpuOneCorePercent": 0.034764260021302,
+        "peakFootprintMiB": 31.484695434570312,
+        "endFootprintMiB": 31.484695434570312,
+        "endResidentMiB": 29.734375,
+        "path": "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python"
+      }
+    ]
+  },
+  {
+    "source": "native-final-hero-calm-process.jsonl",
+    "processes": [
+      {
+        "pid": 83578,
+        "elapsedSeconds": 30.10551,
+        "cpuOneCorePercent": 0.05670099925229634,
+        "peakFootprintMiB": 41.454132080078125,
+        "endFootprintMiB": 41.297882080078125,
+        "endResidentMiB": 36.5,
+        "path": "/private/var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v5-stable-qa-isoz5ic4/Shiji Stable 1000 Preview.app/Contents/MacOS/DevResourceLibrary"
+      },
+      {
+        "pid": 85261,
+        "elapsedSeconds": 30.10551,
+        "cpuOneCorePercent": 0.21253877446354505,
+        "peakFootprintMiB": 238.25096130371094,
+        "endFootprintMiB": 212.93846130371094,
+        "endResidentMiB": 65.421875,
+        "path": "/System/Volumes/Preboot/Cryptexes/OS/System/Library/Frameworks/WebKit.framework/Versions/A/XPCServices/com.apple.WebKit.WebContent.xpc/Contents/MacOS/com.apple.WebKit.WebContent"
+      },
+      {
+        "pid": 83579,
+        "elapsedSeconds": 30.10551,
+        "cpuOneCorePercent": 0.032310221617238837,
+        "peakFootprintMiB": 25.890968322753906,
+        "endFootprintMiB": 25.594070434570312,
+        "endResidentMiB": 31.484375,
+        "path": "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python"
+      }
+    ]
+  },
+  {
+    "source": "native-final-hero-studio-process.jsonl",
+    "processes": [
+      {
+        "pid": 83578,
+        "elapsedSeconds": 30.173987,
+        "cpuOneCorePercent": 0.14166067613139754,
+        "peakFootprintMiB": 41.719757080078125,
+        "endFootprintMiB": 41.501007080078125,
+        "endResidentMiB": 30.828125,
+        "path": "/private/var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v5-stable-qa-isoz5ic4/Shiji Stable 1000 Preview.app/Contents/MacOS/DevResourceLibrary"
+      },
+      {
+        "pid": 85261,
+        "elapsedSeconds": 30.173987,
+        "cpuOneCorePercent": 0.8432825135107269,
+        "peakFootprintMiB": 292.46971130371094,
+        "endFootprintMiB": 270.93846130371094,
+        "endResidentMiB": 67.65625,
+        "path": "/System/Volumes/Preboot/Cryptexes/OS/System/Library/Frameworks/WebKit.framework/Versions/A/XPCServices/com.apple.WebKit.WebContent.xpc/Contents/MacOS/com.apple.WebKit.WebContent"
+      },
+      {
+        "pid": 83579,
+        "elapsedSeconds": 30.173987,
+        "cpuOneCorePercent": 0.0369906237448833,
+        "peakFootprintMiB": 27.531570434570312,
+        "endFootprintMiB": 23.687820434570312,
+        "endResidentMiB": 27.625,
+        "path": "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python"
+      }
+    ]
+  }
+]

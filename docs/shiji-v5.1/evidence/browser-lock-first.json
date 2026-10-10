@@ -1,0 +1,159 @@
+{
+  "opened": true,
+  "trace": [
+    {
+      "event": "bits-layout",
+      "gridWidth": 596,
+      "hidden": false,
+      "ms": 482.80000000074506,
+      "renderMs": 1.9000000022351744
+    },
+    {
+      "event": "bits-layout",
+      "gridWidth": 596,
+      "hidden": false,
+      "ms": 684,
+      "renderMs": 71.60000000149012
+    },
+    {
+      "event": "bits-layout",
+      "gridWidth": 596,
+      "hidden": false,
+      "ms": 3532.199999999255,
+      "renderMs": 5.800000000745058
+    },
+    {
+      "event": "click-start",
+      "gridWidth": 596,
+      "hidden": false,
+      "ms": 23716,
+      "phase": "1",
+      "viewport": 652
+    },
+    {
+      "event": "detail-part",
+      "frames": 1,
+      "hidden": false,
+      "ms": 23794.199999999255,
+      "phase": "html",
+      "renderMs": 3.799999997019768
+    },
+    {
+      "event": "detail-part",
+      "frames": 2,
+      "hidden": false,
+      "ms": 23794.300000000745,
+      "phase": "rect",
+      "renderMs": 0.6999999992549419
+    },
+    {
+      "event": "detail-part",
+      "frames": 9,
+      "hidden": false,
+      "ms": 23794.300000000745,
+      "phase": "animation",
+      "renderMs": 1.9000000022351744
+    },
+    {
+      "event": "detail-part",
+      "frames": 1,
+      "hidden": false,
+      "ms": 23794.300000000745,
+      "phase": "clone",
+      "renderMs": 0.10000000149011612
+    },
+    {
+      "event": "detail-handler",
+      "ghosts": 1,
+      "gridWidth": 596,
+      "hidden": false,
+      "ms": 23799.60000000149,
+      "opened": true,
+      "parts": {
+        "animation": {
+          "count": 9,
+          "ms": 1.9000000022351744
+        },
+        "clone": {
+          "count": 1,
+          "ms": 0.10000000149011612
+        },
+        "html": {
+          "count": 1,
+          "ms": 3.799999997019768
+        },
+        "rect": {
+          "count": 2,
+          "ms": 0.6999999992549419
+        }
+      },
+      "phase": "1",
+      "renderMs": 75.30000000074506,
+      "viewport": 652
+    },
+    {
+      "event": "detail-frame",
+      "frames": 1,
+      "hidden": false,
+      "ms": 23814.699999999255,
+      "phase": "1",
+      "responseMs": 91.36200000148892
+    },
+    {
+      "event": "detail-frame",
+      "frames": 2,
+      "hidden": false,
+      "ms": 23868,
+      "phase": "1",
+      "responseMs": 16.63800000000265
+    },
+    {
+      "event": "detail-frame",
+      "frames": 3,
+      "hidden": false,
+      "ms": 23879.699999999255,
+      "phase": "1",
+      "responseMs": 49.19999999999709
+    },
+    {
+      "event": "detail-frame",
+      "frames": 4,
+      "hidden": false,
+      "ms": 23896.10000000149,
+      "phase": "1",
+      "responseMs": 17.600000000002183
+    },
+    {
+      "event": "detail-frame",
+      "frames": 5,
+      "hidden": false,
+      "ms": 23915.10000000149,
+      "phase": "1",
+      "responseMs": 16.599999999998545
+    },
+    {
+      "event": "detail-frame",
+      "frames": 6,
+      "hidden": false,
+      "ms": 23944.60000000149,
+      "phase": "1",
+      "responseMs": 31.400000000001455
+    },
+    {
+      "event": "detail-frame",
+      "frames": 7,
+      "hidden": false,
+      "ms": 23963.60000000149,
+      "phase": "1",
+      "responseMs": 18.599999999998545
+    },
+    {
+      "event": "detail-frame",
+      "frames": 8,
+      "hidden": false,
+      "ms": 23984.699999999255,
+      "phase": "1",
+      "responseMs": 16.700000000000728
+    }
+  ]
+}

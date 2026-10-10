@@ -1,0 +1,31 @@
+...F.
+======================================================================
+FAIL: test_v51_capture_enrich_during_press_keeps_original_click (test_v3_foundation.V3FoundationTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/silver/shiji-card-restoration/desktop-app/tests/test_v3_foundation.py", line 79, in test_v51_capture_enrich_during_press_keeps_original_click
+    self.assertEqual(result.returncode,0,result.stdout+result.stderr)
+AssertionError: 1 != 0 : AssertionError [ERR_ASSERTION]: Expected "actual" to be reference-equal to "expected":
++ actual - expected
+
+  HTMLButtonElement {
+    Symbol(SameObject caches): [Object: null prototype] {
+      classList: DOMTokenList {},
+-     style: CSSStyleProperties {}
+    }
+  }
+
+    at /Users/silver/shiji-card-restoration/desktop-app/tests/v51_capture_click.cjs:22:9 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: [HTMLButtonElement],
+  expected: [HTMLButtonElement],
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+
+----------------------------------------------------------------------
+Ran 5 tests in 4.575s
+
+FAILED (failures=1)
