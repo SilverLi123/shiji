@@ -157,7 +157,7 @@ struct ManagementView: NSViewRepresentable {
             guard message.frameInfo.isMainFrame, let url=message.frameInfo.request.url,
                   url.host=="127.0.0.1",url.port==runtime.port else { return }
             if message.name=="libraryDiagnostics", let row=message.body as? [String:Any] {
-                let allowed=["event","ms","renderMs","cards","total","hidden","frames","p50","p95","max","over33","animations","running","ghosts","mode","phase","heroOpacity","heroFilter"]
+                let allowed=["event","ms","renderMs","responseMs","cards","total","hidden","backgroundPaused","frames","p50","p95","max","over33","animations","running","cssRunning","transitionRunning","ghosts","mode","phase","heroOpacity","heroFilter"]
                 runtime.diagnostics.record("qa." + (row["event"] as? String ?? "unknown"),row.filter { allowed.contains($0.key) })
             }
             if message.name=="libraryState",let busy=message.body as? Bool {runtime.controlsBlocked=busy}

@@ -1,0 +1,22 @@
+{
+  "mode": "native hidden Studio, owned host+Python only; WebKit helper ownership unverified",
+  "intervalSeconds": 10.184384292,
+  "processes": {
+    "45434": {
+      "cpuPercentOneCore": 0.0,
+      "rssKiB": 14320
+    },
+    "45453": {
+      "cpuPercentOneCore": 0.196,
+      "rssKiB": 4448
+    },
+    "46476": {
+      "cpuPercentOneCore": 0.0,
+      "rssKiB": 15456
+    },
+    "46497": {
+      "cpuPercentOneCore": 0.196,
+      "rssKiB": 6736
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{"event":"service.start-request","owned":false,"time":1791619885.8738279}
+{"event":"service.spawn","pid":47290,"time":1791619885.889513}
+{"event":"service.ready","time":1791619888.9208221}
+{"appActive":false,"event":"webview.create","time":1791619888.9308028}
+{"event":"webview.navigation-start","time":1791619891.9035881}
+{"event":"webview.commit","time":1791619892.618397}
+{"animations":11,"backgroundPaused":true,"cards":0,"cssRunning":0,"event":"qa.dom-ready","ghosts":0,"heroFilter":"none","heroOpacity":"1","hidden":true,"mode":"studio","ms":7443,"running":2,"time":1791619900.4245811,"transitionRunning":2}
+{"event":"webview.finish","time":1791619903.4279451}
+{"animations":58,"backgroundPaused":true,"cards":60,"cssRunning":0,"event":"qa.interactive","ghosts":0,"heroFilter":"none","heroOpacity":"1","hidden":true,"mode":"studio","ms":11572,"renderMs":973,"running":2,"time":1791619904.317188,"total":100,"transitionRunning":2}
+{"animations":58,"backgroundPaused":true,"cards":60,"cssRunning":0,"event":"qa.settled","ghosts":0,"heroFilter":"none","heroOpacity":"1","hidden":true,"mode":"studio","ms":11579,"running":2,"time":1791619904.318912,"transitionRunning":2}
+{"animations":58,"cards":60,"event":"webview.snapshot","focus":false,"heroFilter":"none","heroOpacity":"1","hidden":true,"ready":"complete","running":2,"time":1791619904.331275}
+{"animations":56,"backgroundPaused":true,"cards":60,"cssRunning":0,"event":"qa.visibility","ghosts":0,"heroFilter":"none","heroOpacity":"1","hidden":false,"mode":"studio","ms":29901,"running":0,"time":1791619922.8648229,"transitionRunning":0}
+{"animations":49,"backgroundPaused":false,"cards":60,"cssRunning":5,"event":"qa.frames","frames":6,"ghosts":0,"heroFilter":"none","heroOpacity":"1","hidden":false,"max":905,"mode":"studio","ms":32987,"over33":4,"p50":247,"p95":905,"phase":"foreground","running":13,"time":1791619925.74737,"transitionRunning":0}
+{"animations":56,"backgroundPaused":false,"cards":60,"cssRunning":12,"event":"qa.render","ghosts":0,"heroFilter":"none","heroOpacity":"1","hidden":false,"mode":"studio","ms":36272,"renderMs":120,"running":20,"time":1791619928.9875832,"total":100,"transitionRunning":0}
+{"animations":56,"backgroundPaused":false,"cards":60,"cssRunning":12,"event":"qa.settled","ghosts":0,"heroFilter":"none","heroOpacity":"1","hidden":false,"mode":"studio","ms":36277,"running":20,"time":1791619929.0225689,"transitionRunning":0}
+{"animations":49,"backgroundPaused":false,"cards":60,"cssRunning":5,"event":"qa.visibility","ghosts":0,"heroFilter":"none","heroOpacity":"1","hidden":true,"mode":"studio","ms":46321,"running":13,"time":1791619939.080477,"transitionRunning":0}
+{"animations":49,"backgroundPaused":false,"cards":60,"cssRunning":5,"event":"qa.frames","frames":6,"ghosts":0,"heroFilter":"none","heroOpacity":"1","hidden":true,"max":905,"mode":"studio","ms":46329,"over33":4,"p50":247,"p95":905,"phase":"foreground","running":13,"time":1791619939.122695,"transitionRunning":0}

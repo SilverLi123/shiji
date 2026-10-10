@@ -979,3 +979,6 @@ body.space-on .card-body,body.space-on .card-preview>.cover-art{transform:none}
 
 @media(max-width:880px){.mobile-bottom button{font-size:11px;min-height:44px}}
 #motion-mode,#motion-replay,.small-action{font-size:11px}
+
+/* Hidden WebViews must pause legacy CSS loops as well as Motion-owned loops. */
+body.v5-background *,body.v5-background *::before,body.v5-background *::after{animation-play-state:paused!important}
