@@ -1,0 +1,17 @@
+'use strict';
+const assert=require('node:assert/strict'),{JSDOM}=require('jsdom'),cards=require('../static/stable-cards');
+const dom=new JSDOM('<div id="grid"></div>',{pretendToBeVisual:true}),d=dom.window.document,grid=d.querySelector('#grid');
+const item=(title,favorite=false)=>({id:'persisted',html:`<article class="resource-card" data-resource-id="persisted"><div class="card-motion-surface"><button class="card-preview" data-action="detail" data-id="persisted" aria-label="${title}"><span class="cover-art">${title}</span></button><button data-action="favorite" data-id="persisted" aria-pressed="${favorite}">star</button></div></article>`});
+cards.render(grid,[item('saved title')]);const card=grid.firstElementChild,preview=card.querySelector('.card-preview');preview.focus();
+cards.render(grid,[item('enriched title',true)]);
+assert.equal(grid.firstElementChild,card,'metadata reconciliation preserves pressed outer card');
+assert.equal(grid.querySelector('.card-preview'),preview,'metadata cannot remove the pressed click/capture target');
+assert.equal(d.activeElement,preview);assert.equal(preview.textContent,'enriched title');assert.equal(preview.getAttribute('aria-label'),'enriched title');
+let clicks=0;d.addEventListener('click',e=>{if(e.target.closest('[data-action="detail"]'))clicks++;});preview.click();assert.equal(clicks,1,'one real action reaches the application');
+assert.equal(grid.querySelector('[data-action="favorite"]').getAttribute('aria-pressed'),'true');
+cards.render(grid,[]);assert.equal(preview.isConnected,false,'real deletion still removes card');dom.window.close();console.log('PASS: metadata preserves stable card/preview, focus and one-click business routing');
+const structural=new JSDOM('<div id="grid"></div>'),sg=structural.window.document.querySelector('#grid');
+const changed=(image=false,select=false)=>({id:'one',html:`<article class="resource-card" data-resource-id="one"><div class="card-motion-surface"><button class="card-preview" data-action="detail" data-id="one">${image?'<img class="cover-image" src="cover.jpg">':''}<span class="cover-art">title</span></button>${select?'<label class="card-select"><input type="checkbox" checked></label>':''}<div class="card-body">metadata</div></div></article>`});
+cards.render(sg,[changed()]);const button=sg.querySelector('button'),art=sg.querySelector('.cover-art'),body=sg.querySelector('.card-body');cards.render(sg,[changed(true,true)]);
+assert.equal(sg.querySelector('button'),button);assert.equal(sg.querySelector('.cover-art'),art,'adding an actual cover retains pressed poster ancestry');assert.equal(sg.querySelector('.card-body'),body);assert.ok(sg.querySelector('img'));assert.ok(sg.querySelector('input').checked);
+cards.render(sg,[changed(false,false)]);assert.equal(sg.querySelector('button'),button);assert.equal(sg.querySelector('img,input'),null);assert.equal(sg.querySelector('.card-body'),body);structural.window.close();

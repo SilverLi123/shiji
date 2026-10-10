@@ -2,6 +2,33 @@
 (function(root){
   'use strict';
   const htmlByNode=new WeakMap();
+  // Keep the pressed/focused action and its ancestry alive during metadata updates.
+  // Moving a decoded image into a replacement article is insufficient: WebKit
+  // cancels a click when its pointer-down target is detached before pointer-up.
+  function patch(node,next){
+    if(node.nodeType!==next.nodeType||node.nodeName!==next.nodeName)return next;
+    if(node.nodeType!==1){if(node.nodeValue!==next.nodeValue)node.nodeValue=next.nodeValue;return node;}
+    if(node.matches('.cover-image,.site-favicon')){
+      if(node.getAttribute('src')!==next.getAttribute('src'))return next;
+      node.alt=next.alt;return node; // Preserve decoding/error/fallback state.
+    }
+    for(const attr of [...node.attributes])if(!next.hasAttribute(attr.name))node.removeAttribute(attr.name);
+    for(const attr of next.attributes)if(node.getAttribute(attr.name)!==attr.value)node.setAttribute(attr.name,attr.value);
+    if(node.matches('input[type=checkbox]'))node.checked=next.checked;
+    const old=[...node.childNodes],children=[...next.childNodes],used=new Set();
+    const key=el=>el.nodeType!==1?'':el.getAttribute('data-action')
+      ?[el.getAttribute('data-action'),el.getAttribute('data-id'),el.getAttribute('data-value')].join('|')
+      :el.classList[0]||'';
+    children.forEach((child,index)=>{
+      const compatible=el=>!used.has(el)&&el.nodeName===child.nodeName&&key(el)===key(child);
+      const current=old[index]&&compatible(old[index])?old[index]:old.find(compatible);
+      if(current)used.add(current);
+      const updated=current?patch(current,child):child;
+      if(node.childNodes[index]!==updated)node.insertBefore(updated,node.childNodes[index]||null);
+    });
+    for(const child of old)if(!used.has(child))child.remove();
+    return node;
+  }
   function render(container,items,selector='.resource-card'){
     const old=new Map(Array.from(container.children).filter(el=>el.matches(selector)).map(el=>[el.dataset.resourceId,el]));
     const keep=new Set();
@@ -10,16 +37,7 @@
       if(!node||htmlByNode.get(node)!==item.html){
         const template=container.ownerDocument.createElement('template');template.innerHTML=item.html;
         const next=template.content.firstElementChild;
-        if(node){
-          // Preserve decoded media, including a failed cover's fallback state.
-          for(const selector of ['.cover-image','.site-favicon']){
-            const image=node.querySelector(selector),replacement=next.querySelector(selector);
-            if(image&&replacement&&image.getAttribute('src')===replacement.getAttribute('src')){
-              image.alt=replacement.alt;replacement.replaceWith(image);
-            }
-          }
-        }
-        node=next;htmlByNode.set(node,item.html);
+        node=node?patch(node,next):next;htmlByNode.set(node,item.html);
       }
       keep.add(node);
       // Avoid moving nodes which already occupy their sorted position.

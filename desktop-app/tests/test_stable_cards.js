@@ -12,7 +12,7 @@ cards.render(grid,items('b','a'));cards.restoreFocus(main,focus,search);
 assert.equal(grid.children[0],b);assert.equal(doc.activeElement,b.querySelector('button'),'sorting retains original focus');
 a.querySelector('input').focus();focus=cards.captureFocus(main);
 cards.render(grid,[{id:'b',html:markup('b')},{id:'a',html:markup('a',true)}]);cards.restoreFocus(main,focus,search);
-assert.notEqual(grid.children[1],a);assert.equal(grid.children[1].querySelector('img'),image,'metadata update reuses decoded image');
+assert.equal(grid.children[1],a);assert.equal(grid.children[1].querySelector('img'),image,'metadata update reuses decoded image');
 assert.equal(doc.activeElement,grid.children[1].querySelector('input'));assert.equal(doc.activeElement.checked,true);
 image.hidden=true;focus=cards.captureFocus(main);
 cards.render(grid,[{id:'a',html:markup('a',true,'cover.jpg','new title')}]);cards.restoreFocus(main,focus,search);
