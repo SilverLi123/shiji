@@ -23,6 +23,7 @@ vm.runInNewContext(fallbackCode+'\nattachImageFallbacks(grid);',{grid});
 assert.equal(grid.querySelector('.domain-mark').hidden,false,'failed reused cover keeps readable fallback');
 image.onload();assert.equal(image.hidden,false);assert.equal(grid.querySelector('.domain-mark').hidden,true);
 cards.render(grid,[{id:'a',html:markup('a',true,'different.jpg')}]);assert.notEqual(grid.querySelector('img'),image,'different cover replaces stale image');
+assert.equal(grid.querySelectorAll('.cover-image').length,1,'changed cover removes the stale sibling instead of retaining two images');assert.equal(image.isConnected,false);assert.equal(grid.querySelector('img').getAttribute('src'),'different.jpg');
 grid.querySelector('input').focus();focus=cards.captureFocus(main);cards.render(grid,[]);cards.restoreFocus(main,focus,search);assert.equal(doc.activeElement,search);
 cards.render(grid,items('a','b'));grid.children[0].querySelector('button').focus();focus=cards.captureFocus(main);search.focus();cards.render(grid,items('a','b'));assert.equal(doc.activeElement,search,'render itself does not steal focus');
 console.log('stable nodes, sorting and metadata focus, media reuse/change, failed-cover recovery and removal fallback passed');

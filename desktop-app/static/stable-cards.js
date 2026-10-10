@@ -27,6 +27,7 @@
       const current=old[index]&&compatible(old[index])?old[index]:old.find(compatible);
       if(current)used.add(current);
       const updated=current?patch(current,child):child;
+      if(current&&updated!==current)current.replaceWith(updated);
       if(node.childNodes[index]!==updated)node.insertBefore(updated,node.childNodes[index]||null);
     });
     for(const child of old)if(!used.has(child))child.remove();
