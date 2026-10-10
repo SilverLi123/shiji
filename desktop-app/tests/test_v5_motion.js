@@ -17,12 +17,17 @@ const {init}=require('../static/shiji-v2-motion');
  const posterObserver=observers.find(o=>o.nodes.has(art));posterObserver.cb([{target:art,isIntersecting:true}]);assert.ok(art.classList.contains('art-in-view'));
  posterObserver.cb([{target:art,isIntersecting:false}]);assert.ok(!art.classList.contains('art-in-view'));
  const scene=d.querySelector('.space-scene'),stage=d.querySelector('.shiji-brand-stage');
+ const style=d.createElement('style');style.textContent=fs.readFileSync(path.join(__dirname,'../static/shiji-v5.css'),'utf8');d.head.append(style);
+ const pseudoPaused=pseudo=>[...style.sheet.cssRules].some(rule=>rule.style?.getPropertyValue('animation-play-state')==='paused'&&rule.selectorText?.split(',').some(selector=>selector.trim().endsWith(pseudo)&&stage.matches(selector.trim().slice(0,-pseudo.length))));
+ assert.ok(!pseudoPaused('::before')&&!pseudoPaused('::after'),'Studio keeps legacy Hero pseudo-element animation');
  function pointer(el,type){const e=new w.Event(type);Object.assign(e,{clientX:260,clientY:200,pointerType:'mouse'});el.dispatchEvent(e);}
  pointer(scene,'pointerenter');pointer(scene,'pointermove');flush();assert.ok(scene.style.getPropertyValue('--scene-ry'));
  pointer(stage,'pointerenter');pointer(stage,'pointermove');flush();assert.ok(stage.style.getPropertyValue('--hero-ry'));
  pointer(scene,'pointermove');d.querySelector('#space-mode').click();flush();assert.equal(d.documentElement.dataset.shijiSpace,'flat');assert.equal(scene.style.getPropertyValue('--scene-ry'),'');assert.equal(stage.style.getPropertyValue('--hero-ry'),'');assert.equal(frames.size,0);assert.equal(w.localStorage.getItem('shiji-v5-space-mode'),'flat');
  d.querySelector('#space-mode').click();ui.setMode('calm');assert.equal(d.documentElement.dataset.shijiSpace,'flat');assert.ok(d.body.classList.contains('calm'));
+ assert.ok(pseudoPaused('::before')&&pseudoPaused('::after'),'Calm CSS applies to both actual Hero pseudo-elements, including the legacy orb');
  ui.setMode('studio');reduced=true;media[0].changed();assert.equal(d.documentElement.dataset.shijiMotion,'calm');assert.equal(d.documentElement.dataset.shijiSpace,'flat');
+ assert.ok(pseudoPaused('::before')&&pseudoPaused('::after'),'system reduction reaches the same effective Calm pseudo-element rules');
  reduced=false;media[0].changed();hidden=true;d.dispatchEvent(new w.Event('visibilitychange'));assert.ok(d.body.classList.contains('v5-background'));assert.ok(animations.filter(a=>!a.cancelled&&a.options.iterations===Infinity).every(a=>a.paused));
  hidden=false;d.dispatchEvent(new w.Event('visibilitychange'));assert.ok(!d.body.classList.contains('v5-background'));
  const drawer=d.querySelector('#drawer');drawer.hidden=false;await Promise.resolve();assert.ok(d.body.classList.contains('v5-overlay-paused'));drawer.hidden=true;await Promise.resolve();assert.ok(!d.body.classList.contains('v5-overlay-paused'));

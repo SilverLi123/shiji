@@ -985,3 +985,6 @@ body.v5-background *,body.v5-background *::before,body.v5-background *::after{an
 
 /* Keep the gallery width when the detail scroll lock hides the scrollbar. */
 body.drawer-open{padding-right:var(--drawer-scrollbar-space,0px)}
+
+/* Calm must also freeze the legacy CSS loops on the brand-stage pseudo-elements. */
+body.calm .shiji-brand-stage::before,body.calm .shiji-brand-stage::after{animation-play-state:paused!important}
