@@ -1,0 +1,44 @@
+..................../Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/zipfile.py:1505: UserWarning: Duplicate name: 'manifest.json'
+  return self._open_to_write(zinfo, force_zip64=force_zip64)
+.127.0.0.1 - - [10/Oct/2026 15:41:22] "GET /api/website-previews HTTP/1.1" 200 -
+127.0.0.1 - - [10/Oct/2026 15:41:22] "POST /api/website-previews HTTP/1.1" 200 -
+127.0.0.1 - - [10/Oct/2026 15:41:22] "POST /api/website-previews HTTP/1.1" 400 -
+127.0.0.1 - - [10/Oct/2026 15:41:22] "POST /api/website-previews HTTP/1.1" 403 -
+.127.0.0.1 - - [10/Oct/2026 15:41:22] "GET /api/backup.zip HTTP/1.1" 200 -
+127.0.0.1 - - [10/Oct/2026 15:41:22] "GET /api/backups/shiji-20261010-074122-779560.zip HTTP/1.1" 200 -
+127.0.0.1 - - [10/Oct/2026 15:41:22] "GET /api/files/e88aff69-70e8-453d-aece-0b9f907043a1 HTTP/1.1" 206 -
+127.0.0.1 - - [10/Oct/2026 15:41:22] "GET /api/files/e88aff69-70e8-453d-aece-0b9f907043a1 HTTP/1.1" 206 -
+127.0.0.1 - - [10/Oct/2026 15:41:22] "GET /api/files/e88aff69-70e8-453d-aece-0b9f907043a1 HTTP/1.1" 416 -
+127.0.0.1 - - [10/Oct/2026 15:41:22] "GET /api/files/e88aff69-70e8-453d-aece-0b9f907043a1 HTTP/1.1" 416 -
+127.0.0.1 - - [10/Oct/2026 15:41:22] "POST /api/restore HTTP/1.1" 200 -
+.127.0.0.1 - - [10/Oct/2026 15:41:23] "POST /api/restore HTTP/1.1" 400 -
+127.0.0.1 - - [10/Oct/2026 15:41:23] "POST /api/restore HTTP/1.1" 403 -
+.127.0.0.1 - - [10/Oct/2026 15:41:23] "GET /api/backup.zip HTTP/1.1" 200 -
+127.0.0.1 - - [10/Oct/2026 15:41:23] "GET /api/backups/shiji-20261010-074123-887222.zip HTTP/1.1" 200 -
+127.0.0.1 - - [10/Oct/2026 15:41:23] "GET /api/files/945e8829-ec1e-4bf4-9645-426dba170ffe HTTP/1.1" 206 -
+127.0.0.1 - - [10/Oct/2026 15:41:23] "GET /api/files/945e8829-ec1e-4bf4-9645-426dba170ffe HTTP/1.1" 206 -
+127.0.0.1 - - [10/Oct/2026 15:41:23] "GET /api/files/945e8829-ec1e-4bf4-9645-426dba170ffe HTTP/1.1" 416 -
+127.0.0.1 - - [10/Oct/2026 15:41:23] "GET /api/files/945e8829-ec1e-4bf4-9645-426dba170ffe HTTP/1.1" 416 -
+127.0.0.1 - - [10/Oct/2026 15:41:23] "POST /api/restore HTTP/1.1" 200 -
+.127.0.0.1 - - [10/Oct/2026 15:41:24] "POST /api/restore HTTP/1.1" 400 -
+127.0.0.1 - - [10/Oct/2026 15:41:24] "POST /api/restore HTTP/1.1" 403 -
+.127.0.0.1 - - [10/Oct/2026 15:41:25] "POST /api/restore/preflight HTTP/1.1" 200 -
+127.0.0.1 - - [10/Oct/2026 15:41:25] "POST /api/restore/confirm HTTP/1.1" 400 -
+127.0.0.1 - - [10/Oct/2026 15:41:25] "POST /api/restore/cancel HTTP/1.1" 200 -
+127.0.0.1 - - [10/Oct/2026 15:41:25] "POST /api/restore/preflight HTTP/1.1" 403 -
+.127.0.0.1 - - [10/Oct/2026 15:41:25] "GET /api/backup.zip HTTP/1.1" 200 -
+127.0.0.1 - - [10/Oct/2026 15:41:25] "GET /api/backups/shiji-20261010-074125-602436.zip HTTP/1.1" 200 -
+127.0.0.1 - - [10/Oct/2026 15:41:25] "GET /api/files/48d32fff-5dee-485a-b029-166d6a333df2 HTTP/1.1" 206 -
+127.0.0.1 - - [10/Oct/2026 15:41:25] "GET /api/files/48d32fff-5dee-485a-b029-166d6a333df2 HTTP/1.1" 206 -
+127.0.0.1 - - [10/Oct/2026 15:41:25] "GET /api/files/48d32fff-5dee-485a-b029-166d6a333df2 HTTP/1.1" 416 -
+127.0.0.1 - - [10/Oct/2026 15:41:25] "GET /api/files/48d32fff-5dee-485a-b029-166d6a333df2 HTTP/1.1" 416 -
+127.0.0.1 - - [10/Oct/2026 15:41:25] "POST /api/restore HTTP/1.1" 200 -
+.127.0.0.1 - - [10/Oct/2026 15:41:26] "POST /api/restore HTTP/1.1" 400 -
+127.0.0.1 - - [10/Oct/2026 15:41:26] "POST /api/restore HTTP/1.1" 403 -
+.............................................127.0.0.1 - - [10/Oct/2026 15:41:33] "POST /api/remote-cover HTTP/1.1" 200 -
+127.0.0.1 - - [10/Oct/2026 15:41:33] "POST /api/remote-cover HTTP/1.1" 200 -
+....................................................................................................................................
+----------------------------------------------------------------------
+Ran 205 tests in 32.946s
+
+OK

@@ -7,6 +7,7 @@ import AppKit
     @Published var controlsBlocked = false
     @Published var motionCalm = false
     @Published var error: String?
+    @Published var pageError: String?
     @Published var pairing = ""
     @Published var pairingError: String?
     @Published var pairingLoading = false
@@ -20,7 +21,9 @@ import AppKit
         if let value = ProcessInfo.processInfo.environment["SHIJI_DATA_DIR"] { return URL(fileURLWithPath: value) }
         return FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("DevResourceLibrary")
     }
+    lazy var diagnostics = RuntimeDiagnostics(root: dataDirectory)
     func start() {
+        diagnostics.record("service.start-request", ["owned": process != nil])
         guard process == nil else { return }
         ready = false; error = nil
         guard let resources = Bundle.main.resourceURL else { error = "App 文件不完整，请重新构建。"; return }
@@ -35,10 +38,10 @@ import AppKit
             if !FileManager.default.fileExists(atPath: log.path) { FileManager.default.createFile(atPath: log.path, contents: nil) }
             let handle = try FileHandle(forWritingTo: log); try handle.truncate(atOffset: 0); child.standardOutput = handle; child.standardError = handle
             child.terminationHandler = { [weak self] _ in Task { @MainActor in
-                guard let self else { return }; self.ready = false; self.process = nil
+                guard let self else { return }; self.diagnostics.record("service.exit"); self.ready = false; self.process = nil
                 if self.error == nil { self.error = "本地服务已停止。请重试，或打开日志检查端口与数据目录。" }
             } }
-            try child.run(); process = child
+            try child.run(); process = child; diagnostics.record("service.spawn", ["pid": child.processIdentifier])
         } catch { self.error = "无法启动服务：\(error.localizedDescription)"; return }
         check = Task { [weak self] in
             guard let self else { return }
@@ -47,7 +50,7 @@ import AppKit
                 var request = URLRequest(url: self.base.appendingPathComponent("api/desktop-status")); request.timeoutInterval = 1
                 if let (data, _) = try? await URLSession.shared.data(for: request),
                    let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any], json["instance"] as? String == self.instance {
-                    self.ready = true; await self.readPairing(); return
+                    self.diagnostics.record("service.ready"); self.ready = true; await self.readPairing(); return
                 }
                 try? await Task.sleep(nanoseconds: 250_000_000)
             }
@@ -72,7 +75,12 @@ import AppKit
         let data = try! JSONSerialization.data(withJSONObject: ["name":name,"value":value]); let json = String(data:data,encoding:.utf8)!
         view.evaluateJavaScript("window.ShijiDesktop?.command(\(json))", completionHandler: nil)
     }
-    func stop() { check?.cancel(); if process?.isRunning == true { process?.terminate() } }
+    func stop() { diagnostics.record("service.stop"); check?.cancel(); if process?.isRunning == true { process?.terminate() } }
+    func retryPage() {
+        guard ready, process?.isRunning == true, let view=webView else { start(); return }
+        diagnostics.record("webview.user-retry"); pageError=nil
+        view.load(URLRequest(url:URL(string:base.absoluteString+"/?desktop=1")!))
+    }
     func copyPairing() { guard !pairing.isEmpty else { return }; NSPasteboard.general.clearContents(); NSPasteboard.general.setString(pairing, forType: .string) }
     func revealExtension() {
         guard let folder = Bundle.main.resourceURL?.appendingPathComponent("browser-extension") else { return }
@@ -84,10 +92,17 @@ struct ManagementView: NSViewRepresentable {
     @ObservedObject var runtime: LibraryRuntime
     func makeCoordinator() -> Coordinator { Coordinator(runtime) }
     func makeNSView(context: Context) -> WKWebView {
+        runtime.diagnostics.record("webview.create", ["appActive": NSApp.isActive])
         let config = WKWebViewConfiguration()
         config.userContentController.addUserScript(WKUserScript(source:"window.ShijiNative=true;",injectionTime:.atDocumentStart,forMainFrameOnly:true))
         config.userContentController.add(context.coordinator,name:"libraryState")
         config.userContentController.add(context.coordinator,name:"libraryMotion")
+        config.userContentController.add(context.coordinator,name:"libraryDiagnostics")
+        if ProcessInfo.processInfo.environment["SHIJI_QA_METRICS"] == "1",
+           let file = Bundle.main.resourceURL?.appendingPathComponent("backend/static/runtime-diagnostics.js"),
+           let script = try? String(contentsOf:file,encoding:.utf8) {
+            config.userContentController.addUserScript(WKUserScript(source:script,injectionTime:.atDocumentStart,forMainFrameOnly:true))
+        }
         config.userContentController.addUserScript(WKUserScript(source:"""
         (()=>{let previous;const update=()=>{const drawer=document.querySelector('#drawer');const busy=!!document.querySelector('dialog[open]')||!!(drawer&&!drawer.hidden);if(busy!==previous){previous=busy;window.webkit.messageHandlers.libraryState.postMessage(busy)}};new MutationObserver(update).observe(document.body,{subtree:true,attributes:true,attributeFilter:['hidden','open']});update()})();
         """,injectionTime:.atDocumentEnd,forMainFrameOnly:true))
@@ -98,15 +113,53 @@ struct ManagementView: NSViewRepresentable {
         """,injectionTime:.atDocumentEnd,forMainFrameOnly:true))
         let view = WKWebView(frame:.zero,configuration:config); view.navigationDelegate=context.coordinator; view.uiDelegate=context.coordinator
         view.setValue(false,forKey:"drawsBackground"); view.setContentHuggingPriority(.defaultLow,for:.horizontal); view.setContentHuggingPriority(.defaultLow,for:.vertical); runtime.webView=view
+        context.coordinator.observeLifecycle(view)
         view.load(URLRequest(url:URL(string:runtime.base.absoluteString+"/?desktop=1")!)); return view
     }
     func updateNSView(_ view: WKWebView, context: Context) {}
+    static func dismantleNSView(_ view: WKWebView, coordinator: Coordinator) {
+        coordinator.runtime.diagnostics.record("webview.dismantle")
+        for name in ["libraryState","libraryMotion","libraryDiagnostics"] { view.configuration.userContentController.removeScriptMessageHandler(forName:name) }
+        view.navigationDelegate=nil; view.uiDelegate=nil
+        if coordinator.runtime.webView === view { coordinator.runtime.webView=nil }
+    }
     class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate, WKDownloadDelegate, WKScriptMessageHandler {
         let runtime: LibraryRuntime
+        var observations: [NSObjectProtocol] = []
         init(_ runtime: LibraryRuntime) { self.runtime=runtime }
+        func observeLifecycle(_ view: WKWebView) {
+            for name in [NSApplication.didBecomeActiveNotification, NSApplication.didResignActiveNotification, NSWindow.didBecomeKeyNotification, NSWindow.didResignKeyNotification, NSWindow.willCloseNotification] {
+                observations.append(NotificationCenter.default.addObserver(forName:name,object:nil,queue:.main) { [weak self, weak view] note in
+                    guard let self, let view else { return }
+                    if let window=note.object as? NSWindow, window !== view.window { return }
+                    MainActor.assumeIsolated { self.runtime.diagnostics.record("native.lifecycle", ["notification":note.name.rawValue,"active":NSApp.isActive,"windowVisible":view.window?.isVisible ?? false])
+                    self.snapshot(view, "native.snapshot") }
+                })
+            }
+        }
+        func snapshot(_ view: WKWebView, _ event: String) {
+            view.evaluateJavaScript("""
+            ({hidden:document.hidden,focus:document.hasFocus(),ready:document.readyState,
+              cards:document.querySelectorAll('.resource-card').length,
+              animations:document.getAnimations().length,
+              running:document.getAnimations().filter(a=>a.playState==='running').length,
+              heroOpacity:getComputedStyle(document.querySelector('#hero-title')).opacity,
+              heroFilter:getComputedStyle(document.querySelector('#hero-title')).filter})
+            """) { [weak self] value,_ in
+                if let row=value as? [String:Any] { self?.runtime.diagnostics.record(event,row) }
+            }
+        }
+        deinit { for item in observations { NotificationCenter.default.removeObserver(item) } }
+        func webView(_ view: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) { runtime.diagnostics.record("webview.navigation-start") }
+        func webView(_ view: WKWebView, didCommit navigation: WKNavigation!) { runtime.diagnostics.record("webview.commit") }
+        func webView(_ view: WKWebView, didFinish navigation: WKNavigation!) { runtime.pageError=nil; runtime.diagnostics.record("webview.finish"); snapshot(view,"webview.snapshot") }
         func userContentController(_ controller:WKUserContentController,didReceive message:WKScriptMessage) {
             guard message.frameInfo.isMainFrame, let url=message.frameInfo.request.url,
                   url.host=="127.0.0.1",url.port==runtime.port else { return }
+            if message.name=="libraryDiagnostics", let row=message.body as? [String:Any] {
+                let allowed=["event","ms","renderMs","responseMs","cards","total","hidden","backgroundPaused","frames","p50","p95","max","over33","animations","running","cssRunning","transitionRunning","ghosts","mode","phase","heroOpacity","heroFilter"]
+                runtime.diagnostics.record("qa." + (row["event"] as? String ?? "unknown"),row.filter { allowed.contains($0.key) })
+            }
             if message.name=="libraryState",let busy=message.body as? Bool {runtime.controlsBlocked=busy}
             if message.name=="libraryMotion",let mode=message.body as? String,["studio","calm"].contains(mode){runtime.motionCalm=mode=="calm"}
         }
@@ -136,7 +189,14 @@ struct ManagementView: NSViewRepresentable {
             let panel=NSOpenPanel();panel.allowsMultipleSelection=parameters.allowsMultipleSelection;panel.canChooseDirectories=parameters.allowsDirectories;panel.canChooseFiles=true
             panel.begin { response in completionHandler(response == .OK ? panel.urls : nil) }
         }
-        func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) { runtime.error="管理页面无法载入：\(error.localizedDescription)" }
+        func webView(_ view: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+            guard (error as NSError).code != NSURLErrorCancelled else { return }
+            runtime.diagnostics.record("webview.navigation-failure",["code":(error as NSError).code]); runtime.pageError="管理页面载入中断。请重试。"
+        }
+        func webViewWebContentProcessDidTerminate(_ view: WKWebView) {
+            runtime.diagnostics.record("webview.content-terminated"); runtime.pageError="页面进程已停止。收藏保存在本机，请重新打开页面。"
+        }
+        func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) { guard (error as NSError).code != NSURLErrorCancelled else { return }; runtime.diagnostics.record("webview.provisional-failure",["code":(error as NSError).code]); runtime.pageError="管理页面无法载入。请重试。" }
     }
 }
 
@@ -199,7 +259,10 @@ struct LibraryWindow: View {
     var body: some View {
         ZStack {
             Color(red:12/255,green:13/255,blue:16/255).ignoresSafeArea()
-            if runtime.ready { ManagementView(runtime:runtime).frame(maxWidth:.infinity,maxHeight:.infinity) }
+            if runtime.ready {
+                ManagementView(runtime:runtime).frame(maxWidth:.infinity,maxHeight:.infinity)
+                if let problem=runtime.pageError { VStack(spacing:16){Text(problem); Button("重新打开页面"){runtime.retryPage()}}.padding(28).background(.regularMaterial,in:RoundedRectangle(cornerRadius:20)) }
+            }
             else if let error=runtime.error {
                 VStack(spacing:20) { Image(systemName:"exclamationmark.triangle").font(.largeTitle);Text("资源库暂时无法打开").font(.title2);Text(error).foregroundStyle(.secondary).multilineTextAlignment(.center)
                     HStack { Button("重新启动"){runtime.start()};Button("打开日志"){NSWorkspace.shared.open(runtime.dataDirectory.appendingPathComponent("desktop.log"))} }
@@ -207,7 +270,7 @@ struct LibraryWindow: View {
             } else { VStack(spacing:12){ProgressView();Text("正在打开你的资源库…").foregroundStyle(.secondary)} }
         }
         .overlay(alignment:.bottomTrailing) {
-            if runtime.ready && !runtime.controlsBlocked {
+            if runtime.ready && runtime.pageError == nil && !runtime.controlsBlocked {
                 CaptureDock(calm:runtime.motionCalm,collect:{runtime.command("add")},importFiles:{runtime.command("import-files")},pair:{copied=false;pairingOpen=true})
                     .padding(.trailing,30).padding(.bottom,26)
             }
@@ -254,6 +317,7 @@ struct LibraryWindow: View {
     weak var runtime: LibraryRuntime?
     func applicationWillTerminate(_ notification:Notification){runtime?.stop()}
     func applicationShouldHandleReopen(_ sender:NSApplication,hasVisibleWindows:Bool)->Bool {
+        runtime?.diagnostics.record("window.reopen",["visible":hasVisibleWindows])
         if !hasVisibleWindows { sender.windows.first(where:{$0.identifier?.rawValue=="library"})?.makeKeyAndOrderFront(nil) };return true
     }
 }
@@ -261,7 +325,7 @@ struct LibraryWindow: View {
     @NSApplicationDelegateAdaptor(LibraryAppDelegate.self) var delegate
     @StateObject var runtime=LibraryRuntime()
     var body: some Scene {
-        Window("拾集 · 开发资源库",id:"library") { LibraryWindow(runtime:runtime).task{delegate.runtime=runtime} }
+        WindowGroup("拾集 · 开发资源库",id:"library") { LibraryWindow(runtime:runtime).task{delegate.runtime=runtime} }
             .defaultSize(width:1180,height:820)
             .windowStyle(.automatic)
             .handlesExternalEvents(matching:["library"])

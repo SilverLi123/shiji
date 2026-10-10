@@ -1,0 +1,10 @@
+{"event":"service.start-request","owned":false,"time":1791618361.28793}
+{"event":"service.spawn","pid":40579,"time":1791618361.291472}
+{"event":"service.ready","time":1791618361.6769741}
+{"appActive":false,"event":"webview.create","time":1791618361.679662}
+{"event":"webview.navigation-start","time":1791618362.3360829}
+{"event":"webview.commit","time":1791618362.372293}
+{"animations":46,"cards":0,"event":"qa.web","ghosts":0,"heroFilter":"blur(9px)","heroOpacity":"0.12","hidden":true,"mode":"studio","ms":197,"running":38,"time":1791618362.809377}
+{"event":"webview.finish","time":1791618362.814682}
+{"animations":46,"cards":0,"event":"webview.snapshot","focus":false,"heroFilter":"blur(9px)","heroOpacity":"0.12","hidden":true,"ready":"complete","running":38,"time":1791618362.833874}
+{"animations":93,"cards":60,"event":"qa.web","ghosts":0,"heroFilter":"blur(9px)","heroOpacity":"0.12","hidden":true,"mode":"studio","ms":646,"renderMs":221,"running":45,"time":1791618363.0589299,"total":100}

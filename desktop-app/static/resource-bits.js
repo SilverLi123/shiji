@@ -138,7 +138,7 @@
     function scrollReset(){resetTilt(false);for(const surface of returning.keys())stopReturn(surface);}
 
     function animate(el,frames,options){
-      if(reduce.matches||calm()||!el.animate)return;
+      if(reduce.matches||calm()||grid.ownerDocument?.hidden||!el.animate)return;
       const a=el.animate(frames,options);animations.add(a);
       a.finished.then(()=>animations.delete(a),()=>animations.delete(a));return a;
     }

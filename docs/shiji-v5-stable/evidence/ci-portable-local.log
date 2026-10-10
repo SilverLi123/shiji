@@ -1,0 +1,250 @@
+portable: 205 / 207 tests; the complementary job covers the remaining IDs
+test_atomic_content_type_provenance_and_retry_restart (test_assets.Assets) ... ok
+test_audio_and_unknown_content_not_inferred_from_extension (test_assets.Assets) ... ok
+test_bad_existing_bytes_missing_and_symlink_are_not_duplicates (test_assets.Assets) ... ok
+test_duplicates_skip_copy_trash_and_batch (test_assets.Assets) ... ok
+test_full_backup_roundtrip_bytes_and_folders (test_assets.Assets) ... ok
+test_validation_never_creates_resource_or_file (test_assets.Assets) ... ok
+test_disk_and_commit_failure_remove_files_and_roll_back (test_assets.AtomicDisk) ... ok
+test_256mib_incremental_copy_allows_requests (test_backup_lifecycle.BackupLifecycle) ... ok
+test_failure_is_unpublished_and_startup_is_asynchronous (test_backup_lifecycle.BackupLifecycle) ... ok
+test_incremental_objects_and_snapshot_roundtrip (test_backup_lifecycle.BackupLifecycle) ... ok
+test_tiered_retention_cleans_unreferenced_objects (test_backup_lifecycle.BackupLifecycle) ... ok
+test_zip_compression_does_not_hold_store_lock_or_clear_new_writes (test_backup_lifecycle.BackupLifecycle) ... ok
+test_archive_attachment_reader_is_bounded (test_backups.BackupStreams) ... ok
+test_bad_source_backup_reports_failure_and_does_not_publish_zip (test_backups.BackupStreams) ... ok
+test_corrupt_and_missing_bytes_repair_existing_identity (test_backups.BackupStreams) ... ok
+test_disk_backups_do_not_use_whole_file_reads (test_backups.BackupStreams) ... ok
+test_export_rejects_counts_that_its_restore_cannot_accept (test_backups.BackupStreams) ... ok
+test_project_and_smart_collection_count_boundaries_roundtrip (test_backups.BackupStreams) ... ok
+test_restore_commit_failure_preserves_bad_bytes_and_missing_state (test_backups.BackupStreams) ... ok
+test_symlink_repair_does_not_read_or_change_external_target (test_backups.BackupStreams) ... ok
+test_validation_error_has_no_files_rows_or_backup_side_effect (test_backups.BackupStreams) ... /Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/zipfile.py:1505: UserWarning: Duplicate name: 'manifest.json'
+  return self._open_to_write(zinfo, force_zip64=force_zip64)
+ok
+test_default_off_pause_and_preview_configuration (test_backups.PreviewHTTP) ... 127.0.0.1 - - [10/Oct/2026 16:16:03] "GET /api/website-previews HTTP/1.1" 200 -
+127.0.0.1 - - [10/Oct/2026 16:16:03] "POST /api/website-previews HTTP/1.1" 200 -
+127.0.0.1 - - [10/Oct/2026 16:16:03] "POST /api/website-previews HTTP/1.1" 400 -
+127.0.0.1 - - [10/Oct/2026 16:16:03] "POST /api/website-previews HTTP/1.1" 403 -
+ok
+test_download_restore_and_range_without_whole_reads (test_backups.PreviewHTTP) ... 127.0.0.1 - - [10/Oct/2026 16:16:04] "GET /api/backup.zip HTTP/1.1" 200 -
+127.0.0.1 - - [10/Oct/2026 16:16:04] "GET /api/backups/shiji-20261010-081604-135757.zip HTTP/1.1" 200 -
+127.0.0.1 - - [10/Oct/2026 16:16:04] "GET /api/files/f4a11bed-2612-475a-bea1-61da1fae6fc0 HTTP/1.1" 206 -
+127.0.0.1 - - [10/Oct/2026 16:16:04] "GET /api/files/f4a11bed-2612-475a-bea1-61da1fae6fc0 HTTP/1.1" 206 -
+127.0.0.1 - - [10/Oct/2026 16:16:04] "GET /api/files/f4a11bed-2612-475a-bea1-61da1fae6fc0 HTTP/1.1" 416 -
+127.0.0.1 - - [10/Oct/2026 16:16:04] "GET /api/files/f4a11bed-2612-475a-bea1-61da1fae6fc0 HTTP/1.1" 416 -
+127.0.0.1 - - [10/Oct/2026 16:16:04] "POST /api/restore HTTP/1.1" 200 -
+ok
+test_invalid_upload_and_origin_leave_data_unchanged (test_backups.PreviewHTTP) ... 127.0.0.1 - - [10/Oct/2026 16:16:04] "POST /api/restore HTTP/1.1" 400 -
+127.0.0.1 - - [10/Oct/2026 16:16:04] "POST /api/restore HTTP/1.1" 403 -
+ok
+test_download_restore_and_range_without_whole_reads (test_backups.RecoveryHTTP) ... 127.0.0.1 - - [10/Oct/2026 16:16:05] "GET /api/backup.zip HTTP/1.1" 200 -
+127.0.0.1 - - [10/Oct/2026 16:16:05] "GET /api/backups/shiji-20261010-081605-213909.zip HTTP/1.1" 200 -
+127.0.0.1 - - [10/Oct/2026 16:16:05] "GET /api/files/ba4d8866-a506-4fac-85ce-c325ae4c26f1 HTTP/1.1" 206 -
+127.0.0.1 - - [10/Oct/2026 16:16:05] "GET /api/files/ba4d8866-a506-4fac-85ce-c325ae4c26f1 HTTP/1.1" 206 -
+127.0.0.1 - - [10/Oct/2026 16:16:05] "GET /api/files/ba4d8866-a506-4fac-85ce-c325ae4c26f1 HTTP/1.1" 416 -
+127.0.0.1 - - [10/Oct/2026 16:16:05] "GET /api/files/ba4d8866-a506-4fac-85ce-c325ae4c26f1 HTTP/1.1" 416 -
+127.0.0.1 - - [10/Oct/2026 16:16:05] "POST /api/restore HTTP/1.1" 200 -
+ok
+test_invalid_upload_and_origin_leave_data_unchanged (test_backups.RecoveryHTTP) ... 127.0.0.1 - - [10/Oct/2026 16:16:05] "POST /api/restore HTTP/1.1" 400 -
+127.0.0.1 - - [10/Oct/2026 16:16:05] "POST /api/restore HTTP/1.1" 403 -
+ok
+test_preflight_cancel_and_confirmation (test_backups.RecoveryHTTP) ... 127.0.0.1 - - [10/Oct/2026 16:16:06] "POST /api/restore/preflight HTTP/1.1" 200 -
+127.0.0.1 - - [10/Oct/2026 16:16:06] "POST /api/restore/confirm HTTP/1.1" 400 -
+127.0.0.1 - - [10/Oct/2026 16:16:06] "POST /api/restore/cancel HTTP/1.1" 200 -
+127.0.0.1 - - [10/Oct/2026 16:16:06] "POST /api/restore/preflight HTTP/1.1" 403 -
+ok
+test_download_restore_and_range_without_whole_reads (test_backups.StreamHTTP) ... 127.0.0.1 - - [10/Oct/2026 16:16:06] "GET /api/backup.zip HTTP/1.1" 200 -
+127.0.0.1 - - [10/Oct/2026 16:16:06] "GET /api/backups/shiji-20261010-081606-854057.zip HTTP/1.1" 200 -
+127.0.0.1 - - [10/Oct/2026 16:16:06] "GET /api/files/232e305b-2023-4418-acf2-13d6325c782c HTTP/1.1" 206 -
+127.0.0.1 - - [10/Oct/2026 16:16:06] "GET /api/files/232e305b-2023-4418-acf2-13d6325c782c HTTP/1.1" 206 -
+127.0.0.1 - - [10/Oct/2026 16:16:06] "GET /api/files/232e305b-2023-4418-acf2-13d6325c782c HTTP/1.1" 416 -
+127.0.0.1 - - [10/Oct/2026 16:16:06] "GET /api/files/232e305b-2023-4418-acf2-13d6325c782c HTTP/1.1" 416 -
+127.0.0.1 - - [10/Oct/2026 16:16:06] "POST /api/restore HTTP/1.1" 200 -
+ok
+test_invalid_upload_and_origin_leave_data_unchanged (test_backups.StreamHTTP) ... 127.0.0.1 - - [10/Oct/2026 16:16:07] "POST /api/restore HTTP/1.1" 400 -
+127.0.0.1 - - [10/Oct/2026 16:16:07] "POST /api/restore HTTP/1.1" 403 -
+ok
+test_atomic_selection_title_and_combined_tags (test_bookmarks.Bookmarks) ... ok
+test_collisions_only_selected_paths_and_title_override (test_bookmarks.Bookmarks) ... ok
+test_existing_trash_and_dangerous_urls_preserve_originals (test_bookmarks.Bookmarks) ... ok
+test_folder_depth_and_many_memberships_can_use_flat_import (test_bookmarks.Bookmarks) ... ok
+test_folder_description_cannot_overwrite_bookmark_notes (test_bookmarks.Bookmarks) ... ok
+test_folder_duplicates_metadata_and_backup_roundtrip (test_bookmarks.Bookmarks) ... ok
+test_limits_and_metadata_loss_is_visible (test_bookmarks.Bookmarks) ... ok
+test_project_capacity_rolls_back_all_resources (test_bookmarks.Bookmarks) ... ok
+test_stale_resource_or_project_requires_preview_again (test_bookmarks.Bookmarks) ... ok
+test_access_denied_is_unknown_not_broken (test_capture.Capture) ... ok
+test_html_metadata_handles_entities_and_relative_images (test_capture.Capture) ... ok
+test_malicious_metadata_cannot_point_to_localhost (test_capture.Capture) ... ok
+test_public_fetch_rejects_private_and_credential_urls (test_capture.Capture) ... ok
+test_redirect_target_is_revalidated (test_capture.Capture) ... ok
+test_capture_preserves_concurrent_edits_and_literal_tags (test_capture_concurrency.CaptureConcurrency) ... ok
+test_capture_restores_trash_without_losing_original_notes (test_capture_concurrency.CaptureConcurrency) ... ok
+test_parallel_selections_and_duplicate_creation (test_capture_concurrency.CaptureConcurrency) ... ok
+test_capture_pairing_duplicate_and_restart (test_desktop_service.DesktopServiceTests) ... ok
+test_mobile_sync_control_default_off_and_origin_guard (test_desktop_service.DesktopServiceTests) ... ok
+test_port_collision_does_not_create_database (test_desktop_service.DesktopServiceTests) ... ok
+test_second_app_refuses_same_library (test_desktop_service.DesktopServiceTests) ... ok
+test_cancel_while_publishing_rolls_back_and_status_stays_responsive (test_existing_sharing.ExistingSharing) ... ok
+test_existing_group_shares_bytes_preserves_payloads_and_backup (test_existing_sharing.ExistingSharing) ... ok
+test_failed_backup_and_unsupported_links_preserve_original_paths (test_existing_sharing.ExistingSharing) ... ok
+test_late_cancel_during_cleanup_does_not_promise_rollback (test_existing_sharing.ExistingSharing) ... ok
+test_partial_cleanup_failure_reports_committed_sharing_honestly (test_existing_sharing.ExistingSharing) ... ok
+test_prepared_bytes_or_paths_changing_are_rejected (test_existing_sharing.ExistingSharing) ... ok
+test_publish_failure_rolls_back_all_replaced_inodes (test_existing_sharing.ExistingSharing) ... ok
+test_stale_scan_cancelled_scan_and_wrong_group_cannot_write (test_existing_sharing.ExistingSharing) ... ok
+test_status_snapshot_race_never_waits_for_worker_storage_lock (test_existing_sharing.ExistingSharing) ... ok
+test_trash_and_unrelated_inodes_are_not_replaced_or_overcounted (test_existing_sharing.ExistingSharing) ... ok
+test_origin_validation_real_job_and_independent_downloads (test_existing_sharing.SharingHTTP) ... ok
+test_asset_copy_policy_and_trash_reuse_keep_independent_records (test_file_store.Reuse) ... ok
+test_attachment_and_asset_commit_failures_unlink_only_new_paths (test_file_store.Reuse) ... ok
+test_backup_keeps_all_ids_and_restore_reuses_verified_bytes (test_file_store.Reuse) ... ok
+test_candidate_change_to_symlink_is_rechecked_after_link (test_file_store.Reuse) ... ok
+test_distinct_bytes_and_concurrent_identical_uploads (test_file_store.Reuse) ... ok
+test_distinct_metadata_and_resources_share_only_bytes (test_file_store.Reuse) ... ok
+test_existing_temp_conflict_is_preserved_on_failed_asset_import (test_file_store.Reuse) ... ok
+test_link_unavailable_falls_back_without_changing_source (test_file_store.Reuse) ... ok
+test_missing_corrupt_symlink_and_unreadable_candidates_are_not_shared (test_file_store.Reuse) ... ok
+test_publish_failure_removes_link_and_keeps_original (test_file_store.Reuse) ... ok
+test_repair_detaches_one_path_and_does_not_modify_its_peer (test_file_store.Reuse) ... ok
+test_restore_commit_failure_restores_original_shared_paths (test_file_store.Reuse) ... ok
+test_remote_route_preserves_changes_before_and_during_fetch (test_guarded_edit.AutomaticCoverHTTP) ... 127.0.0.1 - - [10/Oct/2026 16:16:13] "POST /api/remote-cover HTTP/1.1" 200 -
+127.0.0.1 - - [10/Oct/2026 16:16:13] "POST /api/remote-cover HTTP/1.1" 200 -
+ok
+test_automatic_cover_cache_preserves_newer_cover_and_thumbnail (test_guarded_edit.GuardedEdit) ... ok
+test_cover_uses_latest_attachment_palette_and_preserves_everything_else (test_guarded_edit.GuardedEdit) ... ok
+test_different_fields_merge_and_idempotence (test_guarded_edit.GuardedEdit) ... ok
+test_historical_kind_and_url_are_validated_independently (test_guarded_edit.GuardedEdit) ... ok
+test_historical_project_baseline_at_retained_note_limit (test_guarded_edit.GuardedEdit) ... ok
+test_json_zip_and_restart_keep_schema_ids_and_bytes (test_guarded_edit.GuardedEdit) ... ok
+test_limits_strict_body_immutable_trash_and_atomic_rollback (test_guarded_edit.GuardedEdit) ... ok
+test_per_key_project_notes_preserve_exact_history_membership (test_guarded_edit.GuardedEdit) ... ok
+test_same_field_conflict_whole_patch_and_explicit_retry (test_guarded_edit.GuardedEdit) ... ok
+test_two_writers_conflict_not_last_write_wins (test_guarded_edit.GuardedEdit) ... ok
+test_edit_route_atomic_conflict_origin_and_compatibility (test_guarded_edit.GuardedEditHTTP) ... ok
+test_scan_releases_library_lock_and_can_cancel (test_health.Background) ... ok
+test_bad_existing_copy_is_not_reused (test_health.Health) ... ok
+test_health_requests_keep_origin_protection_and_validate_cancel (test_health.Health) ... ok
+test_identical_upload_reuses_only_same_resource_and_metadata (test_health.Health) ... ok
+test_only_missing_copy_is_replaced_and_symlink_is_not_read (test_health.Health) ... ok
+test_recovering_missing_bytes_marks_old_report_stale (test_health.Health) ... ok
+test_reused_attachment_backup_roundtrip_has_one_identity (test_health.Health) ... ok
+test_scan_is_read_only_and_trash_is_distinguished (test_health.Health) ... ok
+test_archive_is_reversible_and_does_not_remove_resources (test_iteration4.Iteration4) ... ok
+test_folder_metadata_backup_json_and_zip_roundtrip (test_iteration4.Iteration4) ... ok
+test_hierarchy_rules_and_batch_add_apply_only_new_membership (test_iteration4.Iteration4) ... ok
+test_invalid_backup_tree_rejected_before_mutation (test_iteration4.Iteration4) ... ok
+test_link_preview_classifies_duplicates_and_import_is_atomic (test_iteration4.Iteration4) ... ok
+test_moving_project_preserves_membership_and_rejects_deep_tree (test_iteration4.Iteration4) ... ok
+test_project_cycle_collision_and_tag_overflow_are_atomic (test_iteration4.Iteration4) ... ok
+test_project_rename_updates_notes_trash_children_and_smart_filter (test_iteration4.Iteration4) ... ok
+test_tag_merge_updates_auto_rules_and_future_resources (test_iteration4.Iteration4) ... ok
+test_v2_migration_preserves_flat_project_and_original_resource (test_iteration4.Iteration4) ... ok
+test_attachment_bytes_and_metadata_are_immutable (test_mobile_sync.MobileSyncTests) ... ok
+test_empty_collections_are_preserved_in_snapshot (test_mobile_sync.MobileSyncTests) ... ok
+test_existing_attachments_do_not_count_as_transfer (test_mobile_sync.MobileSyncTests) ... ok
+test_expired_staging_is_reclaimed (test_mobile_sync.MobileSyncTests) ... ok
+test_idempotent_retry_preserves_later_edits (test_mobile_sync.MobileSyncTests) ... ok
+test_missing_attachment_and_batch_error_roll_back (test_mobile_sync.MobileSyncTests) ... ok
+test_roundtrip_identity_exact_tags_and_trash (test_mobile_sync.MobileSyncTests) ... ok
+test_snapshot_includes_desktop_and_deleted_records (test_mobile_sync.MobileSyncTests) ... ok
+test_stale_revision_never_overwrites_desktop (test_mobile_sync.MobileSyncTests) ... ok
+test_url_collision_and_wrong_library (test_mobile_sync.MobileSyncTests) ... ok
+test_isolated_chrome_proxy_blocks_private_and_redirects (test_preview_jobs.ChromeProxyTests) ... ok
+test_concurrent_manual_cover_and_url_change_preserved (test_preview_jobs.PreviewTests) ... ok
+test_configuration_persists_without_schema_change (test_preview_jobs.PreviewTests) ... ok
+test_default_off_rate_limit_and_new_resources (test_preview_jobs.PreviewTests) ... ok
+test_failure_preserves_resource_and_can_retry (test_preview_jobs.PreviewTests) ... ok
+test_og_image_then_chrome_fallback_and_private_rejection (test_preview_jobs.PreviewTests) ... ok
+test_pause_discards_inflight_and_resume (test_preview_jobs.PreviewTests) ... ok
+test_exact_removal_keeps_child_other_metadata_and_archived_notes (test_project_removal.ProjectRemoval) ... ok
+test_full_edit_and_rejoin_restore_notes_with_current_auto_tags (test_project_removal.ProjectRemoval) ... ok
+test_rename_historical_notes_in_active_and_trash_and_collision_rollback (test_project_removal.ProjectRemoval) ... ok
+test_retained_note_validation_and_limit (test_project_removal.ProjectRemoval) ... ok
+test_retained_notes_json_and_complete_zip_roundtrip (test_project_removal.ProjectRemoval) ... ok
+test_validation_stale_trash_and_second_write_rollback (test_project_removal.ProjectRemoval) ... ok
+test_endpoint_notes_retained_and_origin (test_project_removal.ProjectRemovalHTTP) ... ok
+test_attachments_during_fetch_are_retained (test_quick_capture.QuickCaptureTests) ... ok
+test_inflight_manual_edits_skip_all_metadata_without_locking_requests (test_quick_capture.QuickCaptureTests) ... ok
+test_persist_before_enrich_and_no_covers (test_quick_capture.QuickCaptureTests) ... ok
+test_public_fetch_failure_never_removes_saved_resource (test_quick_capture.QuickCaptureTests) ... ok
+test_stale_url_deleted_and_failed_fetch_leave_persisted_data (test_quick_capture.QuickCaptureTests) ... ok
+test_archived_and_removed_project_name_rules (test_quick_notes.QuickNotes) ... ok
+test_conflict_and_idempotent_retry (test_quick_notes.QuickNotes) ... ok
+test_json_zip_and_restart_preserve_quick_notes (test_quick_notes.QuickNotes) ... ok
+test_project_keys_clear_and_history_do_not_change_memberships (test_quick_notes.QuickNotes) ... ok
+test_special_key_matrix_and_unicode_limits (test_quick_notes.QuickNotes) ... ok
+test_targeted_write_preserves_latest_other_fields_and_bytes (test_quick_notes.QuickNotes) ... ok
+test_validation_noop_trash_missing_and_rollback (test_quick_notes.QuickNotes) ... ok
+test_target_read_write_conflict_origin_and_wrong_routes (test_quick_notes.QuickNotesHTTP) ... ok
+test_additive_membership_exact_names_inherited_tags_and_noop (test_quick_projects.QuickProjects) ... ok
+test_batch_limit_failure_rolls_back_earlier_items (test_quick_projects.QuickProjects) ... ok
+test_batch_write_failure_rolls_back_and_stale_name_is_not_recreated (test_quick_projects.QuickProjects) ... ok
+test_invalid_removed_archived_and_trashed_targets_leave_full_state (test_quick_projects.QuickProjects) ... ok
+test_real_endpoint_adds_only_projects_and_enforces_origin (test_quick_projects.QuickProjectsHTTP) ... ok
+test_add_exact_names_preserve_all_other_fields_and_noop (test_quick_tags.QuickTags) ... ok
+test_invalid_body_and_combined_limit_do_not_write (test_quick_tags.QuickTags) ... ok
+test_latest_metadata_and_removed_auto_tags_are_preserved (test_quick_tags.QuickTags) ... ok
+test_limit_and_injected_write_failure_roll_back_whole_batch_and_dirty (test_quick_tags.QuickTags) ... ok
+test_stale_existing_labels_do_not_recreate_but_explicit_creation_is_allowed (test_quick_tags.QuickTags) ... ok
+test_trash_only_labels_and_targets_and_missing_targets_rejected (test_quick_tags.QuickTags) ... ok
+test_tag_assignment_endpoint_and_origin (test_quick_tags.QuickTagsHTTP) ... ok
+test_bad_archive_expiry_and_quota (test_recovery.RecoveryTests) ... ok
+test_preflight_cancel_no_changes_and_confirm_single_use (test_recovery.RecoveryTests) ... ok
+test_smart_undo_exact_and_conflict (test_recovery.RecoveryTests) ... ok
+test_snapshot_restore_and_safe_paths (test_recovery.RecoveryTests) ... ok
+test_trash_undo_membership_and_expiry (test_recovery.RecoveryTests) ... ok
+test_backup_rejects_script_resource_and_smart_ids_without_mutation (test_regressions.Regressions) ... ok
+test_edit_cannot_overwrite_deleted_duplicate (test_regressions.Regressions) ... ok
+test_fetch_deadline_bounds_dns (test_regressions.Regressions) ... ok
+test_fetch_deadline_bounds_slow_body (test_regressions.Regressions) ... ok
+test_json_import_preserves_smart_filters (test_regressions.Regressions) ... ok
+test_valid_backup_repairs_missing_file_and_startup_remains_available (test_regressions.Regressions) ... ok
+test_abandoned_staging_expires_via_background_and_startup (test_review_regressions.FinalReviewRegressions) ... ok
+test_active_preflight_is_not_reaped_and_failed_restore_keeps_undo (test_review_regressions.FinalReviewRegressions) ... ok
+test_restore_invalidates_old_trash_undo_after_commit_only (test_review_regressions.FinalReviewRegressions) ... ok
+test_same_size_object_corruption_is_repaired_without_recopying_intact (test_review_regressions.FinalReviewRegressions) ... ok
+test_saved_remote_thumbnail_is_a_chosen_preview (test_review_regressions.FinalReviewRegressions) ... ok
+test_advanced_conditions_json_and_zip_roundtrip (test_smart_filters.SmartFilters) ... ok
+test_excluded_tag_rename_merge_and_project_rename (test_smart_filters.SmartFilters) ... ok
+test_filter_validation_readonly_defaults_and_idna (test_smart_filters.SmartFilters) ... ok
+test_international_domain_cannot_silently_change_identity (test_smart_filters.SmartFilters) ... ok
+test_legacy_stored_filters_read_without_rewrite (test_smart_filters.SmartFilters) ... ok
+test_missing_id_not_recreated_and_invalid_update_atomic (test_smart_filters.SmartFilters) ... ok
+test_update_preserves_id_and_resource_payload (test_smart_filters.SmartFilters) ... ok
+test_bind_does_not_wait_for_reverse_dns (test_sync_listener.ListenerTests) ... ok
+test_certificate_renews_for_changed_address_and_is_stable_otherwise (test_sync_transport.SyncTransportTests) ... ok
+test_expiry_origin_and_missing_token (test_sync_transport.SyncTransportTests) ... ok
+test_tls_pair_single_use_revoke_and_restart (test_sync_transport.SyncTransportTests) ... ok
+test_unknown_certificate_fails_normal_tls_verification (test_sync_transport.SyncTransportTests) ... ok
+test_attachment_cover_and_provenance_survive_restart (test_upgrade.Integration) ... ok
+test_automatic_and_manual_backups_are_recoverable (test_upgrade.Integration) ... ok
+test_batch_atomic_and_shared_project (test_upgrade.Integration) ... ok
+test_browser_clip_requires_pairing_and_saves_screenshot (test_upgrade.Integration) ... ok
+test_complete_backup_restores_attachment_and_projects (test_upgrade.Integration) ... ok
+test_corrupted_zip_leaves_existing_data_untouched (test_upgrade.Integration) ... ok
+test_cross_origin_mutation_rejected (test_upgrade.Integration) ... ok
+test_file_without_url_and_snippet_roundtrip (test_upgrade.Integration) ... ok
+test_invalid_capture_screenshot_does_not_create_resource (test_upgrade.Integration) ... ok
+test_media_range_and_linked_prompt_preserve_content (test_upgrade.Integration) ... ok
+test_multiple_projects_survive_edit_and_restart (test_upgrade.Integration) ... ok
+test_old_collection_migrates_to_projects (test_upgrade.Integration) ... ok
+test_private_link_is_unknown_and_saved_status_persists (test_upgrade.Integration) ... ok
+test_private_metadata_fails_without_blocking_save (test_upgrade.Integration) ... ok
+test_repeated_capture_keeps_new_selection_and_ignores_optional_data_icon (test_upgrade.Integration) ... ok
+test_saved_filters_persist (test_upgrade.Integration) ... ok
+test_tag_merge_preserves_unique_tags (test_upgrade.Integration) ... ok
+test_trash_restores_original_resource (test_upgrade.Integration) ... ok
+test_untrusted_html_stays_download_only (test_upgrade.Integration) ... ok
+test_upload_to_deleted_resource_rejected (test_upgrade.Integration) ... ok
+test_zip_paths_cannot_escape_library (test_upgrade.Integration) ... ok
+test_capture_survives_offline_and_manual_edit_then_real_fields_reach_renderer (test_v3_foundation.V3FoundationTests) ... ok
+test_cross_origin_write_is_rejected_without_mutating_library (test_v3_foundation.V3FoundationTests) ... ok
+test_http_batch_undo_preserves_resource_and_attachment_identity (test_v3_foundation.V3FoundationTests) ... ok
+test_zip_preflight_cancel_is_read_only_and_confirm_restores_identity_and_bytes (test_v3_foundation.V3FoundationTests) ... ok
+
+----------------------------------------------------------------------
+Ran 205 tests in 32.454s
+
+OK

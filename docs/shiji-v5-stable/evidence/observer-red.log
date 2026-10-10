@@ -1,0 +1,12 @@
+AssertionError [ERR_ASSERTION]: status, particles and QA metrics must not rescan every poster
+
+1 !== 0
+
+    at /Users/silver/shiji-card-restoration/desktop-app/tests/test_motion_observer_scope.js:11:9 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 1,
+  expected: 0,
+  operator: 'strictEqual',
+  diff: 'simple'
+}

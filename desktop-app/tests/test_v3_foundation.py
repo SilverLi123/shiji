@@ -80,6 +80,8 @@ class V3FoundationTests(unittest.TestCase):
         state = self.request('GET', '/api/resources')
         result = subprocess.run(['node', str(Path(__file__).with_name('v3_resource_contract.cjs'))], input=json.dumps({'resources': state['resources'], 'id': rid, 'attachmentId': aid}), text=True, capture_output=True)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        result = subprocess.run(['node', str(Path(__file__).with_name('v5_resource_contract.cjs'))], input=json.dumps({'resources': state['resources'], 'id': rid, 'attachmentId': aid}), text=True, capture_output=True)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertFalse(self.store.preview_status()['enabled'])
 
     def test_zip_preflight_cancel_is_read_only_and_confirm_restores_identity_and_bytes(self):
@@ -109,6 +111,16 @@ class V3FoundationTests(unittest.TestCase):
         with self.assertRaises(urllib.error.HTTPError) as raised:
             self.request('POST', '/api/restore/confirm', confirm)
         self.assertEqual(raised.exception.code, 400)
+
+    def test_http_batch_undo_preserves_resource_and_attachment_identity(self):
+        row = self.resource()
+        aid = self.attach(row['id'])
+        before = self.store.get(row['id'])
+        receipt = self.request('POST', '/api/batch', {'action': 'delete', 'ids': [row['id']]})
+        self.assertTrue(self.store.get(row['id'])['deleted'])
+        self.request('POST', '/api/undo', {'token': receipt['undoToken']})
+        self.assertEqual(self.store.get(row['id']), before)
+        self.assertEqual(self.request('GET', '/api/files/' + aid), self.image())
 
     def test_cross_origin_write_is_rejected_without_mutating_library(self):
         before = self.store.state()

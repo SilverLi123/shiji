@@ -1,0 +1,18 @@
+'use strict';
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),{JSDOM}=require('jsdom');
+const {init}=require('../static/shiji-v2-motion');
+const dom=new JSDOM(fs.readFileSync(path.join(__dirname,'../static/index.html'),'utf8'),{url:'http://localhost'}),w=dom.window,d=w.document;
+let hidden=true;Object.defineProperty(d,'hidden',{get:()=>hidden});
+w.matchMedia=q=>({matches:!q.includes('reduced-motion'),addEventListener(){},removeEventListener(){}});
+w.requestAnimationFrame=()=>1;w.cancelAnimationFrame=()=>{};
+const animations=[];w.Element.prototype.animate=function(frames,options){const a={el:this,options,finished:new Promise(()=>{}),cancel(){this.cancelled=true},play(){this.paused=false},pause(){this.paused=true}};animations.push(a);return a;};
+const ui=init({document:d,window:w});
+assert.equal(animations.filter(a=>a.options.iterations!==Infinity).length,0,'background cold start must not install finite blurry title animation');
+assert.equal(w.sessionStorage.getItem('shiji-v2-intro'),null,'background does not consume the opening');
+hidden=false;d.dispatchEvent(new w.Event('visibilitychange'));
+assert.ok(animations.some(a=>a.el===d.querySelector('#hero-title')),'real visibility starts the preserved intro');
+assert.equal(w.sessionStorage.getItem('shiji-v2-intro'),'1');
+hidden=true;d.dispatchEvent(new w.Event('visibilitychange'));
+assert.ok(animations.filter(a=>a.options.iterations!==Infinity).every(a=>a.cancelled));
+const count=animations.length;hidden=false;d.dispatchEvent(new w.Event('visibilitychange'));assert.equal(animations.length,count,'activation does not replay or reload');
+ui.destroy();dom.window.close();console.log('PASS: hidden native cold start, visible intro exactly once, cancellation and foreground resume');

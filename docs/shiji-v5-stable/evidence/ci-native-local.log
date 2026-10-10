@@ -1,0 +1,8 @@
+native: 2 / 207 tests; the complementary job covers the remaining IDs
+test_delegate_failure_teardown_and_bounded_private_log (test_native_lifecycle.NativeLifecycleTests) ... ok
+test_status_recovery_and_dense_qr (test_phone_sync_model.PhoneSyncPresentationTests) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 25.605s
+
+OK
