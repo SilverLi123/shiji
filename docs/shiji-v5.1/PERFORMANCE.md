@@ -11,6 +11,8 @@ macOS 26.6.2 / 25G83，ARM64；真实 WKWebView 原生 App 和隔离 Codex WK �
 | 再保留滚动条占宽 | 63 | 39 | 67, 243, 17, 16, 17, 16, 18, 16 |
 | 最终版本、延后 AX 界面树读取 | 136 | 93 | 175, 249, 16, 17, 16, 17, 17, 16 |
 
+最终交付录屏期间（同时 ScreenCaptureKit、AX 状态读取及截图）的另一次打开：handler193ms，前八个间隔249,511,172,7,5,18,15,17ms，画廊848→848px，保存在 `native-delivery-events.jsonl`。这是有明显验收工具干扰的实际运行，不能当作安静条件下的对照，也不能因为工具干扰而删掉坏结果。录屏确实包含明显长帧，进一步说明性能尚未通过。
+
 原始 `native-{before,minimal,lock,final}-events.jsonl`。按每个文件最后一次 webview.create 后的第一次 click-start 对齐；原始文件含早先实验/重开，不能把多段日志拼成一次启动。第一间隔从 click-start 到首个 callback，后续间隔为相邻 callbacks，包含 handler、合成、调度等；QA 仪器和 AX 输入也有开销。最后一次补充 Instruments 在另一轮 warm 打开中未有效结束，不能作为该表的采样栈证据。
 
 仍有 243–249ms 原生间隔，不标记首帧修复通过。QA-only 去除 inert 的实验仍为278ms、去除屏外 will-change 提示仍为361ms，均撤回；这些独立单次样本不证明各属性有害或无害，只说明实验没有消除问题。clone 约 0ms，不能把复制 DOM 主观认定为主要瓶颈。已完成 20 秒 Time Profiler 导出中，2.8–4.2 秒首点击窗口为 333 个约 1ms 样本：resolveStyle 91ms、updateLayout 45ms/rect 44ms、buildTransaction 32ms/compositor 32ms、IntlDateTimeFormat 初始化 18ms、AX copy hierarchy 22ms。这是 inclusive sample 权重，重叠栈不能相加，并非精确 wall-time 分解。原始 gzip 导出及窗口汇总可复查。
