@@ -7,7 +7,7 @@ permissions:
   contents: read
 jobs:
   python-node:
-    runs-on: macos-15
+    runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
@@ -22,9 +22,26 @@ jobs:
       - name: Install development test dependencies
         working-directory: desktop-app
         run: npm ci --ignore-scripts --no-audit --no-fund
-      - name: Python real-business regression
+      - name: Python portable real-business regression
         working-directory: desktop-app
-        run: python -m unittest discover -s tests
+        run: python tests/run-ci.py --suite portable
       - name: Node DOM and motion regression
         working-directory: desktop-app
         run: npm test
+  native:
+    runs-on: macos-15
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Select installed modern Swift SDK
+        run: sudo xcode-select -s /Applications/Xcode_26.3.app/Contents/Developer
+      - name: Python compiled Swift and WebKit contracts
+        working-directory: desktop-app
+        run: python tests/run-ci.py --suite native
+      - name: Swift core and desktop exchange
+        run: python mobile-app/Tests/run.py
+      - name: Swift HTTPS sync with disposable certificates
+        run: python mobile-app/Tests/sync_integration.py

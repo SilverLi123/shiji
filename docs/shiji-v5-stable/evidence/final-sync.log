@@ -1,0 +1,6 @@
+PASS: real HTTPS Swift–desktop first sync, exact tags and verified attachments
+PASS: real HTTPS Swift–desktop second sync, exact tags and verified attachments
+PASS: real HTTPS Swift–desktop conflict sync, exact tags and verified attachments
+PASS: incorrect certificate pin rejected
+PASS: late local capture rejects stale sync
+PASS: both directions, initial union, explicit conflicts, TLS pin failure and late-capture protection; disposable data only
