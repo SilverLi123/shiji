@@ -49,13 +49,11 @@
   }
   return `<span class="cover-art art-v3 art-${esc(type)}" data-poster-kind="${esc(type)}" aria-hidden="true">${base}${art}${foot}<span class="art-grain"></span><span class="art-ink-flash"></span><span class="art-sheen"></span></span>`;
  }
- function create({document:doc,window:win,preview,changed,reconcile}){
-  const button=doc.getElementById('poster-mode'),deck=doc.getElementById('scene-stack'),section=doc.getElementById('space-showcase');
-  let classic=false,dead=false;
-  try{classic=win.localStorage.getItem('shiji-v5-poster-mode')==='classic';}catch{}
-  function apply(){doc.documentElement.dataset.cardMode=classic?'classic':'v3';doc.documentElement.dataset.shijiCover=classic?'classic':'poster';if(button){button.setAttribute('aria-pressed',String(!classic));button.setAttribute('aria-label',classic?'封面模式：经典，切换为 V5 海报':'封面模式：V5 海报，切换为经典');button.innerHTML='<span class="art-led" aria-hidden="true"></span><span>POSTER LAB</span><b>'+(classic?'V2':'V5')+'</b>';}}
-  function toggle(){if(dead)return;classic=!classic;try{win.localStorage.setItem('shiji-v5-poster-mode',classic?'classic':'poster');}catch{}apply();changed?.();}
-  button?.addEventListener('click',toggle);apply();
+ function create({document:doc,preview,reconcile}){
+  const deck=doc.getElementById('scene-stack'),section=doc.getElementById('space-showcase');
+  let dead=false;
+  // V5 is the product's only cover presentation, including for older preferences.
+  doc.documentElement.dataset.cardMode='v3';doc.documentElement.dataset.shijiCover='poster';
   function render({resources=[],scope='all'}={}){
    if(dead)return;
    // No filler duplicates: the spatial deck is exactly up to three matched records.
@@ -64,7 +62,7 @@
    if(deck){const panes=visible?rows.map((r,i)=>({id:r.id,html:`<button type="button" class="space-pane pane-${['a','b','c'][i]}" data-resource-id="${esc(r.id)}" data-action="detail" data-id="${esc(r.id)}" aria-label="查看 ${esc(r.title)}"><span class="space-pane-shell"><span class="space-pane-preview">${preview(r)}</span><span class="space-meta"><span><strong>${esc(r.title)}</strong><span>${esc(host(r)||r.language||r.kind||'')}</span></span><span class="space-badge">${esc(r.category||'')}</span></span></span></button>`})):[];reconcile(deck,panes,'.space-pane');deck.dataset.paneCount=String(panes.length);}
    for(const el of doc.querySelectorAll('#v5-mobile-nav [data-scope]')){const active=el.dataset.scope===scope;el.classList.toggle('active',active);el.setAttribute('aria-current',active?'page':'false');}
   }
-  return {render,destroy(){dead=true;button?.removeEventListener('click',toggle);}};
+  return {render,destroy(){dead=true;}};
  }
  const api={posterKind,coverMarkup,create};if(typeof module==='object')module.exports=api;else root.ShijiV5=api;
 })(typeof window==='object'?window:globalThis);

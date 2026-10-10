@@ -55,3 +55,11 @@ Independent finish review is recorded in `FINISH_REVIEW.md`. Its documentation f
 ## Remaining scope
 
 Native iPhone V5 visual implementation, physical-device motion/performance profiling, App notarization and store distribution remain outside this desktop port. Native background launches occasionally did not paint WKWebView until an actual control interaction; native search and clearing it produced the expected live record counts and repainted the interface. Foreground cold-start behavior and frame timing have not been certified. The preview runs against QA data; it should not be mistaken for a migration of the formal resource library.
+
+## Fixed V5 presentation follow-up
+
+At the user’s request, the Poster Lab V5 / Classic V2 toolbar switch and its saved-mode logic were removed. V5 is now fixed even if the browser previously saved a Classic preference; Space 3D / Flat and Motion Studio / Calm remain available. The original reference HTML is preserved.
+
+Validation: all 46 Node groups passed, including a regression for the obsolete Classic preference; the macOS app build passed. The existing isolated web preview and isolated native preview were updated. Native search returned one SHIJI resource and then all 11 resources when cleared. No production data or remote branch was changed. This narrow toolbar change did not rerun the earlier Python or Swift suites.
+
+Screenshots: `evidence/v5-only-toolbar.jpg` (desktop browser, Motion Studio), `evidence/v5-only-mobile.jpg` (responsive mobile web, not native iPhone), and `evidence/v5-only-macos.png` (actual macOS preview, Calm/Flat for the settled capture; restored to Motion Studio/3D afterward).

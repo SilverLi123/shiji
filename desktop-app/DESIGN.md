@@ -295,7 +295,7 @@ Studio／Calm 保存在网页偏好，3D／Flat 是独立展示偏好；系统 `
 
 **纯封面图库:** 非列表图库的封面外正文和 footer 隐藏，空间卡的元数据叠层隐藏；海报内部标题、来源、类别、标签和真实摘要仍属于封面。点击打开现有详情，可访问名称包含完整真实标题；选择模式的 checkbox 留在封面外独立层，仍可操作。列表继续显示行内资源标题、来源、标签与操作；手机列表缩减介绍和部分艺术层以保留阅读空间。
 
-**真实图片与派生海报:** 用户 coverId、thumbnail、已有网页预览保持优先级，加载失败回到真实字段生成的海报。当前渲染器依据类型、域名、类别和名称／描述选择 Components、Motion、Spline、AI、Linear、Prompt、Retro、GitHub、Kinetic、Atlas、Code、Article 构图；不沿用历史 Cover Studio 的固定 ID 三变体规则。仓库终端只在真实 language／标签存在时出现，代码与提示词只展示保存的片段／摘要。封面生成不写回资源，Poster／Classic 是当前浏览器显示偏好。
+**真实图片与派生海报:** 用户 coverId、thumbnail、已有网页预览保持优先级，加载失败回到真实字段生成的海报。当前渲染器依据类型、域名、类别和名称／描述选择 Components、Motion、Spline、AI、Linear、Prompt、Retro、GitHub、Kinetic、Atlas、Code、Article 构图；不沿用历史 Cover Studio 的固定 ID 三变体规则。仓库终端只在真实 language／标签存在时出现，代码与提示词只展示保存的片段／摘要。封面生成不写回资源，固定使用 V5 海报，不提供旧版封面切换，也不读取旧版显示偏好。
 
 **整卡手感:** 外层稳定 ID 与布局由 Bits 管理，内层 motion surface 管理姿态。仅精细指针与允许动效的图库 frame 模式响应；拖动超过（6px）消耗本次点击，避免误开详情，回落不保存排序。触摸／笔保留原生滚动和点击。滚动、Esc、失焦、重排、后台、偏好切换与销毁清理姿态和捕获。
 
