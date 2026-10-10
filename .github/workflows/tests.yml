@@ -1,0 +1,30 @@
+name: Stable Beta checks
+on:
+  pull_request:
+  push:
+    branches: [main, "feat/shiji-v5-*"]
+permissions:
+  contents: read
+jobs:
+  python-node:
+    runs-on: macos-15
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: desktop-app/package-lock.json
+      - name: Install development test dependencies
+        working-directory: desktop-app
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Python real-business regression
+        working-directory: desktop-app
+        run: python -m unittest discover -s tests
+      - name: Node DOM and motion regression
+        working-directory: desktop-app
+        run: npm test
