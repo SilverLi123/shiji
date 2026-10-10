@@ -128,3 +128,12 @@ HTTPS 同步通过临时电脑目录、新建测试证书与配对状态、临�
 ![修正后桌面](evidence/polyhaven-after-desktop.jpg)
 ![修正后手机网页，非原生 iPhone](evidence/polyhaven-after-mobile.jpg)
 ![修正后稳定展开详情](evidence/polyhaven-detail-desktop.jpg)
+
+
+## Native macOS preview startup (2026-10-10)
+
+The latest signed build was copied into a separate Shiji V3 Beta Preview.app and launched through native UI tools. Its data is a read-only SQLite snapshot of the disposable QA library plus QA attachments. No formal data or credentials were copied. A separate bundle identifier, no formal URL scheme, and fixed LSEnvironment isolate this copy at port 52524. Native AX confirms WKWebView `127.0.0.1:52524/?desktop=1`, 11 QA records and the approved Poly Haven photographic cover fields. The desktop-status endpoint returns the matching native instance; app.js, shiji-v2.js and shiji-v2.css in the bundle match source bytes.
+
+App: `/var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v3-native-preview-4ie6nie0/Shiji V3 Beta Preview.app`. Disposable data: sibling `data` directory.
+
+Runtime limit: AX launch/filter/detail actions work, but window coordinate input reports no available windows and the tool cannot bring the app to the foreground. Background screenshots remain mid-transition; they are retained alongside the temporary app in `evidence`, not accepted as settled visual or complete motion evidence. This verifies native startup and bundled code only. Native iPhone and Share Extension acceptance remain pending.
