@@ -51,3 +51,32 @@ Files: `.github/workflows/tests.yml`, `tests/run-ci.py`, `tests/test_v3_foundati
 Remote run 38037382562 passed its native job (compiled WebKit/QR contracts, Swift core/ZIP and real HTTPS sync). Its Linux job exposed Python 3.12 removal of `ssl.match_hostname`, plus an existing test that assumed the asynchronous startup snapshot had already finished. Replaced the certificate helper with a real verified in-memory TLS handshake against the renewed IP SAN, rejecting the old IP. Backup regression now polls the observable snapshot with a bounded 5 s deadline, without altering asynchronous production behavior.
 
 An additional QA-probe regression found duplicate frame reports on pagehide after a completed sampling window. Delete completed bins; the red test (2 vs 1 reports) now passes. Final Node run: 49 groups. A simultaneous UI/native/build/Python run failed the unchanged network deadline assertion (0.823 s vs 0.45 s) and took 360.562 s. Kept the timing bound intact, stopped verified disposable preview hosts, switched only the QA browser to Calm, and the focused deadline suite passed. This under-load failure is retained in evidence; a final quiet full run follows. No unrelated apps or official services were stopped.
+
+## Phase 5 — delivery / acceptance boundary
+
+Final quiet full run: **207 Python tests passed, 34.254 s**. **49 Node groups passed** after the final QA probe fix (including the correct modal proxy class). Swift core/desktop ZIP and actual HTTPS sync passed; final macOS bundle build passed. Logs are `evidence/final-{python,node,swift,sync,build}.log`. GitHub runs **38038173955 / 38038178270** passed both complementary CI jobs on code commit `09f48ae`; see `ci-code-results.json`. Final delivery adds the report, performance table, screenshots/preview and a QA-only modal counter assertion; its checks are available on PR #1.
+
+Draft review: https://github.com/SilverLi123/shiji/pull/1 . Base `feat/shiji-v5-spatial-ui`; head `feat/shiji-v5-stable-beta`. No main merge. Phase commits: `0bf55fb` baseline/CI; `5d0a1c0` native startup/lifecycle; `0a1b12e` measured motion/performance; `f692ebe` business regression/CI partitions; `09f48ae` remote-test/probe corrections; final report commit follows. No user uncommitted changes, formal library, fixed production ports or real pairing credentials were used.
+
+Delivery references:
+
+- [Actual performance and methodology](PERFORMANCE.md): single-run timings, RAF gaps, CPU/RSS scope, background pause and cleanup limits.
+- [Future iPhone share-extension investigation](IPHONE_SHARE_PLAN.md): real host entry, hosting layout, expanded entitlements and three provider/save paths; no speculative fix claimed.
+- [Native before](evidence/startup-before.png) / [native after](evidence/startup-after.png), [native 1000](evidence/native-1000.png), [native 5000](evidence/native-5000.png), [service recovery](evidence/service-recovery.png).
+- [Real empty store](evidence/empty-library.png), [persisted capture detail](evidence/capture-detail.png), [5000-record gallery](evidence/gallery-5000.png).
+- [Actual sampled motion preview](evidence/motion-sampled.gif): eight real CUA screenshots with original sampling intervals preserved. It is a sampled preview, not continuous native recording or a frame-rate measurement.
+
+Resolved: indefinitely blurred background Hero; service termination on closing the sole window; missing navigation/content-termination retry state; WebView/runtime handler retention; unbounded/unprivate diagnostic history; unrelated full artwork scans; legacy background CSS loops; Python 3.12 certificate-test API and async-backup assertion race; duplicate QA frame windows / wrong modal proxy selector. Private diagnostics rotate at 1 MiB plus one prior log, without resource text or tokens.
+
+Still open / not release-certified:
+
+1. First detail open shows >200 ms gaps. Subsequent intervals also exceed one 60 Hz frame. Root cost needs a continuous native profiler run; transform usage does not prove smoothness.
+2. Clean foreground native 3D CPU/total renderer memory, fullscreen, sleep/wake and a genuine WebContent crash remain unverified. Native screenshots and activation logs are real, but pointer automation repeatedly failed even after unlock. A direct delegate regression is not a genuine process-crash test.
+3. Physical iPhone signing/App Group/system share, Wi-Fi and camera QR paths are not certified. Existing share-extension blank-page issue remains; iPhone source is unchanged.
+4. Chrome/Edge installation and actual extension-host interaction still need manual installed-browser acceptance; paired capture API/MV3 controller tests passed.
+5. During actual newly saved resource acceptance, one initial automated card click did not open the drawer; a subsequent click did. It was not isolated/reproduced consistently and is retained as an interaction observation, not silently certified as absent.
+6. Heavy simultaneous UI/build activity caused the unchanged network deadline test to fail once (0.823 > 0.45 s); the focused suite and quiet complete rerun passed. Keep the bound and failure evidence. Native foreground samples under that activity must not be used as representative performance approval.
+
+**Status: stable development candidate with verified automated/business baseline; complete product/native-performance/physical-device acceptance is not finished. Keep PR draft.** The large Hero, purple stage, Spatial Deck, pure-cover gallery, V5 posters, Studio/Calm and Space/Flat remain. All implemented management/sync/backup paths and schema 3 / ZIP 2 contracts are retained. No overall visual redesign or new feature was introduced.
+
+Final changes beyond phase 4: README/current status and test-dependency order; this report; performance and share plan; actual sampled preview; QA-only correct modal proxy counter plus regression. Next work is acceptance/profiling of the listed gaps, before declaring release or starting new capture/cover features.

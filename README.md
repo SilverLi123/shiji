@@ -2,7 +2,7 @@
 
 用于收藏和管理开发资源的本地工具：网站、美术素材、设计参考、音频、视频、代码与灵感。包含 macOS App、Chrome / Edge 浏览器采集扩展和原生 iPhone App；手机和电脑可通过同一 Wi-Fi 配对同步。
 
-V2.1 候选开发状态见 [实施与验收报告](docs/shiji-v2.1/IMPLEMENTATION_REPORT.md)：桌面视觉与动效已完成；原生精修已构建，分享扩展空白页仍未解决，完整原生验收待恢复 Device Hub 操作后继续。
+当前为 V5 Stable Beta 稳定化候选，保留大 Hero、Spatial Deck、纯封面画廊和 Studio/Calm、Space/Flat。启动与窗口生命周期修复、隔离回归和实际性能证据见 [验收报告](docs/shiji-v5-stable/REPORT.md) 与 [性能记录](docs/shiji-v5-stable/PERFORMANCE.md)。详情首开帧尖峰、完整原生前台性能及 iPhone 分享扩展仍有未完成验收；当前状态不是整产品发布批准。
 
 ## 代码结构
 
@@ -44,8 +44,8 @@ Python 测试使用临时数据目录；原生模型与二维码测试需要 mac
 
 ```sh
 cd desktop-app
-python3 -m unittest discover -s tests
 npm ci --ignore-scripts --no-audit --no-fund
+python3 -m unittest discover -s tests
 npm test
 ```
 
@@ -57,7 +57,7 @@ python3 Tests/run.py
 python3 Tests/sync_integration.py
 ```
 
-截至 2026-10-08，当前候选版完整 Python 197 项、既有 Node 32 组、原生核心和 ZIP 互通、真实 Swift URLSession 同步集成已验证；iPhone 模拟器 Debug、未签名设备 Release 和 macOS 构建通过。UI 审查只覆盖已捕获的画廊、详情、未配对同步、辅助功能字号空库及桌面同步组件状态。
+2026-10-10 稳定化验证：207 项 Python、49 组 Node、Swift 核心与 ZIP 互通、实际 HTTPS 同步检查通过，macOS 候选构建成功。具体运行、压力环境失败与重跑、远端 CI 状态及未完成验收见当前报告。自动化使用临时数据，覆盖 schema 3 / manifest 2；它不证明真机系统分享或完整 UI 性能通过。
 
 ## 当前边界
 
