@@ -1,0 +1,20 @@
+/var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v5-stable-qa-hv_vu15h/Shiji Stable 1000 Preview.app: replacing existing signature
+/var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v5-stable-qa-hv_vu15h/Shiji Stable 1000 Preview.app: replacing existing signature
+{"root": "/var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v5-stable-qa-hv_vu15h", "app": "/var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v5-stable-qa-hv_vu15h/Shiji Stable 1000 Preview.app", "data": "/var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v5-stable-qa-hv_vu15h/data", "port": 60339, "count": 1000, "tag": "v52quiet"}
+/var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v5-stable-qa-hv_vu15h/App.swift:280:338: warning: consider using asynchronous alternative function
+278 |             }
+279 |         }
+280 |         .overlay(alignment:.topLeading) { Button("QA · Activate / Profile") { NSApp.activate(ignoringOtherApps:true); runtime.webView?.window?.makeKeyAndOrderFront(nil); Task { try? await Task.sleep(nanoseconds:2_000_000_000); NSApp.activate(ignoringOtherApps:true); runtime.webView?.window?.makeKeyAndOrderFront(nil); runtime.webView?.evaluateJavaScript("window.ShijiQARun?.()",completionHandler:nil) } }.padding(10) }
+    |                                                                                                                                                                                                                                                                                                                                                 `- warning: consider using asynchronous alternative function
+281 |         .frame(minWidth:760,minHeight:550)
+282 |         .preferredColorScheme(.dark)
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/WebKit.framework/Headers/WKWebView.h:269:1: note: 'evaluateJavaScript' declared here
+267 |    - A `contentWorld` value of `WKContentWorld.pageWorld`
+268 | */
+269 | - (void)evaluateJavaScript:(NSString *)javaScriptString completionHandler:(WK_SWIFT_UI_ACTOR void (^ _Nullable)(id WK_NULLABLE_RESULT, NSError * _Nullable error))completionHandler;
+    | `- note: 'evaluateJavaScript' declared here
+270 | 
+271 | /* @abstract Evaluates the given JavaScript string.
+/var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v5-stable-qa-hv_vu15h/Shiji Stable 1000 Preview.app: replacing existing signature
+{"root": "/var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v5-stable-qa-hv_vu15h", "app": "/var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v5-stable-qa-hv_vu15h/Shiji Stable 1000 Preview.app", "data": "/var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v5-stable-qa-hv_vu15h/data", "port": 60339, "count": 1000, "tag": "v52quiet"}

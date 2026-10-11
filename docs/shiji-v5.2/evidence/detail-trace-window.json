@@ -1,0 +1,176 @@
+{
+  "window": [
+    16.26,
+    17.1
+  ],
+  "samples": 227,
+  "inclusiveMs": {
+    "style": 88.0,
+    "accessibility": 5.0,
+    "layout": 86.0,
+    "composite": 81.0,
+    "paint": 21.0
+  },
+  "threadMs": {
+    "Main Thread (0xa7f01) (com.apple.WebKit.WebContent, pid: 90835)": 201.0,
+    "JIT Worklist Helper Thread (0xa8e36) (com.apple.WebKit.WebContent, pid: 90835)": 8.0,
+    "JavaScriptCore libpas scavenger (0xa7f0a) (com.apple.WebKit.WebContent, pid: 90835)": 3.0,
+    "com.apple.WebKit.WebContent (0xa8e1d) (com.apple.WebKit.WebContent, pid: 90835)": 4.0,
+    "com.apple.WebKit.WebContent (0xa8e1a) (com.apple.WebKit.WebContent, pid: 90835)": 7.0,
+    "com.apple.WebKit.WebContent (0xa8cf2) (com.apple.WebKit.WebContent, pid: 90835)": 4.0
+  },
+  "leafTop": [
+    [
+      "WebCore::Style::TreeResolver::resolveComposedTree()",
+      5.0
+    ],
+    [
+      "<deduplicated_symbol>",
+      5.0
+    ],
+    [
+      "start_wqthread",
+      4.0
+    ],
+    [
+      "WebCore::RenderLayerCompositor::computeCompositingRequirements(WebCore::RenderLayer*, WebCore::RenderLayer&, WebCore::LayerOverlapMap&, WebCore::RenderLayerCompositor::CompositingState&, WebCore::RenderLayerCompositor::BackingSharingState&)",
+      4.0
+    ],
+    [
+      "WTF::WeakHashSet<WebKit::RemoteLayerBackingStore, WTF::DefaultWeakPtrImpl>::add(WebKit::RemoteLayerBackingStore const*)",
+      4.0
+    ],
+    [
+      "WebKit::PlatformCALayerRemote::recursiveBuildTransaction(WebKit::RemoteLayerTreeContext&, WebKit::RemoteLayerTreeTransaction&)",
+      4.0
+    ],
+    [
+      "bmalloc_heap_config_specialized_local_allocator_try_allocate_small_segregated_slow",
+      3.0
+    ],
+    [
+      "WebCore::RenderLayer::parentClipRects(WebCore::RenderLayer::ClipRectsContext const&) const",
+      3.0
+    ],
+    [
+      "WebCore::RenderLayer::calculateLayerBounds(WebCore::RenderLayer const*, WebCore::LayoutSize const&, WTF::OptionSet<WebCore::RenderLayer::CalculateLayerBoundsFlag, (WTF::ConcurrencyTag)0>) const",
+      3.0
+    ],
+    [
+      "mach_msg2_trap",
+      3.0
+    ],
+    [
+      "WebCore::RenderBox::computeVisibleRectsInContainer(WebCore::RenderObject::RepaintRects const&, WebCore::RenderLayerModelObject const*, WebCore::VisibleRectContext) const",
+      3.0
+    ],
+    [
+      "WebCore::Style::Resolver::applyMatchedProperties(WebCore::Style::Resolver::State&, WebCore::Style::MatchResult const&, WebCore::Style::PropertyCascade::IncludedProperties&&)",
+      2.0
+    ],
+    [
+      "___chkstk_darwin",
+      2.0
+    ],
+    [
+      "madvise",
+      2.0
+    ],
+    [
+      "WebCore::RenderLayerBacking::updateDebugIndicators(bool, bool)",
+      2.0
+    ],
+    [
+      "_platform_memmove",
+      2.0
+    ],
+    [
+      "pas_segregated_page_construct",
+      2.0
+    ],
+    [
+      "WebCore::RenderLayer::paintLayerContents(WebCore::GraphicsContext&, WebCore::RenderLayer::LayerPaintingInfo const&, WTF::OptionSet<WebCore::RenderLayer::PaintLayerFlag, (WTF::ConcurrencyTag)0>)",
+      2.0
+    ],
+    [
+      "pas_thread_local_cache_flush_deallocation_log",
+      2.0
+    ],
+    [
+      "__psynch_cvwait",
+      2.0
+    ],
+    [
+      "pas_segregated_directory_view_did_become_eligible_at_index",
+      2.0
+    ],
+    [
+      "WebCore::RenderObject::containingBlock() const",
+      2.0
+    ],
+    [
+      "WebCore::RenderLayerCompositor::computeClippedOverlapBounds(WebCore::LayerOverlapMap&, WebCore::RenderLayer const&, WebCore::RenderLayerCompositor::OverlapExtent&) const",
+      2.0
+    ],
+    [
+      "mach_absolute_time",
+      2.0
+    ],
+    [
+      "DYLD-STUB$$WTF::StringImpl::startsWithIgnoringASCIICase(WTF::StringView) const",
+      1.0
+    ]
+  ],
+  "buckets": {
+    "16.2": {
+      "total": 22.0,
+      "style": 1.0
+    },
+    "16.3": {
+      "total": 79.0,
+      "accessibility": 2.0,
+      "style": 41.0,
+      "layout": 43.0,
+      "composite": 20.0,
+      "paint": 6.0
+    },
+    "16.4": {
+      "total": 16.0,
+      "composite": 6.0,
+      "paint": 6.0,
+      "accessibility": 3.0
+    },
+    "16.5": {
+      "total": 9.0,
+      "style": 3.0,
+      "composite": 2.0
+    },
+    "16.6": {
+      "total": 1.0
+    },
+    "16.7": {
+      "total": 44.0,
+      "style": 27.0,
+      "layout": 27.0,
+      "composite": 27.0,
+      "paint": 3.0
+    },
+    "16.8": {
+      "total": 31.0,
+      "style": 16.0,
+      "layout": 16.0,
+      "composite": 20.0,
+      "paint": 5.0
+    },
+    "16.9": {
+      "total": 10.0,
+      "composite": 1.0
+    },
+    "17.0": {
+      "total": 15.0,
+      "composite": 5.0,
+      "paint": 1.0
+    }
+  },
+  "note": "Sampling weights are inclusive and overlapping, not wall-time phase durations."
+}
