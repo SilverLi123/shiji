@@ -1,0 +1,62 @@
+
+> shiji-desktop@0.1.0 test
+> node tests/run-node.cjs
+
+Asset selection, duplicate defaults, retry boundaries, counts and pagination passed.
+Intake common metadata persists through close/reopen; unrelated forms do not overwrite it.
+PASS: homepage-only capture fallback, user-cover precedence, provenance, independent gallery snapshots and local-image priority.
+Split panels, bounded controls, Escape/outside focus and exact filter chips passed
+batch boundaries, query resets, sorting, list budget, full completion and independent board lanes passed
+actual app search/sort/full selection/gallery, keyed append, density/view/preview preservation, focus and health boundary passed
+Whole-card pointer/elastic drag: bounded pose, click arbitration, native controls, cancellation and motion preferences passed
+Cover art: eight true-field templates, escaping, code content, image precedence/error recovery, deterministic features and 1000 mixed-span non-overlap passed
+Cover Studio: stable identity, canonical URL, 3 structures/type, themes, glyph-aware typography, real fields and injection safety passed
+Desktop sync draft guard, race, deduplication, disposal and abort passed
+Resource-first heading, grouped provenance, pending license and one primary action passed
+PASS: extension loopback settings, credentials rejection and bounded page/selection capture.
+Extension authenticated ping, sender guard and screenshot payload passed
+full preview ratios, bounds, late-load/error reflow, board reuse, preference persistence/failure and lifecycle passed
+PASS: filtered/sorted gallery snapshots, owner fallback, image/provenance retention, thumbnail boundaries, trash isolation and no data mutation.
+Guarded editor: actual submit/actions, deltas, exact keys, busy races, conflict recovery, upload retries and late metadata passed.
+actual health report sharing statistics and old-report compatibility passed
+PASS: tag intersections, project/snippet search, perceptual colour matching and palette extraction.
+Functional glass finite morph, reduced motion and disposal passed
+1000-card measured layout: two bounded flush phases, mixed spans, compact/fit and responsive reflow passed
+Mixed queue, actual player rendering/metadata/error/teardown, playback controls, stale events, native keys, Space scope and focus passed.
+PASS: mutation work limited to artwork and overlay state
+Approved Studio curtain, geometry, persist-confirmed flight, bounded bursts, Bits blur/exit, modal entry and reduced-motion cleanup passed
+PASS: hidden native cold start, visible intro exactly once, cancellation and foreground resume
+Olla score, pause persistence, visibility, scope, reduced motion, interruption and disposal passed
+PASS: approved photographic cover in real product preview, true fields, user-image precedence, error/reload fallback, stable identity and escaping
+Default-off preview UI and pause-aware polling passed
+Actual full editor capture/submit preserves edited, blank and newly removed project notes.
+Actual edit/capture/submit/reopen: prototype-like, Unicode, HTML and NUL project names preserve distinct changed/blank/historical notes.
+Project picker real input/change/controller: paging, persistent exact selections, membership counts, archived exclusion, captured IDs, retry and late responses passed
+Project removal actual events/renderers: current union, archive, counts, paging, preselect/rejoin, exact names, captured IDs, retry, busy guard and retained note history passed
+Quick Capture deadline, dismiss/reopen, per-URL reconciliation, alternating retry and late-success draft protection passed
+Persist-first quick capture events, duplicate-submit gate, exact projects, delayed metadata and retained failed draft passed
+Actual detail/delegated actions and inline controller: fresh load, precise keys, Unicode count, retry/conflict, busy/dirty leave, cancellation, focus, late callbacks and trash passed.
+Recovery confirmation, cancel and batch threshold passed
+resource bits geometry, ordering, non-overlap and bounded pointer feedback passed
+reduced motion, touch fallback, new-card reveal and lifecycle cleanup passed
+real detail renderer retains source and metadata independently of masonry framing
+PASS: opt-in metadata-only bounded diagnostics, animation classification and one report per frame window
+actual sharing renderer/controller: stale/busy/shared gates, complete group reachability, progress/cancel, backup links, errors, focus and reconnect passed
+Motion mode, OS precedence, cancellation, bounded proxies/particles and disposal passed
+V2 real resource types, contextual Hero and retained business hooks passed
+PASS: similarity pixels, rank/page/scope/provenance, partial scans, decoder cancellation; fresh resource/attachment navigation, removed scope and late navigation guards.
+PASS: advanced tag and exclusion semantics, false states, host boundaries/IDNA, UTC inclusive dates, local media, legacy defaults and no filter mutations.
+stable nodes, sorting and metadata focus, media reuse/change, failed-cover recovery and removal fallback passed
+favorite state/class/label updates retain the equivalent focused control
+Exact tag arrays, literal commas, Enter, remove, duplicates, limits and guarded delta passed.
+Tag picker actual events/controller: exact tags, counts, paging, retained choice/focus, explicit creation, Unicode limits, captured IDs, retry, saving and stale loads passed
+TiltedCard native DOM: bounded mapping, stable image-only pose, guards, reset and lifecycle passed.
+PASS: derived real-field covers, exact code whitespace, bounded previews, escaping, no mutation, image precedence/failure fallback and retained IDs.
+PASS: actual rich-cover detail continuity, sanitized single proxies, modal exit/reopen cancellation, Calm and background pause/resume.
+PASS: actual rich-cover detail continuity, sanitized single proxies, modal exit/reopen cancellation, Calm and background pause/resume.
+PASS: metadata preserves stable card/preview, focus and one-click business routing
+PASS: detail layout reads precede animation writes; cached formatter preserves dates including invalid values
+PASS: detail scroll lock reserves real scrollbar width before mutation, repeated opens retain it, close releases it, overlay scrollbars and busy guard remain correct
+PASS: V5 single-owner spatial parallax, flat/Calm/system reduce, offscreen artwork, overlay/background pause and teardown
+PASS: V5 actual titles, content-based compositions, escaped code, real cover precedence, stable deck IDs and empty/trash states
+PASS: 52 Node groups

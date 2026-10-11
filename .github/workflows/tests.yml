@@ -2,7 +2,7 @@ name: Stable Beta checks
 on:
   pull_request:
   push:
-    branches: [main, "feat/shiji-v5-*"]
+    branches: [main, "feat/shiji-v5*", "feat/shiji-next-*"]
 permissions:
   contents: read
 jobs:
@@ -28,6 +28,10 @@ jobs:
       - name: Node DOM and motion regression
         working-directory: desktop-app
         run: npm test
+      - name: Buffered native evidence parser regressions
+        run: python docs/shiji-v5.2/qa/test_trace_tools.py
+      - name: Buffered native probe attribution regression
+        run: node docs/shiji-v5.2/qa/test_probe.cjs
   native:
     runs-on: macos-15
     timeout-minutes: 15

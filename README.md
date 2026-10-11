@@ -2,7 +2,7 @@
 
 用于收藏和管理开发资源的本地工具：网站、美术素材、设计参考、音频、视频、代码与灵感。包含 macOS App、Chrome / Edge 浏览器采集扩展和原生 iPhone App；手机和电脑可通过同一 Wi-Fi 配对同步。
 
-当前为 V5.1 卡片交互与原生性能修复候选，保留大 Hero、Spatial Deck、纯封面画廊和 Studio/Calm、Space/Flat。已修复元数据更新期间的首次点击丢失、详情打开造成的画廊重排，并完成隔离原生前台采样。实际代码、测试、录屏和性能边界见 [V5.1 验收报告](docs/shiji-v5.1/REPORT.md) 与 [性能记录](docs/shiji-v5.1/PERFORMANCE.md)。原生详情仍有 >200ms 帧尖峰，睡眠恢复、真实鼠标对照及 iPhone 分享扩展仍有未完成验收；当前状态不是整产品发布批准。此前启动和窗口生命周期记录保留在 [V5 Stable Beta 报告](docs/shiji-v5-stable/REPORT.md)。
+当前进入 SHIJI Next — Capture & Organize，基于V5.2候选继续开发。已继承V5、Stable和V5.1的视觉、生命周期及卡片可靠性修复；分支、已有功能和fresh baseline见 [Next审查报告](docs/shiji-next/BASELINE_AUDIT.md)。原生详情长帧仍未修复，完整条件与原始记录见 [V5.2调查报告](docs/shiji-v5.2/REPORT.md) 和 [性能数据](docs/shiji-v5.2/PERFORMANCE.md)。本轮优先真实系统分享专项，不重复开发已有管理/同步功能，也不把编译通过当作系统分享或性能验收通过。
 
 ## 代码结构
 

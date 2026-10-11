@@ -1,0 +1,1 @@
+PASS: overlapping click samples keep their own timings without metrics DOM writes
