@@ -27,6 +27,32 @@ let beforeFailedShare=try Data(contentsOf:shareReader.database)
 do{try shareWriter.capture(url:"https://example.com/share-regression",title:"Ignored",text:"must not survive",attachment:(Data(),"empty.jpg","image/jpeg"));fatalError("empty share attachment accepted")}catch{}
 check(try Data(contentsOf:shareReader.database)==beforeFailedShare,"failed share leaves metadata unchanged")
 print("Share cross-instance readback, curated metadata, attachment preservation and failure atomicity passed")
+// A metadata commit can fail after the attachment has already been published.
+// Keep files writable while denying atomic replacement in the temporary root.
+do {
+    let root=FileManager.default.temporaryDirectory.appendingPathComponent("shiji-share-commit-failure-"+UUID().uuidString)
+    defer{try? FileManager.default.setAttributes([.posixPermissions:0o700],ofItemAtPath:root.path);try? FileManager.default.removeItem(at:root)}
+    let store=try LibraryFiles(root:root)
+    let existingID=try store.capture(url:"https://example.com/write-failure",title:"Keep",text:"Original",attachment:(shareBytes,"original.jpg","image/jpeg"))
+    for attachOnly in [false,true] {
+        let metadata=try Data(contentsOf:store.database)
+        let before=try FileManager.default.contentsOfDirectory(atPath:store.files.path).sorted()
+        try FileManager.default.setAttributes([.posixPermissions:0o500],ofItemAtPath:root.path)
+        var failed=false
+        do {
+            if attachOnly{try store.attach(shareBytes,name:"retry.jpg",mime:"image/jpeg",id:existingID)}
+            else{try store.capture(url:"https://example.com/write-failure",title:"Ignored",text:"Retry",attachment:(shareBytes,"retry.jpg","image/jpeg"))}
+        }catch{failed=true}
+        try FileManager.default.setAttributes([.posixPermissions:0o700],ofItemAtPath:root.path)
+        check(failed,"metadata write failure must be exercised")
+        check(try Data(contentsOf:store.database)==metadata,"failed commit preserves prior metadata")
+        check(try FileManager.default.contentsOfDirectory(atPath:store.files.path).sorted()==before,"failed commit must remove only its new attachment")
+    }
+    try store.capture(url:"https://example.com/write-failure",title:"Ignored",text:"Retry",attachment:(shareBytes,"retry.jpg","image/jpeg"))
+    let recovered=try LibraryFiles(root:root).resources()[0]
+    check(recovered.title=="Keep" && recovered.attachments.count==2 && recovered.text("notes")=="Original\n\nRetry","retry succeeds once with original attachment preserved")
+}
+print("Share and attachment metadata commit failure rollback and retry passed")
 let temp=FileManager.default.temporaryDirectory.appendingPathComponent("shiji-ios-tests-"+UUID().uuidString,isDirectory:true)
 defer{try? FileManager.default.removeItem(at:temp)}
 let library=try LibraryFiles(root:temp)

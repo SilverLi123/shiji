@@ -8,7 +8,7 @@
 - App `local.silver.shiji.nextqa.app`，扩展 `.share`，App Group `group.local.silver.shiji.nextqa`；仅在临时复制的工程替换身份，产品工程的组和签名配置没有改变。
 - 同时核对实际编译包的 principal class、Mach-O、Info/entitlement 和共享组一致性。build成功与系统分享成功分别验证。
 - 实际系统分享通过 UIKit `UIActivityViewController` 和 Safari 菜单触发；不是伪造extensionContext或只调用capture函数。
-- 主App、扩展业务实现、桌面UI、数据库格式、正式资源和配对凭据均未改动。V5.2长帧风险仍保留。
+- 扩展表单与桌面UI未改动；共享存储只修正元数据提交失败后的新附件清理，见下文。数据库格式、正式资源和配对凭据均未改动。V5.2长帧风险仍保留。
 
 ## 已定位问题和结果
 
@@ -28,6 +28,18 @@ Next QA宿主改用UIApplicationSceneManifest、UISceneConfiguration、UIWindowS
 
 当前证据不足以断言旧环境是缓存、签名或SwiftUI缺陷。没有添加固定延迟、重复reload或重写产品界面。需要在曾出现故障的安装包/系统或真实iPhone复现并采集相同日志，才能提交根因修复。
 
+### 3. 元数据提交失败遗留附件（已复现并修复存储层）
+
+`LibraryFiles.capture` / `attach` 先调用publish写附件，再由access提交library.json。原实现只在元数据写失败时抛错，没有移除刚发布的文件；用户重试图片保存会留下无引用文件。
+
+复现：独立临时目录先保存原资源/附件；只把Library根设为0500，保持files子目录可写，使新附件写入成功、元数据原子替换失败。新增回归在原实现准确失败：`share-commit-failure-before.log`，断言为“failed commit must remove only its new attachment”。它不是编译错误。
+
+最小修改：两条入口各自记录本次publish的独立UUID路径，提交抛错后只尝试清理该路径，再抛回原错误。不会删除旧附件或改写旧记录。回归分别验证capture/attach失败后的旧元数据字节及附件目录不变，并恢复写权限重试，确认原标题、备注、封面及原附件保留，只有一次新增附件。
+
+完整Swift核心与桌面ZIP互通通过：`share-commit-failure-after.log`；真实HTTPS同步通过：`share-rollback-sync.log`；Python208项（41.508s）、Node52组再次通过：`share-rollback-python.log`、`share-rollback-node.log`；独立iOS simulator App/extension构建与bundle检查通过：`share-rollback-build.log`、`share-rollback-bundle.log`。
+
+这是捕获到可返回的写入错误后的回滚，不是跨文件的崩溃事务。如果进程在附件写入后被系统终止，或文件系统连删除也拒绝，仍可能遗留文件。本轮没有引入清理全部附件的危险扫描。系统分享错误界面及再次保存的端到端验收仍须单独完成，不能用上述核心测试代替。
+
 ## 真实运行验收矩阵
 
 | 场景 | 实际执行结果 | 证据/限制 |
@@ -38,7 +50,7 @@ Next QA宿主改用UIApplicationSceneManifest、UISceneConfiguration、UIWindowS
 | 主App回到前台回读以上3条 | 通过 | 界面显示3条；实际滑动看到文本/URL卡片；`main-readback-text-url.png`。截图不是Demo数据 |
 | Safari网页 → Safari分享菜单 → 拾集读取 | 通过 | `https://example.com/?shiji-next-safari=1`，表单及手动输入标题 `55102026`；`share-safari-form.png` |
 | Safari保存及回读 | **未完成** | 点击保存前Mac重新锁定，CUA输入被拒绝；没有对应资源记录，不算保存通过 |
-| 系统分享取消后文件字节不变 | **未完成** | 已留存`before-safari-cancel.json`用于取消后的元数据/附件全量校验；没有执行取消，不算通过 |
+| 系统分享取消后文件字节不变 | 通过（人工点击、工具核对） | 用户在当前Safari分享页点取消，实际截图确认回到Safari；`safari-cancel-check.log`核对`before-safari-cancel.json`，元数据及附件全部校验和不变，仍3条 |
 | 分享保存失败后的错误界面、再试成功 | **未完成** | 核心失败原子性通过，系统UI尚未注入失败场景 |
 | 实际系统重复URL保护手工标签/备注/附件 | **未完成** | Swift新增共享层回归通过，尚不等同于系统重分享端到端通过 |
 | 实体iPhone签名、Safari/照片分享 | **未完成** | 本轮只有独立模拟器，不宣称真机通过 |
@@ -64,7 +76,7 @@ Next QA宿主改用UIApplicationSceneManifest、UISceneConfiguration、UIWindowS
 1. 在名为`Shiji Next Share QA`的新模拟器执行`prepare_share.py --device <UDID>`；返回临时工程路径。对该工程构建Shiji simulator scheme，安装QA包，执行既有check_bundle.py。
 2. `install-share-host.py --device <UDID>`构建/安装仅测试宿主。用真实UI逐项选择拾集并保存；Safari场景必须从Safari自身菜单触发。
 3. `check_share_store.py --device <UDID>`只读核对已保存的QA URL/文字/图片。取消前加`--snapshot <新文件>`，取消后加`--unchanged <同文件>`比较全量字节。
-4. 解锁后先完成当前Safari保存/取消及失败恢复；再在曾出现空白的实际安装环境查principal/App Group/宿主生命周期和provider状态。真实设备验收不能由模拟器代替。
+4. 取消已完成；继续Safari保存及失败恢复。Device Hub独立窗口能截图及接受窗口AX按钮，但手机内坐标点击仍返回noWindowsAvailable，需人工执行屏幕内动作并核对实际文件。再在曾出现空白的实际安装环境查principal/App Group/宿主生命周期和provider状态。devicectl本轮只列出两个模拟器，未发现实体iPhone；真实设备验收不能由模拟器代替。
 5. Share根因闭环后，单独设计Smart Capture持久任务；Search全文索引与Cover可同步选择也各自独立设计/提交。本轮未把第三到第五阶段混入业务代码。
 
 本地分阶段提交；尚未推送、未创建Next PR、未合并main。既有Draft PR #1不包含本轮Next提交。

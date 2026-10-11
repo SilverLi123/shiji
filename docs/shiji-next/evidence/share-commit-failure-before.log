@@ -1,0 +1,9 @@
+CoreTests/main.swift:2: Fatal error: failed commit must remove only its new attachment
+Traceback (most recent call last):
+  File "/Users/silver/shiji-card-restoration/mobile-app/Tests/run.py", line 13, in <module>
+    run('build/CoreTests','build/fixtures')
+  File "/Users/silver/shiji-card-restoration/mobile-app/Tests/run.py", line 10, in run
+    def run(*cmd): subprocess.run([str(x) for x in cmd],cwd=root,check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['build/CoreTests', 'build/fixtures']' died with <Signals.SIGTRAP: 5>.

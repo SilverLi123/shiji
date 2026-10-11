@@ -112,12 +112,13 @@ final class LibraryFiles: @unchecked Sendable {
     }
     @discardableResult func capture(url:String,title:String,text:String,attachment:(Data,String,String)?=nil) throws -> String {
         let url=try Self.normalize(url),title=title.trimmingCharacters(in:.whitespacesAndNewlines)
-        return try access(write:true){data in var items=data["resources"] as? [[String:Any]] ?? [];let existing = !url.isEmpty ? items.firstIndex(where:{$0["url"] as? String==url}) : nil
+        var published:URL?
+        do {return try access(write:true){data in var items=data["resources"] as? [[String:Any]] ?? [];let existing = !url.isEmpty ? items.firstIndex(where:{$0["url"] as? String==url}) : nil
             var record=existing.map{items[$0]} ?? Self.newRecord(title:title.isEmpty ? (URL(string:url)?.host ?? "分享的素材") : String(String.UnicodeScalarView(title.unicodeScalars.prefix(200))),url:url,kind:url.isEmpty ? (attachment==nil ? "code" : "file") : "website")
             let notes=record["notes"] as? String ?? "";if !text.isEmpty && !notes.contains(text){record["notes"]=String(String.UnicodeScalarView((notes.isEmpty ? text : notes+"\n\n"+text).unicodeScalars.prefix(10000)))};record["deleted"]=false;record["updatedAt"]=Self.timestamp()
-            if let attachment {let info=try self.publish(attachment.0,name:attachment.1,mime:attachment.2,rid:record["id"] as! String);var a=record["attachments"] as? [[String:Any]] ?? [];a.append(info);record["attachments"]=a;if attachment.2.hasPrefix("image/") && (record["coverId"] as? String ?? "").isEmpty{record["coverId"]=info["id"]}}
+            if let attachment {let info=try self.publish(attachment.0,name:attachment.1,mime:attachment.2,rid:record["id"] as! String);published=self.files.appendingPathComponent(info["id"] as! String);var a=record["attachments"] as? [[String:Any]] ?? [];a.append(info);record["attachments"]=a;if attachment.2.hasPrefix("image/") && (record["coverId"] as? String ?? "").isEmpty{record["coverId"]=info["id"]}}
             if let existing{items[existing]=record}else{items.insert(record,at:0)};data["resources"]=items;return record["id"] as! String
-        }
+        }}catch{if let published{try? FileManager.default.removeItem(at:published)};throw error}
     }
     static func detectedMIME(_ bytes:Data)->String {
         let b=[UInt8](bytes.prefix(16))
@@ -134,7 +135,10 @@ final class LibraryFiles: @unchecked Sendable {
         guard !bytes.isEmpty,bytes.count<=PortableZIP.maxFile else{throw fail("素材为空或超过手机端 64 MB 上限。")};let id=UUID().uuidString.lowercased();try bytes.write(to:files.appendingPathComponent(id),options:.atomic)
         return ["id":id,"resourceId":rid,"name":String(name.replacingOccurrences(of:"/",with:"_").prefix(240)),"size":bytes.count,"mime":Self.detectedMIME(bytes),"sha256":SHA256.hash(data:bytes).map{String(format:"%02x",$0)}.joined(),"sourceUrl":"","author":"","license":"待确认","licenseUrl":"","colors":[String](),"createdAt":Self.timestamp(),"deleted":false]
     }
-    func attach(_ bytes:Data,name:String,mime:String,id:String) throws {try access(write:true){data in var records=data["resources"] as? [[String:Any]] ?? [];guard let i=records.firstIndex(where:{$0["id"] as? String==id})else{throw fail("资源已不存在。")};let a=try self.publish(bytes,name:name,mime:mime,rid:id);var all=records[i]["attachments"] as? [[String:Any]] ?? [];all.append(a);records[i]["attachments"]=all;if mime.hasPrefix("image/") && (records[i]["coverId"] as? String ?? "").isEmpty{records[i]["coverId"]=a["id"]};records[i]["updatedAt"]=Self.timestamp();data["resources"]=records}}
+    func attach(_ bytes:Data,name:String,mime:String,id:String) throws {
+        var published:URL?
+        do {try access(write:true){data in var records=data["resources"] as? [[String:Any]] ?? [];guard let i=records.firstIndex(where:{$0["id"] as? String==id})else{throw fail("资源已不存在。")};let a=try self.publish(bytes,name:name,mime:mime,rid:id);published=self.files.appendingPathComponent(a["id"] as! String);var all=records[i]["attachments"] as? [[String:Any]] ?? [];all.append(a);records[i]["attachments"]=all;if mime.hasPrefix("image/") && (records[i]["coverId"] as? String ?? "").isEmpty{records[i]["coverId"]=a["id"]};records[i]["updatedAt"]=Self.timestamp();data["resources"]=records}}catch{if let published{try? FileManager.default.removeItem(at:published)};throw error}
+    }
     func set(_ id:String,key:String,value:Any) throws {try access(write:true){data in var r=data["resources"] as? [[String:Any]] ?? [];guard let i=r.firstIndex(where:{$0["id"] as? String==id})else{throw fail("资源已不存在。")};r[i][key]=value;r[i]["updatedAt"]=Self.timestamp();data["resources"]=r}}
     func file(_ id:String) -> URL? {guard Self.idOK(id)else{return nil};let url=files.appendingPathComponent(id);return FileManager.default.fileExists(atPath:url.path) ? url : nil}
     func preview(_ bytes:Data) throws -> ImportPlan {
