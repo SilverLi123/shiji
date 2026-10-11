@@ -1,0 +1,13 @@
+F.
+======================================================================
+FAIL: test_background_and_empty_frames_are_not_foreground_evidence (__main__.TraceEvidenceTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/silver/shiji-card-restoration/docs/shiji-v5.2/qa/test_trace_tools.py", line 12, in test_background_and_empty_frames_are_not_foreground_evidence
+    result=json.loads(output.read_text());self.assertEqual(result['valid'],1);self.assertEqual(result['runs'][0]['web'],202);self.assertEqual(result['runs'][0]['samples'][-1]['maxGap'],48)
+AssertionError: 2 != 1
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.072s
+
+FAILED (failures=1)

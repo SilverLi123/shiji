@@ -1,0 +1,11 @@
+'use strict';
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
+const {JSDOM}=require(path.join(__dirname,'../../../desktop-app/node_modules/jsdom'));
+const dom=new JSDOM('<div id="resource-grid"><button data-action="detail">资源</button></div><div id="drawer"></div><div id="detail-content"></div>',{runScripts:'outside-only',pretendToBeVisual:true,url:'http://localhost'});
+const w=dom.window,d=w.document,timers=[],rows=[];let now=0,count=0;
+Object.defineProperty(w.performance,'now',{value:()=>now});w.performance.mark=()=>{};w.performance.measure=()=>{};w.requestAnimationFrame=()=>0;w.setTimeout=fn=>{timers.push(fn);return timers.length;};d.getAnimations=()=>[];w.fetch=(_url,args)=>{rows.push(JSON.parse(args.body));return Promise.resolve();};
+w.eval(fs.readFileSync(process.argv[2]||path.join(__dirname,'probe.js'),'utf8'));
+d.addEventListener('click',()=>{w.ShijiQATrace.begin();now+=++count===1?10:30;w.ShijiQATrace.end();});
+const button=d.querySelector('[data-action="detail"]');button.click();now=100;button.click();for(const fn of timers)fn();
+assert.deepEqual(rows.map(r=>[r.sequence,r.handlerMs]),[[1,10],[2,30]],'each buffered click retains its own handler rather than the latest overlapping click');
+assert.equal(d.querySelectorAll('script[type="application/json"]').length,0,'the probe does not serialize metrics into live DOM');dom.window.close();console.log('PASS: overlapping click samples keep their own timings without metrics DOM writes');

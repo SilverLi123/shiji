@@ -1,0 +1,124 @@
+{
+  "91907": {
+    "weightMs": 129.0,
+    "threads": {
+      "Main Thread (0xac85d) (DevResourceLibrary, pid: 91907)": 122.0,
+      "JavaScriptCore libpas scavenger (0xac8ef) (DevResourceLibrary, pid: 91907)": 1.0,
+      "DevResourceLibrary (0xac89f) (DevResourceLibrary, pid: 91907)": 2.0,
+      "Log work queue (0xac91c) (DevResourceLibrary, pid: 91907)": 2.0,
+      "CVDisplayLink (0xac941) (DevResourceLibrary, pid: 91907)": 2.0
+    },
+    "leaf": [
+      [
+        "pow",
+        8.0
+      ],
+      [
+        "mach_msg2_trap",
+        5.0
+      ],
+      [
+        "_xzm_xzone_malloc_tiny",
+        4.0
+      ],
+      [
+        "_platform_memset",
+        4.0
+      ],
+      [
+        "objc::StringHashTable::tryGetIndex(char const*) const",
+        2.0
+      ],
+      [
+        "getMethodNoSuper_nolock(objc_class*, objc_selector*)",
+        2.0
+      ],
+      [
+        "empty",
+        2.0
+      ],
+      [
+        "io_connect_method",
+        2.0
+      ],
+      [
+        "_platform_memmove",
+        2.0
+      ],
+      [
+        "CFStringGetLength",
+        1.0
+      ],
+      [
+        "pas_segregated_directory_get_use_epoch",
+        1.0
+      ],
+      [
+        "0x1b82fa85d",
+        1.0
+      ]
+    ]
+  },
+  "91912": {
+    "weightMs": 326.0,
+    "threads": {
+      "JavaScriptCore libpas scavenger (0xac90d) (com.apple.WebKit.WebContent, pid: 91912)": 3.0,
+      "Main Thread (0xac905) (com.apple.WebKit.WebContent, pid: 91912)": 306.0,
+      "JIT Worklist Helper Thread (0xacce6) (com.apple.WebKit.WebContent, pid: 91912)": 6.0,
+      "com.apple.WebKit.WebContent (0xac992) (com.apple.WebKit.WebContent, pid: 91912)": 2.0,
+      "com.apple.WebKit.WebContent (0xac90e) (com.apple.WebKit.WebContent, pid: 91912)": 6.0,
+      "com.apple.WebKit.WebContent (0xac90c) (com.apple.WebKit.WebContent, pid: 91912)": 1.0,
+      "com.apple.WebKit.WebContent (0xac90b) (com.apple.WebKit.WebContent, pid: 91912)": 2.0
+    },
+    "leaf": [
+      [
+        "__CF_IS_OBJC",
+        7.0
+      ],
+      [
+        "<deduplicated_symbol>",
+        6.0
+      ],
+      [
+        "mach_msg2_trap",
+        6.0
+      ],
+      [
+        "WebCore::RenderLayerCompositor::computeCompositingRequirements(WebCore::RenderLayer*, WebCore::RenderLayer&, WebCore::LayerOverlapMap&, WebCore::RenderLayerCompositor::CompositingState&, WebCore::RenderLayerCompositor::BackingSharingState&)",
+        5.0
+      ],
+      [
+        "WebCore::Style::TreeResolver::resolveComposedTree()",
+        3.0
+      ],
+      [
+        "WebCore::Style::ElementRuleCollector::collectMatchingRulesForListSlow(WTF::Vector<WebCore::Style::RuleData, 1ul, WTF::CrashOnOverflow, 16ul, WTF::FastMalloc> const&, WebCore::Style::MatchRequest const&)",
+        3.0
+      ],
+      [
+        "WebCore::Page::scrollingCoordinator()",
+        3.0
+      ],
+      [
+        "__CFSearchStringROM",
+        3.0
+      ],
+      [
+        "TSFNTFont::GetTableOffset(unsigned int, unsigned long*) const",
+        3.0
+      ],
+      [
+        "WebCore::RenderLayer::calculateLayerBounds(WebCore::RenderLayer const*, WebCore::LayoutSize const&, WTF::OptionSet<WebCore::RenderLayer::CalculateLayerBoundsFlag, (WTF::ConcurrencyTag)0>) const",
+        3.0
+      ],
+      [
+        "WebCore::GraphicsLayerCA::recursiveCommitChanges(WebCore::GraphicsLayerCA::CommitState&, WebCore::TransformState const&, float, WebCore::FloatPoint const&, bool)",
+        3.0
+      ],
+      [
+        "bmalloc_heap_config_specialized_try_deallocate_not_small_exclusive_segregated",
+        2.0
+      ]
+    ]
+  }
+}

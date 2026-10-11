@@ -1,0 +1,35 @@
+node:assert:152
+  throw new AssertionError(obj);
+  ^
+
+AssertionError [ERR_ASSERTION]: each buffered click retains its own handler rather than the latest overlapping click
++ actual - expected
+
+  [
+    [
+      1,
++     30
+-     10
+    ],
+    [
+      2,
+      30
+    ]
+
+    at Object.<anonymous> (/Users/silver/shiji-card-restoration/docs/shiji-v5.2/qa/test_probe.cjs:10:8)
+    at Module._compile (node:internal/modules/cjs/loader:1854:14)
+    at Object..js (node:internal/modules/cjs/loader:1985:10)
+    at Module.load (node:internal/modules/cjs/loader:1577:32)
+    at Module._load (node:internal/modules/cjs/loader:1379:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+    at node:internal/main/run_main_module:33:47 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: [ [ 1, 30 ], [ 2, 30 ] ],
+  expected: [ [ 1, 10 ], [ 2, 30 ] ],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.16.0

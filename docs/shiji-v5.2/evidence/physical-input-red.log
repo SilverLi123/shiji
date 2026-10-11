@@ -1,0 +1,15 @@
+..E
+======================================================================
+ERROR: test_trusted_click_without_pointer_is_not_physical_mouse_evidence (__main__.TraceEvidenceTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/silver/shiji-card-restoration/docs/shiji-v5.2/qa/test_trace_tools.py", line 21, in test_trusted_click_without_pointer_is_not_physical_mouse_evidence
+    result=json.loads(output.read_text());self.assertEqual([s['validPhysicalMouse'] for s in result['runs'][0]['samples']],[False,False,False,False,True]);self.assertEqual(result['physicalMouse'],1)
+  File "/Users/silver/shiji-card-restoration/docs/shiji-v5.2/qa/test_trace_tools.py", line 21, in <listcomp>
+    result=json.loads(output.read_text());self.assertEqual([s['validPhysicalMouse'] for s in result['runs'][0]['samples']],[False,False,False,False,True]);self.assertEqual(result['physicalMouse'],1)
+KeyError: 'validPhysicalMouse'
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.105s
+
+FAILED (errors=1)

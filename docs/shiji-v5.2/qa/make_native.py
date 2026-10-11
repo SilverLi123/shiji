@@ -9,6 +9,8 @@ state=json.loads(Path(f'/tmp/shiji-v5-stable-{args.tag}-{args.count}.json').read
 # Replace the QA-only native profile button with one controlled test run.
 qaSource=Path(state['root'])/'App.swift'
 source=qaSource.read_text().replace('runtime.webView?.evaluateJavaScript("window.ShijiQAProfile?.()")', 'Task { try? await Task.sleep(nanoseconds:2_000_000_000); NSApp.activate(ignoringOtherApps:true); runtime.webView?.window?.makeKeyAndOrderFront(nil); runtime.webView?.evaluateJavaScript("window.ShijiQARun?.()",completionHandler:nil) }')
+source=source.replace('} }.padding(10) }','} }.keyboardShortcut("r",modifiers:[.command,.option]).padding(10) }')
+source=source.replace('"host":ProcessInfo.processInfo.processIdentifier])','"host":ProcessInfo.processInfo.processIdentifier,"active":NSApp.isActive,"occlusionVisible":view.window?.occlusionState.contains(.visible) ?? false])')
 qaSource.write_text(source)
 subprocess.run(['xcrun','swiftc','-parse-as-library','-swift-version','5','-target','arm64-apple-macosx14.0','-O',str(qaSource),*[str(p) for p in sorted((REPO/'desktop-app/desktop').glob('*.swift')) if p.name!='App.swift'],'-o',str(app/'Contents/MacOS/DevResourceLibrary')],check=True)
 # Original product App.swift is unchanged; original QA maker adds only native process ID/profile UI.
