@@ -1,0 +1,16 @@
+getpwuid_r did not find a match for uid 501
+Timestamp               Ty Process[PID:TID]
+2026-10-11 18:25:26.542 I  ShijiShare[16635:108f13] [local.silver.shiji.mobile.share:lifecycle] Rendering share form, loading=true, failure=false
+2026-10-11 18:25:28.229 I  ShijiShare[16635:108f13] [local.silver.shiji.mobile.share:lifecycle] Reading share providers, count=1
+2026-10-11 18:25:28.454 I  ShijiShare[16635:108f13] [local.silver.shiji.mobile.share:lifecycle] Rendering share form, loading=false, failure=false
+2026-10-11 18:25:29.291 I  ShijiShare[16635:108f13] [local.silver.shiji.mobile.share:lifecycle] Share controller appeared, width=402.000000, height=812.000000, children=1
+2026-10-11 18:28:29.622 I  ShijiShare[16635:108f13] [local.silver.shiji.mobile.share:lifecycle] Share controller view loaded
+2026-10-11 18:28:29.622 I  ShijiShare[16635:108f13] [local.silver.shiji.mobile.share:lifecycle] Rendering share form, loading=true, failure=false
+2026-10-11 18:28:30.593 I  ShijiShare[16635:108f13] [local.silver.shiji.mobile.share:lifecycle] Reading share providers, count=1
+2026-10-11 18:28:32.120 I  ShijiShare[16635:108f13] [local.silver.shiji.mobile.share:lifecycle] Share controller appeared, width=402.000000, height=812.000000, children=1
+2026-10-11 18:28:32.325 I  ShijiShare[16635:108f13] [local.silver.shiji.mobile.share:lifecycle] Rendering share form, loading=false, failure=false
+2026-10-11 18:31:36.266 I  ShijiShare[16951:10b3a7] [local.silver.shiji.mobile.share:lifecycle] Share controller view loaded
+2026-10-11 18:31:36.267 I  ShijiShare[16951:10b3a7] [local.silver.shiji.mobile.share:lifecycle] Rendering share form, loading=true, failure=false
+2026-10-11 18:31:38.550 I  ShijiShare[16951:10b3a7] [local.silver.shiji.mobile.share:lifecycle] Reading share providers, count=1
+2026-10-11 18:31:38.934 I  ShijiShare[16951:10b3a7] [local.silver.shiji.mobile.share:lifecycle] Rendering share form, loading=false, failure=false
+2026-10-11 18:31:39.362 I  ShijiShare[16951:10b3a7] [local.silver.shiji.mobile.share:lifecycle] Share controller appeared, width=402.000000, height=874.000000, children=1

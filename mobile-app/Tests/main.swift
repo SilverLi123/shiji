@@ -1,5 +1,32 @@
 import Foundation
 func check(_ value: Bool,_ label:String){if !value{fatalError(label)}}
+// Share Extension and foreground App use separate LibraryFiles instances.
+// Re-sharing a URL must add content without erasing curated metadata or cover.
+let shareTemp=FileManager.default.temporaryDirectory.appendingPathComponent("shiji-share-regression-"+UUID().uuidString)
+defer{try? FileManager.default.removeItem(at:shareTemp)}
+let shareWriter=try LibraryFiles(root:shareTemp)
+let shareBytes=Data([255,216,255,224,1,2,3])
+let shareID=try shareWriter.capture(url:"https://example.com/share-regression",title:"Manual title",text:"Manual note",attachment:(shareBytes,"first.jpg","image/jpeg"))
+var curated=try shareWriter.resources()[0].raw
+curated["tags"]=["New, exact","手工标签"]
+curated["projects"]=["Share QA"]
+curated["projectNotes"]=["Share QA":"Keep this note"]
+try shareWriter.save(curated)
+let originalCover=curated["coverId"] as! String
+let shareReader=try LibraryFiles(root:shareTemp)
+let repeatID=try shareWriter.capture(url:"https://example.com/share-regression",title:"Provider title",text:"New share note",attachment:(shareBytes,"second.jpg","image/jpeg"))
+let shared=try shareReader.resources()[0]
+let shareCount=try shareReader.resources().count
+check(repeatID==shareID && shareCount==1,"re-share retains resource identity")
+check(shared.title=="Manual title" && shared.names("tags")==["New, exact","手工标签"],"re-share protects manual title and exact tags")
+check(shared.names("projects")==["Share QA"] && (shared.raw["projectNotes"] as? [String:String])?["Share QA"]=="Keep this note","re-share protects organization")
+check(shared.text("notes")=="Manual note\n\nNew share note","re-share appends notes")
+check(shared.text("coverId")==originalCover && shared.attachments.count==2,"re-share preserves cover and both attachments")
+for info in shared.attachments {check(try Data(contentsOf:shareReader.file(info["id"] as! String)!)==shareBytes,"foreground reader sees original attachment bytes")}
+let beforeFailedShare=try Data(contentsOf:shareReader.database)
+do{try shareWriter.capture(url:"https://example.com/share-regression",title:"Ignored",text:"must not survive",attachment:(Data(),"empty.jpg","image/jpeg"));fatalError("empty share attachment accepted")}catch{}
+check(try Data(contentsOf:shareReader.database)==beforeFailedShare,"failed share leaves metadata unchanged")
+print("Share cross-instance readback, curated metadata, attachment preservation and failure atomicity passed")
 let temp=FileManager.default.temporaryDirectory.appendingPathComponent("shiji-ios-tests-"+UUID().uuidString,isDirectory:true)
 defer{try? FileManager.default.removeItem(at:temp)}
 let library=try LibraryFiles(root:temp)

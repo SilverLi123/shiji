@@ -1,0 +1,9 @@
+CoreTests/main.swift:2: Fatal error: re-share protects manual title and exact tags
+Traceback (most recent call last):
+  File "/var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-share-negative-control-30k6uvv_/mobile-app/Tests/run.py", line 13, in <module>
+    run('build/CoreTests','build/fixtures')
+  File "/var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-share-negative-control-30k6uvv_/mobile-app/Tests/run.py", line 10, in run
+    def run(*cmd): subprocess.run([str(x) for x in cmd],cwd=root,check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['build/CoreTests', 'build/fixtures']' died with <Signals.SIGTRAP: 5>.

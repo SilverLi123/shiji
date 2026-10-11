@@ -20,7 +20,7 @@ GitHub接口实查：唯一检索到的PR为 [Draft #1](https://github.com/Silve
 
 | 范围 | 已有实现 | 本轮应补内容 |
 |---|---|---|
-| iPhone分享 | 系统扩展入口、loading表单、URL/text/image provider读取、同App Group的LibraryFiles.capture、重复网址保护与备注追加；核心持久化已测 | 已知系统宿主空白页；真实Safari/文字/图片→保存→主App回读尚未通过。先区分启动、绘制、provider、容器保存 |
+| iPhone分享 | 系统扩展入口、loading表单、URL/text/image provider读取、同App Group的LibraryFiles.capture、重复网址保护与备注追加；核心持久化已测 | 审查起点有系统宿主空白页未验收。Next随后在独立模拟器验证QA宿主URL/文字/图片保存与主App回读；Safari表单绘制/读取通过，保存与真机仍待验证。详见SHARE_REPORT |
 | Quick Capture | 先HTTP持久化，再metadata请求；revision和字段原值冲突保护、4槽限制，真实UI成功反馈 | 当前请求/线程级执行，不是持久后台任务队列；需任务状态、重启恢复、取消/重试/去重设计 |
 | Preview | 默认关闭、单worker、间隔/暂停、og:image与Chrome fallback、真实封面不覆盖 | config持久于settings，但attempted/completed/failures仅内存；没有可靠任务进度/重启恢复。复用已有业务，不另建采集服务 |
 | Search | desktop library.js：实际字段大小写折叠、空格分词AND/substring、丰富过滤；iPhone本地substring | 当前没有SQLite全文索引、相关性或匹配高亮。后续先评估中文trigram/分词支持、可重建侧车索引和schema约束，未提前选方案或改库 |

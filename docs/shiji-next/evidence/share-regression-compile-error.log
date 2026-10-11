@@ -1,0 +1,16 @@
+Tests/main.swift:19:25: error: operator can throw but expression is not marked with 'try'
+ 17 | let repeatID=try shareWriter.capture(url:"https://example.com/share-regression",title:"Provider title",text:"New share note",attachment:(shareBytes,"second.jpg","image/jpeg"))
+ 18 | let shared=try shareReader.resources()[0]
+ 19 | check(repeatID==shareID && (try shareReader.resources()).count==1,"re-share retains resource identity")
+    |                         |  `- note: call is to 'rethrows' function, but argument function can throw
+    |                         `- error: operator can throw but expression is not marked with 'try'
+ 20 | check(shared.title=="Manual title" && shared.names("tags")==["New, exact","手工标签"],"re-share protects manual title and exact tags")
+ 21 | check(shared.names("projects")==["Share QA"] && (shared.raw["projectNotes"] as? [String:String])?["Share QA"]=="Keep this note","re-share protects organization")
+Traceback (most recent call last):
+  File "/Users/silver/shiji-card-restoration/mobile-app/Tests/run.py", line 12, in <module>
+    run('xcrun','swiftc','-swift-version','5','-import-objc-header','Shared/Codec.h','Shared/Archive.swift','Shared/SyncMerge.swift','Shared/Library.swift','Tests/main.swift','build/Codec.o','-lz','-o','build/CoreTests')
+  File "/Users/silver/shiji-card-restoration/mobile-app/Tests/run.py", line 10, in run
+    def run(*cmd): subprocess.run([str(x) for x in cmd],cwd=root,check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['xcrun', 'swiftc', '-swift-version', '5', '-import-objc-header', 'Shared/Codec.h', 'Shared/Archive.swift', 'Shared/SyncMerge.swift', 'Shared/Library.swift', 'Tests/main.swift', 'build/Codec.o', '-lz', '-o', 'build/CoreTests']' returned non-zero exit status 1.

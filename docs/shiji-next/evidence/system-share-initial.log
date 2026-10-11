@@ -1,0 +1,633 @@
+getpwuid_r did not find a match for uid 501
+Timestamp               Ty Process[PID:TID]
+2026-10-11 18:20:34.803 Df ShareQA[16475:0] [com.apple.libsystem.libdispatch:] BUG in libdispatch: 25G83 24A434 - 612 - 0x4
+2026-10-11 18:20:34.804 Df ShareQA[16475:107733] [com.apple.UIKit.tracing:UITraceManager] UITraceInitialize: registering notify listener
+2026-10-11 18:20:34.804 Df ShareQA[16475:107733] [com.apple.UIKit.tracing:UITraceManager] handle_trace_notification: received notify (state=0)
+2026-10-11 18:20:34.835 Df ShareQA[16475:10774e] [com.apple.xpc:connection] [0x1059d6790] activating connection: mach=true listener=false peer=false name=com.apple.cfprefsd.daemon
+2026-10-11 18:20:34.848 A  ShareQA[16475:107751] (CoreFoundation) Loading Preferences From User Session CFPrefsD
+2026-10-11 18:20:34.858 Df ShareQA[16475:107752] [com.apple.xpc:connection] [0x1059ce6f0] activating connection: mach=false listener=false peer=false name=(anonymous)
+2026-10-11 18:20:34.859 Df ShareQA[16475:107733] (libMobileGestalt.dylib) No persisted cache on this platform.
+2026-10-11 18:20:34.958 Df ShareQA[16475:107733] [com.apple.UIKit:Application] Deactivation reason added: 10; deactivation reasons: 0 -> 1024; animating application lifecycle event: 0
+2026-10-11 18:20:34.959 Df ShareQA[16475:10774e] [com.apple.UIKit:BackgroundTask] Creating new assertion because there is no existing background assertion.
+2026-10-11 18:20:34.959 Df ShareQA[16475:10774e] [com.apple.UIKit:BackgroundTask] Creating new background assertion
+2026-10-11 18:20:34.964 Df ShareQA[16475:107733] [com.apple.runningboard:connection] Initializing connection
+2026-10-11 18:20:34.964 Df ShareQA[16475:107733] [com.apple.runningboard:process] Removing all cached process handles
+2026-10-11 18:20:34.964 Df ShareQA[16475:107751] [com.apple.runningboard:connection] Sending handshake request attempt #1 to server
+2026-10-11 18:20:34.964 Df ShareQA[16475:107751] [com.apple.runningboard:connection] Creating connection to com.apple.runningboard
+2026-10-11 18:20:34.964 Df ShareQA[16475:107733] [com.apple.BoardServices:Injection] activating monitor for service com.apple.frontboard.open
+2026-10-11 18:20:34.965 Df ShareQA[16475:107751] [com.apple.xpc:connection] [0x106558280] activating connection: mach=true listener=false peer=false name=com.apple.runningboard
+2026-10-11 18:20:34.965 Df ShareQA[16475:10774e] [com.apple.UIKit:BackgroundTask] Created new background assertion <BKSProcessAssertion: 0x1059dedc0>
+2026-10-11 18:20:34.968 Df ShareQA[16475:107733] [com.apple.BoardServices:Injection] activating monitor for service com.apple.frontboard.workspace-service
+2026-10-11 18:20:35.006 A  ShareQA[16475:107753] (RunningBoardServices) didChangeInheritances
+2026-10-11 18:20:35.010 Df ShareQA[16475:107751] [com.apple.runningboard:connection] Handshake succeeded
+2026-10-11 18:20:35.010 Df ShareQA[16475:107751] [com.apple.runningboard:connection] Identity resolved as app<local.silver.shiji.nextqa.host((null))>
+2026-10-11 18:20:35.011 Df ShareQA[16475:10774e] [com.apple.UIKit:BackgroundTask] Incrementing reference count for background assertion <BKSProcessAssertion: 0x1059dedc0>
+2026-10-11 18:20:35.011 Df ShareQA[16475:10774e] [com.apple.UIKit:BackgroundTask] Created background task <_UIBackgroundTaskInfo: 0x10645cb00>: taskID = 1, taskName = Launch Background Task for Coalescing, creationTime = 47981 (elapsed = 0).
+2026-10-11 18:20:35.013 Df ShareQA[16475:10774e] [com.apple.FrontBoard:SceneExtension] Realizing settings extension _UIApplicationSceneKeyboardSettings on FBSSceneSettings
+2026-10-11 18:20:35.044 Df ShareQA[16475:107733] [com.apple.FrontBoard:Common] FBSWorkspace registering source: com.apple.frontboard.systemappservices
+2026-10-11 18:20:35.044 Df ShareQA[16475:107733] [com.apple.FrontBoard:Common] FBSWorkspace connected to endpoint : <BSServiceConnectionEndpoint: 0x1064e4d00; target: com.apple.frontboard.systemappservices; service: com.apple.frontboard.workspace-service>
+2026-10-11 18:20:35.044 Df ShareQA[16475:107733] [com.apple.FrontBoard:Common] <FBSWorkspaceScenesClient:0x1064b5d60 com.apple.frontboard.systemappservices> attempting immediate handshake from activate
+2026-10-11 18:20:35.047 A  ShareQA[16475:107751] (RunningBoardServices) didChangeInheritances
+2026-10-11 18:20:35.047 Df ShareQA[16475:107733] [com.apple.FrontBoard:Common] <FBSWorkspaceScenesClient:0x1064b5d60 com.apple.frontboard.systemappservices> sent handshake
+2026-10-11 18:20:35.047 Df ShareQA[16475:107733] [com.apple.runningboard:general] Added observer for process assertions expiration warning: <_RBSExpirationWarningClient: 0x1064e5380>
+2026-10-11 18:20:35.074 Df ShareQA[16475:10774e] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneOcclusionSettings> on FBSSceneSettings
+2026-10-11 18:20:35.074 Df ShareQA[16475:10774e] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneInterfaceProtectionSettings> on FBSSceneSettings
+2026-10-11 18:20:35.081 Df ShareQA[16475:10774e] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneDestructionClientSettings> on FBSSceneClientSettings
+2026-10-11 18:20:35.093 Df ShareQA[16475:10774e] [com.apple.FrontBoard:SceneExtension] Realizing settings extension _UISceneLayoutPreferencesHostSettingsExtension on FBSSceneSettings
+2026-10-11 18:20:35.111 Df ShareQA[16475:10774e] [com.apple.FrontBoard:SceneExtension] Realizing settings extension _UISceneSafeAreaSettingsExtension on FBSSceneSettings
+2026-10-11 18:20:35.553 Df ShareQA[16475:10774e] [com.apple.FrontBoard:SceneExtension] Realizing settings extension _UISceneBarPositionSettingsExtension on FBSSceneSettings
+2026-10-11 18:20:35.555 Df ShareQA[16475:10774e] [com.apple.FrontBoard:SceneExtension] Realizing settings extension _UISceneLayoutPreferenceClientSettingsExtension on FBSSceneClientSettings
+2026-10-11 18:20:35.569 Df ShareQA[16475:10774e] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UIHomeAffordanceHostSceneSettings> on FBSSceneSettings
+2026-10-11 18:20:35.571 Df ShareQA[16475:10774e] [com.apple.FrontBoard:SceneExtension] Realizing settings extension _UISystemShellSceneHostingEnvironmentSettings on FBSSceneSettings
+2026-10-11 18:20:35.574 Df ShareQA[16475:10774e] [com.apple.FrontBoard:SceneExtension] Realizing settings extension _UISceneRenderingEnvironmentSettings on FBSSceneSettings
+2026-10-11 18:20:35.598 Df ShareQA[16475:10774e] [com.apple.FrontBoard:SceneExtension] Realizing settings extension _UISceneRenderingEnvironmentClientSettings on FBSSceneClientSettings
+2026-10-11 18:20:35.606 Df ShareQA[16475:10774e] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneTransitioningHostSettings> on FBSSceneSettings
+2026-10-11 18:20:35.623 Df ShareQA[16475:10774e] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneActivationInteractionSettings> on FBSSceneSettings
+2026-10-11 18:20:35.625 Df ShareQA[16475:10774e] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneFocusSystemSettings> on FBSSceneSettings
+2026-10-11 18:20:35.629 Df ShareQA[16475:10774e] [com.apple.FrontBoard:SceneExtension] Realizing settings extension _UISceneOrientationSettingsExtension on FBSSceneSettings
+2026-10-11 18:20:35.633 Df ShareQA[16475:10774e] [com.apple.FrontBoard:SceneExtension] Realizing settings extension _UISceneOrientationClientSettingsExtension on FBSSceneClientSettings
+2026-10-11 18:20:36.061 Df ShareQA[16475:107752] [com.apple.UIKit:BackgroundTask] Ending background task with UIBackgroundTaskIdentifier: 1
+2026-10-11 18:20:36.225 A  ShareQA[16475:107753] (RunningBoardServices) didChangeInheritances
+2026-10-11 18:20:38.667 Df ShareQA[16475:107752] [com.apple.UIKit:BackgroundTask] Ending task with identifier 1 and description: <_UIBackgroundTaskInfo: 0x10645cb00>: taskID = 1, taskName = Launch Background Task for Coalescing, creationTime = 47981 (elapsed = 4), _expireHandler: (null)
+2026-10-11 18:20:38.667 Df ShareQA[16475:107752] [com.apple.UIKit:BackgroundTask] Decrementing reference count for assertion <BKSProcessAssertion: 0x1059dedc0> (used by background task with identifier 1: <_UIBackgroundTaskInfo: 0x10645cb00>: taskID = 1, taskName = Launch Background Task for Coalescing, creationTime = 47981 (elapsed = 4))
+2026-10-11 18:20:39.614 Df ShareQA[16475:107752] [com.apple.UIKit:BackgroundTask] Will invalidate assertion: <BKSProcessAssertion: 0x1059dedc0> for task identifier: 1
+2026-10-11 18:20:39.645 Df ShareQA[16475:10774e] [com.apple.FrontBoard:SceneExtension] Realizing settings extension _UISceneRegionSettings on FBSSceneSettings
+2026-10-11 18:20:39.645 Df ShareQA[16475:10774e] [com.apple.FrontBoard:SceneExtension] Realizing settings extension _UISceneWindowingControlClientSettings on FBSSceneClientSettings
+2026-10-11 18:20:39.647 Df ShareQA[16475:10774e] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UICompanionSceneInterestClientSettings> on FBSSceneClientSettings
+2026-10-11 18:20:39.650 Df ShareQA[16475:10774e] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UIResourceConditionsSceneSettings> on FBSSceneSettings
+2026-10-11 18:20:39.653 Df ShareQA[16475:10774e] [com.apple.FrontBoard:SceneExtension] Realizing settings extension _UIKeyboardInputScenePairingSettings on FBSSceneSettings
+2026-10-11 18:20:39.657 Df ShareQA[16475:10774e] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneHostingContentSizePreferenceClientSettings> on FBSSceneClientSettings
+2026-10-11 18:20:39.664 Df ShareQA[16475:10774e] [com.apple.FrontBoard:SceneExtension] Realizing settings extension _UISceneHostingTraitCollectionPropagationSettings on FBSSceneSettings
+2026-10-11 18:20:39.678 Df ShareQA[16475:10774e] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneHostingSheetPresentationSettings> on FBSSceneSettings
+2026-10-11 18:20:39.682 Df ShareQA[16475:10774e] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneHostingSheetPresentationClientSettings> on FBSSceneClientSettings
+2026-10-11 18:20:39.686 Df ShareQA[16475:10774e] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <UIKit__UITypedKeyValueSceneSettings> on FBSSceneSettings
+2026-10-11 18:20:39.692 Df ShareQA[16475:10774e] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <UIKit__UITypedKeyValueSceneSettings> on FBSSceneClientSettings
+2026-10-11 18:20:39.697 Df ShareQA[16475:10774e] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneHostingViewControllerPreferencePropagationClientSettings> on FBSSceneClientSettings
+2026-10-11 18:20:39.699 Df ShareQA[16475:10774e] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneZoomTransitionSettings> on FBSSceneSettings
+2026-10-11 18:20:39.701 Df ShareQA[16475:107751] [com.apple.FrontBoard:SceneExtension] Realizing settings extension FBSSceneSettingsCore on FBSSceneSettings
+2026-10-11 18:20:39.717 Df ShareQA[16475:107751] [com.apple.FrontBoard:SceneExtension] Realizing settings extension FBSSceneClientSettingsCore on FBSSceneClientSettings
+2026-10-11 18:20:39.772 Df ShareQA[16475:107751] [com.apple.FrontBoard:SceneExtension] UIMutableApplicationSceneSettings setting counterpart class: UIApplicationSceneSettings
+2026-10-11 18:20:39.773 Df ShareQA[16475:107751] [com.apple.FrontBoard:SceneExtension] UIMutableApplicationSceneClientSettings setting counterpart class: UIApplicationSceneClientSettings
+2026-10-11 18:20:39.773 Df ShareQA[16475:107751] [com.apple.FrontBoard:SceneExtension] Realizing settings extension FBSSceneTransitionContextCore on FBSSceneTransitionContext
+2026-10-11 18:20:40.197 A  ShareQA[16475:107733] (CoreFoundation) Updating Key-Value Observers Of Preferences
+2026-10-11 18:20:40.317 Df ShareQA[16475:107733] [com.apple.dt.xctest:Default] Registering for test daemon availability notify post.
+2026-10-11 18:20:40.317 Df ShareQA[16475:107733] [com.apple.dt.xctest:Default] notify_get_state check indicated test daemon not ready.
+2026-10-11 18:20:40.317 Df ShareQA[16475:107733] [com.apple.dt.xctest:Default] notify_get_state check indicated test daemon not ready.
+2026-10-11 18:20:40.317 Df ShareQA[16475:107733] [com.apple.dt.xctest:Default] notify_get_state check indicated test daemon not ready.
+2026-10-11 18:20:40.319 Df ShareQA[16475:107733] [com.apple.UIKit:Application] Deactivation reason added: 11; deactivation reasons: 1024 -> 3072; animating application lifecycle event: 0
+2026-10-11 18:20:40.340 Df ShareQA[16475:107733] [com.apple.UIKit:UIScreen] Evaluated capturing state as 0 on <UIScreen: 0x1065588c0> for initial
+2026-10-11 18:20:40.342 Df ShareQA[16475:107733] [com.apple.UIKit:UIScreen] Evaluated capturing state as 0 on <UIScreen: 0x1065588c0> for CADisplay KVO
+2026-10-11 18:20:40.345 Df ShareQA[16475:107733] [com.apple.Accessibility:AXSupportCommon] Read CategoryName: per-app = 1, category name = (null)
+2026-10-11 18:20:40.345 Df ShareQA[16475:107733] [com.apple.Accessibility:AXSupportCommon] Read CategoryName: per-app = 0, category name = (null)
+2026-10-11 18:20:40.363 Df ShareQA[16475:107733] [com.apple.UIKit:Application] Deactivation reason removed: 10; deactivation reasons: 3072 -> 2048; animating application lifecycle event: 0
+2026-10-11 18:20:40.422 Df ShareQA[16475:107733] [com.apple.app_launch_measurement:ApplicationLaunch] alm_acquire_pageins_recording_assertion: acquired pageins recording assertion!
+2026-10-11 18:20:40.428 E  ShareQA[16475:107733] [com.apple.UIKit:SceneConfiguration] Info.plist contained no UIScene configuration dictionary (looking for configuration named "QA")
+2026-10-11 18:20:40.443 Df ShareQA[16475:107733] [com.apple.UIKit:BackgroundTask] Will add backgroundTask with taskName: Persistent SceneSession Map Update, expirationHandler: <__NSGlobalBlock__: 0x222a2e0c0>
+2026-10-11 18:20:40.443 Df ShareQA[16475:107733] [com.apple.UIKit:BackgroundTask] Creating new assertion because there is no existing background assertion.
+2026-10-11 18:20:40.443 Df ShareQA[16475:107733] [com.apple.UIKit:BackgroundTask] Creating new background assertion
+2026-10-11 18:20:40.443 Df ShareQA[16475:107733] [com.apple.UIKit:BackgroundTask] Created new background assertion <BKSProcessAssertion: 0x1095f8050>
+2026-10-11 18:20:40.444 Df ShareQA[16475:107733] [com.apple.UIKit:BackgroundTask] Incrementing reference count for background assertion <BKSProcessAssertion: 0x1095f8050>
+2026-10-11 18:20:40.444 Df ShareQA[16475:107733] [com.apple.UIKit:BackgroundTask] Created background task <_UIBackgroundTaskInfo: 0x10645f5c0>: taskID = 2, taskName = Persistent SceneSession Map Update, creationTime = 47986 (elapsed = 0).
+2026-10-11 18:20:40.444 Df ShareQA[16475:107733] [com.apple.UIKit:Application] Deactivation reason added: 5; deactivation reasons: 2048 -> 2080; animating application lifecycle event: 1
+2026-10-11 18:20:40.446 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Should send trait collection or coordinate space update, interface style 1 -> 1, <UIWindowScene: 0x1094c1180> (850A1085-4E05-4A62-BFFC-1515C54670BE)
+2026-10-11 18:20:40.448 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x1094c1180> (850A1085-4E05-4A62-BFFC-1515C54670BE)
+2026-10-11 18:20:40.451 Df ShareQA[16475:107733] [com.apple.UIKit:HomeAffordanceObservation] Initializing: <_UIHomeAffordanceSceneNotifier: 0x1095e3480>; with scene: <UIWindowScene: 0x1094c1180>
+2026-10-11 18:20:40.451 Df ShareQA[16475:107733] [com.apple.BacklightServices:scenes] 0x109609bc0 setDelegate:<0x109609770 _UIBacklightEnvironment> hasDelegate:YES for environment:sceneID:local.silver.shiji.nextqa.host-default
+2026-10-11 18:20:40.452 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x1094c1180> (850A1085-4E05-4A62-BFFC-1515C54670BE)
+2026-10-11 18:20:40.452 Df ShareQA[16475:107733] [com.apple.UIKit:EventDeferring] [0x1066ff000] Initialized with scene: <UIWindowScene: 0x1094c1180>; behavior: <_UIEventDeferringBehavior_iOS: 0x1094aa240>; availableForProcess: 1, systemShellManagesKeyboardFocus: 1
+2026-10-11 18:20:40.464 Df ShareQA[16475:107733] [com.apple.GenerativeModels:availability] UserDefaults(com.apple.gms.availability, 501
+2026-10-11 18:20:40.499 Df ShareQA[16475:107733] [com.apple.GenerativeModels:availability] registering darwin observer for name: com.apple.gms.availability.notification
+2026-10-11 18:20:40.499 Df ShareQA[16475:107733] [com.apple.GenerativeModels:availability] registering darwin observer for name: com.apple.os-eligibility-domain.change.greymatter
+2026-10-11 18:20:40.499 Df ShareQA[16475:107733] [com.apple.GenerativeModels:availability] registering darwin observer for name: com.apple.language.changed
+2026-10-11 18:20:40.501 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x1094c1180> (850A1085-4E05-4A62-BFFC-1515C54670BE)
+2026-10-11 18:20:40.501 Df ShareQA[16475:107733] [com.apple.xpc:connection] [0x106559400] activating connection: mach=false listener=false peer=false name=(anonymous)
+2026-10-11 18:20:40.502 Df ShareQA[16475:107733] [com.apple.BackBoard:EventDelivery] policy observer <BKSHIDEventDeliveryPolicyObserver: 0x1095e3410; process scope; policy: UNKNOWN> added
+2026-10-11 18:20:40.502 Df ShareQA[16475:107733] [com.apple.BackBoard:EventDelivery] [BKSHIDEventObserver] set observing:YES
+2026-10-11 18:20:40.507 Df ShareQA[16475:10774e] [com.apple.BackBoard:EventDelivery] [BKSHIDEventObserver] - connection activation
+2026-10-11 18:20:40.508 Df ShareQA[16475:107733] [com.apple.BackBoard:EventDelivery] policyStatus:<BKSHIDEventDeliveryPolicyObserver: 0x1095e3410; process scope; <target; generation: 130; finalStringToken>> was:(null)
+2026-10-11 18:20:40.508 Df ShareQA[16475:107733] [com.apple.BackBoard:EventDelivery] [BKSHIDEventObserver] 0x1095e3410 _UIKeyWindowSceneObserver-0x109609320 setToken:com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Alocal.silver.shiji.nextqa.host-default
+2026-10-11 18:20:40.508 Df ShareQA[16475:107733] [com.apple.UIKit:KeyWindow] Setting default evaluation strategy for UIUserInterfaceIdiomPhone to LastOneWins
+2026-10-11 18:20:40.508 Df ShareQA[16475:107733] [com.apple.UIKit:KeyWindow] Scene target of keyboard event deferring environment did change: target=1; ancestor=0; scene: UIWindowScene: 0x1094c1180; scene identity: com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Alocal.silver.shiji.nextqa.host-default
+2026-10-11 18:20:40.508 Df ShareQA[16475:107733] [com.apple.UIKit:EventDeferring] [0x1066ff000] Scene target of event deferring environments did update: scene: 0x1094c1180; current systemShellManagesKeyboardFocus: 1; systemShellManagesKeyboardFocusForScene: 1; eligibleForRecordRemoval: 1;
+2026-10-11 18:20:40.508 Df ShareQA[16475:107733] [com.apple.UIKit:KeyWindow] Scene became target of keyboard event deferring environment: UIWindowScene: 0x1094c1180; scene identity: com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Alocal.silver.shiji.nextqa.host-default
+2026-10-11 18:20:40.508 Df ShareQA[16475:10774e] [com.apple.BackBoard:EventDelivery] will update observations for 0 observers
+2026-10-11 18:20:40.508 Df ShareQA[16475:107733] [com.apple.UIKit:KeyWindow] Stack[KeyWindow] 0x109609e60: Taking no further action for migration from LastOneWins -> SystemShellManaged as there are no scenes
+2026-10-11 18:20:40.508 Df ShareQA[16475:107733] [com.apple.UIKit:KeyWindow] Setting default evaluation strategy for UIUserInterfaceIdiomPhone to SystemShellManaged
+2026-10-11 18:20:40.508 Df ShareQA[16475:107733] [com.apple.UIKit:KeyWindow] Key window needs update: 0; currentKeyWindowScene: 0x0; evaluatedKeyWindowScene: 0x1094c1180; currentApplicationKeyWindow: 0x0; evaluatedApplicationKeyWindow: 0x0; reason: UIWindowScene: 0x1094c1180: Window scene became target of keyboard environment
+2026-10-11 18:20:40.508 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x1094c1180> (850A1085-4E05-4A62-BFFC-1515C54670BE)
+2026-10-11 18:20:40.509 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x1094c1180> (850A1085-4E05-4A62-BFFC-1515C54670BE)
+2026-10-11 18:20:40.509 Df ShareQA[16475:107733] [com.apple.BackBoard:EventDelivery] policy observer <BKSHIDEventDeliveryPolicyObserver: 0x1095e2c30; process scope; policy: UNKNOWN> added
+2026-10-11 18:20:40.509 Df ShareQA[16475:107733] [com.apple.BackBoard:EventDelivery] [BKSHIDEventObserver] set observing:YES
+2026-10-11 18:20:40.510 Df ShareQA[16475:107733] [com.apple.BackBoard:EventDelivery] policyStatus:<BKSHIDEventDeliveryPolicyObserver: 0x1095e2c30; process scope; <target; generation: 130; finalStringToken>> was:(null)
+2026-10-11 18:20:40.510 Df ShareQA[16475:107733] [com.apple.BackBoard:EventDelivery] [BKSHIDEventObserver] 0x1095e2c30  setToken:com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Alocal.silver.shiji.nextqa.host-default
+2026-10-11 18:20:40.510 Df ShareQA[16475:10774e] [com.apple.BackBoard:EventDelivery] will update observations for 0 observers
+2026-10-11 18:20:40.510 Df ShareQA[16475:107733] [com.apple.UIKit:KeyboardFocusAssistant] Event deferring policy changed: finalScene:N->Y (token: com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Alocal.silver.shiji.nextqa.host-default)
+2026-10-11 18:20:40.510 Df ShareQA[16475:107733] [com.apple.UIKit:KeyboardSceneDelegate] Scene gained keyboard focus (scene: <UIWindowScene: 0x1094c1180>, responder: (nil), wantsKB: N)
+2026-10-11 18:20:40.512 Df ShareQA[16475:107733] [com.apple.UIKit:KeyboardArbiterClientLog] isWritingToolsHandlingKeyboardTracking:Y (WT ready:Y, Arbiter ready:Y)
+2026-10-11 18:20:40.513 Df ShareQA[16475:107733] [com.apple.UIKit:KeyboardArbiterClientLog] -[_UIRemoteKeyboards prepareToMoveKeyboard:withIAV:isIAVRelevant:showing:notifyRemote:forScene:] position: {{0, 0}, {0, 0}} visible: 0; notifyRemote: 1; isMinimized: NO
+2026-10-11 18:20:40.513 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x1094c1180> (850A1085-4E05-4A62-BFFC-1515C54670BE)
+2026-10-11 18:20:40.513 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x1094c1180> (850A1085-4E05-4A62-BFFC-1515C54670BE)
+2026-10-11 18:20:40.513 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x1094c1180> (850A1085-4E05-4A62-BFFC-1515C54670BE)
+2026-10-11 18:20:40.513 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x1094c1180> (850A1085-4E05-4A62-BFFC-1515C54670BE)
+2026-10-11 18:20:40.513 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x1094c1180> (850A1085-4E05-4A62-BFFC-1515C54670BE)
+2026-10-11 18:20:40.513 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x1094c1180> (850A1085-4E05-4A62-BFFC-1515C54670BE)
+2026-10-11 18:20:40.513 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x1094c1180> (850A1085-4E05-4A62-BFFC-1515C54670BE)
+2026-10-11 18:20:40.517 Df ShareQA[16475:107733] [com.apple.UIKit:KeyboardScene] Requesting keyboard scene for (FBSceneManager):sceneID:local.silver.shiji.nextqa.host-default
+2026-10-11 18:20:40.517 Df ShareQA[16475:107733] [com.apple.xpc:connection] [0x10655b980] activating connection: mach=false listener=false peer=false name=(anonymous)
+2026-10-11 18:20:40.517 Df ShareQA[16475:107733] [com.apple.FrontBoard:Common] FBSWorkspace registering source: com.apple.UIKit.KeyboardManagement.hosted
+2026-10-11 18:20:40.518 Df ShareQA[16475:107733] [com.apple.FrontBoard:Common] FBSWorkspace connected to endpoint : <BSServiceConnectionEndpoint: 0x1094a9b00; target: NL:com.apple.UIKit.KeyboardManagement.hosted; service: com.apple.frontboard.workspace-service>
+2026-10-11 18:20:40.524 A  ShareQA[16475:10774e] (RunningBoardServices) didChangeInheritances
+2026-10-11 18:20:40.526 Df ShareQA[16475:107751] [com.apple.FrontBoard:Common] <FBSWorkspaceScenesClient:0x1064b70c0 com.apple.UIKit.KeyboardManagement.hosted> attempting delayed handshake from activation handler
+2026-10-11 18:20:40.526 Df ShareQA[16475:107751] [com.apple.FrontBoard:Common] <FBSWorkspaceScenesClient:0x1064b70c0 com.apple.UIKit.KeyboardManagement.hosted> sent handshake
+2026-10-11 18:20:40.550 Df ShareQA[16475:107751] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UIKeyboardInputSceneSettings> on FBSSceneSettings
+2026-10-11 18:20:40.554 Df ShareQA[16475:107751] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UIKeyboardInputSceneClientSettings> on FBSSceneClientSettings
+2026-10-11 18:20:40.639 Df ShareQA[16475:107751] [com.apple.xpc:connection] [0x109678c80] activating connection: mach=true listener=false peer=false name=com.apple.fontservicesd
+2026-10-11 18:20:40.719 Df ShareQA[16475:107733] [com.apple.UIKit:Orientation] <UIWindowScene: 0x1094c1180> (850A1085-4E05-4A62-BFFC-1515C54670BE) Scene updated orientation preferences: none -> ( Pu Ll Lr )
+2026-10-11 18:20:40.721 Df ShareQA[16475:107733] [com.apple.UIKit:KeyWindow] Key window API is scene-level: YES
+2026-10-11 18:20:40.721 Df ShareQA[16475:107733] [com.apple.UIKit:KeyWindow] UIWindowScene: 0x1094c1180: Window became key in scene: UIWindow: 0x106584000; contextId: 0xB6B00E4E: reason: UIWindowScene: 0x1094c1180: Window requested to become key in scene: 0x106584000
+2026-10-11 18:20:40.721 Df ShareQA[16475:107733] [com.apple.UIKit:KeyWindow] Key window needs update: 1; currentKeyWindowScene: 0x0; evaluatedKeyWindowScene: 0x1094c1180; currentApplicationKeyWindow: 0x0; evaluatedApplicationKeyWindow: 0x106584000; reason: UIWindowScene: 0x1094c1180: Window requested to become key in scene: 0x106584000
+2026-10-11 18:20:40.721 Df ShareQA[16475:107733] [com.apple.UIKit:KeyWindow] Window did become application key: UIWindow: 0x106584000; contextId: 0xB6B00E4E; scene identity: com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Alocal.silver.shiji.nextqa.host-default
+2026-10-11 18:20:40.722 Df ShareQA[16475:107733] [com.apple.UIKit:EventDeferring] [0x1066ff000] Begin local event deferring requested for token: 0x10665daa0; environments: 1; reason: UIWindowScene: 0x1094c1180: Begin event deferring in keyboardFocus for window: 0x106584000
+2026-10-11 18:20:40.723 Df ShareQA[16475:107733] [com.apple.UIKit:EventDeferring] [0x1066ff000] [keyboardFocus] Start observing context for local target window: 0x106584000; contextId: 0xB6B00E4E
+2026-10-11 18:20:40.724 Df ShareQA[16475:107733] [com.apple.UIKit:EventDeferring] [0x1066ff000] [keyboardFocus] Began tracking context for local target window: 0x106584000; contextId: 0xB6B00E4E
+2026-10-11 18:20:40.724 Df ShareQA[16475:10774e] [com.apple.BackBoard:EventDelivery] BKSHIDEventDeliveryManager - connection activation
+2026-10-11 18:20:40.725 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x1094c1180> (850A1085-4E05-4A62-BFFC-1515C54670BE)
+2026-10-11 18:20:40.725 Df ShareQA[16475:10774e] [com.apple.BackBoard:EventDelivery] will update observations for 2 observers
+2026-10-11 18:20:40.725 Df ShareQA[16475:10774e] [com.apple.BackBoard:EventDelivery] policyStatus:<0x1095e2c30; _UIKeyboardFocusAssistant-0x10644d140; fb/FBSceneManager:sceneID%3Alocal.silver.shiji.nextqa.host-default; <ancestor; generation: 131; finalStringToken>> was:<target; generation: 130; finalStringToken>
+2026-10-11 18:20:40.725 Df ShareQA[16475:10774e] [com.apple.BackBoard:EventDelivery] [BKSHIDEventObserver] policyDidChange: 0x1095e2c30 -> <_UIKeyboardFocusAssistant: 0x10644d140> now:<ancestor; generation: 131; finalStringToken>
+2026-10-11 18:20:40.725 Df ShareQA[16475:10774e] [com.apple.BackBoard:EventDelivery] policyStatus:<0x1095e3410; _UIKeyWindowSceneObserver-0x109609320; fb/FBSceneManager:sceneID%3Alocal.silver.shiji.nextqa.host-default; <ancestor; generation: 131; finalStringToken>> was:<target; generation: 130; finalStringToken>
+2026-10-11 18:20:40.725 Df ShareQA[16475:10774e] [com.apple.BackBoard:EventDelivery] [BKSHIDEventObserver] policyDidChange: 0x1095e3410 -> <_UIKeyWindowSceneObserver: 0x109609320> now:<ancestor; generation: 131; finalStringToken>
+2026-10-11 18:20:40.725 Df ShareQA[16475:10774e] [com.apple.BackBoard:EventDelivery] [BKSHIDEventObserver] policy-per (
+    <0x1095e2c30; _UIKeyboardFocu…ant-0x10644d140; fb/FBSceneManag…qa.host-default; <ancestor; generation: 131; finalStringToken>>,
+    <0x1095e3410; _UIKeyWindowSce…ver-0x109609320; fb/FBSceneManag…qa.host-default; <ancestor; generation: 131; finalStringToken>>
+)
+2026-10-11 18:20:40.732 Df ShareQA[16475:107733] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:local.silver.shiji.nextqa.host-default  persistentID: 850A1085-4E05-4A62-BFFC-1515C54670BE
+2026-10-11 18:20:40.732 Df ShareQA[16475:107733] [com.apple.UIKit:Application] Ignoring already applied deactivation reason: 5; deactivation reasons: 2080
+2026-10-11 18:20:40.733 Df ShareQA[16475:107733] [com.apple.UIKit:Application] Deactivation reason added: 12; deactivation reasons: 2080 -> 6176; animating application lifecycle event: 1
+2026-10-11 18:20:40.733 Df ShareQA[16475:107733] [com.apple.UIKit:Application] Deactivation reason removed: 11; deactivation reasons: 6176 -> 4128; animating application lifecycle event: 1
+2026-10-11 18:20:40.735 Df ShareQA[16475:107733] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneIntelligenceSupportSettings> on FBSSceneSettings
+2026-10-11 18:20:40.737 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x1094c1180> (850A1085-4E05-4A62-BFFC-1515C54670BE)
+2026-10-11 18:20:40.737 Df ShareQA[16475:107733] [com.apple.FrontBoard:SceneExtension] Ingesting properties from UIApplicationSceneSettings...
+2026-10-11 18:20:40.739 Df ShareQA[16475:107751] [com.apple.UIIntelligenceSupport:xpc] establishing connection to agent
+2026-10-11 18:20:40.740 Df ShareQA[16475:107751] [com.apple.xpc:session] [0x1095f9e50] Session created.
+2026-10-11 18:20:40.740 Df ShareQA[16475:107751] [com.apple.xpc:session] [0x1095f9e50] Session created from connection [0x1096cf340]
+2026-10-11 18:20:40.740 Df ShareQA[16475:107751] [com.apple.xpc:connection] [0x1096cf340] activating connection: mach=true listener=false peer=false name=com.apple.uiintelligencesupport.agent
+2026-10-11 18:20:40.740 Df ShareQA[16475:107751] [com.apple.xpc:session] [0x1095f9e50] Session activated
+2026-10-11 18:20:40.749 Df ShareQA[16475:10774e] [com.apple.UIIntelligenceSupport:xpc] Connection established with agent PID: 16152
+2026-10-11 18:20:40.759 Df ShareQA[16475:107733] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <UIApplicationSceneSettings[derived]> on FBSSceneSettings
+2026-10-11 18:20:40.766 Df ShareQA[16475:107733] [com.apple.UIKit:ScenePostSettingsUpdateResponse] <_UIScenePostSettingsUpdateResponseComponent: 0x10960ba80>: Scheduling <_UIScenePostSettingsUpdateWindowLayout: 0x1066243a0>
+2026-10-11 18:20:40.769 Df ShareQA[16475:107733] [com.apple.UIKit:ScenePostSettingsUpdateResponse] <_UIScenePostSettingsUpdateResponseComponent: 0x10960ba80>: Reducing <_UIScenePostSettingsUpdateWindowLayout: 0x106624650> into <_UIScenePostSettingsUpdateWindowLayout: 0x1066243a0>
+2026-10-11 18:20:40.769 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x1094c1180> (850A1085-4E05-4A62-BFFC-1515C54670BE)
+2026-10-11 18:20:40.770 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x1094c1180> (850A1085-4E05-4A62-BFFC-1515C54670BE)
+2026-10-11 18:20:40.880 Df ShareQA[16475:107733] [com.apple.xpc:connection] [0x1096fc3c0] activating connection: mach=true listener=false peer=false name=com.apple.lsd.mapdb
+2026-10-11 18:20:40.883 A  ShareQA[16475:107752] (RunningBoardServices) didChangeInheritances
+2026-10-11 18:20:40.927 A  ShareQA[16475:10776c] (RunningBoardServices) didChangeInheritances
+2026-10-11 18:20:40.972 Df ShareQA[16475:107751] [com.apple.UIKit:BackgroundTask] Ending background task with UIBackgroundTaskIdentifier: 2
+2026-10-11 18:20:40.972 Df ShareQA[16475:107751] [com.apple.UIKit:BackgroundTask] Ending task with identifier 2 and description: <_UIBackgroundTaskInfo: 0x10645f5c0>: taskID = 2, taskName = Persistent SceneSession Map Update, creationTime = 47986 (elapsed = 1), _expireHandler: <__NSGlobalBlock__: 0x222a2e0c0>
+2026-10-11 18:20:40.972 Df ShareQA[16475:107751] [com.apple.UIKit:BackgroundTask] Decrementing reference count for assertion <BKSProcessAssertion: 0x1095f8050> (used by background task with identifier 2: <_UIBackgroundTaskInfo: 0x10645f5c0>: taskID = 2, taskName = Persistent SceneSession Map Update, creationTime = 47986 (elapsed = 1))
+2026-10-11 18:20:40.972 Df ShareQA[16475:107751] [com.apple.UIKit:BackgroundTask] Will invalidate assertion: <BKSProcessAssertion: 0x1095f8050> for task identifier: 2
+2026-10-11 18:20:41.032 A  ShareQA[16475:107751] (RunningBoardServices) didChangeInheritances
+2026-10-11 18:20:41.091 Df ShareQA[16475:107752] [com.apple.BackBoard:EventDelivery] will update observations for 2 observers
+2026-10-11 18:20:41.092 Df ShareQA[16475:107752] [com.apple.BackBoard:EventDelivery] [BKSHIDEventObserver] policy-per (
+    <0x1095e2c30; _UIKeyboardFocu…ant-0x10644d140; fb/FBSceneManag…qa.host-default; <ancestor; generation: 131; finalStringToken>>,
+    <0x1095e3410; _UIKeyWindowSce…ver-0x109609320; fb/FBSceneManag…qa.host-default; <ancestor; generation: 131; finalStringToken>>
+)
+2026-10-11 18:20:41.290 Df ShareQA[16475:107752] [com.apple.CoreAnalytics:client] No XPC connection in Simulator
+2026-10-11 18:20:41.292 Df ShareQA[16475:107733] [com.apple.network:activity] Create activity from XPC object <nw_activity 50:1 [326DD190-923C-467D-B924-E9312B9582A0] (reporting strategy default)>
+2026-10-11 18:20:41.292 Df ShareQA[16475:107733] [com.apple.network:activity] Create activity from XPC object <nw_activity 50:2 [4812785C-5DF6-48D2-864C-C36D55E10D39] (reporting strategy default)>
+2026-10-11 18:20:41.292 Df ShareQA[16475:107733] [com.apple.network:activity] Set activity <nw_activity 50:1 [326DD190-923C-467D-B924-E9312B9582A0] (reporting strategy default)> as the global parent
+2026-10-11 18:20:41.293 E  ShareQA[16475:107752] [com.apple.app_launch_measurement:General] Failed to send CA Event for app launch measurements for ca_event_type: 0 event_name: com.apple.app_launch_measurement.FirstFramePresentationMetric
+2026-10-11 18:20:41.295 Df ShareQA[16475:107733] [com.apple.Accessibility:AXCommon] Read Per-App on Init: Smart invert = (null)
+2026-10-11 18:20:41.314 A  ShareQA[16475:107733] (CoreFoundation) Updating Key-Value Observers Of Preferences
+2026-10-11 18:20:41.324 Df ShareQA[16475:107733] [com.apple.UIKit:KeyboardFocusAssistant] Event deferring policy changed: finalScene:Y->Y (token: com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Alocal.silver.shiji.nextqa.host-default)
+2026-10-11 18:20:41.324 Df ShareQA[16475:107733] [com.apple.UIKit:EventDeferring] [0x1066ff000] Scene target of event deferring environments did update: scene: 0x1094c1180; current systemShellManagesKeyboardFocus: 1; systemShellManagesKeyboardFocusForScene: 1; eligibleForRecordRemoval: 1;
+2026-10-11 18:20:41.324 Df ShareQA[16475:107733] [com.apple.UIKit:KeyWindow] Scene became target of keyboard event deferring environment: UIWindowScene: 0x1094c1180; scene identity: com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Alocal.silver.shiji.nextqa.host-default
+2026-10-11 18:20:41.329 Df ShareQA[16475:107733] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:local.silver.shiji.nextqa.host-default  persistentID: 850A1085-4E05-4A62-BFFC-1515C54670BE
+2026-10-11 18:20:41.332 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x1094c1180> (850A1085-4E05-4A62-BFFC-1515C54670BE)
+2026-10-11 18:20:41.333 Df ShareQA[16475:107733] [com.apple.FrontBoard:SceneExtension] Realizing settings extension SBUISecureRenderingSettingsExtension on FBSSceneSettings
+2026-10-11 18:20:41.431 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x1094c1180> (850A1085-4E05-4A62-BFFC-1515C54670BE)
+2026-10-11 18:20:41.450 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x1094c1180> (850A1085-4E05-4A62-BFFC-1515C54670BE)
+2026-10-11 18:20:41.450 Df ShareQA[16475:107733] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:local.silver.shiji.nextqa.host-default  persistentID: 850A1085-4E05-4A62-BFFC-1515C54670BE
+2026-10-11 18:20:41.450 Df ShareQA[16475:107733] [com.apple.UIKit:Application] Deactivation reason removed: 12; deactivation reasons: 4128 -> 32; animating application lifecycle event: 1
+2026-10-11 18:20:41.450 Df ShareQA[16475:107733] [com.apple.KeyboardArbiter:Client] Send setDeactivating: N (-DeactivationReason:SuspendedEventsOnly)
+2026-10-11 18:20:41.450 Df ShareQA[16475:107733] [com.apple.UIKit:Application] Deactivation reason removed: 5; deactivation reasons: 32 -> 0; animating application lifecycle event: 0
+2026-10-11 18:20:41.451 Df ShareQA[16475:107733] [com.apple.KeyboardArbiter:Client] applicationDidBecomeActive (force:N)
+2026-10-11 18:20:41.452 Df ShareQA[16475:107733] [com.apple.UIKit:ScenePostSettingsUpdateResponse] <_UIScenePostSettingsUpdateResponseComponent: 0x10960ba80>: Scheduling <_UIScenePostSettingsUpdateWindowLayout: 0x106625870>
+2026-10-11 18:20:41.452 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x1094c1180> (850A1085-4E05-4A62-BFFC-1515C54670BE)
+2026-10-11 18:20:41.452 Df ShareQA[16475:107733] [com.apple.UIKit:DisplayLink] Legacy remapping target changed from '(null)' to '0BE2824F-F1CD-4A45-94F8-FE1C13E4665E'
+2026-10-11 18:20:41.535 Df ShareQA[16475:107733] [com.apple.UIKit:UIScreen] Evaluated capturing state as 0 on <UIScreen: 0x1096fdf40> for initial
+2026-10-11 18:20:41.536 Df ShareQA[16475:107733] [com.apple.UIKit:UIScreen] Evaluated capturing state as 0 on <UIScreen: 0x1096fdf40> for CADisplay KVO
+2026-10-11 18:20:41.539 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 0, <_UIKeyboardInputScene: 0x106790c80> (KeyboardInputScene-com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Alocal.silver.shiji.nextqa.host-default)
+2026-10-11 18:20:41.539 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Should send trait collection or coordinate space update, interface style 1 -> 1, <_UIKeyboardInputScene: 0x106790c80> (KeyboardInputScene-com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Alocal.silver.shiji.nextqa.host-default)
+2026-10-11 18:20:41.540 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 0, <_UIKeyboardInputScene: 0x106790c80> (KeyboardInputScene-com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Alocal.silver.shiji.nextqa.host-default)
+2026-10-11 18:20:41.540 Df ShareQA[16475:107733] [com.apple.UIKit:HomeAffordanceObservation] Initializing: <_UIHomeAffordanceSceneNotifier: 0x1095a9030>; with scene: <_UIKeyboardInputScene: 0x106790c80>
+2026-10-11 18:20:41.540 Df ShareQA[16475:107733] [com.apple.BacklightServices:scenes] 0x109510540 setDelegate:<0x1095104b0 _UIBacklightEnvironment> hasDelegate:YES for environment:KeyboardInputScene-com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Alocal.silver.shiji.nextqa.host-default
+2026-10-11 18:20:41.541 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 0, <_UIKeyboardInputScene: 0x106790c80> (KeyboardInputScene-com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Alocal.silver.shiji.nextqa.host-default)
+2026-10-11 18:20:41.541 Df ShareQA[16475:107733] [com.apple.UIKit:EventDeferring] [0x1097da400] Initialized with scene: <_UIKeyboardInputScene: 0x106790c80>; behavior: <_UIEventDeferringBehavior_iOS: 0x1097cca20>; availableForProcess: 1, systemShellManagesKeyboardFocus: 1
+2026-10-11 18:20:41.541 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 0, <_UIKeyboardInputScene: 0x106790c80> (KeyboardInputScene-com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Alocal.silver.shiji.nextqa.host-default)
+2026-10-11 18:20:41.541 Df ShareQA[16475:107733] [com.apple.BackBoard:EventDelivery] policy observer <BKSHIDEventDeliveryPolicyObserver: 0x1095a8fc0; process scope; policy: UNKNOWN> added
+2026-10-11 18:20:41.541 Df ShareQA[16475:107733] [com.apple.BackBoard:EventDelivery] [BKSHIDEventObserver] set observing:YES
+2026-10-11 18:20:41.542 Df ShareQA[16475:107733] [com.apple.BackBoard:EventDelivery] policyStatus:<BKSHIDEventDeliveryPolicyObserver: 0x1095a8fc0; process scope; <target; generation: 132>> was:(null)
+2026-10-11 18:20:41.542 Df ShareQA[16475:107751] [com.apple.BackBoard:EventDelivery] will update observations for 0 observers
+2026-10-11 18:20:41.542 Df ShareQA[16475:107733] [com.apple.BackBoard:EventDelivery] [BKSHIDEventObserver] 0x1095a8fc0 _UIKeyWindowSceneObserver-0x1095105a0 setToken:com.apple.UIKit.KeyboardManagement.hosted/com.apple.InputUI.keyboard:KeyboardInputScene-com.apple.frontboard.systemappservices%2FFBSceneManager%3AsceneID%253Alocal.silver.shiji.nextqa.host-default
+2026-10-11 18:20:41.542 Df ShareQA[16475:107733] [com.apple.BackBoard:EventDelivery] policyStatus:<0x1095a8fc0; _UIKeyWindowSceneObserver-0x1095105a0; com.apple.UIKit.KeyboardManagement.hosted/com.apple.InputUI.keyboard:KeyboardInputScene-com.apple.frontboard.systemappservices%2FFBSceneManager%3AsceneID%253Alocal.silver.shiji.nextqa.host-default; <none; generation: 0>> was:<target; generation: 132>
+2026-10-11 18:20:41.542 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 0, <_UIKeyboardInputScene: 0x106790c80> (KeyboardInputScene-com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Alocal.silver.shiji.nextqa.host-default)
+2026-10-11 18:20:41.542 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 0, <_UIKeyboardInputScene: 0x106790c80> (KeyboardInputScene-com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Alocal.silver.shiji.nextqa.host-default)
+2026-10-11 18:20:41.542 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 0, <_UIKeyboardInputScene: 0x106790c80> (KeyboardInputScene-com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Alocal.silver.shiji.nextqa.host-default)
+2026-10-11 18:20:41.542 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 0, <_UIKeyboardInputScene: 0x106790c80> (KeyboardInputScene-com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Alocal.silver.shiji.nextqa.host-default)
+2026-10-11 18:20:41.543 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 0, <_UIKeyboardInputScene: 0x106790c80> (KeyboardInputScene-com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Alocal.silver.shiji.nextqa.host-default)
+2026-10-11 18:20:41.543 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 0, <_UIKeyboardInputScene: 0x106790c80> (KeyboardInputScene-com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Alocal.silver.shiji.nextqa.host-default)
+2026-10-11 18:20:41.543 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 0, <_UIKeyboardInputScene: 0x106790c80> (KeyboardInputScene-com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Alocal.silver.shiji.nextqa.host-default)
+2026-10-11 18:20:41.543 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 0, <_UIKeyboardInputScene: 0x106790c80> (KeyboardInputScene-com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Alocal.silver.shiji.nextqa.host-default)
+2026-10-11 18:20:41.543 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 0, <_UIKeyboardInputScene: 0x106790c80> (KeyboardInputScene-com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Alocal.silver.shiji.nextqa.host-default)
+2026-10-11 18:20:41.546 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 0, <_UIKeyboardInputScene: 0x106790c80> (KeyboardInputScene-com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Alocal.silver.shiji.nextqa.host-default)
+2026-10-11 18:20:41.547 Df ShareQA[16475:107733] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:local.silver.shiji.nextqa.host-default  persistentID: 850A1085-4E05-4A62-BFFC-1515C54670BE
+2026-10-11 18:20:41.547 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 0, <_UIKeyboardInputScene: 0x106790c80> (KeyboardInputScene-com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Alocal.silver.shiji.nextqa.host-default)
+2026-10-11 18:20:41.570 Df ShareQA[16475:107733] [com.apple.UIKit:KeyboardScene] Notifying observers of geometry update -> app scene 1: {{0, 0}, {402, 874}}, keyboard scene: 1: {{0, 0}, {402, 874}}
+2026-10-11 18:20:41.570 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 0, <_UIKeyboardInputScene: 0x106790c80> (KeyboardInputScene-com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Alocal.silver.shiji.nextqa.host-default)
+2026-10-11 18:20:41.570 Df ShareQA[16475:107733] [com.apple.UIKit:ScenePostSettingsUpdateResponse] <_UIScenePostSettingsUpdateResponseComponent: 0x1095115f0>: Scheduling <_UIScenePostSettingsUpdateWindowLayout: 0x106626080>
+2026-10-11 18:20:41.570 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 0, <_UIKeyboardInputScene: 0x106790c80> (KeyboardInputScene-com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Alocal.silver.shiji.nextqa.host-default)
+2026-10-11 18:20:41.570 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 0, <_UIKeyboardInputScene: 0x106790c80> (KeyboardInputScene-com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Alocal.silver.shiji.nextqa.host-default)
+2026-10-11 18:20:41.605 Df ShareQA[16475:107733] [com.apple.KeyboardArbiter:Client] applicationWillResume note:UIApplicationWillEnterForegroundNotification
+2026-10-11 18:20:41.605 Df ShareQA[16475:107733] [com.apple.KeyboardArbiter:Client] startConnection
+2026-10-11 18:20:41.811 Df ShareQA[16475:107733] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:local.silver.shiji.nextqa.host-default  persistentID: 850A1085-4E05-4A62-BFFC-1515C54670BE
+2026-10-11 18:20:41.834 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Scene did update interface style to 1, <_UIKeyboardInputScene: 0x106790c80> (KeyboardInputScene-com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Alocal.silver.shiji.nextqa.host-default)
+2026-10-11 18:20:41.838 Df ShareQA[16475:107733] [com.apple.UIKit:InterfaceStyle] Push traits update to screen for new style 1, <_UIKeyboardInputScene: 0x106790c80> (KeyboardInputScene-com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Alocal.silver.shiji.nextqa.host-default)
+2026-10-11 18:20:41.867 Df ShareQA[16475:107733] [com.apple.UIKit:KeyboardScene] Keyboard scene for com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Alocal.silver.shiji.nextqa.host-default successfully connected: com.apple.UIKit.KeyboardManagement.hosted/com.apple.InputUI.keyboard:KeyboardInputScene-com.apple.frontboard.systemappservices%2FFBSceneManager%3AsceneID%253Alocal.silver.shiji.nextqa.host-default
+2026-10-11 18:20:41.867 Df ShareQA[16475:107733] [com.apple.UIKit:KeyboardScene] reloadInputViews for keyboard scene com.apple.UIKit.KeyboardManagement.hosted/com.apple.InputUI.keyboard:KeyboardInputScene-com.apple.frontboard.systemappservices%2FFBSceneManager%3AsceneID%253Alocal.silver.shiji.nextqa.host-default
+2026-10-11 18:20:41.867 Df ShareQA[16475:107733] [com.apple.UIKit:KeyboardSceneDelegate] forceReloadInputViews
+2026-10-11 18:20:41.867 Df ShareQA[16475:107733] [com.apple.UIKit:KeyboardSceneDelegate] Try reloading input views for responder:(nil) requiresKB:N force:Y scene-identity:com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Alocal.silver.shiji.nextqa.host-default
+2026-10-11 18:20:41.867 Df ShareQA[16475:107733] [com.apple.UIKit:KeyboardSceneDelegate] Reloading input views for key-window scene responder:(nil) requiresKB:N force:Y scene-identity:com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Alocal.silver.shiji.nextqa.host-default
+2026-10-11 18:20:41.870 Df ShareQA[16475:107733] [com.apple.KeyboardArbiter:Client] startConnection callback handleKeyboardChange:N (hasFocus:Y hasActiveInput:N expectingInitialState:Y disabled:N hasInfo:N isWritingTOols:N)
+2026-10-11 18:20:41.941 Df ShareQA[16475:107733] [com.apple.network:] networkd_settings_read_from_file_locked initialized networkd settings by reading plist directly
+2026-10-11 18:20:41.948 Df ShareQA[16475:107733] [com.apple.network:] networkd_settings_read_from_file_locked initialized networkd settings by reading plist directly
+2026-10-11 18:20:41.955 Df ShareQA[16475:107733] [com.apple.network:activity] <nw_activity 50:1 [326DD190-923C-467D-B924-E9312B9582A0] (global parent) (reporting strategy default) complete (reason success)> complete with reason 2 (success), duration 8138ms
+2026-10-11 18:20:41.955 Df ShareQA[16475:107733] [com.apple.network:activity] <nw_activity 50:2 [4812785C-5DF6-48D2-864C-C36D55E10D39] (reporting strategy default) complete (reason success)> complete with reason 2 (success), duration 8149ms
+2026-10-11 18:20:41.955 Df ShareQA[16475:107733] [com.apple.network:activity] Unsetting the global parent activity <nw_activity 50:1 [326DD190-923C-467D-B924-E9312B9582A0] (global parent) (reporting strategy default) complete (reason success)>
+2026-10-11 18:20:41.955 Df ShareQA[16475:107733] [com.apple.network:activity] Unset the global parent activity
+2026-10-11 18:20:41.955 Df ShareQA[16475:107733] [com.apple.app_launch_measurement:ApplicationLaunch] alm_release_pageins_recording_assertion: releasing pageins recording assertion
+2026-10-11 18:20:41.955 E  ShareQA[16475:10776c] [com.apple.app_launch_measurement:General] Failed to send CA Event for app launch measurements for ca_event_type: 1 event_name: com.apple.app_launch_measurement.ExtendedLaunchMetrics
+2026-10-11 18:20:42.108 Df ShareQA[16475:107733] [com.apple.Accessibility:AXCommon] Loading PDFKit
+2026-10-11 18:20:43.509 Df ShareQA[16475:107733] [com.apple.BackBoard:Display] [FBSDisplaySource 1-1] silently connecting raw configuration: <FBSDisplayConfiguration: 0x1097b0800; Main; mode: "402x874@3x 60Hz p3 SDR">
+2026-10-11 18:20:48.512 Df ShareQA[16475:107733] (libMobileGestalt.dylib) Property isp[camera-front] found {length = 4, bytes = 0x01000000}
+2026-10-11 18:20:48.513 A  ShareQA[16475:107733] (CoreFoundation) Updating Key-Value Observers Of Preferences
+2026-10-11 18:20:48.800 A  ShareQA[16475:107733] (libsystem_containermanager.dylib) container_system_group_path_for_identifier
+2026-10-11 18:20:48.802 Df ShareQA[16475:107733] [com.apple.containermanager:xpc] Requesting container lookup; class = 13, identifier = (null), group_identifier = systemgroup.com.apple.configurationprofiles, create = 1, temp = 0, euid = 501, uid = 501
+2026-10-11 18:20:48.802 A  ShareQA[16475:107733] (libsystem_containermanager.dylib) container_query_t
+2026-10-11 18:20:48.802 Df ShareQA[16475:107733] [com.apple.containermanager:xpc] Query; euid = 501, uid = 501, class = 13, identifier = [(null)](0), gidentifier = [systemgroup.com.apple.configurationprofiles](1), flags = 900000003
+2026-10-11 18:20:48.803 A  ShareQA[16475:107733] (libsystem_containermanager.dylib) container_copy_object
+2026-10-11 18:20:48.803 Df ShareQA[16475:107733] [com.apple.containermanager:unspecified] container_system_group_path_for_identifier: success
+2026-10-11 18:20:48.804 Df ShareQA[16475:107733] [com.apple.ManagedConfiguration:MC] Got system group container path from MCM for systemgroup.com.apple.configurationprofiles: /Users/silver/Library/Developer/CoreSimulator/Devices/F7A8AE3C-8D8A-4214-90CB-EC8CC3148CDF/data/Containers/Shared/SystemGroup/systemgroup.com.apple.configurationprofiles
+2026-10-11 18:20:57.072 Df ShareQA[16475:107733] [com.apple.UIKit:EventBus] Event Timing Profile for Touch: not found, path="/System/Library/EventTimingProfiles/Sim.Touch.plist"
+2026-10-11 18:20:57.082 Df ShareQA[16475:107733] [com.apple.UIKit:EventDispatch] Evaluating dispatch of UIEvent: 0x1065de4c0; type: 11; subtype: 0; backing type: 11; tagged context: 0xB6B00E4E; shouldSend: 0; ignoreInteractionEvents: 0
+2026-10-11 18:20:57.082 Df ShareQA[16475:107733] [com.apple.UIKit:EventDispatch] Evaluating dispatch of UIEvent: 0x1097b0700; type: 0; subtype: 0; backing type: 11; tagged context: 0xB6B00E4E; shouldSend: 0; ignoreInteractionEvents: 0, systemGestureStateChange: 0
+2026-10-11 18:20:57.082 Df ShareQA[16475:107752] [com.apple.xpc:connection] [0x1096ce800] activating connection: mach=false listener=false peer=false name=(anonymous)
+2026-10-11 18:20:57.141 Df ShareQA[16475:107733] [com.apple.UIKit:EventDispatch] Evaluating dispatch of UIEvent: 0x1097b0700; type: 0; subtype: 0; backing type: 11; tagged context: 0xB6B00E4E; shouldSend: 1; ignoreInteractionEvents: 0, systemGestureStateChange: 0
+2026-10-11 18:20:57.144 Df ShareQA[16475:107733] [com.apple.UIKit:EventDispatch] Sending UIEvent type: 0; subtype: 0; to windows: 1; dispatchLevel: 1
+2026-10-11 18:20:57.146 Df ShareQA[16475:107733] [com.apple.UIKit:EventDispatch] Sending UIEvent type: 0; subtype: 0; to window: <UIWindow: 0x106584000>; contextId: 0xB6B00E4E
+2026-10-11 18:20:57.172 A  ShareQA[16475:107733] (UIKitCore) send control actions
+2026-10-11 18:20:57.174 Df ShareQA[16475:107733] [com.apple.UIKit:EventDispatch] Evaluating dispatch of UIEvent: 0x1097b0700; type: 0; subtype: 0; backing type: 11; tagged context: 0xB6B00E4E; shouldSend: 1; ignoreInteractionEvents: 0, systemGestureStateChange: 0
+2026-10-11 18:20:57.174 Df ShareQA[16475:107733] [com.apple.UIKit:EventDispatch] Sending UIEvent type: 0; subtype: 0; to windows: 1; dispatchLevel: 1
+2026-10-11 18:20:57.174 Df ShareQA[16475:107733] [com.apple.UIKit:EventDispatch] Sending UIEvent type: 0; subtype: 0; to window: <UIWindow: 0x106584000>; contextId: 0xB6B00E4E
+2026-10-11 18:20:57.174 A  ShareQA[16475:107733] (UIKitCore) send control actions
+2026-10-11 18:20:57.177 A  ShareQA[16475:107733] (UIKitCore) send control actions
+2026-10-11 18:20:57.197 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] UIActivityViewController: initialized with activityItems ((
+    "https://example.com/shiji-next-share-qa"
+))
+2026-10-11 18:20:57.986 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] _UIActivityViewControllerPresentationController: initialized with presentedVC:<UIActivityViewController: 0x106524000> presentingVC:(null)
+2026-10-11 18:20:57.990 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] skipping anchor source:<UIView: 0x1067541c0; frame = (0 0; 402 874); autoresize = W+H; backgroundColor = <UIDynamicSystemColor: 0x10645d780; name = systemBackgroundColor>; layer = <CALayer: 0x1065e8420>> noOverlap:<_UIActivityViewControllerPresentationController: 0x1065b0500> bothOverlap:NO for presentationController:YES
+2026-10-11 18:20:57.998 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] UIAVC: viewControllerPresnetationDidInitiate
+2026-10-11 18:20:58.000 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] UIAVC: create context:<<SHSheetContext: 0x1065a79c0> activityViewController:<UIActivityViewController: 0x106524000> activityItems:(
+    "https://example.com/shiji-next-share-qa"
+) applicationActivities:(null) activityTypesToCreateInShareService:(
+    "com.apple.UIKit.activity.RemoteExtension",
+    "com.apple.UIKit.activity.RemoteOpenInApplication"
+) sharingStyle:0 activityTypeOrder:(null) excludedActivityTypes:(null) includedActivityTypes:(null) excludedActivityCategories:0 allowsEmbedding:NO configureForCloudSharing:NO configureForPhotosEdit:NO hideHeaderView:NO hideSuggestions:NO isContentManaged:NO shouldSuggestFamilyMembers:NO showKeyboardAutomatically:NO whitelistActionActivitiesOnly:NO photosHeaderMetadata:(null) objectManipulationDelegate:(null) instantShareSheet:NO useRemoteUIService:YES peopleSuggestionBundleIds:(null) collaborationModeRestriction:(null) managedFileURL:(null) showCustomScene:NO xrRenderingMode:0>
+2026-10-11 18:20:58.000 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] Create main presenter for context:<<SHSheetContext: 0x1065a79c0> activityViewController:<UIActivityViewController: 0x106524000> activityItems:(
+    "https://example.com/shiji-next-share-qa"
+) applicationActivities:(null) activityTypesToCreateInShareService:(
+    "com.apple.UIKit.activity.RemoteExtension",
+    "com.apple.UIKit.activity.RemoteOpenInApplication"
+) sharingStyle:0 activityTypeOrder:(null) excludedActivityTypes:(null) includedActivityTypes:(null) excludedActivityCategories:0 allowsEmbedding:NO configureForCloudSharing:NO configureForPhotosEdit:NO hideHeaderView:NO hideSuggestions:NO isContentManaged:NO shouldSuggestFamilyMembers:NO showKeyboardAutomatically:NO whitelistActionActivitiesOnly:NO photosHeaderMetadata:(null) objectManipulationDelegate:(null) instantShareSheet:NO useRemoteUIService:YES peopleSuggestionBundleIds:(null) collaborationModeRestriction:(null) managedFileURL:(null) showCustomScene:NO xrRenderingMode:0>
+2026-10-11 18:20:58.007 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] Activating com.apple.sharing.sharesheet
+2026-10-11 18:20:58.063 Df ShareQA[16475:107733] [com.apple.xpc:connection] [0x1096fc500] activating connection: mach=true listener=false peer=false name=com.apple.sharing.sharesheet
+2026-10-11 18:20:58.063 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] Establishing connection
+2026-10-11 18:20:58.112 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] connection established
+2026-10-11 18:20:58.112 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] connection established
+2026-10-11 18:20:58.117 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] SharePlay: SharePlay is not supported because the app does not have the appropriate entitlement
+2026-10-11 18:20:58.117 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] SharePlay: App supports SharePlay: no
+2026-10-11 18:20:58.122 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] update collaboration items for activityItems:(
+    "https://example.com/shiji-next-share-qa"
+)
+2026-10-11 18:20:58.122 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] request collaboration items for activity items:(
+    "https://example.com/shiji-next-share-qa"
+)
+2026-10-11 18:20:58.122 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] Inspect activityItemValue:<private>, activityItemValueType:(null) activityItem:<private> activityItemType:NSURL
+2026-10-11 18:20:58.129 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] URL is not a fileURL: <private>
+2026-10-11 18:20:58.129 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] did found collaboration items:(
+)
+2026-10-11 18:20:58.129 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] Did set collaborationItems:(
+)
+2026-10-11 18:20:58.181 E  ShareQA[16475:107733] [com.apple.sharing:Utilities] Cannot issue sandbox extension for URL:<private>
+2026-10-11 18:20:58.223 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] did finish loading metadata:(
+)
+2026-10-11 18:20:58.232 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] Resolved placeholder activity item types:(
+	NSURL
+) to:(
+	NSURL
+)
+2026-10-11 18:20:58.234 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] Update activities with context:<_UIActivityMatchingContext: 0x4BCE, activityItemValueClasses: NULL, allowMatchingBuiltInActivities, matchOnlyUserElectedExtensions, activityItemValueExtensionMatchingDictionaries: NULL>
+2026-10-11 18:20:58.281 Df ShareQA[16475:107733] [com.apple.IDS:Registration] Dispatch registration success - initial state {name: kMMSEnabledDidChange, initialState: 1794268896}
+2026-10-11 18:20:58.281 Df ShareQA[16475:107733] [com.apple.IDS:Registration] Dispatch registration success - initial state {name: kRCSEnabledDidChange, initialState: 1794268936}
+2026-10-11 18:20:58.284 Df ShareQA[16475:107733] [com.apple.Registration:ServiceAvailability] <FTCServiceAvailabilityCenter: 0x106626690> adding listener `MFMessageComposeViewController:local.silver.shiji.nextqa.host#FF9F17DF-32A7-4A6C-ADD3-ADD0257AD035` for service: iMessage
+2026-10-11 18:20:58.284 Df ShareQA[16475:107733] [com.apple.Registration:ServiceAvailability] <FTCServiceAvailabilityCenter: 0x106626690> creating monitor for service: iMessage
+2026-10-11 18:20:58.284 Df ShareQA[16475:107733] [com.apple.IDS:Registration] Dispatch registration success {name: kiMessageChangedNotification}
+2026-10-11 18:20:58.287 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] UIMessageActivity: Can't send content
+2026-10-11 18:20:58.291 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] UIMailActivity: Can't display activity
+2026-10-11 18:20:58.291 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] SharePlay: SharePlay is not supported because the app does not have the appropriate entitlement
+2026-10-11 18:20:58.298 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] UIAddToHomeScreenActivity: App does not have the default browser entitlement
+2026-10-11 18:20:58.306 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] Add activities:(
+    "<UICopyToPasteboardActivity: 0x1096dd4a0> activityType:com.apple.UIKit.activity.CopyToPasteboard activityTitle:Copy",
+    "<UIAirDropActivity: 0x1096dd180> activityType:com.apple.UIKit.activity.AirDrop activityTitle:AirDrop",
+    "<UIAddToReadingListActivity: 0x1096dd400> activityType:com.apple.UIKit.activity.AddToReadingList activityTitle:Add to Reading List"
+)
+2026-10-11 18:20:58.306 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] Add activities:(
+    "<UISharePlayActivity: 0x1096dd220> activityType:com.apple.UIKit.activity.SharePlay activityTitle:SharePlay"
+)
+2026-10-11 18:20:58.366 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] Start session
+2026-10-11 18:20:58.366 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] Connection state changed:Connecting
+2026-10-11 18:20:58.366 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] Connecting to sharingd
+2026-10-11 18:20:58.386 A  ShareQA[16475:107733] (ShareSheet) Sharing/SFShareSheetSlotManager/connectToDaemonWithSessionID
+2026-10-11 18:20:58.565 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] Connection to sharingd established
+2026-10-11 18:20:58.565 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] Connection state changed:Connected
+2026-10-11 18:20:58.565 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] scene <SHSheetRemoteScene: 0x1066fca00> activating
+2026-10-11 18:20:58.565 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] scene <SHSheetRemoteScene: 0x1066fca00> setting up scene hosting
+2026-10-11 18:20:58.582 Df ShareQA[16475:107733] [com.apple.FrontBoard:ProcessWorkspace] This process will acquire finish-task workspace self-assertions.
+2026-10-11 18:20:58.582 Df ShareQA[16475:107752] [com.apple.FrontBoard:Common] no previous workspace connections state - initializing
+2026-10-11 18:20:58.582 Df ShareQA[16475:107733] [com.apple.FrontBoard:ProcessWorkspace] Registering Source for 16475 : <FBWorkspaceEventDispatcherSource: 0x1095380f0>
+2026-10-11 18:20:58.584 Df ShareQA[16475:107733] [com.apple.FrontBoard:ProcessWorkspace] [app<local.silver.shiji.nextqa.host>:16475] Registering event dispatcher at init
+2026-10-11 18:20:58.584 Df ShareQA[16475:107733] [com.apple.FrontBoard:ProcessWorkspace] Created <FBWorkspace: 0x1096dd860; <FBApplicationProcess: 0x10659ae80; app<local.silver.shiji.nextqa.host>:16475(v30DD4)>>
+2026-10-11 18:20:58.584 Df ShareQA[16475:107733] [com.apple.FrontBoard:Process] Bootstrapping app<local.silver.shiji.nextqa.host>
+2026-10-11 18:20:58.584 Df ShareQA[16475:107733] [com.apple.FrontBoard:Process] [app<local.silver.shiji.nextqa.host>:16475] Bootstrap success!
+2026-10-11 18:20:58.585 Df ShareQA[16475:107733] [com.apple.runningboard:connection] Creating side-channel connection to com.apple.runningboard
+2026-10-11 18:20:58.585 Df ShareQA[16475:107733] [com.apple.xpc:connection] [0x1096fd400] activating connection: mach=true listener=false peer=false name=com.apple.runningboard
+2026-10-11 18:20:58.586 Df ShareQA[16475:107733] [com.apple.runningboard:process] Hit the server for a process handle 1d8ba60d0000405b that resolved to: [app<local.silver.shiji.nextqa.host((null))>:16475]
+2026-10-11 18:20:58.586 Df ShareQA[16475:107733] [com.apple.FrontBoard:ProcessWorkspace] [app<local.silver.shiji.nextqa.host>:16475] Skipping workspace endpoint injector.
+2026-10-11 18:20:58.586 Df ShareQA[16475:107a26] [com.apple.FrontBoard:Process] [app<local.silver.shiji.nextqa.host>:16475] Connection to remote process established!
+2026-10-11 18:20:58.586 Df ShareQA[16475:107733] [com.apple.runningboard:process] Starting death monitoring for handle [app<local.silver.shiji.nextqa.host((null))>:16475]
+2026-10-11 18:20:58.586 Df ShareQA[16475:107733] [com.apple.runningboard:monitor] Updating configuration of monitor M16475-1
+2026-10-11 18:20:58.590 Df ShareQA[16475:107733] [com.apple.FrontBoard:ProcessWorkspace] Registering Target for UISceneHosting-local.silver.shiji.nextqa.host: <FBSceneWorkspace: 0x10665f0c0; UISceneHosting-local.silver.shiji.nextqa.host; scenes: 0>
+2026-10-11 18:20:58.590 Df ShareQA[16475:107733] [com.apple.xpc:connection] [0x1096fcc80] readying connection: mach=false listener=true peer=false name=(anonymous)
+2026-10-11 18:20:58.590 Df ShareQA[16475:107733] [com.apple.BoardServices:Bootstrap] manually activating session for domain FBWorkspace-local.silver.shiji.nextqa.host
+2026-10-11 18:20:58.590 Df ShareQA[16475:107733] [com.apple.xpc:connection] [0x1096fcc80] activating connection: mach=false listener=true peer=false name=(anonymous)
+2026-10-11 18:20:58.590 Df ShareQA[16475:107733] [com.apple.xpc:connection] [0x1096ff700] activating connection: mach=false listener=false peer=false name=(anonymous)
+2026-10-11 18:20:58.590 Df ShareQA[16475:107733] [com.apple.FrontBoard:Common] FBSWorkspace registering source: 16475:FBWorkspace-local.silver.shiji.nextqa.host
+2026-10-11 18:20:58.590 Df ShareQA[16475:107a26] [com.apple.xpc:connection] [0x1096fc8c0] activating connection: mach=false listener=false peer=true name=com.apple.xpc.anonymous.0x1096fcc80.peer[16475].0x1096fc8c0
+2026-10-11 18:20:58.590 Df ShareQA[16475:107733] [com.apple.FrontBoard:Common] FBSWorkspace connected to endpoint : <BSServiceConnectionEndpoint: 0x10b1dd620; target: 16475:FBWorkspace-local.silver.shiji.nextqa.host; service: com.apple.frontboard.workspace-service>
+2026-10-11 18:20:58.590 Df ShareQA[16475:107733] [com.apple.FrontBoard:Common] <FBSWorkspaceScenesClient:0x1096dda40 16475:FBWorkspace-local.silver.shiji.nextqa.host> attempting immediate handshake from activate
+2026-10-11 18:20:58.590 Df ShareQA[16475:107733] [com.apple.FrontBoard:Common] <FBSWorkspaceScenesClient:0x1096dda40 16475:FBWorkspace-local.silver.shiji.nextqa.host> sent handshake
+2026-10-11 18:20:58.590 Df ShareQA[16475:107752] [com.apple.FrontBoard:ProcessWorkspace] [app<local.silver.shiji.nextqa.host>:16475] Connection established.
+2026-10-11 18:20:58.594 Df ShareQA[16475:107752] [com.apple.FrontBoard:ProcessWorkspace] [app<local.silver.shiji.nextqa.host>:16475] created proxy of <BSXPCServiceConnectionProxy<FBSWorkspaceServiceServerInterface>: 0x1066fe680>
+2026-10-11 18:20:58.594 Df ShareQA[16475:107752] [com.apple.FrontBoard:ProcessWorkspace] received incoming handshake : process=<FBApplicationProcess: 0x10659ae80; app<local.silver.shiji.nextqa.host>:16475(v30DD4); taskState: Running; visibility: Unknown> remote=<BSAuditToken: 0x10947c240; AUID: 501; EUID: 501; EGID: 20; RUID: 501; RGID: 20; PID: 16475; ASID: 100041; PIDVersion: 200148> remnants=0
+2026-10-11 18:20:58.665 Df ShareQA[16475:107733] [com.apple.UIKit:KBProxyForwarding] <StateMachine:0x10947c5c0> Created with presentation environment: <0x109538ff0:<_UISceneKeyboardProxyLayerForwardingPresentationScene: 0x109538ff0> Tracking scene: <FBScene: 0x1097b0000; UISceneHosting-local.silver.shiji.nextqa.host:UIHostedScene-com.apple.sharinguiservice-E3F84281>>
+2026-10-11 18:20:58.665 Df ShareQA[16475:107733] [com.apple.UIKit:KBProxyForwarding] <ForwardingPresentationScene:0x109538ff0> Prioritized presenter: <_UIScenePresenter: 0x1095544d0; identifier: UISceneHostingView-UIHostedScene-com.apple.sharinguiservice-E3F84281; sortContext: 0>.
+2026-10-11 18:20:58.807 Df ShareQA[16475:107733] [com.apple.FrontBoard:SceneExtension] Realizing settings extension _UISceneEventDeferringSettings on FBSSceneSettings
+2026-10-11 18:20:58.849 Df ShareQA[16475:107733] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneEventDeferringClientSettings> on FBSSceneClientSettings
+2026-10-11 18:20:58.855 Df ShareQA[16475:107733] [com.apple.BackBoard:EventDelivery] [BKSHIDEventObserver] set observing:YES
+2026-10-11 18:20:58.857 Df ShareQA[16475:1077e0] [com.apple.BackBoard:EventDelivery] will update observations for 0 observers
+2026-10-11 18:20:58.859 Df ShareQA[16475:107733] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneScrollPocketSettings> on FBSSceneSettings
+2026-10-11 18:20:58.860 Df ShareQA[16475:107733] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneScrollPocketClientSettings> on FBSSceneClientSettings
+2026-10-11 18:20:58.968 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] Create main view for session:<SHSheetSession: 0x1096fc640>
+2026-10-11 18:20:58.969 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] remote scene view controller <SHSheetRemoteSceneViewController: 0x1065b0a00> installing hosting view
+2026-10-11 18:20:58.969 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] SHSheetRemoteSceneViewController: viewDidLoad
+2026-10-11 18:20:58.974 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] Created remote scene view controller:<SHSheetRemoteSceneViewController: 0x1065b0a00>
+2026-10-11 18:20:58.974 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] Install main view:<SHSheetRemoteSceneViewController: 0x1065b0a00> parentViewController:<UIActivityViewController: 0x106524000>
+2026-10-11 18:20:59.136 Df ShareQA[16475:107733] [PrototypeTools:domain] Not observing PTDefaults on customer install.
+2026-10-11 18:20:59.152 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] Update content view:<SHSheetRemoteSceneViewController: 0x1065b0a00>
+2026-10-11 18:20:59.155 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] SHSheetRemoteSceneViewController updating remote with view model: <SHSheetViewModel peopleSuggestions:(
+) peopleSuggestionProxies:(null) activities:(
+    "<UICopyToPasteboardActivity: 0x1096dd4a0> activityType:com.apple.UIKit.activity.CopyToPasteboard activityTitle:Copy",
+    "<UIAirDropActivity: 0x1096dd180> activityType:com.apple.UIKit.activity.AirDrop activityTitle:AirDrop",
+    "<UIAddToReadingListActivity: 0x1096dd400> activityType:com.apple.UIKit.activity.AddToReadingList activityTitle:Add to Reading List"
+) shareProxies:(null) actionProxies:(null) metadataValues:(
+) showOptions:NO restrictedActivityTypes:(
+)>
+2026-10-11 18:20:59.155 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] scene <SHSheetRemoteScene: 0x1066fca00> will update
+2026-10-11 18:20:59.170 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] Beginning presentation delay
+2026-10-11 18:20:59.170 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] Request initial configuration for presentation
+2026-10-11 18:20:59.170 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] Update activities with context:<_UIActivityMatchingContext: 0x030A, activityItemValueClasses: NULL, allowMatchingBuiltInActivities, matchOnlyUserElectedExtensions, activityItemValueExtensionMatchingDictionaries: NULL>
+2026-10-11 18:20:59.173 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] UIMessageActivity: Can't send content
+2026-10-11 18:20:59.173 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] UIMailActivity: Can't display activity
+2026-10-11 18:20:59.173 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] SharePlay: SharePlay is not supported because the app does not have the appropriate entitlement
+2026-10-11 18:20:59.173 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] UIAddToHomeScreenActivity: App does not have the default browser entitlement
+2026-10-11 18:20:59.173 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] Add activities:(
+    "<UICopyToPasteboardActivity: 0x1096dd4a0> activityType:com.apple.UIKit.activity.CopyToPasteboard activityTitle:Copy",
+    "<UIAirDropActivity: 0x1096dd180> activityType:com.apple.UIKit.activity.AirDrop activityTitle:AirDrop",
+    "<UIAddToReadingListActivity: 0x1096dd400> activityType:com.apple.UIKit.activity.AddToReadingList activityTitle:Add to Reading List"
+)
+2026-10-11 18:20:59.173 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] Add activities:(
+    "<UISharePlayActivity: 0x1096dd220> activityType:com.apple.UIKit.activity.SharePlay activityTitle:SharePlay"
+)
+2026-10-11 18:20:59.173 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] scene <SHSheetRemoteScene: 0x1066fca00> will update
+2026-10-11 18:20:59.174 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] Share sheet is being presented
+2026-10-11 18:20:59.174 Df ShareQA[16475:107a26] [com.apple.ShareSheet:ShareSheet] Sending configuration <UISUIActivityViewControllerConfiguration: 0x0F1A>, sessionID: DA16DFC4ABCD, excludedActivityTypes: [ "com.apple.UIKit.activity.Share" ], extensionMatchingDictionaries: [ { "attachments" : [ { "registeredTypeIdentifiers" : [ "public.url" ], } ], } ]
+2026-10-11 18:20:59.174 A  ShareQA[16475:107a26] (ShareSheet) Sharing/SFShareSheetSlotManager/sendConfiguration
+2026-10-11 18:20:59.174 Df ShareQA[16475:107733] [com.apple.FrontBoard:Scene] [UISceneHosting-local.silver.shiji.nextqa.host:UIHostedScene-com.apple.sharinguiservice-E3F84281] Setting parent scene: (FBSceneManager):sceneID:local.silver.shiji.nextqa.host-default
+2026-10-11 18:20:59.188 Df ShareQA[16475:107733] [com.apple.FrontBoard:Scene] [UISceneHosting-local.silver.shiji.nextqa.host:UIHostedScene-com.apple.sharinguiservice-E3F84281 (inactive)] propagating 18 settings from (FBSceneManager):sceneID:local.silver.shiji.nextqa.host-default
+2026-10-11 18:20:59.189 Df ShareQA[16475:107733] [com.apple.UIKit:_UIChildRemoteContentRegistry] <_UIChildRemoteContentRegistry: 0x10956cb10; parentScene: <FBSScene: 0x1064b6800>; childScenes: 1; childViewServices: 0> Registry is now tracking child scene <FBScene: 0x10b1ddda0>
+2026-10-11 18:20:59.189 Df ShareQA[16475:107733] [com.apple.FrontBoard:SceneExtension] Realizing settings extension _UISceneExternalSettingsModifierSettingsExtension on FBSSceneSettings
+2026-10-11 18:20:59.192 Df ShareQA[16475:107733] [com.apple.FrontBoard:Process] Asked to bootstrap a new process with identity: osservice<com.apple.sharinguiservice>
+2026-10-11 18:20:59.192 Df ShareQA[16475:107733] [com.apple.FrontBoard:Process] Creating process (sync=false) with identity: osservice<com.apple.sharinguiservice>
+2026-10-11 18:20:59.192 Df ShareQA[16475:107733] [com.apple.FrontBoard:ProcessWorkspace] Created <FBWorkspace: 0x1096de3a0; <FBApplicationProcess: 0x10659b900; osservice<com.apple.sharinguiservice>:<invalid>>>
+2026-10-11 18:20:59.192 Df ShareQA[16475:1077e0] [com.apple.FrontBoard:Process] Bootstrapping osservice<com.apple.sharinguiservice> with intent foreground-interactive
+2026-10-11 18:20:59.192 Df ShareQA[16475:107733] [com.apple.FrontBoard:ProcessScene] [0x10b1b40c0:UISceneHosting-local.silver.shiji.nextqa.host:UIHostedScene-com.apple.sharinguiservice-E3F84281] Initialized with connection: 0x10956c3c0.
+2026-10-11 18:20:59.194 Df ShareQA[16475:107733] [com.apple.FrontBoard:ProcessWorkspace] [osservice<com.apple.sharinguiservice>:-1] Registered new scene: <FBWorkspaceScene: 0x10b1b40c0; UISceneHosting-local.silver.shiji.nextqa.host:UIHostedScene-com.apple.sharinguiservice-E3F84281> (fromRemnant = 0)
+2026-10-11 18:20:59.194 Df ShareQA[16475:107733] [com.apple.FrontBoard:Scene] [UISceneHosting-local.silver.shiji.nextqa.host:UIHostedScene-com.apple.sharinguiservice-E3F84281][1] Scene activated.
+2026-10-11 18:20:59.194 Df ShareQA[16475:107752] [com.apple.FrontBoard:Process] [osservice<com.apple.sharinguiservice>:-1] Setting process visibility to: Foreground
+2026-10-11 18:20:59.196 Df ShareQA[16475:107733] [com.apple.FrontBoard:Scene] [UISceneHosting-local.silver.shiji.nextqa.host:UIHostedScene-com.apple.sharinguiservice-E3F84281] scene content state changed: preparing
+2026-10-11 18:20:59.197 Df ShareQA[16475:107a2c] [com.apple.FrontBoard:ProcessScene] [0x10b1b40c0:UISceneHosting-local.silver.shiji.nextqa.host:UIHostedScene-com.apple.sharinguiservice-E3F84281] Scene lifecycle state did change: Foreground
+2026-10-11 18:20:59.197 Df ShareQA[16475:107733] [com.apple.UIKit:UISceneRelationshipManagement] <_UISceneRelationshipManagementHostComponent:0x10947c500> Scene <FBScene: 0x10b1ddda0> is hosted in <UIWindowScene: 0x1094c1180>
+2026-10-11 18:20:59.197 Df ShareQA[16475:107a2c] [com.apple.FrontBoard:ProcessScene] [0x10b1b40c0:UISceneHosting-local.silver.shiji.nextqa.host:UIHostedScene-com.apple.sharinguiservice-E3F84281] Scene state did change: FV-Focal[100].
+2026-10-11 18:20:59.215 Df ShareQA[16475:107a2c] [com.apple.FrontBoard:ProcessWorkspace] [osservice<com.apple.sharinguiservice>:-1] Workspace state did change: XX-None[0] --> FV-Focal[100] (awaiting concrete target).
+2026-10-11 18:20:59.220 E  ShareQA[16475:107733] [com.apple.coreanimation:API] cannot add handler to 0 from 0 - dropping
+2026-10-11 18:20:59.254 Df ShareQA[16475:1077e0] [com.apple.FrontBoard:Process] [osservice<com.apple.sharinguiservice>:16508] Bootstrap success!
+2026-10-11 18:20:59.255 Df ShareQA[16475:1077e0] [com.apple.runningboard:process] Hit the server for a process handle 1ea745300000407c that resolved to: [osservice<com.apple.sharinguiservice>:16508]
+2026-10-11 18:20:59.255 Df ShareQA[16475:1077e0] [com.apple.FrontBoard:Process] [osservice<com.apple.sharinguiservice>:16508] Setting process task state to: Running
+2026-10-11 18:20:59.259 Df ShareQA[16475:1077e0] [com.apple.FrontBoard:ProcessWorkspace] [osservice<com.apple.sharinguiservice>:16508] Registering event dispatcher after bootstrap
+2026-10-11 18:20:59.259 Df ShareQA[16475:1077e0] [com.apple.FrontBoard:ProcessWorkspace] Registering Source for 16508 : <FBWorkspaceEventDispatcherSource: 0x10956d9b0>
+2026-10-11 18:20:59.259 Df ShareQA[16475:1077e0] [com.apple.FrontBoard:ProcessWorkspace] [osservice<com.apple.sharinguiservice>:16508] Initial launch state: FV-Focal[100].
+2026-10-11 18:20:59.259 Df ShareQA[16475:1077e0] [com.apple.FrontBoard:ProcessWorkspace] FBWorkspaceDomain: registering saved endowment 16475:FBWorkspace-local.silver.shiji.nextqa.host
+2026-10-11 18:20:59.270 Df ShareQA[16475:1077e0] [com.apple.FrontBoard:ProcessWorkspace] [osservice<com.apple.sharinguiservice>:16508] Workspace state did change: XX-None[0] --> FV-Focal[100] (assertion acquired).
+2026-10-11 18:20:59.270 Df ShareQA[16475:1077e0] [com.apple.FrontBoard:ProcessWorkspace] Updating self-assertion for unified workspace priority: BG-Opportunistic[40]
+2026-10-11 18:20:59.270 Df ShareQA[16475:1077e0] [com.apple.FrontBoard:ProcessWorkspace] [osservice<com.apple.sharinguiservice>:16508] Workspace interruption policy did change: disconnect
+2026-10-11 18:20:59.271 Df ShareQA[16475:1077e0] [com.apple.runningboard:process] Starting death monitoring for handle [osservice<com.apple.sharinguiservice>:16508]
+2026-10-11 18:20:59.272 Df ShareQA[16475:1077e0] [com.apple.FrontBoard:Process] Adding: <FBApplicationProcess: 0x10659b900; osservice<com.apple.sharinguiservice>:16508(v30E2E)>
+2026-10-11 18:20:59.272 Df ShareQA[16475:1077e0] [com.apple.runningboard:monitor] Updating configuration of monitor M16475-1
+2026-10-11 18:20:59.273 A  ShareQA[16475:107a2c] (RunningBoardServices) observedProcessStatesDidChange
+2026-10-11 18:20:59.273 Df ShareQA[16475:107a2c] [com.apple.runningboard:monitor] Received state update for 16508 (osservice<com.apple.sharinguiservice>, running-active-NotVisible
+2026-10-11 18:20:59.285 E  ShareQA[16475:107733] [com.apple.BoardServices:XPCErrors] non-launching port is incompatible with service identifier "com.apple.PointerUI.pointeruid.default-service"
+2026-10-11 18:20:59.285 Df ShareQA[16475:107733] [com.apple.UIKit:KeyboardFocusAssistant] Provenance stored for active input modality assertion has expired
+2026-10-11 18:20:59.285 E  ShareQA[16475:107733] [com.apple.UIKit:SystemGestureGate] <0x10655bac0> Gesture: System gesture gate timed out.
+2026-10-11 18:20:59.286 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] did finish serializing loaded metadata:(
+)
+2026-10-11 18:20:59.286 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] Update content view:<SHSheetRemoteSceneViewController: 0x1065b0a00>
+2026-10-11 18:20:59.286 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] SHSheetRemoteSceneViewController updating remote with view model: <SHSheetViewModel peopleSuggestions:(
+) peopleSuggestionProxies:(null) activities:(
+    "<UICopyToPasteboardActivity: 0x1096dd4a0> activityType:com.apple.UIKit.activity.CopyToPasteboard activityTitle:Copy",
+    "<UIAirDropActivity: 0x1096dd180> activityType:com.apple.UIKit.activity.AirDrop activityTitle:AirDrop",
+    "<UIAddToReadingListActivity: 0x1096dd400> activityType:com.apple.UIKit.activity.AddToReadingList activityTitle:Add to Reading List"
+) shareProxies:(null) actionProxies:(null) metadataValues:(
+) showOptions:NO restrictedActivityTypes:(
+)>
+2026-10-11 18:20:59.286 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] scene <SHSheetRemoteScene: 0x1066fca00> will update
+2026-10-11 18:20:59.296 Df ShareQA[16475:107733] [com.apple.IDS:Registration] Registering <FTDeviceSupport: 0x10b1b4000> for lockdown changes
+2026-10-11 18:20:59.301 Df ShareQA[16475:107733] [com.apple.UIKit:EventDispatch] Evaluating dispatch of UIEvent: 0x1097b0700; type: 0; subtype: 0; backing type: 11; tagged context: 0xB6B00E4E; shouldSend: 0; ignoreInteractionEvents: 1, systemGestureStateChange: 1
+2026-10-11 18:20:59.358 A  ShareQA[16475:107752] (RunningBoardServices) observedProcessStatesDidChange
+2026-10-11 18:20:59.358 Df ShareQA[16475:107752] [com.apple.runningboard:monitor] Received state update for 16508 (osservice<com.apple.sharinguiservice>, running-active-NotVisible
+2026-10-11 18:21:00.170 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] received configuration update
+2026-10-11 18:21:00.170 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] Update content view:<SHSheetRemoteSceneViewController: 0x1065b0a00>
+2026-10-11 18:21:00.170 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] SHSheetRemoteSceneViewController updating remote with view model: <SHSheetViewModel peopleSuggestions:(
+) peopleSuggestionProxies:(null) activities:(
+    "<UICopyToPasteboardActivity: 0x1096dd4a0> activityType:com.apple.UIKit.activity.CopyToPasteboard activityTitle:Copy",
+    "<UIAirDropActivity: 0x1096dd180> activityType:com.apple.UIKit.activity.AirDrop activityTitle:AirDrop",
+    "<UIAddToReadingListActivity: 0x1096dd400> activityType:com.apple.UIKit.activity.AddToReadingList activityTitle:Add to Reading List"
+) shareProxies:(null) actionProxies:(null) metadataValues:(
+) showOptions:NO restrictedActivityTypes:(
+)>
+2026-10-11 18:21:00.170 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] scene <SHSheetRemoteScene: 0x1066fca00> will update
+2026-10-11 18:21:00.176 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] Initial configuration update received
+2026-10-11 18:21:00.176 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] Preheating activities
+2026-10-11 18:21:00.176 Df ShareQA[16475:107a26] [com.apple.ShareSheet:ShareSheet] Starting Message activity preheating
+2026-10-11 18:21:00.185 Df ShareQA[16475:107a26] [com.apple.ShareSheet:ShareSheet] Finished Message activity preheating
+2026-10-11 18:21:00.189 Df ShareQA[16475:107733] [com.apple.Registration:ServiceAvailability] <FTCServiceAvailabilityCenter: 0x106626690> adding listener `MFMessageComposeViewController:local.silver.shiji.nextqa.host#37B3F068-5AA8-49FF-83B1-802A627B5F51` for service: iMessage
+2026-10-11 18:21:02.216 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] Presentation delay cancellation handler didTimeout: YES
+2026-10-11 18:21:02.217 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] UIAVC: viewControllerPresnetationDidInitiate
+2026-10-11 18:21:02.242 Df ShareQA[16475:107733] [com.apple.UIKit:Orientation] <UIWindowScene: 0x1094c1180> (850A1085-4E05-4A62-BFFC-1515C54670BE) Scene updated orientation preferences: ( Pu Ll Lr ) -> ( Pu )
+2026-10-11 18:21:02.248 Df ShareQA[16475:107733] [com.apple.FrontBoard:SceneExtension] Ingesting properties from UIApplicationSceneClientSettings...
+2026-10-11 18:21:02.280 Df ShareQA[16475:107733] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <UIApplicationSceneClientSettings[derived]> on FBSSceneClientSettings
+2026-10-11 18:21:02.294 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] SHSheetRemoteSceneViewController viewWillTransitionToSize
+2026-10-11 18:21:02.295 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] scene <SHSheetRemoteScene: 0x1066fca00> will update
+2026-10-11 18:21:02.359 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] UIAVC: view will appear
+2026-10-11 18:21:02.361 Df ShareQA[16475:107733] [com.apple.FrontBoard:Scene] [UISceneHosting-local.silver.shiji.nextqa.host:UIHostedScene-com.apple.sharinguiservice-E3F84281] Sending action(s): _UISceneHostingViewAppearanceActionHostToClient
+2026-10-11 18:21:02.519 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] SHSheetRemoteSceneViewController traitCollectionDidChange
+2026-10-11 18:21:02.519 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] scene <SHSheetRemoteScene: 0x1066fca00> will update
+2026-10-11 18:21:02.598 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] SHSheetRemoteSceneViewController traitCollectionDidChange
+2026-10-11 18:21:02.598 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] scene <SHSheetRemoteScene: 0x1066fca00> will update
+2026-10-11 18:21:02.661 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] SHSheetRemoteSceneViewController traitCollectionDidChange
+2026-10-11 18:21:02.661 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] scene <SHSheetRemoteScene: 0x1066fca00> will update
+2026-10-11 18:21:02.669 Df ShareQA[16475:107733] [com.apple.UIKit:KBProxyForwarding] <StateMachine:0x10947c5c0> Hosting window did change to <UIWindow: 0x106584000; frame = (0 0; 402 874); gestureRecognizers = <NSArray: 0x10b1dde80>; layer = <UIWindowLayer: 0x10645fd00>>.
+2026-10-11 18:21:02.669 Df ShareQA[16475:107733] [com.apple.UIKit:KBProxyForwarding] <StateMachine:0x10947c5c0> Waiting for a hosting window.
+2026-10-11 18:21:02.669 Df ShareQA[16475:107733] [com.apple.UIKit:KBProxyForwarding] <StateMachine:0x10947c5c0> Hosting environment did change to <0x10b1dfcc0:FBSScene:sceneID:local.silver.shiji.nextqa.host-default>.
+2026-10-11 18:21:02.671 A  ShareQA[16475:107a26] (RunningBoardServices) observedProcessStatesDidChange
+2026-10-11 18:21:02.671 Df ShareQA[16475:107a26] [com.apple.runningboard:monitor] Received state update for 16508 (osservice<com.apple.sharinguiservice>, running-active-NotVisible
+2026-10-11 18:21:02.690 Df ShareQA[16475:107a2c] [com.apple.xpc:connection] [0x10655af80] activating connection: mach=false listener=false peer=true name=com.apple.xpc.anonymous.0x1096fcc80.peer[16508].0x10655af80
+2026-10-11 18:21:02.706 Df ShareQA[16475:107a26] [com.apple.FrontBoard:ProcessWorkspace] [osservice<com.apple.sharinguiservice>:16508] Connection established.
+2026-10-11 18:21:02.706 Df ShareQA[16475:107a26] [com.apple.FrontBoard:ProcessWorkspace] [osservice<com.apple.sharinguiservice>:16508] created proxy of <BSXPCServiceConnectionProxy<FBSWorkspaceServiceServerInterface>: 0x10b2fc900>
+2026-10-11 18:21:02.706 Df ShareQA[16475:107a26] [com.apple.FrontBoard:ProcessScene] [0x10b1b40c0:UISceneHosting-local.silver.shiji.nextqa.host:UIHostedScene-com.apple.sharinguiservice-E3F84281] Sending scene action [Create Active][0x35f7] to process 0x10659b900 (watchdog: 10.00s)
+2026-10-11 18:21:02.706 Df ShareQA[16475:107a26] [com.apple.FrontBoard:ProcessScene] [0x10b1b40c0:UISceneHosting-local.silver.shiji.nextqa.host:UIHostedScene-com.apple.sharinguiservice-E3F84281] Sending scene create.
+2026-10-11 18:21:02.751 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] Initial configuration was already requested for presentation
+2026-10-11 18:21:02.753 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] SHSheetRemoteSceneViewController: viewIsAppearing
+2026-10-11 18:21:02.753 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] scene <SHSheetRemoteScene: 0x1066fca00> will update
+2026-10-11 18:21:02.758 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] SHSheetRemoteSceneViewController: viewDidLayoutSubviews
+2026-10-11 18:21:02.758 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] scene <SHSheetRemoteScene: 0x1066fca00> will update
+2026-10-11 18:21:02.775 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] SHSheetRemoteSceneViewController: viewDidLayoutSubviews
+2026-10-11 18:21:02.792 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] scene <SHSheetRemoteScene: 0x1066fca00> will update
+2026-10-11 18:21:02.845 Df ShareQA[16475:107a26] [com.apple.FrontBoard:Process] [osservice<com.apple.sharinguiservice>:16508] Connection to remote process established!
+2026-10-11 18:21:02.847 Df ShareQA[16475:107a26] [com.apple.FrontBoard:ProcessWorkspace] received incoming handshake : process=<FBApplicationProcess: 0x10659b900; osservice<com.apple.sharinguiservice>:16508(v30E2E); taskState: Running; visibility: Foreground> remote=<BSAuditToken: 0x1067feec0; AUID: 501; EUID: 501; EGID: 20; RUID: 501; RGID: 20; PID: 16508; ASID: 100041; PIDVersion: 200238> remnants=0
+2026-10-11 18:21:02.858 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] SHSheetRemoteSceneViewController: viewDidLayoutSubviews
+2026-10-11 18:21:02.859 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] scene <SHSheetRemoteScene: 0x1066fca00> will update
+2026-10-11 18:21:02.864 Df ShareQA[16475:107733] [com.apple.FrontBoard:Scene] [UISceneHosting-local.silver.shiji.nextqa.host:UIHostedScene-com.apple.sharinguiservice-E3F84281] Client process connected: [osservice<com.apple.sharinguiservice>:16508]
+2026-10-11 18:21:02.867 A  ShareQA[16475:1077e0] (RunningBoardServices) observedProcessStatesDidChange
+2026-10-11 18:21:02.867 Df ShareQA[16475:1077e0] [com.apple.runningboard:monitor] Received state update for 16508 (osservice<com.apple.sharinguiservice>, running-active-NotVisible
+2026-10-11 18:21:03.362 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] UIAVC: ready to interact
+2026-10-11 18:21:03.824 A  ShareQA[16475:107a2c] (RunningBoardServices) observedProcessStatesDidChange
+2026-10-11 18:21:03.824 Df ShareQA[16475:107a2c] [com.apple.runningboard:monitor] Received state update for 16508 (osservice<com.apple.sharinguiservice>, running-active-NotVisible
+2026-10-11 18:21:03.862 Df ShareQA[16475:107733] [com.apple.UIKit:Orientation] <UIWindowScene: 0x1094c1180> (850A1085-4E05-4A62-BFFC-1515C54670BE) Scene updated orientation preferences: ( Pu ) -> ( Pu Ll Lr )
+2026-10-11 18:21:03.886 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] UIAVC: view did appear
+2026-10-11 18:21:03.886 A  ShareQA[16475:107733] (ShareSheet) Sharing/SFShareSheetSlotManager/activityViewControllerDidAppear
+2026-10-11 18:21:03.895 Df ShareQA[16475:1077e0] [com.apple.FrontBoard:ProcessWorkspace] [osservice<com.apple.sharinguiservice>:16508] Dropping launch assertion.
+2026-10-11 18:21:04.001 A  ShareQA[16475:1077e0] (RunningBoardServices) observedProcessStatesDidChange
+2026-10-11 18:21:04.001 Df ShareQA[16475:1077e0] [com.apple.runningboard:monitor] Received state update for 16508 (osservice<com.apple.sharinguiservice>, running-active-NotVisible
+2026-10-11 18:21:04.338 A  ShareQA[16475:107a2c] (RunningBoardServices) observedProcessStatesDidChange
+2026-10-11 18:21:04.338 Df ShareQA[16475:107a2c] [com.apple.runningboard:monitor] Received state update for 16508 (osservice<com.apple.sharinguiservice>, running-active-NotVisible
+2026-10-11 18:21:04.449 A  ShareQA[16475:1077e0] (RunningBoardServices) observedProcessStatesDidChange
+2026-10-11 18:21:04.449 Df ShareQA[16475:1077e0] [com.apple.runningboard:monitor] Received state update for 16508 (osservice<com.apple.sharinguiservice>, running-active-NotVisible
+2026-10-11 18:21:04.455 A  ShareQA[16475:107a2c] (RunningBoardServices) observedProcessStatesDidChange
+2026-10-11 18:21:04.455 Df ShareQA[16475:107a2c] [com.apple.runningboard:monitor] Received state update for 16508 (osservice<com.apple.sharinguiservice>, running-active-NotVisible
+2026-10-11 18:21:04.469 A  ShareQA[16475:1077e0] (RunningBoardServices) observedProcessStatesDidChange
+2026-10-11 18:21:04.469 Df ShareQA[16475:1077e0] [com.apple.runningboard:monitor] Received state update for 16508 (osservice<com.apple.sharinguiservice>, running-active-NotVisible
+2026-10-11 18:21:04.907 E  ShareQA[16475:107733] [com.apple.coreanimation:API] cannot add handler to 0 from 0 - dropping
+2026-10-11 18:21:04.907 E  ShareQA[16475:107733] [com.apple.coreanimation:API] cannot add handler to 0 from 0 - dropping
+2026-10-11 18:21:04.907 E  ShareQA[16475:107733] [com.apple.coreanimation:API] cannot add handler to 0 from 0 - dropping
+2026-10-11 18:21:05.009 Df ShareQA[16475:107a2c] [com.apple.FrontBoard:ProcessScene] [0x10b1b40c0:UISceneHosting-local.silver.shiji.nextqa.host:UIHostedScene-com.apple.sharinguiservice-E3F84281] Scene action [Create Active][0x35f7] completed with success: 1
+2026-10-11 18:21:05.009 Df ShareQA[16475:107733] [com.apple.FrontBoard:Scene] [UISceneHosting-local.silver.shiji.nextqa.host:UIHostedScene-com.apple.sharinguiservice-E3F84281] scene content state changed: ready
+2026-10-11 18:21:05.010 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] SHSheetRemoteScene clientIsReady
+2026-10-11 18:21:05.397 Df ShareQA[16475:107733] [com.apple.FrontBoard:Scene] [UISceneHosting-local.silver.shiji.nextqa.host:UIHostedScene-com.apple.sharinguiservice-E3F84281] Received action(s): SHSheetAction
+2026-10-11 18:21:05.397 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] scene <SHSheetRemoteScene: 0x1066fca00> received action: <SHSheetAction: 0x10b34c2a0; info: <BSSettings: 0x10b34c2e0> {
+    (0) = 10;
+}; responder: <_BSActionResponder: 0x1095027d0; active: YES> clientInvalidated = NO;
+clientEncoded = NO;>
+2026-10-11 18:21:05.398 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] Ending presentation delay
+2026-10-11 18:21:05.398 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] did receive action with type:10
+2026-10-11 18:21:05.398 Df ShareQA[16475:107733] [com.apple.FrontBoard:Scene] [UISceneHosting-local.silver.shiji.nextqa.host:UIHostedScene-com.apple.sharinguiservice-E3F84281] Delegate <_UISceneHostingController: 0x10645dc40; UIHostedScene-com.apple.sharinguiservice-E3F84281; active: YES; foreground: YES> handled action(s): SHSheetAction
+2026-10-11 18:21:05.612 A  ShareQA[16475:1077e0] (RunningBoardServices) observedProcessStatesDidChange
+2026-10-11 18:21:05.612 Df ShareQA[16475:1077e0] [com.apple.runningboard:monitor] Received state update for 16508 (osservice<com.apple.sharinguiservice>, running-active-NotVisible
+2026-10-11 18:21:08.583 Df ShareQA[16475:107733] [com.apple.FrontBoard:Scene] [UISceneHosting-local.silver.shiji.nextqa.host:UIHostedScene-com.apple.sharinguiservice-E3F84281] Received action(s): SHSheetSizeUpdateAction
+2026-10-11 18:21:08.584 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] scene <SHSheetRemoteScene: 0x1066fca00> received action: <SHSheetSizeUpdateAction: 0x10b34c2c0; info: <BSSettings: 0x10b34c5e0> {
+    (7) = 1;
+    (8) = 0;
+    (9) = 1;
+}; responder: <_BSActionResponder: 0x109502ca0; active: YES> clientInvalidated = NO;
+clientEncoded = NO;>
+2026-10-11 18:21:08.584 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] SHSheetRemoteSceneViewController received size update
+2026-10-11 18:21:08.584 Df ShareQA[16475:107733] [com.apple.FrontBoard:Scene] [UISceneHosting-local.silver.shiji.nextqa.host:UIHostedScene-com.apple.sharinguiservice-E3F84281] Delegate <_UISceneHostingController: 0x10645dc40; UIHostedScene-com.apple.sharinguiservice-E3F84281; active: YES; foreground: YES> handled action(s): SHSheetSizeUpdateAction
+2026-10-11 18:21:08.695 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] SHSheetRemoteSceneViewController viewWillTransitionToSize
+2026-10-11 18:21:08.695 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] scene <SHSheetRemoteScene: 0x1066fca00> will update
+2026-10-11 18:21:08.806 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] SHSheetRemoteSceneViewController: viewDidLayoutSubviews
+2026-10-11 18:21:08.807 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] scene <SHSheetRemoteScene: 0x1066fca00> will update
+2026-10-11 18:21:08.811 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] UIActivityViewController: preferredContentSizeDidChangeForChildContentContainer:{384, 335.66666666666669}
+2026-10-11 18:21:08.811 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] SHSheetRemoteSceneViewController: preferredContentSizeDidChangeForChildContentContainer:{384, 335.66666666666669}
+2026-10-11 18:21:08.813 Df ShareQA[16475:107733] [com.apple.FrontBoard:Scene] [UISceneHosting-local.silver.shiji.nextqa.host:UIHostedScene-com.apple.sharinguiservice-E3F84281] Received action(s): SHSheetSizeUpdateAction
+2026-10-11 18:21:08.813 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] scene <SHSheetRemoteScene: 0x1066fca00> received action: <SHSheetSizeUpdateAction: 0x10b2771e0; info: <BSSettings: 0x10b2771c0> {
+    (7) = 1;
+    (8) = 0;
+    (9) = 1;
+}; responder: <_BSActionResponder: 0x1095028b0; active: YES> clientInvalidated = NO;
+clientEncoded = NO;>
+2026-10-11 18:21:08.813 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] SHSheetRemoteSceneViewController received size update
+2026-10-11 18:21:08.813 Df ShareQA[16475:107733] [com.apple.FrontBoard:Scene] [UISceneHosting-local.silver.shiji.nextqa.host:UIHostedScene-com.apple.sharinguiservice-E3F84281] Delegate <_UISceneHostingController: 0x10645dc40; UIHostedScene-com.apple.sharinguiservice-E3F84281; active: YES; foreground: YES> handled action(s): SHSheetSizeUpdateAction
+2026-10-11 18:21:08.813 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] SHSheetRemoteSceneViewController viewWillTransitionToSize
+2026-10-11 18:21:08.813 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] scene <SHSheetRemoteScene: 0x1066fca00> will update
+2026-10-11 18:21:08.819 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] SHSheetRemoteSceneViewController: viewDidLayoutSubviews
+2026-10-11 18:21:08.819 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] scene <SHSheetRemoteScene: 0x1066fca00> will update
+2026-10-11 18:21:08.822 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] SHSheetRemoteSceneViewController: viewDidLayoutSubviews
+2026-10-11 18:21:08.822 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] scene <SHSheetRemoteScene: 0x1066fca00> will update
+2026-10-11 18:21:08.823 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] UIActivityViewController: preferredContentSizeDidChangeForChildContentContainer:{384, 361.33333333333331}
+2026-10-11 18:21:08.823 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] SHSheetRemoteSceneViewController: preferredContentSizeDidChangeForChildContentContainer:{384, 361.33333333333331}
+2026-10-11 18:21:09.883 Df ShareQA[16475:107733] [com.apple.KeyboardArbiter:Client] RX sceneBecameFocused:(null)
+2026-10-11 18:21:09.974 Df ShareQA[16475:107733] [com.apple.FrontBoard:Scene] [UISceneHosting-local.silver.shiji.nextqa.host:UIHostedScene-com.apple.sharinguiservice-E3F84281] Received action(s): SHSheetSizeUpdateAction
+2026-10-11 18:21:09.974 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] scene <SHSheetRemoteScene: 0x1066fca00> received action: <SHSheetSizeUpdateAction: 0x115418220; info: <BSSettings: 0x1154184a0> {
+    (7) = 1;
+    (8) = 0;
+    (9) = 1;
+}; responder: <_BSActionResponder: 0x1095028b0; active: YES> clientInvalidated = NO;
+clientEncoded = NO;>
+2026-10-11 18:21:09.974 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] SHSheetRemoteSceneViewController received size update
+2026-10-11 18:21:09.974 Df ShareQA[16475:107733] [com.apple.FrontBoard:Scene] [UISceneHosting-local.silver.shiji.nextqa.host:UIHostedScene-com.apple.sharinguiservice-E3F84281] Delegate <_UISceneHostingController: 0x10645dc40; UIHostedScene-com.apple.sharinguiservice-E3F84281; active: YES; foreground: YES> handled action(s): SHSheetSizeUpdateAction
+2026-10-11 18:21:10.000 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] SHSheetRemoteSceneViewController viewWillTransitionToSize
+2026-10-11 18:21:10.001 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] scene <SHSheetRemoteScene: 0x1066fca00> will update
+2026-10-11 18:21:10.014 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] SHSheetRemoteSceneViewController: viewDidLayoutSubviews
+2026-10-11 18:21:10.015 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] scene <SHSheetRemoteScene: 0x1066fca00> will update
+2026-10-11 18:21:10.016 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] UIActivityViewController: preferredContentSizeDidChangeForChildContentContainer:{384, 363.33333333333331}
+2026-10-11 18:21:10.016 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] SHSheetRemoteSceneViewController: preferredContentSizeDidChangeForChildContentContainer:{384, 363.33333333333331}
+2026-10-11 18:21:10.155 A  ShareQA[16475:1077e0] (RunningBoardServices) observedProcessStatesDidChange
+2026-10-11 18:21:10.155 Df ShareQA[16475:1077e0] [com.apple.runningboard:monitor] Received state update for 16508 (osservice<com.apple.sharinguiservice>, running-active-NotVisible
+2026-10-11 18:21:10.327 A  ShareQA[16475:1077e0] (RunningBoardServices) observedProcessStatesDidChange
+2026-10-11 18:21:10.327 Df ShareQA[16475:1077e0] [com.apple.runningboard:monitor] Received state update for 16508 (osservice<com.apple.sharinguiservice>, running-active-NotVisible
+2026-10-11 18:21:12.590 Df ShareQA[16475:107733] [com.apple.FrontBoard:Scene] [UISceneHosting-local.silver.shiji.nextqa.host:UIHostedScene-com.apple.sharinguiservice-E3F84281] Received action(s): SHSheetMetadataUpdateAction
+2026-10-11 18:21:12.591 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] scene <SHSheetRemoteScene: 0x1066fca00> received action: <SHSheetMetadataUpdateAction: 0x10b34fb20; info: <BSSettings: 0x10b34fac0> {
+    (1) = {length = 511, bytes = 0x62706c69 73743030 d4010203 04050607 ... 00000000 00000183 };
+}; responder: <_BSActionResponder: 0x1095027d0; active: YES> clientInvalidated = NO;
+clientEncoded = NO;>
+2026-10-11 18:21:12.591 Df ShareQA[16475:107733] [com.apple.ShareSheet:ShareSheet] SHSheetRemoteSceneViewController received metadata update
+2026-10-11 18:21:12.593 Df ShareQA[16475:107733] [com.apple.FrontBoard:Scene] [UISceneHosting-local.silver.shiji.nextqa.host:UIHostedScene-com.apple.sharinguiservice-E3F84281] Delegate <_UISceneHostingController: 0x10645dc40; UIHostedScene-com.apple.sharinguiservice-E3F84281; active: YES; foreground: YES> handled action(s): SHSheetMetadataUpdateAction
