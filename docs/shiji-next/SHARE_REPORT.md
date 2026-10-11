@@ -38,6 +38,8 @@ Next QA宿主改用UIApplicationSceneManifest、UISceneConfiguration、UIWindowS
 
 完整Swift核心与桌面ZIP互通通过：`share-commit-failure-after.log`；真实HTTPS同步通过：`share-rollback-sync.log`；Python208项（41.508s）、Node52组再次通过：`share-rollback-python.log`、`share-rollback-node.log`；独立iOS simulator App/extension构建与bundle检查通过：`share-rollback-build.log`、`share-rollback-bundle.log`。
 
+修复后的QA包已构建，尚未安装到当前正在进行Safari手工分享的模拟器，避免中断该会话。上面的系统URL/文本/图片保存证据来自修改前的V5.2代码；新的回滚行为只有核心回归证据，尚无修复包的真实错误/重试界面录像。
+
 这是捕获到可返回的写入错误后的回滚，不是跨文件的崩溃事务。如果进程在附件写入后被系统终止，或文件系统连删除也拒绝，仍可能遗留文件。本轮没有引入清理全部附件的危险扫描。系统分享错误界面及再次保存的端到端验收仍须单独完成，不能用上述核心测试代替。
 
 ## 真实运行验收矩阵
@@ -49,9 +51,9 @@ Next QA宿主改用UIApplicationSceneManifest、UISceneConfiguration、UIWindowS
 | QA宿主UIImage → 系统菜单 → 拾集 → 保存 | 通过 | 本地JPEG，32,724 bytes；SHA-256匹配，附件被设为封面；图片默认标题 |
 | 主App回到前台回读以上3条 | 通过 | 界面显示3条；实际滑动看到文本/URL卡片；`main-readback-text-url.png`。截图不是Demo数据 |
 | Safari网页 → Safari分享菜单 → 拾集读取 | 通过 | `https://example.com/?shiji-next-safari=1`，表单及手动输入标题 `55102026`；`share-safari-form.png` |
-| Safari保存及回读 | **未完成** | 点击保存前Mac重新锁定，CUA输入被拒绝；没有对应资源记录，不算保存通过 |
+| Safari保存及回读 | **未完成** | 首轮点击保存前Mac锁定；继续后窗口可读但坐标输入仍失败，已经请求人工保存，当前未收到保存确认，也没有对应资源记录 |
 | 系统分享取消后文件字节不变 | 通过（人工点击、工具核对） | 用户在当前Safari分享页点取消，实际截图确认回到Safari；`safari-cancel-check.log`核对`before-safari-cancel.json`，元数据及附件全部校验和不变，仍3条 |
-| 分享保存失败后的错误界面、再试成功 | **未完成** | 核心失败原子性通过，系统UI尚未注入失败场景 |
+| 分享保存失败后的错误界面、再试成功 | **未完成** | 核心失败回滚及重试通过；准备了独立QA组写入故障工具，尚未启用，系统UI未注入失败场景 |
 | 实际系统重复URL保护手工标签/备注/附件 | **未完成** | Swift新增共享层回归通过，尚不等同于系统重分享端到端通过 |
 | 实体iPhone签名、Safari/照片分享 | **未完成** | 本轮只有独立模拟器，不宣称真机通过 |
 
@@ -60,6 +62,7 @@ Next QA宿主改用UIApplicationSceneManifest、UISceneConfiguration、UIWindowS
 ![文本分享真实表单](evidence/share-text-form.png)
 ![主App实际回读](evidence/main-readback-text-url.png)
 ![Safari分享真实表单](evidence/share-safari-form.png)
+![人工取消后实际回到Safari](evidence/safari-after-cancel.png)
 
 ## 测试与改动
 
@@ -76,7 +79,10 @@ Next QA宿主改用UIApplicationSceneManifest、UISceneConfiguration、UIWindowS
 1. 在名为`Shiji Next Share QA`的新模拟器执行`prepare_share.py --device <UDID>`；返回临时工程路径。对该工程构建Shiji simulator scheme，安装QA包，执行既有check_bundle.py。
 2. `install-share-host.py --device <UDID>`构建/安装仅测试宿主。用真实UI逐项选择拾集并保存；Safari场景必须从Safari自身菜单触发。
 3. `check_share_store.py --device <UDID>`只读核对已保存的QA URL/文字/图片。取消前加`--snapshot <新文件>`，取消后加`--unchanged <同文件>`比较全量字节。
+   Safari实际保存后加`--safari-saved`，强制校验实际URL和手工标题55102026。它不会伪造或写入该资源。
 4. 取消已完成；继续Safari保存及失败恢复。Device Hub独立窗口能截图及接受窗口AX按钮，但手机内坐标点击仍返回noWindowsAvailable，需人工执行屏幕内动作并核对实际文件。再在曾出现空白的实际安装环境查principal/App Group/宿主生命周期和provider状态。devicectl本轮只列出两个模拟器，未发现实体iPhone；真实设备验收不能由模拟器代替。
 5. Share根因闭环后，单独设计Smart Capture持久任务；Search全文索引与Cover可同步选择也各自独立设计/提交。本轮未把第三到第五阶段混入业务代码。
+
+错误恢复工具：在装好修复包且QA分享表单可见时，运行`qa/share_write_fault.py --device <UDID> enable`；只读化该组Library根、保留files可写，真实点击保存并截取错误；随后**必须运行同命令的restore**，恢复原权限并比较全部元数据/附件校验和，再在同一表单重试保存。工具不改产品代码、正式身份或正式数据。错误UDID的拒绝护栏已实际验证：`share-fault-guard.log`（预期退出1）；语法检查通过；enable/restore和实际错误UI尚未运行，不能算通过。
 
 本地分阶段提交；尚未推送、未创建Next PR、未合并main。既有Draft PR #1不包含本轮Next提交。

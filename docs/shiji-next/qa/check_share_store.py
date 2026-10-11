@@ -13,6 +13,7 @@ p = argparse.ArgumentParser()
 p.add_argument('--device', required=True)
 p.add_argument('--snapshot', type=Path, help='Write checksums to a new QA evidence file')
 p.add_argument('--unchanged', type=Path, help='Compare with a prior cancellation snapshot')
+p.add_argument('--safari-saved', action='store_true', help='Require the actual Safari share and manual title')
 a = p.parse_args()
 devices = json.loads(subprocess.check_output(['xcrun', 'simctl', 'list', 'devices', '--json']))
 if not any(d['udid'] == a.device and d['name'] == 'Shiji Next Share QA'
@@ -29,6 +30,9 @@ assert len({r['id'] for r in resources}) == len(resources)
 url = next(r for r in resources if r['url'] == 'https://example.com/shiji-next-share-qa')
 text = next(r for r in resources if r['notes'] == 'SHIJI Next QA — actual system text share, New, exact')
 assert text['title'] == '20261011', 'Actual manually entered title must be preserved'
+if a.safari_saved:
+    safari = next(r for r in resources if r['url'] == 'https://example.com/?shiji-next-safari=1')
+    assert safari['title'] == '55102026', 'Safari manual title must survive saving'
 image = next(r for r in resources if r['attachments'])
 assert image['coverId'] == image['attachments'][0]['id']
 for r in resources:
@@ -47,4 +51,4 @@ if a.snapshot:
         json.dump(checksums, out, indent=2)
 print(json.dumps({'schema': 3, 'resources': len(resources), 'actualURL': url['url'],
                   'manualTextTitle': text['title'], 'imageAttachmentsVerified': len(image['attachments']),
-                  'cancelUnchanged': bool(a.unchanged)}, ensure_ascii=False))
+                  'cancelUnchanged': bool(a.unchanged), 'safariSaveVerified': a.safari_saved}, ensure_ascii=False))
