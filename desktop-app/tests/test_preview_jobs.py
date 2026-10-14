@@ -9,7 +9,7 @@ from unittest.mock import patch
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from storage import Store
 import capture
-PNG=b'\x89PNG\r\n\x1a\nfixture'
+PNG=__import__('base64').b64decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVR4nGP4DwABAQEAsTj2FAAAAABJRU5ErkJggg==')
 class PreviewTests(unittest.TestCase):
  def setUp(self):self.temp=tempfile.TemporaryDirectory();self.s=Store(self.temp.name);self.r=self.s.save({'title':'Example','url':'https://example.com/'})['resource']
  def tearDown(self):self.s.stop_preview_worker();self.temp.cleanup()

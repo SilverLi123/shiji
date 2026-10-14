@@ -17,14 +17,29 @@ class CaptureFailure(Exception):
 
 
 def fetch_payload(item, kind, options=None):
-    from capture import metadata, website_preview
+    from capture import capture_payload, capture_image, website_preview
+    from capture_images import validate_image
+    from capture_rules import suggest
+    if kind == 'asset':
+        try:
+            return {'metadata': {}, 'image': capture_image(options['url'])}
+        except CaptureFailure:
+            raise
+        except ValueError as e:
+            raise CaptureFailure('blocked', '图片地址未通过公网安全校验。', False) from e
+        except Exception as e:
+            raise CaptureFailure('image-network', '网页图片暂时无法保存，原收藏已保留。') from e
     if kind == 'preview':
         raw, source, method = website_preview(item['url'])
+        from storage import detect_mime
+        try:
+            validate_image(raw, detect_mime(raw))
+        except ValueError as e:
+            raise CaptureFailure('image-invalid', '图片文件无法验证，已保留海报。', False) from e
         return {'metadata': {}, 'image': (raw, source, method)}
-    result = metadata(item['url'])
-    if result.get('status') != 'ok':
-        raise CaptureFailure('network', '网页暂时无法读取，已保留原收藏。')
-    return {'metadata': result, 'image': None}
+    result = capture_payload(item['url'], item['thumbnail'], not bool(item['coverId']))
+    result['suggestions'] = suggest(item, result['metadata'])
+    return result
 
 
 class CaptureOperations:
@@ -155,6 +170,8 @@ class CaptureOperations:
 
     def _claim_capture(self, kind):
         with self.lock, self.connect() as c:
+            if self._capture_stop.is_set():
+                return None
             c.execute('BEGIN IMMEDIATE')
             self._recover_capture(c)
             control = json.loads(c.execute("SELECT value FROM capture_control WHERE key='engine'").fetchone()[0])
@@ -186,6 +203,7 @@ class CaptureOperations:
             lease = str(uuid.uuid4())
             c.execute("UPDATE capture_jobs SET status='running',attempts=attempts+1,lease=?,lease_until=?,updated_at=? WHERE id=?", (lease, stamp + LEASE_SECONDS, stamp, row['id']))
             job = dict(row, lease=lease, lease_until=stamp + LEASE_SECONDS, attempts=row['attempts'] + 1)
+            self._capture_active = (job['id'], lease)
             if row['kind'] == 'preview':
                 self._preview_next = time.monotonic() + self._preview_config['interval']
             return job, item, control['generation'], self._preview_generation
@@ -200,6 +218,13 @@ class CaptureOperations:
             c.execute('BEGIN IMMEDIATE')
             if not self._owns_capture(c, job, generation, preview_generation):
                 return
+            try:
+                current = self._get(c, job['resource_id'], True)
+            except ValueError:
+                current = None
+            if not current or current['url'] != job['url'] or current['updatedAt'] != job['expected_revision']:
+                c.execute("UPDATE capture_jobs SET status='skipped',lease='',lease_until=0,error_code='changed',error='资源已变化，保留当前内容。',updated_at=? WHERE id=?", (time.time(), job['id']))
+                return
             retry = error.retryable and job['attempts'] < MAX_ATTEMPTS
             stamp = time.time()
             c.execute('UPDATE capture_jobs SET status=?,next_at=?,error_code=?,error=?,lease="",lease_until=0,updated_at=? WHERE id=?', ('retry' if retry else 'failed', stamp + min(300, 5 * 2 ** (job['attempts'] - 1)), error.code, error.message, stamp, job['id']))
@@ -212,7 +237,6 @@ class CaptureOperations:
             if not claimed:
                 return False
             job, item, generation, preview_generation = claimed
-            self._capture_active = (job['id'], job['lease'])
             try:
                 result = fetch_payload(item, job['kind'], json.loads(job['options']))
                 if self._capture_stop.is_set():
@@ -251,17 +275,24 @@ class CaptureOperations:
                     changes = {}
                     for key in ('title', 'description', 'favicon', 'sourceUrl'):
                         value = meta.get(key, '')
-                        if isinstance(value, str) and value.strip() and (not current[key] or (key == 'title' and current[key] in (fallback_title(current['url']), current['url']))):
+                        from urllib.parse import urlsplit
+                        if isinstance(value, str) and value.strip() and (not current[key] or (key == 'title' and current[key] in (fallback_title(current['url']), current['url'], urlsplit(current['url']).hostname))):
                             changes[key] = value
                     if changes:
                         self._write(c, changes, current)
                         current = self._get(c, current['id'])
                     if result.get('image') and (not current['coverId'] or job['kind'] == 'asset'):
                         raw, source, method = result['image']
-                        self.attach_in_transaction(c, current['id'], raw, {'name': '网页图片' if job['kind'] == 'asset' else ('网站预览.png' if method == 'Chrome 截图' else '网站预览图'), 'cover': not bool(current['coverId']), 'sourceUrl': source, 'license': '待确认'}, written)
+                        digest = hashlib.sha256(raw).hexdigest()
+                        same = next((a for a in current['attachments'] if a['sha256'] == digest and not (self.files/a['id']).is_symlink() and (self.files/a['id']).is_file() and (self.files/a['id']).read_bytes() == raw), None)
+                        if same:
+                            if not current['coverId']:
+                                self._write(c, {'coverId': same['id']}, current)
+                        else:
+                            self.attach_in_transaction(c, current['id'], raw, {'name': '网页图片' if job['kind'] == 'asset' else ('网站预览.png' if method == 'Chrome 截图' else '网站预览图'), 'cover': not bool(current['coverId']), 'sourceUrl': source, 'license': '待确认'}, written)
                         current = self._get(c, current['id'])
                     cover_error = result.get('coverError')
-                    retry = bool(cover_error) and job['attempts'] < MAX_ATTEMPTS
+                    retry = bool(cover_error) and cover_error.get('retryable', True) and job['attempts'] < MAX_ATTEMPTS
                     status = ('retry' if retry else 'failed') if cover_error else 'completed'
                     stamp = time.time()
                     # Only revisions created by this fenced transaction may advance
@@ -293,9 +324,10 @@ class CaptureOperations:
 
     def stop_capture_worker(self):
         self._capture_stop.set()
-        active = self._capture_active
-        if active:
-            with self.lock, self.connect() as c:
-                c.execute("UPDATE capture_jobs SET status='retry',lease='',lease_until=0,next_at=? WHERE id=? AND lease=? AND status='running'", (time.time(), *active))
+        with self.lock:
+            active = self._capture_active
+            if active:
+                with self.connect() as c:
+                    c.execute("UPDATE capture_jobs SET status='retry',lease='',lease_until=0,next_at=? WHERE id=? AND lease=? AND status='running'", (time.time(), *active))
         if getattr(self, '_capture_worker', None):
             self._capture_worker.join(timeout=2)

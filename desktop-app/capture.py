@@ -67,12 +67,13 @@ def public_fetch(url,method='GET',limit=2*1024*1024,timeout=8):
         return status,headers,data,target[0]
     raise ValueError('网页重定向次数过多。')
 class MetaParser(HTMLParser):
-    def __init__(self):super().__init__(convert_charrefs=True);self.title_parts=[];self.in_title=False;self.meta={};self.icon=''
+    def __init__(self):super().__init__(convert_charrefs=True);self.title_parts=[];self.in_title=False;self.meta={};self.icon='';self.canonical=''
     def handle_starttag(self,tag,attrs):
         a=dict(attrs)
         if tag=='title':self.in_title=True
         if tag=='meta' and a.get('content'):self.meta[(a.get('property') or a.get('name') or '').lower()]=a['content']
         if tag=='link' and 'icon' in a.get('rel','').lower().split() and a.get('href'):self.icon=a['href']
+        if tag=='link' and 'canonical' in a.get('rel','').lower().split() and a.get('href'):self.canonical=a['href']
     def handle_endtag(self,tag):
         if tag=='title':self.in_title=False
     def handle_data(self,data):
@@ -92,7 +93,7 @@ def metadata_from_html(url,raw,charset='utf-8'):
     except LookupError:html=raw.decode('utf-8',errors='replace')
     parser=MetaParser();parser.feed(html)
     clean=lambda v,n:re.sub(r'\s+',' ',v).strip()[:n]
-    return {'url':url,'title':clean(parser.meta.get('og:title') or parser.meta.get('twitter:title') or ''.join(parser.title_parts),200),'description':clean(parser.meta.get('og:description') or parser.meta.get('description') or parser.meta.get('twitter:description') or '',1000),'thumbnail':safe_asset(url,parser.meta.get('og:image') or parser.meta.get('twitter:image') or ''),'favicon':safe_asset(url,parser.icon or '/favicon.ico')}
+    return {'url':url,'title':clean(parser.meta.get('og:title') or parser.meta.get('twitter:title') or ''.join(parser.title_parts),200),'description':clean(parser.meta.get('og:description') or parser.meta.get('description') or parser.meta.get('twitter:description') or '',1000),'thumbnail':safe_asset(url,parser.meta.get('og:image') or parser.meta.get('twitter:image') or ''),'favicon':safe_asset(url,parser.icon or '/favicon.ico'),'canonicalUrl':safe_asset(url,parser.canonical),'sourceHost':urlsplit(url).hostname}
 def metadata(url):
     try:
         status,headers,raw,final=public_fetch(url)
@@ -101,6 +102,39 @@ def metadata(url):
         match=re.search(r'charset=([\w-]+)',headers.get('content-type',''))
         result=metadata_from_html(final,raw,match.group(1) if match else 'utf-8');result['status']='ok';result['message']='已读取网页信息。' if result['title'] else '网页没有提供标题，可手动填写。';return result
     except (OSError,ValueError,http.client.HTTPException):return {'status':'unknown','message':'未能读取网页信息，可以直接手动保存。'}
+
+def capture_image(url):
+    """A URL becomes a local image only after a bounded, validated download."""
+    from capture_images import validate_image
+    from capture_jobs import CaptureFailure
+    status,headers,raw,final=public_fetch(url,limit=5*1024*1024)
+    if status!=200:raise CaptureFailure('image-http','真实图片暂时无法读取。',status>=500 or status in (408,429))
+    try:validate_image(raw,headers.get('content-type',''))
+    except ValueError as e:raise CaptureFailure('image-invalid','图片类型、尺寸或文件校验失败。',False) from e
+    return raw,final,'og:image'
+
+def capture_payload(url,cover_url='',need_cover=True):
+    """Fetch one page, then an optional real image; never changes the saved URL."""
+    from capture_jobs import CaptureFailure
+    try:
+        status,headers,raw,final=public_fetch(url)
+        if status>=400:raise CaptureFailure('http','网站限制读取或暂时不可用，原收藏已保留。',status>=500 or status in (408,429))
+        if 'html' not in headers.get('content-type','').lower():return {'metadata':{},'image':None}
+        match=re.search(r'charset=([\w-]+)',headers.get('content-type',''),re.I)
+        meta=metadata_from_html(final,raw,match.group(1) if match else 'utf-8')
+        meta['sourceUrl']=final
+        result={'metadata':meta,'image':None}
+        target=cover_url or meta['thumbnail']
+        if need_cover and target:
+            try:result['image']=capture_image(target)
+            except CaptureFailure as e:result['coverError']={'code':e.code,'retryable':e.retryable}
+            except (OSError,ValueError,http.client.HTTPException):result['coverError']={'code':'image-network','retryable':True}
+        return result
+    except CaptureFailure:raise
+    except socket.gaierror as e:raise CaptureFailure('dns','DNS 查询失败，原收藏已保留。') from e
+    except TimeoutError as e:raise CaptureFailure('timeout','读取超时，原收藏已保留。') from e
+    except ValueError as e:raise CaptureFailure('blocked','地址或响应未通过公网安全校验。',False) from e
+    except (OSError,http.client.HTTPException) as e:raise CaptureFailure('network','连接暂时失败，原收藏已保留。') from e
 def classify_status(code):
     return 'ok' if 200<=code<400 else 'broken' if code in (404,410) else 'unknown'
 def check_link(url):
