@@ -22,6 +22,7 @@ from preview_jobs import PreviewOperations
 from file_store import publish_file
 from edits import GuardedEditOperations, EditConflict
 from quick_capture import QuickCaptureOperations
+from capture_jobs import CaptureOperations
 
 CATEGORIES=['开发工具','美术素材','UI / 设计','音频','视频','字体','3D','灵感','其他']
 PRICES=['待确认','免费','部分免费','付费']
@@ -119,7 +120,7 @@ def validate_filters(raw):
     from filters import advanced_filters
     return advanced_filters(raw,result)
 
-class Store(QuickCaptureOperations,PreviewOperations,RecoveryOperations,GuardedEditOperations,ProjectOperations,LinkImportOperations,HealthOperations,BookmarkOperations,AssetImportOperations,BackupOperations):
+class Store(CaptureOperations,QuickCaptureOperations,PreviewOperations,RecoveryOperations,GuardedEditOperations,ProjectOperations,LinkImportOperations,HealthOperations,BookmarkOperations,AssetImportOperations,BackupOperations):
     def __init__(self,directory):
         self.root=Path(directory);self.root.mkdir(parents=True,exist_ok=True)
         self.db=self.root/'library.sqlite3';self.files=self.root/'files';self.files.mkdir(exist_ok=True)
@@ -143,6 +144,7 @@ class Store(QuickCaptureOperations,PreviewOperations,RecoveryOperations,GuardedE
             c.execute('CREATE TABLE IF NOT EXISTS asset_receipts(request_id TEXT PRIMARY KEY, fingerprint TEXT NOT NULL, resource_id TEXT NOT NULL)')
             c.execute('CREATE TABLE IF NOT EXISTS smart_collections(id TEXT PRIMARY KEY,name TEXT NOT NULL UNIQUE,filters TEXT NOT NULL)')
             c.execute('CREATE TABLE IF NOT EXISTS settings(key TEXT PRIMARY KEY,value TEXT NOT NULL)')
+            self.init_capture_jobs(c)
             if c.execute('PRAGMA user_version').fetchone()[0]<2:
                 for row in c.execute('SELECT * FROM resources').fetchall():
                     old=json.loads(row['payload']);old.setdefault('createdAt',now());old.setdefault('url',row['url'])
@@ -190,7 +192,9 @@ class Store(QuickCaptureOperations,PreviewOperations,RecoveryOperations,GuardedE
             item=validate(raw,self._get(c,old['id']));c.execute('UPDATE resources SET payload=?,deleted=0 WHERE id=?',(dump(item),item['id']))
         elif existing:c.execute('UPDATE resources SET url=?,payload=? WHERE id=?',(key,dump(item),item['id']))
         else:c.execute('INSERT INTO resources(id,url,payload) VALUES(?,?,?)',(item['id'],key,dump(item)))
-        self._projects(c,item);self.dirty=True;return item
+        self._projects(c,item)
+        if existing is None or existing.get('url')!=item['url']:self.enqueue_capture(c,item)
+        self.dirty=True;return item
     def save(self,raw,rid=None):
         with self.lock,self.connect() as c:
             item=self._write(c,raw,self._get(c,rid,True) if rid else None)
@@ -344,7 +348,7 @@ class Store(QuickCaptureOperations,PreviewOperations,RecoveryOperations,GuardedE
         with self.lock,self.connect() as c:
             item=self._get(c,rid,True);item['linkStatus']=status;item['linkCheckedAt']=now();item['linkMessage']=info
             c.execute('UPDATE resources SET payload=? WHERE id=?',(dump({k:v for k,v in item.items() if k not in ('attachments','deleted')}),rid));self.dirty=True
-    def attachment(self,rid,raw,metadata):
+    def attach_in_transaction(self,c,rid,raw,metadata,written):
         if not raw or len(raw)>64*1024*1024:raise ValueError('单个文件须为 1 字节至 64 MB。')
         if not isinstance(metadata,dict):raise ValueError('附件信息格式不正确。')
         aid=str(uuid.uuid4());name=text(metadata.get('name','附件'),240,'文件名称',True)
@@ -356,33 +360,35 @@ class Store(QuickCaptureOperations,PreviewOperations,RecoveryOperations,GuardedE
             if k.endswith('Url') and item[k]:item[k]=normalize_url(item[k])
         item['license']=metadata.get('license','待确认')
         if item['license'] not in LICENSES:raise ValueError('请选择有效的附件授权。')
-        destination=self.files/aid;written=False
+        resource=self._get(c,rid,True)
+        # Reuse only an intact same-resource copy with identical descriptive metadata.
+        fields=('name','mime','size','sha256','colors','sourceUrl','author','licenseUrl','license')
+        for row in c.execute('SELECT payload FROM attachments WHERE resource_id=? AND deleted=0',(rid,)):
+            existing=json.loads(row['payload']);path=self.files/existing['id']
+            if any(existing.get(k)!=item.get(k) for k in fields):continue
+            try:identical=not path.is_symlink() and path.read_bytes()==raw
+            except OSError:identical=False
+            if not identical:continue
+            if mime.startswith('image/') and metadata.get('cover') and resource['coverId']!=existing['id']:
+                resource['coverId']=existing['id'];resource['colors']=existing['colors'];self._write(c,resource,resource)
+            return {'attachment':existing,'reused':True}
+        publish_file(self,c,item,raw=raw);written.append(self.files/aid)
+        c.execute('INSERT INTO attachments VALUES(?,?,?,0)',(aid,rid,dump(item)))
+        if mime.startswith('image/') and metadata.get('cover'):
+            resource['coverId']=aid;resource['colors']=item['colors'];self._write(c,resource,resource)
+        return {'attachment':item,'reused':False}
+    def attachment(self,rid,raw,metadata):
+        written=[]
         with self.lock:
             previous_dirty=self.dirty
             try:
-                with self.connect() as c:
-                    resource=self._get(c,rid,True)
-                    # Reuse only an intact same-resource copy with identical descriptive metadata.
-                    fields=('name','mime','size','sha256','colors','sourceUrl','author','licenseUrl','license')
-                    for row in c.execute('SELECT payload FROM attachments WHERE resource_id=? AND deleted=0',(rid,)):
-                        existing=json.loads(row['payload']);path=self.files/existing['id']
-                        if any(existing.get(k)!=item.get(k) for k in fields):continue
-                        try:identical=not path.is_symlink() and path.read_bytes()==raw
-                        except OSError:identical=False
-                        if not identical:continue
-                        if mime.startswith('image/') and metadata.get('cover') and resource['coverId']!=existing['id']:
-                            resource['coverId']=existing['id'];resource['colors']=existing['colors'];self._write(c,resource,resource)
-                        return {'attachment':existing,'reused':True}
-                    publish_file(self,c,item,raw=raw);written=True
-                    c.execute('INSERT INTO attachments VALUES(?,?,?,0)',(aid,rid,dump(item)))
-                    if mime.startswith('image/') and metadata.get('cover'):
-                        resource['coverId']=aid;resource['colors']=item['colors'];self._write(c,resource,resource)
-                self.dirty=True
+                with self.connect() as c:result=self.attach_in_transaction(c,rid,raw,metadata,written)
+                if not result['reused']:self.dirty=True
+                return result
             except Exception:
-                if written:destination.unlink(missing_ok=True)
+                for destination in written:destination.unlink(missing_ok=True)
                 self.dirty=previous_dirty
                 raise
-        return {'attachment':item,'reused':False}
     def file(self,aid):
         with self.lock,self.connect() as c:
             row=c.execute('SELECT * FROM attachments WHERE id=?',(aid,)).fetchone()
