@@ -31,7 +31,9 @@ function card(r){const ratio=ShijiBoard.cover(r).startsWith('previews/')?({'rece
 function attachImageFallbacks(root){root.querySelectorAll('.cover-image').forEach(img=>{const media=img.closest('.cover-photo')||img,fallback=media.nextElementSibling,failed=img.hidden||(img.complete&&!img.naturalWidth);img.hidden=failed;media.hidden=failed;if(fallback)fallback.hidden=!failed;img.onload=()=>{img.hidden=false;media.hidden=false;if(fallback)fallback.hidden=true;};img.onerror=()=>{img.hidden=true;media.hidden=true;if(fallback)fallback.hidden=false;};});root.querySelectorAll('.site-favicon').forEach(img=>img.onerror=()=>img.hidden=true);}
 const resourceBits=ShijiBits.create($('#resource-grid'),$('.topbar-actions [data-action="add"]'));
 const motion=ShijiMotion.init({document,window});
-const quickCapture=ShijiQuickCapture.create({document,api,context:()=>({projects:state.scope==='collection'?[state.scopeValue]:[]}),notice:toast,onFull:value=>{edit();$('#f-url').value=value;setKind();},onSaved:async (r,origin)=>{selectScope('all');await reload();motion.captureConfirmed({resourceId:r.id,...origin});toast('已收藏。正在补全网页标题与介绍。');},onEnriched:async()=>{await reload();}});
+const quickCapture=ShijiQuickCapture.create({document,api,context:()=>({projects:state.scope==='collection'?[state.scopeValue]:[]}),notice:toast,onFull:value=>{edit();$('#f-url').value=value;setKind();},onSaved:async (r,origin)=>{selectScope('all');await reload();motion.captureConfirmed({resourceId:r.id,...origin});toast('已收藏。正在补全网页标题与介绍。');},onEnriched:async()=>{await captureTasks.poll();}});
+const captureTasks=typeof ShijiCaptureTasks!=='undefined'?ShijiCaptureTasks.create({document,api,show:manage,notice:toast,refresh:async()=>{if(document.querySelector('dialog[open]')||!$('#drawer').hidden||state.formBusy)return false;await reload();return true;},onResource:async id=>{const {resource}=await api('/api/resources/'+encodeURIComponent(id));$('#manage-dialog').close();detail(resource);}}):{async poll(){},destroy(){}};
+captureTasks.poll();
 const categoryDock=ShijiBits.createDock($('#browse-categories'));
 const spatial=typeof ShijiV5!=='undefined'?ShijiV5.create({document,preview,reconcile:ShijiCards.render}):{render(){},destroy(){}};
 const browseWindow=ShijiBrowse.create();
@@ -346,7 +348,7 @@ const desktopSync=ShijiDesktopSync.create({
  load:async signal=>{const response=await fetch('/api/resources',{signal});if(!response.ok)throw new Error('刷新失败');return response.json();},
  apply:async data=>{const trash=await api('/api/trash');if(!$('#drawer').hidden||document.querySelector('dialog[open]'))throw new Error('保留当前编辑');Object.assign(state,{resources:data.resources,collections:data.collections,collectionMeta:data.collectionMeta||[],smartCollections:data.smartCollections||[],trash:trash.resources});state.selected=new Set([...state.selected].filter(id=>find(id)));render();}
 });
-window.addEventListener('pagehide',()=>{desktopSync.destroy();resourceBits.destroy();categoryDock.destroy();spatial.destroy();quickCapture.destroy();},{once:true});
+window.addEventListener('pagehide',()=>{desktopSync.destroy();resourceBits.destroy();categoryDock.destroy();spatial.destroy();quickCapture.destroy();captureTasks.destroy();},{once:true});
 
 $('#manage-dialog').addEventListener('input',event=>{if(event.target.id==='tag-picker-search')searchTagPicker(event.target.value);});
 $('#manage-dialog').addEventListener('change',event=>{if(event.target.matches('[data-tag-choice]'))chooseTagPicker(JSON.parse(event.target.value),event.target.checked);});

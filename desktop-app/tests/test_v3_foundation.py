@@ -68,14 +68,16 @@ class V3FoundationTests(unittest.TestCase):
             if handler.path=='/qa-release':
                 release.set();body=b'{}';handler.send_response(200);handler.send_header('Content-Length',str(len(body)));handler.end_headers();handler.wfile.write(body)
             else:original(handler)
-        def metadata(url):
+        def metadata(url, cover_url='', need_cover=True):
             if not release.wait(10):raise RuntimeError('metadata release deadline')
-            return {'status':'ok','title':'已补全的真实资源','description':'Controlled network result; actual storage enrichment'}
+            return {'metadata':{'title':'已补全的真实资源','description':'Controlled network result; actual storage enrichment'},'image':None}
         try:
-            with patch.object(server.Handler,'do_POST',post),patch('capture.metadata',side_effect=metadata):
+            with patch.object(server.Handler,'do_POST',post),patch('capture.capture_payload',side_effect=metadata):
+                self.store.start_capture_worker()
                 result=subprocess.run(['node',str(Path(__file__).with_name('v51_capture_click.cjs'))],input=json.dumps({'base':self.base}),text=True,capture_output=True,timeout=20)
         finally:
             release.set()
+            self.store.stop_capture_worker()
         self.assertEqual(result.returncode,0,result.stdout+result.stderr)
         self.assertIn('one original detail click',result.stdout)
 
@@ -84,8 +86,12 @@ class V3FoundationTests(unittest.TestCase):
         rid = row['id']
         original = {'url': row['url'], 'updatedAt': row['updatedAt']}
         self.assertEqual(Store(self.tmp.name).get(rid)['title'], 'SilverLi123/shiji · GitHub')
-        with patch('capture.metadata', side_effect=OSError('offline')):
-            self.assertEqual(self.request('POST', '/api/resources/' + rid + '/enrich', original)['status'], 'unavailable')
+        from capture_jobs import CaptureFailure
+        self.assertEqual(self.request('POST', '/api/resources/' + rid + '/enrich', original)['status'], 'pending')
+        with patch('capture.capture_payload', side_effect=CaptureFailure('network','连接暂时失败，原收藏已保留。')):
+            self.assertFalse(self.store.capture_step())
+        self.assertEqual(self.store.capture_status()['tasks'][0]['status'],'retry')
+        self.assertEqual(self.store.get(rid),row)
         self.request('PUT', '/api/resources/' + rid, {'title': 'V3 精确收藏', 'tags': ['New, exact'], 'notes': 'Preserved detail', 'language': 'Swift', 'favorite': True})
         with patch('capture.metadata', side_effect=AssertionError('stale request must not fetch')):
             self.assertEqual(self.request('POST', '/api/resources/' + rid + '/enrich', original)['status'], 'skipped')

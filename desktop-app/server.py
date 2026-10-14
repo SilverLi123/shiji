@@ -70,6 +70,7 @@ class Handler(SimpleHTTPRequestHandler):
                 with STORE.backup_path() as archive:self.send_disk(archive,'application/zip','shiji-full-backup.zip')
             elif path=='/api/backups':self.send_json(200,STORE.backup_list())
             elif path=='/api/website-previews':self.send_json(200,STORE.preview_status())
+            elif path=='/api/capture/tasks':self.send_json(200,STORE.capture_status())
             elif path=='/api/library-health':self.send_json(200,STORE.health_status())
             elif path=='/api/library-health/report':
                 report=STORE.health_status()['report']
@@ -173,16 +174,11 @@ class Handler(SimpleHTTPRequestHandler):
                     if not isinstance(screenshot,str) or not re.fullmatch(r'data:image/(png|jpeg);base64,[A-Za-z0-9+/=]+',screenshot):raise ValueError('截图格式不正确。')
                     raw=base64.b64decode(screenshot.split(',',1)[1],validate=True)
                     if not detect_mime(raw).startswith('image/'):raise ValueError('截图不是图片。')
-                if body.get('imageUrl'):
-                    status,_,data,final=public_fetch(body['imageUrl'],limit=5*1024*1024)
-                    if status!=200 or not detect_mime(data).startswith('image/'):raise ValueError('图片未能保存，请在资源库中手动上传。')
-                    image=(data,final)
-                captured=STORE.capture_page({'url':url,'title':body.get('title') or urlsplit(url).hostname,'description':body.get('description',''),'thumbnail':safe_asset(url,body.get('thumbnail','')),'favicon':safe_asset(url,body.get('favicon',''))},selection)
-                item=captured['resource'];added=bool(raw or image or captured['contentAdded'])
-                if raw:STORE.attachment(item['id'],raw,{'name':'网页截图.png','cover':True,'sourceUrl':url})
-                if image:STORE.attachment(item['id'],image[0],{'name':'网页图片','cover':not bool(raw),'sourceUrl':image[1]})
-                result={'resource':STORE.get(item['id']),'alreadySaved':captured['alreadySaved'],'contentAdded':added}
-            elif path=='/api/resources' and method=='POST':result=STORE.save(body)
+                result=STORE.capture_page({'url':url,'title':body.get('title') or urlsplit(url).hostname,'description':body.get('description',''),'thumbnail':safe_asset(url,body.get('thumbnail','')),'favicon':safe_asset(url,body.get('favicon',''))},selection,screenshot=raw,image_url=body.get('imageUrl',''))
+            elif path=='/api/resources' and method=='POST':
+                quick=body.pop('quickCapture',False)
+                if type(quick) is not bool:raise ValueError('快速收藏选项无效。')
+                result=STORE.capture_page(body) if quick else STORE.save(body)
             elif path=='/api/projects/assign' and method=='POST':result=STORE.assign_projects(body)
             elif path=='/api/projects/remove' and method=='POST':result=STORE.remove_projects(body)
             elif path=='/api/collections' and method=='POST':result=STORE.collection(body.get('name'),body.get('parent',''),body.get('autoTags',[]))
@@ -195,6 +191,7 @@ class Handler(SimpleHTTPRequestHandler):
             elif path=='/api/links/import' and method=='POST':result=STORE.import_links(body)
             elif path=='/api/backups' and method=='POST':result=STORE.create_backup()
             elif path=='/api/website-previews' and method=='POST':result=STORE.configure_previews(body)
+            elif path=='/api/capture/tasks' and method=='POST':result=STORE.capture_action(body)
             elif path=='/api/backups/preflight' and method=='POST':result=STORE.preflight_backup(body.get('name',''))
             elif path=='/api/restore/confirm' and method=='POST':result=STORE.confirm_restore(body)
             elif path=='/api/restore/cancel' and method=='POST':result=STORE.cancel_restore(body.get('ticket'))
@@ -226,7 +223,7 @@ class Handler(SimpleHTTPRequestHandler):
                 result={'removed':len(ids),'ids':ids}
             elif path.startswith('/api/resources/'):
                 parts=path.strip('/').split('/');rid=parts[2]
-                if len(parts)==4 and parts[3]=='enrich' and method=='POST':result=STORE.enrich_capture(rid,body)
+                if len(parts)==4 and parts[3]=='enrich' and method=='POST':result=STORE.request_capture(rid,body)
                 elif len(parts)==4 and parts[3]=='edit' and method=='POST':result=STORE.edit_resource(rid,body)
                 elif len(parts)==4 and parts[3]=='note' and method=='POST':result=STORE.update_note(rid,body)
                 elif len(parts)==4 and parts[3]=='restore' and method=='POST':result=STORE.remove(rid,True)
@@ -245,8 +242,8 @@ class Handler(SimpleHTTPRequestHandler):
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('--port',type=int,default=8765);parser.add_argument('--data-dir',type=Path,default=ROOT/'data');args=parser.parse_args()
-    STORE=Store(args.data_dir);STORE.start_auto_backup();STORE.start_preview_worker();server=ThreadingHTTPServer(('127.0.0.1',args.port),Handler)
+    STORE=Store(args.data_dir);STORE.start_auto_backup();STORE.start_capture_worker();server=ThreadingHTTPServer(('127.0.0.1',args.port),Handler)
     print('资源库已启动：http://127.0.0.1:{}'.format(server.server_port),flush=True)
     try:server.serve_forever()
     except KeyboardInterrupt:pass
-    finally:STORE.stop_auto_backup();STORE.stop_preview_worker();server.server_close()
+    finally:STORE.stop_auto_backup();STORE.stop_capture_worker();server.server_close()

@@ -36,7 +36,7 @@
     }
     if(pending.size>=maxPending)throw new Error('已有多条收藏请求等待确认。请稍后核对资源库或刷新应用后再收藏新链接。');
     attempt={url:url.href,draft:input.value,sourceRect:button.getBoundingClientRect(),confirmed:false,uncertain:false};pending.set(url.href,attempt);
-    const request=api('/api/resources','POST',{url:url.href,title:fallbackTitle(url.href),kind:'website',category:/^(www\.)?github\.com$/i.test(url.hostname)?'开发工具':'其他',inbox:true,projects:capturedContext.projects||[]});
+    const request=api('/api/resources','POST',{url:url.href,title:fallbackTitle(url.href),kind:'website',category:/^(www\.)?github\.com$/i.test(url.hostname)?'开发工具':'其他',inbox:true,projects:capturedContext.projects||[],quickCapture:true});
     try{const result=await bounded(request);if(!dead)await confirmed(attempt,result);}
     catch(e){if(e.uncertain){attempt.uncertain=true;request.then(result=>confirmed(attempt,result,true),failure=>{attempt.uncertain=false;if(pending.get(attempt.url)===attempt)pending.delete(attempt.url);if(!dead&&dialog.open&&input.value.trim()===attempt.draft)showError(failure.message+' 可以修改或重试。');}).catch(()=>{});}else if(pending.get(attempt.url)===attempt)pending.delete(attempt.url);throw e;}
    }catch(e){if(!dead){showError(e.message);input.focus();}}

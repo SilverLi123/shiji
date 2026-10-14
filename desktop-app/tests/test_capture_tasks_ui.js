@@ -1,0 +1,21 @@
+const assert=require('node:assert/strict');
+const {JSDOM}=require('jsdom');
+const {create}=require('../static/capture-tasks');
+const dom=new JSDOM('<button data-capture-open>后台补全<span data-capture-count></span></button><dialog id="manage-dialog"><h2 id="manage-title"></h2><div id="manage-content"></div></dialog>',{url:'http://localhost',pretendToBeVisual:true});
+const doc=dom.window.document,dialog=doc.querySelector('dialog');
+let data={paused:false,active:1,counts:{pending:1,running:0,retry:0,completed:0,failed:0},tasks:[{id:'job',resourceId:'r',title:'<img src=x onerror=alert(1)>',type:'capture',url:'https://example.com/',status:'pending',attempts:0,nextAt:0,createdAt:1,updatedAt:1,resourceVersion:'r1',expectedRevision:'r1',error:'',errorCode:'',suggestions:{},suggestionState:'pending'}]},calls=[],refreshes=0,ready=false,fail=false;
+dialog.showModal=function(){this.open=true};dialog.close=function(){this.open=false;this.dispatchEvent(new dom.window.Event('close'))};
+const ui=create({document:doc,pollMs:60000,api:async(p,m,b)=>{calls.push({p,m,b});if(fail)throw Error('Disconnected');if(b?.action==='cancel')data={...data,active:0,counts:{...data.counts,pending:0},tasks:[{...data.tasks[0],status:'cancelled'}]};if(b?.action==='pause')data={...data,paused:true};return data;},show:(title,html)=>{doc.querySelector('#manage-title').textContent=title;doc.querySelector('#manage-content').innerHTML=html;dialog.showModal();},refresh:async()=>{refreshes++;return ready;},notice:()=>{}});
+const settle=()=>new Promise(r=>setImmediate(r));
+(async()=>{
+ await ui.poll();assert.equal(doc.querySelector('[data-capture-count]').textContent,'1');
+ const trigger=doc.querySelector('[data-capture-open]');trigger.focus();await ui.open();
+ assert.equal(dialog.open,true);assert.equal(doc.querySelector('[data-capture-panel] img'),null,'Task title must be text, never injected HTML');
+ doc.querySelector('[data-capture-action="cancel"]').click();await settle();assert.deepEqual(calls.at(-1).b,{action:'cancel',id:'job'});assert.match(doc.querySelector('[data-capture-panel]').textContent,/已取消/);
+ data={...data,counts:{...data.counts,completed:1},tasks:[{...data.tasks[0],status:'completed',title:'真实资源',suggestions:{category:'UI / 设计',tags:['React','组件']}}]};await ui.poll();
+ assert.ok(refreshes>0);const before=refreshes;ready=true;dialog.close();await settle();assert.ok(refreshes>before,'Refresh deferred during protected UI must run after close');assert.equal(doc.activeElement,trigger,'Close returns keyboard focus');
+ await ui.open();doc.querySelector('[data-capture-action="accept"]').click();await settle();assert.deepEqual(calls.at(-1).b,{action:'accept',id:'job',updatedAt:'r1'});
+ fail=true;doc.querySelector('[data-capture-action="pause"]').click();await settle();assert.match(doc.querySelector('[data-capture-error]').textContent,/Disconnected/);assert.equal(dialog.open,true,'Failure leaves controls and panel available');
+ const n=calls.length;Object.defineProperty(doc,'hidden',{configurable:true,value:true});await ui.poll();assert.equal(calls.length,n,'Hidden document must not poll');
+ ui.destroy();Object.defineProperty(doc,'hidden',{configurable:true,value:false});await ui.poll();assert.equal(calls.length,n,'Teardown must stop polling');dom.window.close();console.log('Capture task UI: real actions, escaping, deferred refresh, keyboard focus, errors, background pause and cleanup passed');
+})().catch(e=>{console.error(e);process.exitCode=1;ui.destroy();dom.window.close();});

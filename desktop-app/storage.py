@@ -199,23 +199,41 @@ class Store(CaptureOperations,QuickCaptureOperations,PreviewOperations,RecoveryO
         with self.lock,self.connect() as c:
             item=self._write(c,raw,self._get(c,rid,True) if rid else None)
             return {'resource':self._get(c,item['id'])}
-    def capture_page(self,page,selection=''):
-        """Append capture text against the current row in one locked transaction."""
+    def capture_page(self,page,selection='',screenshot=None,image_url=''):
+        """Persist page, local bytes and derived tasks; never await remote images."""
         url=normalize_url(page.get('url',''));selection=text(selection,10000,'选中文字')
-        with self.lock,self.connect() as c:
-            row=c.execute('SELECT id,deleted FROM resources WHERE url=?',(url,)).fetchone()
-            current=self._get(c,row['id']) if row else None
-            added=False
-            if current:
-                notes=current['notes']
-                if selection and selection not in notes:
-                    notes=text(notes+('\n\n—— 浏览器采集 ——\n' if notes else '')+selection,10000,'合并后的备注（请拆成独立片段）');added=True
-                if notes!=current['notes']:self._write(c,{'notes':notes},current)
-                if row['deleted']:c.execute('UPDATE resources SET deleted=0 WHERE id=?',(row['id'],));self.dirty=True
-                rid=row['id']
-            else:
-                item=self._write(c,{**page,'url':url,'notes':selection,'inbox':True});rid=item['id']
-            return {'resource':self._get(c,rid),'alreadySaved':bool(row and not row['deleted']),'contentAdded':added}
+        image_url=normalize_url(image_url) if image_url else ''
+        written=[]
+        with self.lock:
+            previous_dirty=self.dirty
+            try:
+                with self.connect() as c:
+                    row=c.execute('SELECT id,deleted FROM resources WHERE url=?',(url,)).fetchone()
+                    current=self._get(c,row['id']) if row else None
+                    added=False
+                    if current:
+                        notes=current['notes']
+                        if selection and selection not in notes:
+                            notes=text(notes+('\n\n—— 浏览器采集 ——\n' if notes else '')+selection,10000,'合并后的备注（请拆成独立片段）');added=True
+                        if notes!=current['notes']:self._write(c,{'notes':notes},current)
+                        if row['deleted']:c.execute('UPDATE resources SET deleted=0 WHERE id=?',(row['id'],));self.dirty=True
+                        rid=row['id']
+                    else:
+                        item=self._write(c,{**page,'url':url,'notes':selection,'inbox':True});rid=item['id']
+                    current=self._get(c,rid);revision=current['updatedAt']
+                    if screenshot:
+                        self.attach_in_transaction(c,rid,screenshot,{'name':'网页截图.png','cover':not bool(current['coverId']),'sourceUrl':url},written)
+                        current=self._get(c,rid)
+                        c.execute('UPDATE capture_jobs SET expected_revision=? WHERE resource_id=? AND url=? AND expected_revision=?',(current['updatedAt'],rid,url,revision))
+                    if not c.execute("SELECT 1 FROM capture_jobs WHERE resource_id=? AND url=? AND kind='capture'",(rid,url)).fetchone():self.enqueue_capture(c,current)
+                    if image_url:self.enqueue_capture(c,current,'asset',{'url':image_url})
+                    result={'resource':current,'alreadySaved':bool(row and not row['deleted']),'contentAdded':bool(added or screenshot or image_url)}
+                if written:self.dirty=True
+                return result
+            except Exception:
+                for path in written:path.unlink(missing_ok=True)
+                self.dirty=previous_dirty
+                raise
     def update_note(self,rid,body):
         rid=identifier(rid)
         if not isinstance(body,dict) or set(body)!={'kind','project','expected','value'}:raise ValueError('备注选项无效。')
