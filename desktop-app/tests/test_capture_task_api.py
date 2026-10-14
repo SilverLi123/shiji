@@ -58,7 +58,7 @@ class CaptureTaskAPI(unittest.TestCase):
         self.assertEqual(second['resource']['title'], 'Curated')
         status, queued = self.request('/api/resources/'+resource['id']+'/enrich', {'url': resource['url'], 'updatedAt': second['resource']['updatedAt']})
         self.assertEqual(status, 200)
-        self.assertEqual(queued['status'], 'pending')
+        self.assertEqual(queued['status'], 'skipped', 'Re-collection must not rebase over curated edits')
         self.assertEqual(self.fixture.calls, [])
 
     def test_clip_remote_image_does_not_delay_or_undo_durable_page(self):

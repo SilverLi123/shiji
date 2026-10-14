@@ -127,15 +127,15 @@ class CaptureEngine(unittest.TestCase):
     def test_manual_cover_before_work_prevents_image_fetch(self):
         resource = self.save()
         self.store.attachment(resource['id'], png_bytes(), {'name': 'Manual', 'cover': True})
-        # Explicit retry refreshes only the job fence, never the resource's cover.
+        # Retry never rebases a task over an intervening manual cover edit.
         job = self.store.capture_status()['tasks'][0]
         with self.fixture.route():
             self.assertFalse(self.store.capture_step())
         self.assertEqual(self.store.capture_status()['tasks'][0]['status'], 'skipped')
         self.store.capture_action({'action': 'retry', 'id': job['id']})
         with self.fixture.route():
-            self.assertTrue(self.store.capture_step())
-        self.assertEqual(self.fixture.calls, ['/page'])
+            self.assertFalse(self.store.capture_step())
+        self.assertEqual(self.fixture.calls, [])
         self.assertEqual(len(self.store.get(resource['id'])['attachments']), 1)
 
     def test_manual_edits_delete_url_change_or_cover_during_real_fetch_win(self):

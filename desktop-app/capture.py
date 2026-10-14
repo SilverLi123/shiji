@@ -127,8 +127,8 @@ def capture_payload(url,cover_url='',need_cover=True):
         target=cover_url or meta['thumbnail']
         if need_cover and target:
             try:result['image']=capture_image(target)
-            except CaptureFailure as e:result['coverError']={'code':e.code,'retryable':e.retryable}
-            except (OSError,ValueError,http.client.HTTPException):result['coverError']={'code':'image-network','retryable':True}
+            except CaptureFailure as e:result['coverError']={'code':e.code,'retryable':e.retryable,'message':e.message}
+            except (OSError,ValueError,http.client.HTTPException):result['coverError']={'code':'image-network','retryable':True,'message':'封面下载暂时失败，可稍后重试。'}
         return result
     except CaptureFailure:raise
     except socket.gaierror as e:raise CaptureFailure('dns','DNS 查询失败，原收藏已保留。') from e

@@ -68,7 +68,12 @@ class CaptureOperations:
 
     def _recover_capture(self, c):
         stamp = time.time()
-        c.execute("UPDATE capture_jobs SET status=CASE WHEN attempts>=? THEN 'failed' ELSE 'retry' END,lease='',lease_until=0,next_at=?,updated_at=?,error_code='interrupted',error='上次处理已中断，可继续或重试。' WHERE status='running' AND lease_until<=?", (MAX_ATTEMPTS, stamp, stamp, stamp))
+        if c.execute("SELECT 1 FROM capture_jobs WHERE status='running' AND lease_until<=? LIMIT 1", (stamp,)).fetchone():
+            c.execute("UPDATE capture_jobs SET status=CASE WHEN attempts>=? THEN 'failed' ELSE 'retry' END,lease='',lease_until=0,next_at=?,updated_at=?,error_code='interrupted',error='上次处理已中断，可继续或重试。' WHERE status='running' AND lease_until<=?", (MAX_ATTEMPTS, stamp, stamp, stamp))
+
+    def invalidate_capture(self, c, ids):
+        for rid in ids:
+            c.execute("UPDATE capture_jobs SET status='skipped',lease='',lease_until=0,updated_at=?,error_code='deleted',error='资源已移入回收站，旧补全已停止。' WHERE resource_id=? AND status IN ('pending','running','retry')", (time.time(), rid))
 
     def enqueue_capture(self, c, item, kind='capture', options=None):
         if item.get('kind') != 'website' or item.get('deleted') or not item.get('url'):
@@ -114,6 +119,9 @@ class CaptureOperations:
             item = self._get(c, rid, True)
             if item['url'] != url or item['updatedAt'] != body['updatedAt']:
                 return {'status': 'skipped', 'resource': item}
+            previous = c.execute("SELECT expected_revision FROM capture_jobs WHERE resource_id=? AND url=? AND kind='capture' ORDER BY created_at DESC LIMIT 1", (rid, url)).fetchone()
+            if previous and previous['expected_revision'] != item['updatedAt']:
+                return {'status': 'skipped', 'resource': item}
             row = self.enqueue_capture(c, item)
             return {'status': row['status'] if row else 'skipped', 'resource': item, 'task': self._task(row) if row else None}
 
@@ -146,7 +154,10 @@ class CaptureOperations:
                     item = self._get(c, row['resource_id'], True)
                     if item['url'] != row['url']:
                         raise ValueError('网址已修改，请处理新网址的任务。')
-                    c.execute("UPDATE capture_jobs SET status='pending',attempts=0,next_at=?,updated_at=?,expected_revision=?,lease='',lease_until=0,error_code='',error='' WHERE id=?", (stamp, stamp, item['updatedAt'], tid))
+                    if item['updatedAt'] != row['expected_revision']:
+                        c.execute("UPDATE capture_jobs SET status='skipped',lease='',lease_until=0,updated_at=?,error_code='changed',error='资源已修改，重新尝试也不会覆盖手工内容。' WHERE id=?", (stamp, tid))
+                    else:
+                        c.execute("UPDATE capture_jobs SET status='pending',attempts=0,next_at=?,updated_at=?,lease='',lease_until=0,error_code='',error='' WHERE id=?", (stamp, stamp, tid))
                 else:
                     self._review_capture(c, row, body, stamp)
         return self.capture_status()
@@ -298,7 +309,7 @@ class CaptureOperations:
                     # Only revisions created by this fenced transaction may advance
                     # sibling tasks. A user edit never enters this branch.
                     c.execute('UPDATE capture_jobs SET expected_revision=? WHERE resource_id=? AND url=? AND expected_revision=?', (current['updatedAt'], current['id'], current['url'], original['updatedAt']))
-                    c.execute('UPDATE capture_jobs SET status=?,expected_revision=?,suggestions=?,next_at=?,error_code=?,error=?,lease="",lease_until=0,updated_at=? WHERE id=?', (status, current['updatedAt'], dump(result.get('suggestions', {})), stamp + (5 * 2 ** (job['attempts'] - 1) if retry else 0), 'cover' if cover_error else '', '真实封面暂不可用，已保留海报和收藏。' if cover_error else '', stamp, job['id']))
+                    c.execute('UPDATE capture_jobs SET status=?,expected_revision=?,suggestions=?,next_at=?,error_code=?,error=?,lease="",lease_until=0,updated_at=? WHERE id=?', (status, current['updatedAt'], dump(result.get('suggestions', {})), stamp + (5 * 2 ** (job['attempts'] - 1) if retry else 0), cover_error.get('code','cover') if cover_error else '', (cover_error.get('message','真实封面暂不可用。')+' 已保留海报和收藏。') if cover_error else '', stamp, job['id']))
                 return status == 'completed'
             except Exception:
                 for path in written:

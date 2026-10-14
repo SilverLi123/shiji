@@ -269,6 +269,7 @@ class Store(CaptureOperations,QuickCaptureOperations,PreviewOperations,RecoveryO
     def remove(self,rid,restore=False):
         with self.lock,self.connect() as c:
             self._get(c,rid);self.invalidate_trash_undo([rid]);c.execute('UPDATE resources SET deleted=? WHERE id=?',(0 if restore else 1,rid));self.dirty=True
+            if not restore:self.invalidate_capture(c,[rid])
             return {'ok':True}
     def batch(self,body):
         ids=names(body.get('ids',[]),10000);action=body.get('action');allowed=['tags','projects','favorite','organized','delete','restore']
@@ -277,6 +278,7 @@ class Store(CaptureOperations,QuickCaptureOperations,PreviewOperations,RecoveryO
         with self.lock,self.connect() as c:
             items=[self._get(c,rid,action!='restore') for rid in ids]
             if action in ('delete','restore'):self.invalidate_trash_undo(ids)
+            if action=='delete':self.invalidate_capture(c,ids)
             for item in items:
                 if action in ('delete','restore'):c.execute('UPDATE resources SET deleted=? WHERE id=?',(int(action=='delete'),item['id']))
                 else:

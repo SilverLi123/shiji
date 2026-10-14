@@ -166,6 +166,50 @@ class CaptureJobs(unittest.TestCase):
         self.assertEqual(self.store.get(resource['id'])['title'], 'New owner')
         self.assertEqual(self.store.capture_status()['tasks'][0]['status'], 'completed')
 
+    def test_retry_and_repeat_request_cannot_rebase_over_manual_edits(self):
+        resource = self.save()
+        task = self.store.capture_status()['tasks'][0]
+        self.store.capture_action({'action': 'cancel', 'id': task['id']})
+        manual = self.store.save({'title': fallback_title(self.url), 'notes': 'Manual edit, even with the same fallback title'}, resource['id'])['resource']
+        self.store.capture_action({'action': 'retry', 'id': task['id']})
+        self.assertEqual(self.store.capture_status()['tasks'][0]['status'], 'skipped')
+        result = self.store.request_capture(resource['id'], {'url': manual['url'], 'updatedAt': manual['updatedAt']})
+        self.assertEqual(result['status'], 'skipped')
+        with patch('capture_jobs.fetch_payload') as network:
+            self.assertFalse(self.store.capture_step())
+            network.assert_not_called()
+        self.assertEqual(self.store.get(resource['id']), manual)
+        self.assertEqual(len(self.store.capture_status()['tasks']), 1)
+
+    def test_delete_restore_during_fetch_invalidates_old_lease(self):
+        resource = self.save()
+        entered, release = threading.Event(), threading.Event()
+        def network(item, kind, options):
+            entered.set()
+            release.wait(2)
+            return {'metadata': {'title': 'Must not survive delete'}}
+        with patch('capture_jobs.fetch_payload', side_effect=network):
+            thread = threading.Thread(target=self.store.capture_step)
+            thread.start()
+            self.assertTrue(entered.wait(1))
+            self.store.remove(resource['id'])
+            self.store.remove(resource['id'], True)
+            release.set()
+            thread.join(2)
+        self.assertEqual(self.store.get(resource['id']), resource)
+        self.assertEqual(self.store.capture_status()['tasks'][0]['status'], 'skipped')
+
+    def test_disabled_preview_status_does_not_create_phantom_tasks(self):
+        self.save()
+        self.assertEqual(self.store.preview_status()['pending'], 1)
+        self.assertEqual(len(self.store.capture_status()['tasks']), 1)
+        self.store.configure_previews({'enabled': True})
+        self.assertEqual(len(self.store.capture_status()['tasks']), 2)
+        self.store.configure_previews({'enabled': False})
+        self.assertEqual(self.store.capture_status()['active'], 1)
+        self.store.configure_previews({'enabled': True})
+        self.assertEqual(self.store.capture_status()['active'], 2)
+
 
 if __name__ == '__main__':
     unittest.main()
