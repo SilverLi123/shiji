@@ -1,0 +1,40 @@
+{
+  "date": "2026-10-15",
+  "baseline": "c393671",
+  "implementation": "5869c7a",
+  "pythonTests": 257,
+  "nodeGroups": 55,
+  "logs": {
+    "python": "/tmp/shiji-v61-python-final-rerun.log",
+    "node": "/tmp/shiji-v61-node-final.log",
+    "swift": "/tmp/shiji-v61-swift.log",
+    "swiftHttps": "/tmp/shiji-v61-sync-final.log",
+    "macosBuild": "/tmp/shiji-v61-macos-build-final.log",
+    "iosBuild": "/tmp/shiji-v61-ios-signed-build.log",
+    "httpDelivery": "/tmp/shiji-v61-extension-http.log",
+    "visionFailure": "/tmp/shiji-v61-python-final.log",
+    "visionRerun": "/tmp/shiji-v61-vision-rerun.log"
+  },
+  "screenshots": {
+    "iphone-empty.png": {
+      "bytes": 256821,
+      "sha256": "16e7b5e673c173cb5b3cab88f8f0af16e086c9fa3fcaef37c56e9fced7de4f47"
+    },
+    "desktop-saved-detail.png": {
+      "bytes": 30920,
+      "sha256": "b83d5136d75fb737af9e0e9a2f4648c56cb6837b57da09e8dcbf4dd61c22118a"
+    },
+    "desktop-task-fallback.png": {
+      "bytes": 32814,
+      "sha256": "ab79cd207a0396bbcfdd8f6e7b27fb1edee95b78a4e16415d8ca7a0e4b96ddd6"
+    },
+    "iphone-safari-share-pending.png": {
+      "bytes": 323862,
+      "sha256": "dfb486c28dfd83a8158bcabb734851d6cbf6254575eb5f760dce94fbd4857ba7"
+    }
+  },
+  "manualExtensionVerified": false,
+  "safariSaveVerified": false,
+  "physicalPhoneVerified": false,
+  "nativePerformanceMeasured": false
+}
