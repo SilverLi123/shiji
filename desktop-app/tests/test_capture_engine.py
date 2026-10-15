@@ -183,6 +183,69 @@ class CaptureEngine(unittest.TestCase):
         with self.fixture.route(), self.assertRaises(CaptureFailure):
             capture_image('http://capture.fixture.invalid/wrong-type')
 
+    def test_invalid_jpeg_scan_and_indexed_png_are_rejected(self):
+        import struct, zlib
+        def chunk(name, raw):
+            return struct.pack('>I', len(raw))+name+raw+struct.pack('>I', zlib.crc32(name+raw) & 0xffffffff)
+        import base64
+        jpeg = base64.b64decode('/9j/wAALCAABAAEBAREA/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/9sAQwACAgICAgIDAgIDBQMDAwUGBQUFBQYIBgYGBgYICggICAgICAoKCgoKCgoKDAwMDAwMDg4ODg4PDw8PDw8PDw8P/90ABAAB/9oACAEBAAA/AP38r//Z')
+        self.assertEqual(validate_image(jpeg, 'image/jpeg'), 'image/jpeg')
+        scan = jpeg.index(b'\xff\xda')
+        scan_end = scan+2+int.from_bytes(jpeg[scan+2:scan+4], 'big')
+        with self.assertRaises(ValueError):
+            validate_image(jpeg[:scan_end]+b'\xff\xd9', 'image/jpeg')
+        indexed = b'\x89PNG\r\n\x1a\n'+chunk(b'IHDR', struct.pack('>IIBBBBB', 1, 1, 8, 3, 0, 0, 0))
+        pixels = chunk(b'IDAT', zlib.compress(b'\0\0'))+chunk(b'IEND', b'')
+        self.assertEqual(validate_image(indexed+chunk(b'PLTE', b'\xff\0\0')+pixels, 'image/png'), 'image/png')
+        for raw, mime in ((indexed+pixels, 'image/png'),
+                          (indexed+chunk(b'PLTE', b'\xff')+pixels, 'image/png'),
+                          (bytes.fromhex('ffd8 ffc0 0008 08 0001 0001 00 ffda 0002 ffd9'), 'image/jpeg')):
+            with self.subTest(mime=mime), self.assertRaises(ValueError):
+                validate_image(raw, mime)
+
+    def test_non_cover_asset_publication_marks_snapshot_dirty(self):
+        resource = self.save()
+        self.store.attachment(resource['id'], png_bytes(), {'name': 'Manual', 'cover': True})
+        current = self.store.get(resource['id'])
+        with self.store.connect() as c:
+            self.store.enqueue_capture(c, current, 'asset', {'url': 'http://capture.fixture.invalid/image'})
+        # Use a different valid image so the existing cover is not reused.
+        import struct, zlib
+        def chunk(name, raw):
+            return struct.pack('>I', len(raw))+name+raw+struct.pack('>I', zlib.crc32(name+raw) & 0xffffffff)
+        raw = b'\x89PNG\r\n\x1a\n'+chunk(b'IHDR', struct.pack('>IIBBBBB', 1, 1, 8, 0, 0, 0, 0))+chunk(b'IDAT', zlib.compress(b'\0\x80'))+chunk(b'IEND', b'')
+        self.store.create_snapshot()
+        self.assertFalse(self.store.dirty)
+        with patch('capture_jobs.fetch_payload', return_value={'image': (raw, 'http://capture.fixture.invalid/image', 'OG Image')}):
+            self.assertTrue(self.store.capture_step('asset'))
+        self.assertEqual(self.store.get(resource['id'])['coverId'], current['coverId'])
+        self.assertEqual(len(self.store.get(resource['id'])['attachments']), 2)
+        self.assertTrue(self.store.dirty, 'Downloaded attachment must trigger automatic snapshot')
+        self.store.create_snapshot()
+        self.assertFalse(self.store.dirty)
+
+    def test_worker_processing_exception_does_not_stop_later_jobs(self):
+        import time
+        self.save('/worker-first')
+        self.save('/worker-second')
+        import capture_jobs
+        original = capture_jobs.fetch_payload
+        calls = []
+        def fails_once(*args):
+            calls.append(args[0]['id'])
+            if len(calls) == 1: raise RuntimeError('Do not leak URL or remote content')
+            return original(*args)
+        with self.fixture.route(), patch('capture_jobs.fetch_payload', side_effect=fails_once):
+            self.store.start_capture_worker()
+            deadline = time.monotonic()+4
+            while self.store.capture_status()['counts']['completed'] != 1 and time.monotonic() < deadline:
+                time.sleep(.02)
+            self.store.stop_capture_worker()
+        state = self.store.capture_status()
+        self.assertEqual(state['counts']['retry'], 1)
+        self.assertEqual(state['counts']['completed'], 1)
+        self.assertTrue(all('Do not leak' not in task['error'] for task in state['tasks']))
+
     def test_rules_use_exact_domains_and_canonical_tags(self):
         expected = {'https://github.com/owner/repo': ['GitHub'], 'https://huggingface.co/model': ['AI', '模型'], 'https://polyhaven.com/': ['3D', '素材'], 'https://gsap.com/': ['动效', '前端']}
         for url, tags in expected.items():

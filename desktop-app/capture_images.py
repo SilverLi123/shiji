@@ -17,7 +17,7 @@ def dimensions(w, h):
 
 
 def png(data):
-    pos, image, header, ended = 8, [], None, False
+    pos, image, header, ended, palette, idat_closed = 8, [], None, False, None, False
     while pos + 12 <= len(data):
         size, = struct.unpack_from('>I', data, pos)
         name, payload = data[pos+4:pos+8], data[pos+8:pos+8+size]
@@ -27,11 +27,22 @@ def png(data):
             if header is not None or pos != 8 or size != 13:
                 raise ValueError('PNG 头无效。')
             header = struct.unpack('>IIBBBBB', payload)
+        elif name == b'PLTE':
+            if not header or palette is not None or image or not size or size % 3 or size > 768 or header[3] in (0, 4) or (header[3] == 3 and size//3 > 2**header[2]):
+                raise ValueError('PNG 调色板无效。')
+            palette = payload
         elif name == b'IDAT':
+            if not header or idat_closed or (header[3] == 3 and palette is None):
+                raise ValueError('PNG 图像块或调色板缺失。')
             image.append(payload)
         elif name == b'IEND':
             ended = size == 0 and pos+12 == len(data)
             break
+        else:
+            if not name[0] & 32:
+                raise ValueError('PNG 包含不支持的关键块。')
+            if image:
+                idat_closed = True
         pos += size + 12
     if not header or not ended or not image:
         raise ValueError('PNG 文件不完整。')
@@ -72,7 +83,8 @@ def png(data):
 
 
 def jpeg(data):
-    pos, sized, scanned = 2, False, False
+    pos, components, scanned = 2, {}, False
+    quant, huffman, frame_type = set(), set(), None
     while pos < len(data):
         if data[pos] != 255:
             raise ValueError('JPEG 标记无效。')
@@ -83,7 +95,7 @@ def jpeg(data):
         marker = data[pos]
         pos += 1
         if marker == 0xd9:
-            if sized and scanned and pos == len(data):
+            if components and scanned and pos == len(data):
                 return
             break
         if pos+2 > len(data):
@@ -92,14 +104,62 @@ def jpeg(data):
         if size < 2 or pos+size > len(data):
             break
         if marker in (0xc0, 0xc1, 0xc2):
-            if size < 8 or data[pos+2] != 8:
+            if size < 8 or components or data[pos+2] != 8:
                 break
             h, w = struct.unpack_from('>HH', data, pos+3)
             dimensions(w, h)
-            sized = True
+            count = data[pos+7]
+            if count not in (1, 3, 4) or size != 8+3*count:
+                break
+            for i in range(count):
+                ident, sampling, table = data[pos+8+3*i:pos+11+3*i]
+                if ident in components or not 1 <= sampling >> 4 <= 4 or not 1 <= sampling & 15 <= 4 or table > 3:
+                    raise ValueError('JPEG 帧分量无效。')
+                components[ident] = table
+            frame_type = marker
+        elif marker == 0xdb:
+            cursor = pos+2
+            while cursor < pos+size:
+                table = data[cursor]
+                if table >> 4 not in (0, 1) or table & 15 > 3:
+                    raise ValueError('JPEG 量化表无效。')
+                quant.add(table & 15)
+                cursor += 1+64*(1+(table >> 4))
+            if cursor != pos+size:
+                break
+        elif marker == 0xc4:
+            cursor = pos+2
+            while cursor < pos+size:
+                if cursor+17 > pos+size:
+                    raise ValueError('JPEG Huffman 表不完整。')
+                table = data[cursor]
+                counts = data[cursor+1:cursor+17]
+                if table >> 4 not in (0, 1) or table & 15 > 3 or not 0 < sum(counts) <= 256:
+                    raise ValueError('JPEG Huffman 表无效。')
+                huffman.add((table >> 4, table & 15))
+                cursor += 17+sum(counts)
+            if cursor != pos+size:
+                break
+        elif marker == 0xda:
+            if not components or size < 6:
+                break
+            count = data[pos+2]
+            if not 1 <= count <= len(components) or size != 6+2*count:
+                break
+            seen = set()
+            start, end, approx = data[pos+3+2*count:pos+6+2*count]
+            if (frame_type != 0xc2 and (start, end, approx) != (0, 63, 0)) or not 0 <= start <= end <= 63 or approx >> 4 > 13 or approx & 15 > 13:
+                break
+            for i in range(count):
+                ident, tables = data[pos+3+2*i:pos+5+2*i]
+                if ident not in components or ident in seen or components[ident] not in quant:
+                    raise ValueError('JPEG 扫描分量无效。')
+                seen.add(ident)
+                if (start == 0 and approx >> 4 == 0 and (0, tables >> 4) not in huffman) or (end > 0 and (1, tables & 15) not in huffman):
+                    raise ValueError('JPEG 扫描编码表缺失。')
         pos += size
         if marker == 0xda:
-            scanned = True
+            scan_start = pos
             while pos < len(data):
                 pos = data.find(b'\xff', pos)
                 if pos < 0 or pos+1 >= len(data):
@@ -108,6 +168,9 @@ def jpeg(data):
                     pos += 2
                     continue
                 break
+            if pos <= scan_start:
+                raise ValueError('JPEG 扫描数据为空。')
+            scanned = True
     raise ValueError('JPEG 文件不完整或编码不支持。')
 
 

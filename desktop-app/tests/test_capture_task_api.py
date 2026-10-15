@@ -73,6 +73,20 @@ class CaptureTaskAPI(unittest.TestCase):
         self.assertEqual(self.store.get(result['resource']['id'])['title'], 'Browser title')
         self.assertEqual(self.store.capture_status()['counts']['failed'], 1)
 
+    def test_concurrent_capture_requests_deduplicate_and_invalid_url_saves_nothing(self):
+        from concurrent.futures import ThreadPoolExecutor
+        urls = ['http://capture.fixture.invalid/shared']*6+['http://capture.fixture.invalid/parallel/'+str(i) for i in range(6)]
+        with ThreadPoolExecutor(max_workers=6) as pool:
+            results = list(pool.map(lambda url: self.request('/api/resources', {'url': url, 'title': 'Saved immediately', 'quickCapture': True}), urls))
+        self.assertTrue(all(status == 200 for status, body in results))
+        self.assertEqual(len({body['resource']['id'] for status, body in results[:6]}), 1)
+        self.assertEqual(len(self.store.state()['resources']), 7)
+        self.assertEqual(self.store.capture_status()['counts']['pending'], 7)
+        for url in ('javascript:alert(1)', 'ftp://example.com', 'not a URL'):
+            self.assertEqual(self.request('/api/resources', {'url': url, 'title': 'Invalid', 'quickCapture': True})[0], 400)
+        self.assertEqual(len(self.store.state()['resources']), 7)
+        self.assertEqual(self.fixture.calls, [])
+
     def test_task_api_cancel_pause_retry_and_origin_guard(self):
         self.request('/api/resources', {'url': 'http://capture.fixture.invalid/page', 'title': 'capture.fixture.invalid'})
         status, jobs = self.request('/api/capture/tasks')
@@ -83,6 +97,30 @@ class CaptureTaskAPI(unittest.TestCase):
         self.assertEqual(self.request('/api/capture/tasks', {'action': 'resume'})[1]['paused'], False)
         self.assertEqual(self.request('/api/capture/tasks', {'action': 'retry', 'id': task['id']})[1]['tasks'][0]['status'], 'pending')
         self.assertEqual(self.request('/api/capture/tasks', {'action': 'pause'}, Origin='https://evil.invalid')[0], 403)
+
+    def test_paging_reaches_older_suggestions_and_failed_tasks(self):
+        from storage import dump
+        oldest = None
+        for i in range(35):
+            resource = self.store.save({'url': 'http://capture.fixture.invalid/page/'+str(i), 'title': 'Title '+str(i)})['resource']
+            with self.store.connect() as c:
+                row = c.execute('SELECT id FROM capture_jobs WHERE resource_id=?', (resource['id'],)).fetchone()
+                c.execute("UPDATE capture_jobs SET status=?,suggestions=?,updated_at=? WHERE id=?", ('failed' if i == 0 else 'completed', dump({'category': 'UI / 设计', 'tags': ['React']}), i+1, row[0]))
+            if i == 0: oldest = (row[0], resource)
+        status, first = self.request('/api/capture/tasks?limit=30&offset=0')
+        self.assertEqual(status, 200)
+        self.assertEqual(first['total'], 35)
+        self.assertTrue(first['hasMore'])
+        status, second = self.request('/api/capture/tasks?limit=30&offset=30')
+        self.assertEqual(status, 200)
+        self.assertEqual(len(second['tasks']), 5)
+        self.assertFalse(second['hasMore'])
+        self.assertIn(oldest[0], [task['id'] for task in second['tasks']])
+        status, accepted = self.request('/api/capture/tasks', {'action': 'accept', 'id': oldest[0], 'updatedAt': oldest[1]['updatedAt']})
+        self.assertEqual(status, 200)
+        self.assertEqual(self.store.get(oldest[1]['id'])['tags'], ['React'])
+        for query in ('offset=-1', 'limit=0', 'offset=no', 'unknown=1', 'limit=1&limit=2'):
+            self.assertEqual(self.request('/api/capture/tasks?'+query)[0], 400)
 
     def test_screenshot_and_selected_image_preserve_manual_cover_and_exact_notes(self):
         resource = self.store.capture_page({'url': 'http://capture.fixture.invalid/page', 'title': 'Manual'})['resource']

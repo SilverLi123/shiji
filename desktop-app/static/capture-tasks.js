@@ -6,18 +6,21 @@
  const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  function markup(info,busy=false){
   const button=(action,label,id='',extra='')=>`<button type="button" class="secondary" data-capture-action="${action}" data-task-id="${esc(id)}" ${busy?'disabled':''} ${extra}>${label}</button>`;
-  return `<section class="capture-panel" data-capture-panel aria-label="后台补全任务"><p>收藏已保存在本机。网络解析和图片下载在后台进行，失败时仍可使用原收藏和海报。</p><div class="capture-overview"><p role="status">待处理 ${info.counts.pending||0} · 处理中 ${info.counts.running||0} · 待重试 ${info.counts.retry||0}<br>已完成 ${info.counts.completed||0} · 失败 ${info.counts.failed||0}</p>${button(info.paused?'resume':'pause',info.paused?'恢复后台处理':'暂停后台处理')}</div><p data-capture-error role="alert" hidden></p>${info.paused?'<p class="field-help">后台处理已暂停。正在读取的结果不会写入。</p>':''}<div class="capture-job-list">${info.tasks.length?info.tasks.map(task=>`<article class="capture-job" data-task-row="${esc(task.id)}"><header><h3>${esc(task.title||'原收藏')}</h3><span class="capture-state" data-state="${esc(task.status)}">${labels[task.status]||'未知状态'}</span></header><p class="capture-job-meta">${types[task.type]||'后台处理'} · 已尝试 ${task.attempts} 次${task.status==='retry'?` · ${new Date(task.nextAt*1000).toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'})} 后重试`:''}</p>${task.error?`<p class="capture-job-error">${esc(task.error)}</p>`:''}<div class="capture-job-actions">${button('resource','查看资源',task.id)}${['pending','running','retry'].includes(task.status)?button('cancel','取消补全',task.id):''}${['failed','cancelled'].includes(task.status)?button('retry','重新尝试',task.id):''}</div>${task.suggestionState==='pending'&&task.suggestions?.category&&!['pending','running','cancelled','skipped'].includes(task.status)?`<div class="capture-suggestions"><p>整理建议：${esc(task.suggestions.category)}${task.suggestions.tags?.length?' · '+esc(task.suggestions.tags.join(' · ')):''}</p><p class="field-help">追加建议标签；分类只填未分类资源。已有整理不会被替换。</p><div class="capture-job-actions">${button('accept','接受建议',task.id)}${button('ignore','忽略',task.id)}</div></div>`:''}</article>`).join(''):'<p class="capture-empty">还没有后台任务。收藏链接后，补全会在这里显示。</p>'}</div><p class="field-help">显示最近 ${info.tasks.length} 条任务。取消补全不会删除收藏。</p></section>`;
+  return `<section class="capture-panel" data-capture-panel aria-label="后台补全任务"><p>收藏已保存在本机。网络解析和图片下载在后台进行，失败时仍可使用原收藏和海报。</p><div class="capture-overview"><p role="status">待处理 ${info.counts.pending||0} · 处理中 ${info.counts.running||0} · 待重试 ${info.counts.retry||0}<br>已完成 ${info.counts.completed||0} · 失败 ${info.counts.failed||0}</p>${button(info.paused?'resume':'pause',info.paused?'恢复后台处理':'暂停后台处理')}</div><p data-capture-error role="alert" hidden></p>${info.paused?'<p class="field-help">后台处理已暂停。正在读取的结果不会写入。</p>':''}<div class="capture-job-list">${info.tasks.length?info.tasks.map(task=>`<article class="capture-job" data-task-row="${esc(task.id)}"><header><h3>${esc(task.title||'原收藏')}</h3><span class="capture-state" data-state="${esc(task.status)}">${labels[task.status]||'未知状态'}</span></header><p class="capture-job-meta">${types[task.type]||'后台处理'} · 已尝试 ${task.attempts} 次${task.status==='retry'?` · ${new Date(task.nextAt*1000).toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'})} 后重试`:''}</p>${task.error?`<p class="capture-job-error">${esc(task.error)}</p>`:''}<div class="capture-job-actions">${button('resource','查看资源',task.id)}${['pending','running','retry'].includes(task.status)?button('cancel','取消补全',task.id):''}${['failed','cancelled'].includes(task.status)?button('retry','重新尝试',task.id):''}</div>${task.suggestionState==='pending'&&task.suggestions?.category&&!['pending','running','cancelled','skipped'].includes(task.status)?`<div class="capture-suggestions"><p>整理建议：${esc(task.suggestions.category)}${task.suggestions.tags?.length?' · '+esc(task.suggestions.tags.join(' · ')):''}</p><p class="field-help">追加建议标签；分类只填未分类资源。已有整理不会被替换。</p><div class="capture-job-actions">${button('accept','接受建议',task.id)}${button('ignore','忽略',task.id)}</div></div>`:''}</article>`).join(''):'<p class="capture-empty">还没有后台任务。收藏链接后，补全会在这里显示。</p>'}</div><p class="field-help">显示 ${(info.offset||0)+(info.tasks.length?1:0)}–${(info.offset||0)+info.tasks.length} / ${info.total??info.tasks.length} 条任务。取消补全不会删除收藏。</p><nav class="capture-job-actions" aria-label="任务列表翻页">${button('newer','较新的任务','',(info.offset||0)?'':'disabled')}${button('older','较早的任务','',info.hasMore?'':'disabled')}</nav><p class="field-help">按收藏任务创建顺序排列，补全状态改变不会移动当前条目。</p></section>`;
  }
  function create({document:doc,api,show,refresh=async()=>true,onResource=()=>{},notice=()=>{},pollMs=5000}){
   const win=doc.defaultView,dialog=doc.getElementById('manage-dialog'),content=doc.getElementById('manage-content');
-  let info=null,dead=false,busy=false,inflight=null,timer=null,lastFocus=null,signature='',needsRefresh=false,panelSignature='';
+  let info=null,dead=false,busy=false,inflight=null,timer=null,lastFocus=null,signature='',needsRefresh=false,panelSignature='',offset=0,actionFocus=null;
   const ownPanel=()=>dialog?.open&&!!content?.querySelector('[data-capture-panel]');
   function repaint(force=false){
    if(!ownPanel())return;
    const next=JSON.stringify(info)+busy;if(!force&&next===panelSignature)return;panelSignature=next;
    const focus=content.contains(doc.activeElement)?{action:doc.activeElement.dataset.captureAction,id:doc.activeElement.dataset.taskId}:null;
+   const restore=focus?.action?focus:actionFocus;
+   const canRestore=content.contains(doc.activeElement)||doc.activeElement===doc.body||doc.activeElement===dialog;
    content.innerHTML=markup(info,busy);
-   if(focus?.action){const target=[...content.querySelectorAll('[data-capture-action]')].find(el=>el.dataset.captureAction===focus.action&&el.dataset.taskId===focus.id);(target||content.querySelector('button'))?.focus({preventScroll:true});}
+   if(!busy&&restore?.action&&canRestore){const controls=[...content.querySelectorAll('[data-capture-action]')].filter(el=>!el.disabled);const target=controls.find(el=>el.dataset.captureAction===restore.action&&el.dataset.taskId===restore.id)||controls.find(el=>el.dataset.taskId===restore.id)||controls[0];target?.focus({preventScroll:true});}
+   if(!busy)actionFocus=null;
   }
   async function deferredRefresh(){if(needsRefresh&&!dead&&await refresh())needsRefresh=false;}
   function update(value){
@@ -26,22 +29,24 @@
    if(signature&&next!==signature)needsRefresh=true;signature=next;repaint();
   }
   function schedule(){win.clearTimeout(timer);if(!dead&&!doc.hidden)timer=win.setTimeout(poll,pollMs);}
+  const endpoint=()=>offset?`/api/capture/tasks?offset=${offset}&limit=30`:'/api/capture/tasks';
   async function poll(){
    if(dead||doc.hidden)return info;if(inflight)return inflight;
    win.clearTimeout(timer);
-   inflight=(async()=>{try{const value=await api('/api/capture/tasks');if(!dead){update(value);await deferredRefresh();}}catch{}finally{inflight=null;schedule();}return info;})();return inflight;
+   const queryOffset=offset;
+   inflight=(async()=>{try{const value=await api(endpoint());if(!dead&&queryOffset===offset){update(value);await deferredRefresh();}}catch{}finally{inflight=null;schedule();}return info;})();return inflight;
   }
   async function open(){
-   if(dead)return;lastFocus=doc.activeElement;
-   try{const value=await api('/api/capture/tasks');if(dead)return;update(value);show('后台补全',markup(info,busy));panelSignature='';content.querySelector('button')?.focus({preventScroll:true});}catch(e){notice(e.message);}
+   if(dead)return;lastFocus=doc.activeElement;offset=0;
+   try{const value=await api(endpoint());if(dead)return;update(value);show('后台补全',markup(info,busy));panelSignature='';content.querySelector('button')?.focus({preventScroll:true});}catch(e){notice(e.message);}
   }
   async function click(event){
    if(event.target.closest('[data-capture-open]')){await open();return;}
    const button=event.target.closest('[data-capture-action]');if(!button||!ownPanel()||busy)return;
    const action=button.dataset.captureAction,id=button.dataset.taskId,task=info.tasks.find(t=>t.id===id);
    if(action==='resource'){try{await onResource(task?.resourceId);}catch(e){notice(e.message);}return;}
-   busy=true;repaint(true);
-   try{const body={action,...(id?{id}:{}),...(['accept','ignore'].includes(action)?{updatedAt:task.expectedRevision}:{})};const value=await api('/api/capture/tasks','POST',body);if(!dead){update(value);if(action==='accept')needsRefresh=true;}}
+   actionFocus={action,id};busy=true;repaint(true);
+   try{if(action==='older'||action==='newer'){const previous=offset;offset=action==='older'?offset+30:Math.max(0,offset-30);try{update(await api(endpoint()));}catch(e){offset=previous;throw e;}return;}const body={action,...(id?{id}:{}),...(['accept','ignore'].includes(action)?{updatedAt:task.expectedRevision}:{})};let value=await api('/api/capture/tasks','POST',body);if(offset)value=await api(endpoint());if(!dead){update(value);if(action==='accept')needsRefresh=true;}}
    catch(e){if(!dead&&ownPanel()){busy=false;repaint(true);const error=content.querySelector('[data-capture-error]');error.hidden=false;error.textContent=e.message;return;}}
    finally{busy=false;if(!dead)repaint();}
    await deferredRefresh();

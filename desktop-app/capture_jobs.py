@@ -96,17 +96,21 @@ class CaptureOperations:
                 'suggestions': json.loads(row['suggestions']), 'suggestionState': row['suggestion_state'],
                 'title': row['title'] if 'title' in row.keys() else ''}
 
-    def capture_status(self, limit=30):
+    def capture_status(self, limit=30, offset=0):
         if type(limit) is not int or not 1 <= limit <= 100:
             raise ValueError('任务列表数量无效。')
+        if type(offset) is not int or not 0 <= offset <= 1_000_000:
+            raise ValueError('任务列表位置无效。')
         with self.lock, self.connect() as c:
             self._recover_capture(c)
             control = json.loads(c.execute("SELECT value FROM capture_control WHERE key='engine'").fetchone()[0])
             counts = {key: 0 for key in (*ACTIVE, 'completed', 'failed', 'cancelled', 'skipped')}
             counts.update({r[0]: r[1] for r in c.execute('SELECT status,count(*) FROM capture_jobs GROUP BY status')})
-            rows = c.execute("SELECT j.*,json_extract(r.payload,'$.title') AS title FROM capture_jobs j LEFT JOIN resources r ON r.id=j.resource_id ORDER BY j.updated_at DESC,j.id LIMIT ?", (limit,)).fetchall()
+            total = sum(counts.values())
+            rows = c.execute("SELECT j.*,json_extract(r.payload,'$.title') AS title FROM capture_jobs j LEFT JOIN resources r ON r.id=j.resource_id ORDER BY j.created_at DESC,j.id LIMIT ? OFFSET ?", (limit, offset)).fetchall()
             return {'paused': control['paused'], 'counts': counts, 'tasks': [self._task(r) for r in rows],
-                    'active': sum(counts[s] for s in ACTIVE), 'maxAttempts': MAX_ATTEMPTS}
+                    'active': sum(counts[s] for s in ACTIVE), 'maxAttempts': MAX_ATTEMPTS,
+                    'total': total, 'offset': offset, 'limit': limit, 'hasMore': offset+len(rows) < total}
 
     def request_capture(self, rid, body):
         from storage import identifier, normalize_url
@@ -300,7 +304,9 @@ class CaptureOperations:
                             if not current['coverId']:
                                 self._write(c, {'coverId': same['id']}, current)
                         else:
-                            self.attach_in_transaction(c, current['id'], raw, {'name': '网页图片' if job['kind'] == 'asset' else ('网站预览.png' if method == 'Chrome 截图' else '网站预览图'), 'cover': not bool(current['coverId']), 'sourceUrl': source, 'license': '待确认'}, written)
+                            attachment = self.attach_in_transaction(c, current['id'], raw, {'name': '网页图片' if job['kind'] == 'asset' else ('网站预览.png' if method == 'Chrome 截图' else '网站预览图'), 'cover': not bool(current['coverId']), 'sourceUrl': source, 'license': '待确认'}, written)
+                            if not attachment['reused']:
+                                self.dirty = True
                         current = self._get(c, current['id'])
                     cover_error = result.get('coverError')
                     retry = bool(cover_error) and cover_error.get('retryable', True) and job['attempts'] < MAX_ATTEMPTS

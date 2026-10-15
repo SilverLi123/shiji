@@ -15,7 +15,7 @@ import sqlite3
 import zipfile
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import urlsplit
+from urllib.parse import urlsplit, parse_qs
 from storage import Store, Duplicate
 ROOT=Path(__file__).resolve().parent
 STORE=None
@@ -70,7 +70,10 @@ class Handler(SimpleHTTPRequestHandler):
                 with STORE.backup_path() as archive:self.send_disk(archive,'application/zip','shiji-full-backup.zip')
             elif path=='/api/backups':self.send_json(200,STORE.backup_list())
             elif path=='/api/website-previews':self.send_json(200,STORE.preview_status())
-            elif path=='/api/capture/tasks':self.send_json(200,STORE.capture_status())
+            elif path=='/api/capture/tasks':
+                query=parse_qs(urlsplit(self.path).query,keep_blank_values=True)
+                if set(query)-{'limit','offset'} or any(len(v)!=1 for v in query.values()):raise ValueError('任务列表参数无效。')
+                self.send_json(200,STORE.capture_status(limit=int(query.get('limit',['30'])[0]),offset=int(query.get('offset',['0'])[0])))
             elif path=='/api/library-health':self.send_json(200,STORE.health_status())
             elif path=='/api/library-health/report':
                 report=STORE.health_status()['report']
