@@ -19,6 +19,7 @@ from urllib.parse import urlsplit, parse_qs
 from storage import Store, Duplicate
 ROOT=Path(__file__).resolve().parent
 STORE=None
+CLIP_PATHS={'/api/clip','/api/clip/ping','/api/clip/status'}
 DEMO = [
     ('MDN Web Docs', 'https://developer.mozilla.org/', '开发工具', ['文档', 'Web'], '查阅 Web API 和前端开发文档。'),
     ('Figma Community', 'https://www.figma.com/community', 'UI / 设计', ['UI', '组件'], '寻找社区设计文件与界面参考。'),
@@ -33,7 +34,7 @@ DEMO = [
 class Handler(SimpleHTTPRequestHandler):
     def __init__(self,*args,**kwargs):super().__init__(*args,directory=str(ROOT/'static'),**kwargs)
     def end_headers(self):
-        if urlsplit(self.path).path in {'/api/clip','/api/clip/ping'} and re.fullmatch(r'chrome-extension://[a-z]{32}',self.headers.get('Origin','')):self.send_header('Access-Control-Allow-Origin',self.headers['Origin'])
+        if urlsplit(self.path).path in CLIP_PATHS and re.fullmatch(r'chrome-extension://[a-z]{32}',self.headers.get('Origin','')):self.send_header('Access-Control-Allow-Origin',self.headers['Origin'])
         self.send_header('X-Content-Type-Options','nosniff');self.send_header('Cache-Control','no-store');super().end_headers()
     def send_json(self,status,payload,attachment=False):
         raw=json.dumps(payload,ensure_ascii=False).encode();self.send_bytes(status,raw,'application/json; charset=utf-8','shiji-bookmarks.json' if attachment else None)
@@ -43,7 +44,7 @@ class Handler(SimpleHTTPRequestHandler):
         self.end_headers();self.wfile.write(raw)
     def safe_request(self):
         allowed={'127.0.0.1:'+str(self.server.server_port),'localhost:'+str(self.server.server_port)}
-        clip=urlsplit(self.path).path in {'/api/clip','/api/clip/ping'}
+        clip=urlsplit(self.path).path in CLIP_PATHS
         origin=self.headers.get('Origin','')
         extension_origin=not origin or bool(re.fullmatch(r'chrome-extension://[a-z]{32}',origin))
         paired=clip and extension_origin and hmac.compare_digest(self.headers.get('Authorization',''),'Bearer '+STORE.token())
@@ -130,7 +131,7 @@ class Handler(SimpleHTTPRequestHandler):
                     target.write(block);remaining-=len(block)
             yield path
     def do_OPTIONS(self):
-        if urlsplit(self.path).path not in {'/api/clip','/api/clip/ping'} or not re.fullmatch(r'chrome-extension://[a-z]{32}',self.headers.get('Origin','')):self.send_json(403,{'error':'不支持跨站请求。'});return
+        if urlsplit(self.path).path not in CLIP_PATHS or not re.fullmatch(r'chrome-extension://[a-z]{32}',self.headers.get('Origin','')):self.send_json(403,{'error':'不支持跨站请求。'});return
         allowed={'127.0.0.1:'+str(self.server.server_port),'localhost:'+str(self.server.server_port)}
         if self.headers.get('Host') not in allowed:self.send_json(403,{'error':'本地地址不正确。'});return
         self.send_response(204);self.send_header('Access-Control-Allow-Methods','POST');self.send_header('Access-Control-Allow-Headers','Content-Type,Authorization');self.end_headers()
@@ -142,7 +143,7 @@ class Handler(SimpleHTTPRequestHandler):
         try:
             path=urlsplit(self.path).path
             if path=='/api/clip/ping' and method=='POST':
-                self.send_json(200,{'app':'DevResourceLibrary','connected':True});return
+                self.send_json(200,{'app':'DevResourceLibrary','connected':True,'captureReceipts':1});return
             if path in ('/api/restore','/api/restore/preflight') and method=='POST':
                 with self.read_archive() as archive:result=STORE.preflight_restore(archive) if path.endswith('/preflight') else STORE.restore_zip(archive)
                 self.send_json(200,result)
@@ -155,7 +156,8 @@ class Handler(SimpleHTTPRequestHandler):
                 self.send_json(200,STORE.import_asset(self.read_bytes(64*1024*1024),metadata));return
             body=self.read_json() if method!='DELETE' else {}
             if not isinstance(body,dict):raise ValueError('请求格式不正确。')
-            if path=='/api/metadata' and method=='POST':result=read_metadata(body.get('url',''))
+            if path=='/api/clip/status' and method=='POST':result=STORE.clip_status(body)
+            elif path=='/api/metadata' and method=='POST':result=read_metadata(body.get('url',''))
             elif path=='/api/remote-cover' and method=='POST':
                 rid=body.get('id');STORE.get(rid);status,headers,data,final=public_fetch(body.get('url',''),limit=5*1024*1024)
                 if status!=200 or not detect_mime(data).startswith('image/'):raise ValueError('没有读到可用图片，可以粘贴或上传截图。')
@@ -177,7 +179,11 @@ class Handler(SimpleHTTPRequestHandler):
                     if not isinstance(screenshot,str) or not re.fullmatch(r'data:image/(png|jpeg);base64,[A-Za-z0-9+/=]+',screenshot):raise ValueError('截图格式不正确。')
                     raw=base64.b64decode(screenshot.split(',',1)[1],validate=True)
                     if not detect_mime(raw).startswith('image/'):raise ValueError('截图不是图片。')
-                result=STORE.capture_page({'url':url,'title':body.get('title') or urlsplit(url).hostname,'description':body.get('description',''),'thumbnail':safe_asset(url,body.get('thumbnail','')),'favicon':safe_asset(url,body.get('favicon',''))},selection,screenshot=raw,image_url=body.get('imageUrl',''))
+                request_id=body.get('requestId')
+                if 'requestId' in body:
+                    from capture_receipts import request_identifier
+                    request_id=request_identifier(request_id)
+                result=STORE.capture_page({'url':url,'title':body.get('title') or urlsplit(url).hostname,'description':body.get('description',''),'thumbnail':safe_asset(url,body.get('thumbnail','')),'favicon':safe_asset(url,body.get('favicon',''))},selection,screenshot=raw,image_url=body.get('imageUrl',''),request_id=request_id)
             elif path=='/api/resources' and method=='POST':
                 quick=body.pop('quickCapture',False)
                 if type(quick) is not bool:raise ValueError('快速收藏选项无效。')

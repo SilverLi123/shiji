@@ -23,6 +23,7 @@ from file_store import publish_file
 from edits import GuardedEditOperations, EditConflict
 from quick_capture import QuickCaptureOperations
 from capture_jobs import CaptureOperations
+from capture_receipts import CaptureReceiptOperations, fingerprint as clip_fingerprint, request_identifier
 
 CATEGORIES=['开发工具','美术素材','UI / 设计','音频','视频','字体','3D','灵感','其他']
 PRICES=['待确认','免费','部分免费','付费']
@@ -120,7 +121,7 @@ def validate_filters(raw):
     from filters import advanced_filters
     return advanced_filters(raw,result)
 
-class Store(CaptureOperations,QuickCaptureOperations,PreviewOperations,RecoveryOperations,GuardedEditOperations,ProjectOperations,LinkImportOperations,HealthOperations,BookmarkOperations,AssetImportOperations,BackupOperations):
+class Store(CaptureReceiptOperations,CaptureOperations,QuickCaptureOperations,PreviewOperations,RecoveryOperations,GuardedEditOperations,ProjectOperations,LinkImportOperations,HealthOperations,BookmarkOperations,AssetImportOperations,BackupOperations):
     def __init__(self,directory):
         self.root=Path(directory);self.root.mkdir(parents=True,exist_ok=True)
         self.db=self.root/'library.sqlite3';self.files=self.root/'files';self.files.mkdir(exist_ok=True)
@@ -145,6 +146,7 @@ class Store(CaptureOperations,QuickCaptureOperations,PreviewOperations,RecoveryO
             c.execute('CREATE TABLE IF NOT EXISTS smart_collections(id TEXT PRIMARY KEY,name TEXT NOT NULL UNIQUE,filters TEXT NOT NULL)')
             c.execute('CREATE TABLE IF NOT EXISTS settings(key TEXT PRIMARY KEY,value TEXT NOT NULL)')
             self.init_capture_jobs(c)
+            self.init_capture_receipts(c)
             if c.execute('PRAGMA user_version').fetchone()[0]<2:
                 for row in c.execute('SELECT * FROM resources').fetchall():
                     old=json.loads(row['payload']);old.setdefault('createdAt',now());old.setdefault('url',row['url'])
@@ -199,15 +201,24 @@ class Store(CaptureOperations,QuickCaptureOperations,PreviewOperations,RecoveryO
         with self.lock,self.connect() as c:
             item=self._write(c,raw,self._get(c,rid,True) if rid else None)
             return {'resource':self._get(c,item['id'])}
-    def capture_page(self,page,selection='',screenshot=None,image_url=''):
+    def capture_page(self,page,selection='',screenshot=None,image_url='',request_id=None):
         """Persist page, local bytes and derived tasks; never await remote images."""
         url=normalize_url(page.get('url',''));selection=text(selection,10000,'选中文字')
         image_url=normalize_url(image_url) if image_url else ''
+        if request_id is not None:request_id=request_identifier(request_id)
+        payload_hash=clip_fingerprint(page,selection,screenshot,image_url) if request_id else None
         written=[]
         with self.lock:
             previous_dirty=self.dirty
             try:
                 with self.connect() as c:
+                    c.execute('BEGIN IMMEDIATE')
+                    if request_id:
+                        receipt=self._clip_receipt(c,request_id,payload_hash)
+                        if receipt['status']=='saved':
+                            try:current=self._get(c,receipt['resourceId'])
+                            except ValueError:current=None
+                            return {'resource':current,'alreadySaved':True,'contentAdded':False,'receipt':receipt}
                     row=c.execute('SELECT id,deleted FROM resources WHERE url=?',(url,)).fetchone()
                     current=self._get(c,row['id']) if row else None
                     added=False
@@ -228,6 +239,7 @@ class Store(CaptureOperations,QuickCaptureOperations,PreviewOperations,RecoveryO
                     if not c.execute("SELECT 1 FROM capture_jobs WHERE resource_id=? AND url=? AND kind='capture'",(rid,url)).fetchone():self.enqueue_capture(c,current)
                     if image_url:self.enqueue_capture(c,current,'asset',{'url':image_url})
                     result={'resource':current,'alreadySaved':bool(row and not row['deleted']),'contentAdded':bool(added or screenshot or image_url)}
+                    if request_id:result['receipt']=self._record_clip(c,request_id,payload_hash,rid)
                 if written:self.dirty=True
                 return result
             except Exception:
