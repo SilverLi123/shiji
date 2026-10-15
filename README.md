@@ -2,7 +2,7 @@
 
 用于收藏和管理开发资源的本地工具：网站、美术素材、设计参考、音频、视频、代码与灵感。包含 macOS App、Chrome / Edge 浏览器采集扩展和原生 iPhone App；手机和电脑可通过同一 Wi-Fi 配对同步。
 
-当前进入 SHIJI Next — Capture & Organize，基于V5.2候选继续开发。已继承V5、Stable和V5.1的视觉、生命周期及卡片可靠性修复；分支、已有功能和fresh baseline见 [Next审查报告](docs/shiji-next/BASELINE_AUDIT.md)。原生详情长帧仍未修复，完整条件与原始记录见 [V5.2调查报告](docs/shiji-v5.2/REPORT.md) 和 [性能数据](docs/shiji-v5.2/PERFORMANCE.md)。本轮优先真实系统分享专项，不重复开发已有管理/同步功能，也不把编译通过当作系统分享或性能验收通过。
+当前候选进入 **SHIJI V6 Smart Capture Engine**，基于 Next／V5.2，保留已认可的 V5 Spatial Poster。已实现先保存后补全、持久后台任务、租约恢复、真实封面校验和需确认的整理建议；实现、兼容性、245 项 Python／53 组 Node、强杀恢复及实际界面证据见 [V6 交付报告](docs/shiji-v6-capture/REPORT.md)。本候选尚未推送／合入 main，原生任务面板、安装后扩展和实体 iPhone 仍有验收项目。原生首次详情长帧沿用 [V5.2 调查](docs/shiji-v5.2/REPORT.md)，不因本轮功能通过而标记已修复。既有分享专项背景见 [Next 审查](docs/shiji-next/BASELINE_AUDIT.md)。
 
 ## 代码结构
 

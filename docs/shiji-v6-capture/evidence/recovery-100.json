@@ -1,0 +1,27 @@
+{
+  "result": "PASS",
+  "urls": 100,
+  "resources": 100,
+  "tasks": 100,
+  "states": {
+    "pending": 0,
+    "running": 0,
+    "retry": 0,
+    "completed": 46,
+    "failed": 50,
+    "cancelled": 0,
+    "skipped": 4
+  },
+  "attachments": 37,
+  "elapsedSeconds": 136.951,
+  "restartToCompletionSeconds": 120.885,
+  "leaseSeconds": 120,
+  "fixtureNetworkTimeoutSeconds": 0.15,
+  "killedTask": "dea395b3-e1e1-4d17-8140-78a3ac1147c5",
+  "artifactDirectory": "/var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v6-recovery-100-bbt_fxc7",
+  "limitations": [
+    "Test-only public-host transport uses a local HTTP fixture",
+    "Shorter network deadlines exercise timeouts; production lease/backoff unchanged",
+    "This is backend/API acceptance, not physical iPhone or macOS UI acceptance"
+  ]
+}

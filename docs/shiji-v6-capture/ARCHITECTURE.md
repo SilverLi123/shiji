@@ -23,7 +23,7 @@
 
 ## Persistence / migration / rollback
 
-Add optional `capture_jobs` and `capture_control` tables to the existing database, leaving `PRAGMA user_version=3`, resource payloads and ZIP manifest 2 unchanged. Jobs contain ID, resource ID, kind, normalized URL, expected updatedAt, attempts, nextAt, safe error code/summary, timestamps, lease token/expiry, suggestions and review state. Deduplicate by resource ID + URL + kind + expected version; retain terminal history.
+Add optional `capture_jobs` and `capture_control` tables to the existing database, leaving `PRAGMA user_version=3`, resource payloads and ZIP manifest 2 unchanged. Jobs contain ID, resource ID, kind, normalized URL, expected updatedAt, attempts, nextAt, safe error code/summary, timestamps, lease token/expiry, suggestions and review state. Deduplicate by resource ID + URL + kind + initial resource version + normalized options; retain terminal history.
 
 New website creation / URL change records its capture job in the same resource transaction. A failed transaction leaves neither a phantom resource nor a phantom task. Imports use the same Store write path; existing historical rows are not automatically sent to the network on migration. Legacy preview opt-in queues uncovered websites through indexed resource queries.
 
@@ -55,34 +55,38 @@ Classification is an extensible local rule set. Store suggestions in the task, n
 ### 1. Durable lifecycle
 
 Files: `capture_jobs.py`, `storage.py`, `tests/test_capture_jobs.py`.
-Interfaces: `enqueue_capture(c,item,kind='capture')`, `capture_status(limit=30)`, `capture_action(body)`, `capture_step(kind=None)`.
+Interfaces: `enqueue_capture(c,item,kind='capture')`, `capture_status(limit=30,offset=0)`, `capture_action(body)`, `capture_step(kind=None)`.
 
-- [ ] Add failing real-Store tests for atomic enqueue, duplicate/stale jobs, leases, restart, cancel, pause and safe retry.
-- [ ] Implement optional tables, indexed claim, local controls and fenced commits; retain legacy preview API through this scheduler.
-- [ ] Run focused and full Python regression; commit.
+- [x] Add failing real-Store tests for atomic enqueue, duplicate/stale jobs, leases, restart, cancel, pause and safe retry.
+- [x] Implement optional tables, indexed claim, local controls and fenced commits; retain legacy preview API through this scheduler.
+- [x] Run focused and full Python regression; commit.
 
 ### 2. Parsing, covers, suggestions
 
 Files: `capture.py`, `capture_images.py`, `capture_rules.py`, `preview_jobs.py`, `tests/test_capture_engine.py`.
 Interfaces: `capture_payload(url,cover_url='',need_cover=True)`, `validate_image(bytes,content_type)`, `suggest(resource,metadata)`.
 
-- [ ] Test real public-fetch boundary, local HTTP fixtures via test-only transport routing, invalid images, partial metadata, all manual edits and failures.
-- [ ] Implement bounded metadata/image parsing, canonical hints, rules, preview compatibility; keep all network outside Store locks.
-- [ ] Verify manifest-2 roundtrip and resource/sync compatibility; commit.
+- [x] Test real public-fetch boundary, local HTTP fixtures via test-only transport routing, invalid images, partial metadata, all manual edits and failures.
+- [x] Implement bounded metadata/image parsing, canonical hints, rules, preview compatibility; keep all network outside Store locks.
+- [x] Verify manifest-2 roundtrip and resource/sync compatibility; commit.
 
 ### 3. API and lightweight UI
 
 Files: `server.py`, `static/capture-tasks.js`, `static/app.js`, `static/index.html`, CSS; Python API and Node DOM tests.
 
-- [ ] Test save-first clipping, duplicate URL reconciliation, state/actions and versioned suggestion review through real APIs.
-- [ ] Route existing enrichment/preview APIs into one scheduler; add `/api/capture/tasks` GET/POST, compact expandable task feedback, retry/cancel/pause/review.
-- [ ] Poll only while visible; preserve existing stable nodes, focus, Reduced Motion and Calm. Run Node suite; commit.
+- [x] Test save-first clipping, duplicate URL reconciliation, state/actions and versioned suggestion review through real APIs.
+- [x] Route existing enrichment/preview APIs into one scheduler; add `/api/capture/tasks` GET/POST, compact expandable task feedback, retry/cancel/pause/review.
+- [x] Poll only while visible; preserve existing stable nodes, focus, Reduced Motion and Calm. Run Node suite; commit.
 
 ### 4. Recovery, performance and real acceptance
 
 Files: `docs/shiji-v6-capture/qa/`, reports and small screenshots only.
 
-- [ ] Run 100 deterministic URLs through real Store/service/HTTP fixture, kill/restart midway, assert resources/tasks/edits/covers.
-- [ ] Measure 1000/5000 resource scheduling and UI response; record environment and distributions, no transform-based FPS claims.
-- [ ] Run Python, Node, Swift, real HTTPS sync and macOS build; inspect live V5 UI, save and task controls.
-- [ ] Commit delivery report with raw-artifact locations, explicit limits and Search/Cover integration guidance. No automatic push/merge.
+- [x] Run 100 deterministic URLs through real Store/service/HTTP fixture, kill/restart midway, assert resources/tasks/edits/covers.
+- [x] Measure 1000/5000 resource scheduling and UI response; record environment and distributions, no transform-based FPS claims.
+- [x] Run Python, Node, Swift, real HTTPS sync and macOS build; inspect live V5 UI, save and task controls.
+- [x] Commit delivery report with raw-artifact locations, explicit limits and Search/Cover integration guidance. No automatic push/merge.
+
+## Delivery qualification
+
+Completed module commits and acceptance records are in REPORT.md. Actual native popup clicking, installed extension end-to-end and physical iPhone remain unverified; checked implementation steps do not imply device certification. V5.2 frame risks remain open.

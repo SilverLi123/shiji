@@ -1,0 +1,62 @@
+{
+  "recordedDate": "2026-10-15",
+  "baseline": "de06972346d9f1838bff0d2d91262f7b10c01577",
+  "branch": "feat/shiji-v6-smart-capture",
+  "codeCommit": "7c358f0c6a83f2fe35b22e79b7250e362e63467d",
+  "qaCommit": "40b7d66",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "tests": {
+    "python": {
+      "count": 245,
+      "result": "PASS",
+      "log": "/tmp/shiji-v6-delivery-python-final.log"
+    },
+    "node": {
+      "groups": 53,
+      "result": "PASS",
+      "log": "/tmp/shiji-v6-delivery-node.log"
+    },
+    "newPageRaceAndFocus": {
+      "result": "PASS",
+      "log": "/tmp/shiji-v6-final-pager-focus.log"
+    },
+    "swiftCoreZip": {
+      "result": "PASS",
+      "log": "/tmp/shiji-v6-swift.log"
+    },
+    "swiftHttpsSync": {
+      "result": "PASS",
+      "log": "/tmp/shiji-v6-sync.log"
+    },
+    "macosBuild": {
+      "result": "PASS",
+      "log": "/tmp/shiji-v6-delivery-macos-final.log"
+    }
+  },
+  "earlierFailure": {
+    "log": "/tmp/shiji-v6-final-python.log",
+    "detail": "Intermediate full run: Swift QR process SIGTRAP; isolated reruns and final complete suites passed; unique root cause not established"
+  },
+  "recoveryLog": "/tmp/shiji-v6-delivery-recovery.log",
+  "backendLog": "/tmp/shiji-v6-delivery-backend.log",
+  "uiRaw": [
+    "/tmp/shiji-v6-ui-1000.json",
+    "/tmp/shiji-v6-ui-5000.json"
+  ],
+  "nativeQAState": "/tmp/shiji-v6-native-1000.json",
+  "nativeApp": "/var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v6-native-4lk8y1nr/Shiji V6 Capture QA 1000.app",
+  "limitations": [
+    "Local artifacts are ephemeral, not published downloads",
+    "No production database or pairing data included",
+    "Native popup click, installed browser extension and physical iPhone not accepted",
+    "V5.2 native first-detail long frames remain open",
+    "Remote CI not run for this unpushed branch"
+  ],
+  "schedulingPerformanceCommit": "07577c2",
+  "completedJobReuseRegression": {
+    "result": "PASS",
+    "test": "test_recollect_completed_capture_reuses_existing_job_after_own_revision",
+    "redLog": "/tmp/shiji-v6-completed-dedup-red.log",
+    "finalFullSuiteLog": "/tmp/shiji-v6-delivery-python-final.log"
+  }
+}
