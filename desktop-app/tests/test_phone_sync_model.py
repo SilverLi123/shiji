@@ -43,6 +43,7 @@ import Vision
 }
 ''')
     subprocess.run(['xcrun','swiftc','-parse-as-library','-swift-version','5',str(ROOT/'desktop/PhoneSync.swift'),str(source),'-o',str(binary)],check=True,capture_output=True,text=True)
-    result=subprocess.run([str(binary),'http://127.0.0.1:'+str(server.server_port)],check=True,capture_output=True,text=True)
+    result=subprocess.run([str(binary),'http://127.0.0.1:'+str(server.server_port)],capture_output=True,text=True)
+    self.assertEqual(result.returncode,0,result.stdout+result.stderr)
     self.assertIn('PASS:',result.stdout)
   finally:server.shutdown();server.server_close()

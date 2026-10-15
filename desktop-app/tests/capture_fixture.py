@@ -74,6 +74,8 @@ class Fixture:
         import capture
         real_dns, real_request, real_fetch = socket.getaddrinfo, capture._request, capture.public_fetch
         def dns(host, port, **kwargs):
+            if str(host) == 'offline.fixture.invalid':
+                raise socket.gaierror('Fixture DNS failure')
             if str(host).endswith('.fixture.invalid'):
                 return [(socket.AF_INET, socket.SOCK_STREAM, 6, '', ('93.184.216.34', port))]
             return real_dns(host, port, **kwargs)

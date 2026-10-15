@@ -2,7 +2,7 @@ name: Stable Beta checks
 on:
   pull_request:
   push:
-    branches: [main, "feat/shiji-v5*", "feat/shiji-next-*"]
+    branches: [main, "feat/shiji-v5*", "feat/shiji-next-*", "feat/shiji-v6-*"]
 permissions:
   contents: read
 jobs:
@@ -49,3 +49,20 @@ jobs:
         run: python mobile-app/Tests/run.py
       - name: Swift HTTPS sync with disposable certificates
         run: python mobile-app/Tests/sync_integration.py
+  capture-recovery:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 100 URL abrupt-death and real lease recovery
+        run: python docs/shiji-v6-capture/qa/recovery_100.py > capture-recovery.log 2>&1
+      - name: Retain QA output without database or credentials
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: capture-recovery-${{ github.run_id }}
+          path: capture-recovery.log
+          retention-days: 7
