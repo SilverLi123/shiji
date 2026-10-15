@@ -1,10 +1,10 @@
 const assert=require('node:assert/strict'),vm=require('node:vm'),fs=require('fs'),path=require('path');
 const {webcrypto}=require('node:crypto');
 (async()=>{
- let handler,requests=[],badges=[],offline=false;const data={base:'http://127.0.0.1:8782',token:'x'.repeat(40)};
+ let handler,requests=[],badges=[],offline=false,quota=false;const data={base:'http://127.0.0.1:8782',token:'x'.repeat(40)};
  const receipts=new Map(),alarms=new Map();
  const chrome={runtime:{id:'a'.repeat(32),onInstalled:{addListener(){}},onStartup:{addListener(){}},onMessage:{addListener(fn){handler=fn}}},contextMenus:{onClicked:{addListener(){}}},
- storage:{local:{get:async keys=>Object.fromEntries((Array.isArray(keys)?keys:[keys]).map(k=>[k,structuredClone(data[k])])),set:async value=>Object.assign(data,structuredClone(value)),setAccessLevel:async()=>{}},onChanged:{addListener(){}}},
+ storage:{local:{get:async keys=>Object.fromEntries((Array.isArray(keys)?keys:[keys]).map(k=>[k,structuredClone(data[k])])),set:async value=>{if(quota)throw new Error('QUOTA_BYTES quota exceeded');Object.assign(data,structuredClone(value));},setAccessLevel:async()=>{}},onChanged:{addListener(){}}},
  action:{setBadgeText:async v=>badges.push(v.text),setBadgeBackgroundColor:async()=>{}},alarms:{get:async k=>alarms.get(k),create:async(k,v)=>alarms.set(k,v),clear:async k=>alarms.delete(k),onAlarm:{addListener(){}}},
  tabs:{query:async()=>[{id:5,windowId:1}],captureVisibleTab:async()=> 'data:image/png;base64,PNG'},scripting:{executeScript:async()=>[{result:{url:'https://example.com/',title:'Example',selection:'Selection'}}]}};
  const context=vm.createContext({chrome,crypto:webcrypto,TextEncoder,AbortSignal,URL,console,fetch:async(url,options)=>{
@@ -28,5 +28,12 @@ const {webcrypto}=require('node:crypto');
  offline=false;assert.ok((await send({type:'retry',id:queued.requestId})).ok);
  for(let i=0;i<30 && (await send({type:'outbox'})).rows.length;i++)await new Promise(r=>setTimeout(r,5));
  assert.equal((await send({type:'outbox'})).rows.length,0);
+ quota=true;
+ const unhandled=[];const captureUnhandled=e=>unhandled.push(e);process.on('unhandledRejection',captureUnhandled);
+ const failed=await Promise.race([send({type:'capture'}),new Promise(resolve=>setTimeout(()=>resolve({timedOut:true}),150))]);
+ process.removeListener('unhandledRejection',captureUnhandled);
+ assert.equal(failed.timedOut,undefined,'Storage failure must still reply to the popup');
+ assert.equal(failed.ok,false);assert.equal(unhandled.length,0);assert.ok(badges.includes('!'));
+ assert.match(failed.message,/尚未保存|空间|QUOTA/);
  console.log('PASS: actual extension background sender guard, frozen screenshot, queued vs saved, alarm and receipt retry');
 })().catch(e=>{console.error(e);process.exit(1)});

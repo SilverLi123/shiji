@@ -53,5 +53,19 @@ const offline=()=>Object.assign(new Error('电脑未连接，已保留待发送�
  const waiting=await q.enqueue(body());await q.drain();assert.equal((await q.list()).length,1);
  const saved=interrupted.read();saved.captureOutboxV1[0].state='sending';await interrupted.options.storage.set(saved);
  q=interrupted.restart(async row=>success(row));interrupted.tick();await q.drain();assert.equal((await q.list()).length,0);
+
+ // Accepted near-cap content must remain removable offline, even when error
+ // state needs more bytes. Rejecting admission up front is also safe.
+ const near=harness();q=near.restart(async()=>{throw offline();});
+ const probe=await q.enqueue({...body(),screenshot:''});
+ const overhead=new TextEncoder().encode(JSON.stringify(near.read().captureOutboxV1)).byteLength;
+ await q.remove(probe.id);
+ let accepted;
+ try{accepted=await q.enqueue({...body(),screenshot:'a'.repeat(8*1024*1024-overhead-30)});}
+ catch(error){assert.match(error.message,/空间|上限/);}
+ if(accepted){await q.drain();await q.remove(accepted.id);}
+ assert.equal((await q.list()).length,0);
+ const large=await q.enqueue({...body(),screenshot:'a'.repeat(8*1024*1024-overhead-4096)});
+ await q.drain();await q.remove(large.id);assert.equal((await q.list()).length,0);
  console.log('PASS: extension durable outbox, frozen payload, restart, serial delivery, pairing fence, storage failure and cancellation');
 })().catch(e=>{console.error(e);process.exit(1)});

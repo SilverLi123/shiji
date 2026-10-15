@@ -8,7 +8,11 @@ async function configuration(){
  catch{throw Object.assign(new Error('请先连接原资源库，待发送内容会保留。'),{blocked:true,halt:true});}
 }
 const outbox=ShijiOutbox.create({storage:chrome.storage.local,config:configuration,send:transport.send});
-async function remember(message,error=false){await chrome.storage.local.set({lastCapture:message});await chrome.action.setBadgeText({text:error?'!':'✓'});await chrome.action.setBadgeBackgroundColor({color:error?'#a23c12':'#176b9a'});}
+async function remember(message,error=false){
+ // Feedback must not depend on the same disk write that just failed.
+ await chrome.storage.local.set({lastCapture:message}).catch(()=>{});
+ await Promise.allSettled([chrome.action.setBadgeText({text:error?'!':'✓'}),chrome.action.setBadgeBackgroundColor({color:error?'#a23c12':'#176b9a'})]);
+}
 async function updateQueue(){
  const rows=await outbox.list();
  if(rows.length){await chrome.action.setBadgeText({text:String(rows.length)});await chrome.action.setBadgeBackgroundColor({color:'#8e651d'});}
@@ -28,7 +32,8 @@ async function capture(tab,options={}){
  if(options.linkUrl){page.url=options.linkUrl;page.title=options.selection||options.linkUrl;page.description='';page.thumbnail='';page.favicon='';}
  const body=ShijiClip.payload(page,options.selection);if(options.imageUrl)body.imageUrl=options.imageUrl;
  if(options.screenshot)body.screenshot=await chrome.tabs.captureVisibleTab(tab.windowId,{format:'png'});
- const entry=await outbox.enqueue(body); // Freeze before the first network operation.
+ let entry;
+ try{entry=await outbox.enqueue(body);}catch{throw new Error('无法写入浏览器存储，可能空间不足。这次内容尚未保存，请腾出空间后重新收藏。');}
  await updateQueue();
  try{await flush();}catch{/* Durable record remains; the popup can retry receipt reconciliation. */}
  const pending=(await outbox.list()).find(r=>r.id===entry.id);

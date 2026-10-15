@@ -15,8 +15,10 @@
    if(!Array.isArray(value)||value.some(r=>!r||typeof r.id!=='string'||!r.payload||typeof r.payload.url!=='string'||!['pending','sending','failed','blocked'].includes(r.state)))throw new Error('待发送记录无法读取，请保留扩展数据并检查版本。');
    return clone(value);
   }
-  async function write(rows,receipts){
-   if(rows.length>MAX_ITEMS||new TextEncoder().encode(JSON.stringify(rows)).byteLength>MAX_BYTES)throw new Error('待发送空间已达上限，请先发送或移除旧记录；这次内容尚未保存。');
+  async function write(rows,{receipts,admitting=false}={}){
+   // Reserve room for attempts, timestamps and bounded error text at admission.
+   // State recovery/removal must also work for a pre-upgrade near-cap queue.
+   if(admitting&&(rows.length>MAX_ITEMS||new TextEncoder().encode(JSON.stringify(rows)).byteLength+rows.length*2048>MAX_BYTES))throw new Error('待发送空间已达上限，请先发送或移除旧记录；这次内容尚未保存。');
    await storage.set({[KEY]:rows,...(receipts?{[DONE]:receipts}:{})});
   }
   const ready=serial(async()=>{const rows=await read();let changed=false;for(const r of rows)if(r.state==='sending'){r.state='pending';r.nextAt=0;changed=true;}if(changed)await write(rows);});
@@ -27,16 +29,16 @@
    await ready;
    return serial(async()=>{
     const rows=await read();const entry={id:id(),payload:frozen,pair,base:setting.base,state:'pending',createdAt:now(),attempts:0,nextAt:0,error:''};
-    rows.push(entry);await write(rows);return {id:entry.id,state:entry.state};
+    rows.push(entry);await write(rows,{admitting:true});return {id:entry.id,state:entry.state};
    });
   }
   async function list(){await ready;return serial(async()=>(await read()).map(({payload,pair,...r})=>({...r,title:payload.title||payload.url,url:payload.url})));}
   async function confirmed(requestId){await ready;return serial(async()=>((await storage.get(DONE))[DONE]||[]).some(r=>r.requestId===requestId));}
   async function retry(requestId){
    const setting=await config(),pair=await identify(setting);await ready;
-   return serial(async()=>{const rows=await read(),r=rows.find(r=>r.id===requestId);if(!r)throw new Error('待发送记录已处理。');if(r.state==='sending')throw new Error('正在确认保存结果，请稍后重试。');if(pair!==r.pair)throw new Error('配对已改变，请连接原资源库后重试；旧记录不会自动转发。');r.state='pending';r.nextAt=0;r.error='';await write(rows);});
+   return serial(async()=>{const rows=await read(),r=rows.find(r=>r.id===requestId);if(!r)throw new Error('待发送记录已处理。');if(r.state==='sending'&&draining)throw new Error('正在确认保存结果，请稍后重试。');if(pair!==r.pair)throw new Error('配对已改变，请连接原资源库后重试；旧记录不会自动转发。');r.state='pending';r.nextAt=0;r.error='';await write(rows);});
   }
-  async function remove(requestId){await ready;return serial(async()=>{const rows=await read(),r=rows.find(r=>r.id===requestId);if(r?.state==='sending')throw new Error('正在确认保存结果，请稍后移除。');await write(rows.filter(r=>r.id!==requestId));});}
+  async function remove(requestId){await ready;return serial(async()=>{const rows=await read(),r=rows.find(r=>r.id===requestId);if(r?.state==='sending'&&draining)throw new Error('正在确认保存结果，请稍后移除。');await write(rows.filter(r=>r.id!==requestId));});}
   function drain(){
    if(draining)return draining;
    draining=(async()=>{
@@ -54,11 +56,11 @@
       if(await identify(setting)!==row.pair)throw Object.assign(new Error('配对已改变。请连接原资源库后重试，旧记录不会自动转发。'),{blocked:true});
       const result=await send(row,setting),receipt=result?.receipt;
       if(receipt?.requestId!==row.id||receipt.status!=='saved'||typeof receipt.resourceId!=='string'||!receipt.resourceId)throw Object.assign(new Error('保存结果尚未确认，会先核对回执再重试。'),{retryable:true,halt:true});
-      await serial(async()=>{const rows=await read(),recent=(await storage.get(DONE))[DONE]||[];await write(rows.filter(r=>r.id!==row.id),[receipt,...recent.filter(r=>r.requestId!==row.id)].slice(0,100));});
+      await serial(async()=>{const rows=await read(),recent=(await storage.get(DONE))[DONE]||[];await write(rows.filter(r=>r.id!==row.id),{receipts:[receipt,...recent.filter(r=>r.requestId!==row.id)].slice(0,100)});});
       delivered++;
      }catch(error){
       failure=error;
-      await serial(async()=>{const rows=await read(),r=rows.find(r=>r.id===row.id);if(!r)return;r.state=error.blocked?'blocked':error.retryable===false?'failed':'pending';r.error=error.message||'暂时无法发送，内容仍在浏览器中。';r.nextAt=now()+Math.min(300000,30000*2**Math.min(r.attempts-1,4));await write(rows);});
+      await serial(async()=>{const rows=await read(),r=rows.find(r=>r.id===row.id);if(!r)return;r.state=error.blocked?'blocked':error.retryable===false?'failed':'pending';r.error=[...(error.message||'暂时无法发送，内容仍在浏览器中。')].slice(0,160).join('');r.nextAt=now()+Math.min(300000,30000*2**Math.min(r.attempts-1,4));await write(rows);});
      }
      if(failure?.halt)break;
     }
