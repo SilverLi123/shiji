@@ -133,6 +133,12 @@ class SyncEngine:
       self.store._projects(c,r)
       c.execute('UPDATE attachments SET deleted=1 WHERE resource_id=?',(r['id'],))
       for a in attachments:c.execute('INSERT INTO attachments VALUES(?,?,?,0) ON CONFLICT(id) DO UPDATE SET payload=excluded.payload,deleted=0',(a['id'],r['id'],dump(a)))
+      previous=known.get(r['id'])
+      if deleted:self.store.invalidate_capture(c,[r['id']])
+      elif previous is None or previous['url']!=r['url']:
+       # Schedule after installing phone attachments so manual covers win. The
+       # derived task and sync receipt commit atomically with the original URL.
+       self.store.enqueue_capture(c,r)
      c.execute('INSERT INTO settings VALUES(?,?)',(receipt_key,fingerprint))
      # Bounded retry receipts; keep the latest 500 operations.
      c.execute("DELETE FROM settings WHERE key IN (SELECT key FROM settings WHERE key LIKE 'mobileSyncReceipt:%' ORDER BY rowid DESC LIMIT -1 OFFSET 500)")

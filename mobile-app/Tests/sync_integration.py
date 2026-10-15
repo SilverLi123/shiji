@@ -23,5 +23,16 @@ with tempfile.TemporaryDirectory(prefix='shiji-real-sync-') as folder:
   phone=next(r for r in store.state()['resources'] if r['url']=='https://example.com/phone-sync');assert phone['notes']=='Phone second edit'
   store.save({'notes':'Computer conflict edit'},phone['id']);run('conflict');assert store.get(phone['id'])['notes']=='Computer conflict edit'
   before=service.engine.snapshot()['revision'];run('pin');run('race');assert service.engine.snapshot()['revision']==before
+  # Existing records are unrelated to this controlled capture roundtrip.
+  for task in store.capture_status()['tasks']:
+   if task['status'] in ('pending','running','retry'):store.capture_action({'action':'cancel','id':task['id']})
+  sys.path.insert(0,str(desktop/'tests'))
+  from capture_fixture import Fixture,png_bytes
+  fixture=Fixture()
+  try:
+   run('capture')
+   with fixture.route():assert store.capture_step()
+   (path/'enriched.png').write_bytes(png_bytes());run('enriched')
+  finally:fixture.close()
   print('PASS: both directions, initial union, explicit conflicts, TLS pin failure and late-capture protection; disposable data only')
  finally:service.stop()
