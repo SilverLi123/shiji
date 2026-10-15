@@ -19,7 +19,7 @@ class SyncEngine:
    c.execute('INSERT OR IGNORE INTO settings VALUES(?,?)',('mobileSyncLibraryId',str(uuid.uuid4())))
    self.library_id=c.execute('SELECT value FROM settings WHERE key=?',('mobileSyncLibraryId',)).fetchone()[0]
  def _snapshot(self,c):
-  resources=[self.store._read(c,row) for row in c.execute('SELECT * FROM resources ORDER BY id').fetchall()]
+  resources=self.store._read_many(c,c.execute('SELECT * FROM resources ORDER BY id').fetchall())
   content={'version':1,'libraryId':self.library_id,'resources':resources,'collections':[r['name'] for r in c.execute('SELECT name FROM collections ORDER BY name')],'collectionMeta':self.store._collection_meta(c),'smartCollections':[dict(r,id=r['id'],filters=json.loads(r['filters'])) for r in c.execute('SELECT * FROM smart_collections ORDER BY id')]}
   return {**content,'revision':digest(content)}
  def snapshot(self):

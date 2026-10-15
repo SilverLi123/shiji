@@ -33,16 +33,16 @@
 ### Task 2: Rebuildable search index and batch resource reads
 **Files:** new `desktop-app/search_index.py`, `search_text.py`; `storage.py`, `mobile_sync.py`, `backups.py`; `tests/test_search_index.py`.
 **Interfaces:** `Store.flush_search()`, `rebuild_search()`, `_read_many(c,rows)`; SQL dirty triggers for all direct writes. FTS capability and safe fallback exposed to query layer.
-- [ ] RED: Chinese short/mixed/code/phrase AND queries, updates through all write paths, no-FTS fallback, missing/damaged index and restart; batch attachment query count.
-- [ ] Implement capability-probed ASCII gram index plus exact text validation; chunked dirty processing with short transactions, no network under locks.
-- [ ] Run relevant suites and commit.
+- [x] RED: Chinese short/mixed/code/phrase AND queries, updates through all write paths, no-FTS fallback, missing/damaged index and restart; batch attachment query count.
+- [x] Implement capability-probed ASCII gram index plus exact text validation; chunked dirty processing with short transactions, no network under locks.
+- [x] Run relevant suites and commit.
 
 ### Task 3: Query API, filters, cursor and full-match selection
 **Files:** new `resource_query.py`, `server.py`, organization batch methods; `tests/test_resource_query.py`, `test_query_api.py`, differential Node fixture.
 **Interfaces:** `POST /api/query`, library metadata, ID summary lookup, full-match IDs and guarded bulk writes. Cursor rejects query/revision mismatch with 409; deterministic tie-break by ID.
-- [ ] RED: all legacy filter combinations versus JS matching, sorts, pages/trash/smart/project descendants, concurrent mutation, complete-match batch, restored/synced/background results.
-- [ ] Implement parameterized SQL over derived query document, bounded projections, metadata counts, transactional revision guards and compatibility routes.
-- [ ] Run Python/API/differential tests and commit.
+- [x] RED: all legacy filter combinations versus JS matching, sorts, pages/trash/smart/project descendants, concurrent mutation, complete-match batch, restored/synced/background results.
+- [x] Implement parameterized SQL over derived query document, bounded projections, metadata counts, transactional revision guards and compatibility routes.
+- [x] Run Python/API/differential tests and commit.
 
 ### Task 4: V5 search/query migration
 **Files:** new `static/resource-query.js`, search interaction helpers/CSS; existing `app.js`, `index.html`, organizing/tag/project pickers, gallery/browse helpers as needed; Node DOM and true API integration tests.

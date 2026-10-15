@@ -7,6 +7,7 @@ from backups import CHUNK,MAX_ARCHIVE
 import hmac
 from concurrent.futures import ThreadPoolExecutor
 from capture import metadata as read_metadata, check_link, public_fetch, safe_asset
+from resource_query import QueryConflict
 from storage import normalize_url, detect_mime, text,NoteConflict,EditConflict
 import argparse
 import json
@@ -64,8 +65,9 @@ class Handler(SimpleHTTPRequestHandler):
         if not self.safe_request():return
         try:
             path=urlsplit(self.path).path
-            if path=='/api/resources':self.send_json(200,STORE.state())
-            elif re.fullmatch(r'/api/resources/[^/]+',path):self.send_json(200,{'resource':STORE.get(path.split('/')[-1])})
+            if path=='/api/library':self.send_json(200,STORE.library_metadata())
+            elif path=='/api/resources':self.send_json(200,STORE.state())
+            elif re.fullmatch(r'/api/resources/[^/]+',path):self.send_json(200,STORE.resource_detail(path.split('/')[-1]))
             elif path=='/api/pairing':self.send_json(200,{'token':STORE.token()})
             elif path=='/api/backup.zip':
                 with STORE.backup_path() as archive:self.send_disk(archive,'application/zip','shiji-full-backup.zip')
@@ -156,7 +158,12 @@ class Handler(SimpleHTTPRequestHandler):
                 self.send_json(200,STORE.import_asset(self.read_bytes(64*1024*1024),metadata));return
             body=self.read_json() if method!='DELETE' else {}
             if not isinstance(body,dict):raise ValueError('请求格式不正确。')
-            if path=='/api/clip/status' and method=='POST':result=STORE.clip_status(body)
+            if path=='/api/query' and method=='POST':result=STORE.query_resources(body)
+            elif path=='/api/query/ids' and method=='POST':result=STORE.query_ids(body)
+            elif path=='/api/query/batch' and method=='POST':result=STORE.query_batch(body)
+            elif path=='/api/query/organization' and method=='POST':result=STORE.organization_context(body)
+            elif path=='/api/resources/summaries' and method=='POST':result=STORE.resource_summaries(body)
+            elif path=='/api/clip/status' and method=='POST':result=STORE.clip_status(body)
             elif path=='/api/metadata' and method=='POST':result=read_metadata(body.get('url',''))
             elif path=='/api/remote-cover' and method=='POST':
                 rid=body.get('id');STORE.get(rid);status,headers,data,final=public_fetch(body.get('url',''),limit=5*1024*1024)
@@ -241,6 +248,7 @@ class Handler(SimpleHTTPRequestHandler):
                 else:self.send_json(404,{'error':'资源或操作不存在。'});return
             else:self.send_json(404,{'error':'接口不存在。'});return
             self.send_json(200,result)
+        except QueryConflict as e:self.send_json(409,{'error':str(e),'queryChanged':True})
         except EditConflict as e:self.send_json(409,{'error':str(e),'resource':e.resource,'conflicts':e.conflicts})
         except NoteConflict as e:self.send_json(409,{'error':str(e),'current':e.current,'resource':e.resource})
         except Duplicate as e:self.send_json(409,{'error':str(e),'existingId':e.rid})

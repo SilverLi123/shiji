@@ -12,6 +12,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urlsplit, urlunsplit
 from projects import ProjectOperations, import_tree
+from search_index import SearchOperations
+from resource_query import QueryOperations,color_distance
 from link_import import LinkImportOperations
 from health import HealthOperations
 from bookmarks import BookmarkOperations
@@ -121,7 +123,7 @@ def validate_filters(raw):
     from filters import advanced_filters
     return advanced_filters(raw,result)
 
-class Store(CaptureReceiptOperations,CaptureOperations,QuickCaptureOperations,PreviewOperations,RecoveryOperations,GuardedEditOperations,ProjectOperations,LinkImportOperations,HealthOperations,BookmarkOperations,AssetImportOperations,BackupOperations):
+class Store(QueryOperations,SearchOperations,CaptureReceiptOperations,CaptureOperations,QuickCaptureOperations,PreviewOperations,RecoveryOperations,GuardedEditOperations,ProjectOperations,LinkImportOperations,HealthOperations,BookmarkOperations,AssetImportOperations,BackupOperations):
     def __init__(self,directory):
         self.root=Path(directory);self.root.mkdir(parents=True,exist_ok=True)
         self.db=self.root/'library.sqlite3';self.files=self.root/'files';self.files.mkdir(exist_ok=True)
@@ -154,10 +156,11 @@ class Store(CaptureReceiptOperations,CaptureOperations,QuickCaptureOperations,Pr
                     c.execute('UPDATE resources SET payload=? WHERE id=?',(dump(item),row['id']));self._projects(c,item)
             c.execute('PRAGMA user_version=3')
             c.execute('INSERT OR IGNORE INTO settings VALUES(?,?)',('clipToken',secrets.token_urlsafe(32)))
+        self.init_search()
         self.init_previews()
         self.cleanup_restore_staging()
     def connect(self):
-        c=sqlite3.connect(str(self.db),timeout=15);c.row_factory=sqlite3.Row;return c
+        c=sqlite3.connect(str(self.db),timeout=15);c.row_factory=sqlite3.Row;c.create_function('color_distance',2,color_distance,deterministic=True);return c
     def _projects(self,c,item):
         c.execute('DELETE FROM resource_projects WHERE resource_id=?',(item['id'],))
         for name in item['projects']:
@@ -167,6 +170,18 @@ class Store(CaptureReceiptOperations,CaptureOperations,QuickCaptureOperations,Pr
         item=json.loads(row['payload']);item['deleted']=bool(row['deleted'])
         item['attachments']=[json.loads(r['payload']) for r in c.execute('SELECT payload FROM attachments WHERE resource_id=? AND deleted=0 ORDER BY rowid',(item['id'],))]
         return item
+    def _read_many(self,c,rows):
+        rows=list(rows)
+        if not rows:return []
+        grouped={r['id']:[] for r in rows}
+        if len(rows)>500:
+            assets=c.execute('SELECT resource_id,payload FROM attachments WHERE deleted=0 ORDER BY rowid')
+            for a in assets:
+                if a['resource_id'] in grouped:grouped[a['resource_id']].append(json.loads(a['payload']))
+        else:
+            for a in c.execute('SELECT resource_id,payload FROM attachments WHERE deleted=0 AND resource_id IN ('+','.join('?'*len(rows))+') ORDER BY rowid',list(grouped)):
+                grouped[a['resource_id']].append(json.loads(a['payload']))
+        return [{**json.loads(r['payload']),'deleted':bool(r['deleted']),'attachments':grouped[r['id']]} for r in rows]
     def _get(self,c,rid,active=False):
         row=c.execute('SELECT * FROM resources WHERE id=?',(rid,)).fetchone()
         if not row or (active and row['deleted']):raise ValueError('资源不存在或已在回收站。')
@@ -175,7 +190,7 @@ class Store(CaptureReceiptOperations,CaptureOperations,QuickCaptureOperations,Pr
         with self.lock,self.connect() as c:return self._get(c,rid)
     def state(self,trash=False):
         with self.lock,self.connect() as c:
-            rows=[self._read(c,r) for r in c.execute('SELECT * FROM resources WHERE deleted=? ORDER BY rowid DESC',(int(trash),)).fetchall()]
+            rows=self._read_many(c,c.execute('SELECT * FROM resources WHERE deleted=? ORDER BY rowid DESC',(int(trash),)).fetchall())
             return {'resources':rows,'collections':[r['name'] for r in c.execute('SELECT name FROM collections ORDER BY name')], 'smartCollections':[dict(r,id=r['id'],filters=json.loads(r['filters'])) for r in c.execute('SELECT * FROM smart_collections ORDER BY rowid')], 'collectionMeta':self._collection_meta(c),'version':3}
     def _write(self,c,raw,existing=None,apply_auto=True):
         item=validate(raw,existing)
@@ -283,11 +298,12 @@ class Store(CaptureReceiptOperations,CaptureOperations,QuickCaptureOperations,Pr
             self._get(c,rid);self.invalidate_trash_undo([rid]);c.execute('UPDATE resources SET deleted=? WHERE id=?',(0 if restore else 1,rid));self.dirty=True
             if not restore:self.invalidate_capture(c,[rid])
             return {'ok':True}
-    def batch(self,body):
-        ids=names(body.get('ids',[]),10000);action=body.get('action');allowed=['tags','projects','favorite','organized','delete','restore']
+    def batch(self,body,*,selection_revision=None,id_limit=10000):
+        ids=names(body.get('ids',[]),id_limit);action=body.get('action');allowed=['tags','projects','favorite','organized','delete','restore']
         if not ids or action not in allowed:raise ValueError('请选择资源和批量操作。')
         values=names(body.get('tags' if action=='tags' else 'projects',[]),30,50 if action=='tags' else 80) if action in ('tags','projects') else []
         with self.lock,self.connect() as c:
+            c.execute('BEGIN IMMEDIATE');self.check_query_revision(c,selection_revision)
             items=[self._get(c,rid,action!='restore') for rid in ids]
             if action in ('delete','restore'):self.invalidate_trash_undo(ids)
             if action=='delete':self.invalidate_capture(c,ids)
@@ -302,9 +318,9 @@ class Store(CaptureReceiptOperations,CaptureOperations,QuickCaptureOperations,Pr
             self.dirty=True;result={'changed':len(ids)}
             if action=='delete':result.update(self._receipt('trash',ids))
             return result
-    def assign_tags(self,body):
+    def assign_tags(self,body,*,selection_revision=None,id_limit=10000):
         if not isinstance(body,dict) or set(body)!={'ids','tags','create'}:raise ValueError('标签选项无效。')
-        ids=[identifier(i) for i in names(body['ids'],10000)]
+        ids=[identifier(i) for i in names(body['ids'],id_limit)]
         existing_tags=names(body['tags'],30,50);created_tags=names(body['create'],30,50)
         additions=names(list(dict.fromkeys(existing_tags+created_tags)),30,50)
         if not ids or not additions:raise ValueError('请选择资源和标签。')
@@ -312,6 +328,7 @@ class Store(CaptureReceiptOperations,CaptureOperations,QuickCaptureOperations,Pr
             previous_dirty=self.dirty
             try:
                 with self.connect() as c:
+                    c.execute('BEGIN IMMEDIATE');self.check_query_revision(c,selection_revision)
                     known={tag for row in c.execute('SELECT payload FROM resources WHERE deleted=0') for tag in json.loads(row['payload'])['tags']}
                     if any(tag not in known for tag in existing_tags):raise ValueError('标签已变化，请关闭后重新打开标签选择器。')
                     items=[self._get(c,rid,True) for rid in ids]

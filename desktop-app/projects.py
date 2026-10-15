@@ -100,13 +100,14 @@ class ProjectOperations:
             self.dirty=True
         return {'name':name,'parent':values['parent'],'archived':values['archived']}
 
-    def assign_projects(self,body):
+    def assign_projects(self,body,*,selection_revision=None,id_limit=10000):
         from storage import names,identifier
         if not isinstance(body,dict) or set(body)!={'ids','projects'}:raise ValueError('项目归属选项无效。')
-        ids=[identifier(i) for i in names(body['ids'],10000)]
+        ids=[identifier(i) for i in names(body['ids'],id_limit)]
         projects=names(body['projects'],30)
         if not ids or not projects:raise ValueError('请选择资源和项目。')
         with self.lock,self.connect() as c:
+            c.execute('BEGIN IMMEDIATE');self.check_query_revision(c,selection_revision)
             meta={p['name']:p for p in self._collection_meta(c)}
             for name in projects:
                 if name not in meta:raise ValueError('项目已变化，请重新打开项目选择器。')
@@ -123,15 +124,16 @@ class ProjectOperations:
                 self._write(c,item,existing);changed+=1
             return {'changed':changed,'resources':len(items),'projects':projects}
 
-    def remove_projects(self,body):
+    def remove_projects(self,body,*,selection_revision=None,id_limit=10000):
         from storage import names,identifier
         if not isinstance(body,dict) or set(body)!={'ids','projects'}:raise ValueError('项目归属选项无效。')
-        ids=[identifier(i) for i in names(body['ids'],10000)];projects=names(body['projects'],30)
+        ids=[identifier(i) for i in names(body['ids'],id_limit)];projects=names(body['projects'],30)
         if not ids or not projects:raise ValueError('请选择资源和项目。')
         with self.lock:
             previous_dirty=self.dirty
             try:
                 with self.connect() as c:
+                    c.execute('BEGIN IMMEDIATE');self.check_query_revision(c,selection_revision)
                     known={p['name'] for p in self._collection_meta(c)}
                     if any(p not in known for p in projects):raise ValueError('项目已变化，请重新打开项目选择器。')
                     items=[self._get(c,rid,True) for rid in ids];changed=0

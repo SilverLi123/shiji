@@ -107,7 +107,7 @@ class BackupOperations:
         with self.connect() as source,sqlite3.connect(database) as target:source.backup(target,pages=128,sleep=.001)
         with sqlite3.connect(database) as c:
             c.row_factory=sqlite3.Row
-            manifest={'format':'shiji-full-backup','version':2,'createdAt':now(),'resources':[self._read(c,r) for r in c.execute('SELECT * FROM resources')],'collections':[r['name'] for r in c.execute('SELECT name FROM collections')],'collectionMeta':self._collection_meta(c),'smartCollections':[dict(r,filters=json.loads(r['filters'])) for r in c.execute('SELECT * FROM smart_collections')],'attachments':[dict(json.loads(r['payload']),deleted=bool(r['deleted'])) for r in c.execute('SELECT * FROM attachments')]}
+            manifest={'format':'shiji-full-backup','version':2,'createdAt':now(),'resources':self._read_many(c,c.execute('SELECT * FROM resources').fetchall()),'collections':[r['name'] for r in c.execute('SELECT name FROM collections')],'collectionMeta':self._collection_meta(c),'smartCollections':[dict(r,filters=json.loads(r['filters'])) for r in c.execute('SELECT * FROM smart_collections')],'attachments':[dict(json.loads(r['payload']),deleted=bool(r['deleted'])) for r in c.execute('SELECT * FROM attachments')]}
         if any(len(manifest[key])>limit for key,limit in [('resources',10000),('attachments',20000),('collections',1000),('smartCollections',1000)]):raise ValueError('完整备份超过可恢复的数量限制，请分库整理后重试。')
         pins=directory/'pins';pins.mkdir()
         for attachment in manifest['attachments']:
