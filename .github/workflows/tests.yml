@@ -2,7 +2,7 @@ name: Stable Beta checks
 on:
   pull_request:
   push:
-    branches: [main, "feat/shiji-v5*", "feat/shiji-next-*", "feat/shiji-v6-*"]
+    branches: [main, "feat/shiji-v5*", "feat/shiji-next-*", "feat/shiji-v6*"]
 permissions:
   contents: read
 jobs:

@@ -1,0 +1,92 @@
+{
+  "sourceCommit": "9433afc",
+  "root": "/var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v62-before-u_9b9noh",
+  "source": "/var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v62-before-u_9b9noh/source",
+  "environment": {
+    "sqlite": "3.51.0",
+    "python": "3.9.6 (default, Aug 25 2026, 21:26:21) \n[Clang 21.0.0 (clang-2100.3.34.2)]",
+    "platform": "macOS-26.6.2-arm64-arm-64bit"
+  },
+  "datasets": {
+    "1000": {
+      "data": "/var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v62-before-u_9b9noh/1000",
+      "fullStateColdMs": 24.31691600000002,
+      "fullStateWarm": {
+        "samplesMs": [
+          18.265500000000046,
+          12.304333999999972,
+          12.692708999999969,
+          15.50183300000002,
+          14.276708999999999
+        ],
+        "p50Ms": 14.276708999999999,
+        "p95Ms": 18.265500000000046
+      },
+      "seedSeconds": 0.11921658399999999,
+      "jsonBytes": 1288339,
+      "active": 941,
+      "total": 1000,
+      "attachments": 50
+    },
+    "5000": {
+      "data": "/var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v62-before-u_9b9noh/5000",
+      "fullStateColdMs": 142.21245799999994,
+      "fullStateWarm": {
+        "samplesMs": [
+          129.1532499999999,
+          111.59154199999999,
+          141.17304200000012,
+          139.37262500000003,
+          121.52562500000008
+        ],
+        "p50Ms": 129.1532499999999,
+        "p95Ms": 141.17304200000012
+      },
+      "seedSeconds": 0.823353,
+      "jsonBytes": 6441098,
+      "active": 4705,
+      "total": 5000,
+      "attachments": 250
+    },
+    "20000": {
+      "data": "/var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v62-before-u_9b9noh/20000",
+      "fullStateColdMs": 1246.6290000000004,
+      "fullStateWarm": {
+        "samplesMs": [
+          1418.040542,
+          1331.3566669999996,
+          1415.3279590000006,
+          1409.8672499999996,
+          1348.4331659999996
+        ],
+        "p50Ms": 1409.8672499999996,
+        "p95Ms": 1418.040542
+      },
+      "seedSeconds": 2.4620515409999997,
+      "jsonBytes": 25771910,
+      "active": 18823,
+      "total": 20000,
+      "attachments": 1000
+    },
+    "50000": {
+      "data": "/var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v62-before-u_9b9noh/50000",
+      "fullStateColdMs": 7831.420874999999,
+      "fullStateWarm": {
+        "samplesMs": [
+          8275.414917000002,
+          8068.3935420000025,
+          8786.823458,
+          7817.739750000002,
+          8219.999875
+        ],
+        "p50Ms": 8219.999875,
+        "p95Ms": 8786.823458
+      },
+      "seedSeconds": 7.479806625,
+      "jsonBytes": 64433123,
+      "active": 47058,
+      "total": 50000,
+      "attachments": 2500
+    }
+  }
+}
