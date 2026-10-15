@@ -123,10 +123,12 @@ class CaptureOperations:
             item = self._get(c, rid, True)
             if item['url'] != url or item['updatedAt'] != body['updatedAt']:
                 return {'status': 'skipped', 'resource': item}
-            previous = c.execute("SELECT expected_revision FROM capture_jobs WHERE resource_id=? AND url=? AND kind='capture' ORDER BY created_at DESC LIMIT 1", (rid, url)).fetchone()
+            previous = c.execute("SELECT * FROM capture_jobs WHERE resource_id=? AND url=? AND kind='capture' ORDER BY created_at DESC LIMIT 1", (rid, url)).fetchone()
             if previous and previous['expected_revision'] != item['updatedAt']:
                 return {'status': 'skipped', 'resource': item}
-            row = self.enqueue_capture(c, item)
+            # Own enrichment advances expected_revision but not the immutable
+            # dedup key. A re-collection must reuse that completed/failed job.
+            row = previous if previous else self.enqueue_capture(c, item)
             return {'status': row['status'] if row else 'skipped', 'resource': item, 'task': self._task(row) if row else None}
 
     def capture_action(self, body):

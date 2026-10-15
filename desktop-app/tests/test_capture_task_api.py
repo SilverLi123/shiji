@@ -61,6 +61,24 @@ class CaptureTaskAPI(unittest.TestCase):
         self.assertEqual(queued['status'], 'skipped', 'Re-collection must not rebase over curated edits')
         self.assertEqual(self.fixture.calls, [])
 
+    def test_recollect_completed_capture_reuses_existing_job_after_own_revision(self):
+        body = {'url': 'http://capture.fixture.invalid/page', 'title': 'capture.fixture.invalid', 'quickCapture': True}
+        status, saved = self.request('/api/resources', body)
+        original_task = self.store.capture_status()['tasks'][0]['id']
+        with self.fixture.route():
+            self.assertTrue(self.store.capture_step())
+        status, repeated = self.request('/api/resources', body)
+        current = repeated['resource']
+        self.assertEqual(current['id'], saved['resource']['id'])
+        self.assertNotEqual(current['updatedAt'], saved['resource']['updatedAt'])
+        for _ in range(2):
+            status, result = self.request('/api/resources/'+current['id']+'/enrich', {'url': current['url'], 'updatedAt': current['updatedAt']})
+            self.assertEqual(status, 200)
+            self.assertEqual(result['task']['id'], original_task)
+            self.assertEqual(result['status'], 'completed')
+        self.assertEqual(self.store.capture_status()['total'], 1)
+        self.assertEqual(len(self.store.get(current['id'])['attachments']), 1)
+
     def test_clip_remote_image_does_not_delay_or_undo_durable_page(self):
         body = {'url': 'http://capture.fixture.invalid/page', 'title': 'Browser title', 'imageUrl': 'http://capture.fixture.invalid/invalid-image'}
         status, result = self.request('/api/clip', body, Authorization='Bearer '+self.store.token())
