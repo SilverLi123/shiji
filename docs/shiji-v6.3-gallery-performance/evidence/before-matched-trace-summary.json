@@ -1,0 +1,758 @@
+{
+  "source": "desktop-app/dist/v63-before-matched-studio.trace.json",
+  "durationMs": 49908.036,
+  "note": "Complete-event inclusive durations; nesting and parallel threads overlap. Not exclusive CPU or compositor FPS.",
+  "topEvents": [
+    [
+      "Layerize",
+      33936.34099999998
+    ],
+    [
+      "UpdateLayoutTree",
+      1055.6790000000003
+    ],
+    [
+      "Paint",
+      892.4259999999366
+    ],
+    [
+      "PrePaint",
+      884.3049999999773
+    ],
+    [
+      "Layout",
+      697.8269999999999
+    ],
+    [
+      "IntersectionObserverController::computeIntersections",
+      513.5139999999992
+    ],
+    [
+      "v8.callFunction",
+      323.27099999999905
+    ],
+    [
+      "FunctionCall",
+      307.50999999999516
+    ],
+    [
+      "FireAnimationFrame",
+      180.88500000000022
+    ],
+    [
+      "HitTest",
+      143.222
+    ],
+    [
+      "EventDispatch",
+      124.21399999999991
+    ],
+    [
+      "V8.GC_MC_BACKGROUND_MARKING",
+      109.01900000000002
+    ],
+    [
+      "V8.GCIncrementalMarking",
+      80.86400000000012
+    ],
+    [
+      "V8.GC_MC_INCREMENTAL",
+      79.87700000000008
+    ],
+    [
+      "ScrollLayer",
+      74.39400000000005
+    ],
+    [
+      "V8.GC_MC_INCREMENTAL_EMBEDDER_TRACING",
+      68.12899999999995
+    ],
+    [
+      "MinorGC",
+      65.285
+    ],
+    [
+      "V8.GCScavenger",
+      63.679
+    ],
+    [
+      "V8.GC_SCAVENGER",
+      59.92799999999999
+    ],
+    [
+      "V8.GC_SCAVENGER_SCAVENGE",
+      59.32000000000002
+    ],
+    [
+      "MajorGC",
+      52.55500000000001
+    ],
+    [
+      "V8.GCFinalizeMC",
+      52.403
+    ],
+    [
+      "V8.GC_MARK_COMPACTOR",
+      52.29900000000001
+    ],
+    [
+      "ParseHTML",
+      47.87199999999975
+    ],
+    [
+      "V8.GC_SCAVENGER_BACKGROUND_SCAVENGE_PARALLEL",
+      36.226000000000006
+    ],
+    [
+      "EvaluateScript",
+      23.606
+    ],
+    [
+      "v8.run",
+      23.285
+    ],
+    [
+      "V8.GC_SCAVENGER_SCAVENGE_PARALLEL_PHASE",
+      22.725000000000005
+    ],
+    [
+      "V8.GC_SCAVENGER_SCAVENGE_WEAK_GLOBAL_HANDLES_PROCESS",
+      19.731000000000005
+    ],
+    [
+      "TimerFire",
+      18.735000000000003
+    ]
+  ],
+  "counts": {
+    "ParseHTML": 2259,
+    "EventDispatch": 3394,
+    "UpdateLayoutTree": 1189,
+    "PrePaint": 2907,
+    "Paint": 8924,
+    "Layerize": 730,
+    "CommitLoad": 1,
+    "HTMLDocumentParser::MaybeFetchQueuedPreloads": 1,
+    "LocalWindowProxy::Initialize": 2,
+    "LocalWindowProxy::CreateContext": 2,
+    "V8.DeserializeContext": 2,
+    "LocalWindowProxy::SetupWindowPrototypeChain": 2,
+    "LocalWindowProxy::UpdateDocumentProperty": 1,
+    "ContextCreatedNotification": 2,
+    "InstallConditionalFeatures": 2,
+    "Layout": 301,
+    "BackgroundProcessor::MaybeStartProcessingResponse": 34,
+    "BackgroundJSStreamManager::TryStartStreamingTask": 34,
+    "BackgroundJSStreamManager::RunScriptStreamingTask": 34,
+    "v8.parseOnBackground": 34,
+    "v8.parseOnBackgroundParsing": 35,
+    "BackgroundJSStreamManager::OnFinishStreaming": 34,
+    "EvaluateScript": 34,
+    "v8.compile": 34,
+    "v8.run": 34,
+    "v8.produceCache": 31,
+    "ParseAuthorStyleSheet": 7,
+    "BackgroundJSStreamManager::OnDataPipeReadable": 20,
+    "v8.parseOnBackgroundWaiting": 1,
+    "ResourceChangePriority": 17,
+    "v8.newInstance": 76,
+    "v8.callFunction": 5009,
+    "FunctionCall": 4623,
+    "FireAnimationFrame": 916,
+    "IntersectionObserverController::computeIntersections": 1501,
+    "HitTest": 622,
+    "V8.GC_HEAP_EXTERNAL_PROLOGUE": 69,
+    "MinorGC": 61,
+    "V8.GC_HEAP_PROLOGUE": 60,
+    "V8.GCScavenger": 61,
+    "V8.GC_SCAVENGER": 61,
+    "V8.GC_SCAVENGER_SCAVENGE": 61,
+    "V8.GC_SCAVENGER_SCAVENGE_WEAK_GLOBAL_HANDLES_IDENTIFY": 61,
+    "ComputeWeaknessProcessor start": 49,
+    "V8.GC_SCAVENGER_TRACED_HANDLES_COMPUTE_WEAKNESS_PARALLEL": 61,
+    "V8.GC_SCAVENGER_SCAVENGE_COLLECT_OLD_TO_NEW_PAGES": 61,
+    "V8.GC_SCAVENGER_SCAVENGE_PARALLEL_PHASE": 61,
+    "V8.GC_SCAVENGER_SCAVENGE_ROOTS": 61,
+    "V8.GC_SCAVENGER_BACKGROUND_SCAVENGE_PARALLEL": 253,
+    "V8.GC_SCAVENGER_SCAVENGE_WEAK_GLOBAL_HANDLES_PROCESS": 61,
+    "ClearWeaknessProcessor start": 37,
+    "V8.GC_SCAVENGER_TRACED_HANDLES_RESET_PARALLEL": 61,
+    "V8.GC_SCAVENGER_SCAVENGE_FINALIZE": 61,
+    "V8.GC_SCAVENGER_SCAVENGE_RESTORE_AND_QUARANTINE_PINNED": 44,
+    "V8.GC_SCAVENGER_FREE_REMEMBERED_SET": 60,
+    "V8.GC_HEAP_EPILOGUE_SAFEPOINT": 68,
+    "V8.GC_HEAP_EPILOGUE": 69,
+    "V8.GC_HEAP_EXTERNAL_EPILOGUE": 53,
+    "V8.GC_SCAVENGER_SCAVENGE_PARALLEL": 92,
+    "TimerFire": 31,
+    "V8.GC_TIME_TO_SAFEPOINT": 52,
+    "V8.GC_BACKGROUND_SAFEPOINT": 8,
+    "V8.GC_HEAP_PROLOGUE_SAFEPOINT": 25,
+    "V8.GC_SCAVENGER_BACKGROUND_TRACED_HANDLES_COMPUTE_WEAKNESS_PARALLEL": 81,
+    "Parallel scavenge started": 35,
+    "V8.GC_SCAVENGER_BACKGROUND_TRACED_HANDLES_RESET_PARALLEL": 80,
+    "V8.GC_SCAVENGER_RESIZE_NEW_SPACE": 34,
+    "V8.DeoptimizeCode": 66,
+    "V8.GC_BACKGROUND_UNPARK": 6,
+    "Responsiveness.Renderer.UserInteraction": 46,
+    "ScrollLayer": 114,
+    "V8.GCIncrementalMarkingStart": 8,
+    "V8.GC_HEAP_ENSURE_SWEEPING_COMPLETED": 16,
+    "V8.GC_MC_INCREMENTAL_START": 8,
+    "V8.GC_MC_INCREMENTAL_EXTERNAL_PROLOGUE": 8,
+    "V8.GC_MC_MARK_EMBEDDER_PROLOGUE": 16,
+    "V8.GC_MC_MARK_ROOTS": 24,
+    "Major concurrent marking started": 10,
+    "V8.GC_MC_BACKGROUND_MARKING": 106,
+    "V8.GC_MC_INCREMENTAL_EXTERNAL_EPILOGUE": 6,
+    "V8.GCIncrementalMarking": 1850,
+    "V8.GC_MC_INCREMENTAL": 1794,
+    "V8.GC_MC_INCREMENTAL_EMBEDDER_TRACING": 1494,
+    "ConcurrentMarking::RunMajor Preempted": 18,
+    "Major concurrent marking rescheduled": 74,
+    "ConcurrentMarking::RunMajor Finished": 81,
+    "MajorGC": 8,
+    "V8.GCFinalizeMC": 8,
+    "V8.GC_MARK_COMPACTOR": 8,
+    "V8.GC_MC_PROLOGUE": 8,
+    "V8.GC_MC_MARK": 8,
+    "V8.GC_MC_MARK_FINISH_INCREMENTAL": 8,
+    "V8.GC_MC_MARK_RETAIN_MAPS": 8,
+    "V8.GC_MC_MARK_FULL_CLOSURE_PARALLEL": 8,
+    "V8.GC_MC_MARK_WEAK_CLOSURE_EPHEMERON_MARKING": 52,
+    "V8.GC_MC_MARK_EMBEDDER_TRACING": 53,
+    "V8.GC_MC_MARK_FULL_CLOSURE_SERIAL": 8,
+    "V8.GC_MC_CLEAR": 8,
+    "ClearStringTableJob started": 21,
+    "V8.GC_MC_CLEAR_JOIN_JOB": 8,
+    "V8.GC_MC_CLEAR_WEAK_COLLECTIONS": 8,
+    "V8.GC_MC_CLEAR_SWEEP_WASM_CODE_POINTER_TABLE": 6,
+    "V8.GC_MC_CLEAR_MAPS": 8,
+    "V8.GC_MC_CLEAR_WEAK_LISTS": 8,
+    "V8.GC_MC_CLEAR_FLUSHED_JS_FUNCTIONS": 8,
+    "V8.GC_MC_CLEAR_SWEEP_JS_DISPATCH_TABLE": 8,
+    "V8.GC_MC_CLEAR_JS_WEAK_REFERENCES": 8,
+    "V8.GC_MC_CLEAR_WEAK_GLOBAL_HANDLES": 8,
+    "V8.GC_MC_CLEAR_EXTERNAL_STRING_TABLE": 8,
+    "V8.GC_MC_CLEAR_STRING_TABLE": 64,
+    "V8.GC_MC_CLEAR_FLUSHABLE_BYTECODE": 7,
+    "V8.GC_MC_CLEAR_SWEEP_EXTERNAL_POINTER_TABLE": 8,
+    "V8.GC_MC_CLEAR_SWEEP_TRUSTED_POINTER_TABLE": 8,
+    "V8.GC_MC_CLEAR_WEAK_REFERENCES_NON_TRIVIAL": 8,
+    "V8.GC_MC_CLEAR_WEAK_REFERENCES_TRUSTED": 7,
+    "V8.GC_MC_CLEAR_WEAK_REFERENCES_TRIVIAL": 8,
+    "V8.GC_MC_SWEEP": 34,
+    "V8.GC_MC_EVACUATE": 15,
+    "V8.GC_MC_EVACUATE_PROLOGUE": 8,
+    "V8.GC_MC_EVACUATE_COPY": 8,
+    "V8.GC_MC_EVACUATE_COPY_PARALLEL": 8,
+    "V8.GC_MC_BACKGROUND_EVACUATE_COPY": 9,
+    "V8.GC_MC_BACKGROUND_SWEEPING": 41,
+    "V8.GC_MC_EVACUATE_UPDATE_POINTERS": 8,
+    "V8.GC_MC_EVACUATE_UPDATE_POINTERS_TO_NEW_ROOTS": 8,
+    "V8.GC_MC_EVACUATE_UPDATE_POINTERS_SLOTS_MAIN": 8,
+    "PointersUpdatingJob started": 5,
+    "V8.GC_MC_EVACUATE_UPDATE_POINTERS_PARALLEL": 8,
+    "V8.GC_MC_BACKGROUND_EVACUATE_UPDATE_POINTERS": 14,
+    "V8.GC_MC_EVACUATE_UPDATE_POINTERS_WEAK": 8,
+    "V8.GC_MC_EVACUATE_UPDATE_POINTERS_POINTER_TABLES": 8,
+    "V8.GC_MC_EVACUATE_CLEAN_UP": 7,
+    "V8.GC_MC_EVACUATE_EPILOGUE": 8,
+    "V8.GC_MC_SWEEP_NEW_LO": 6,
+    "V8.GC_MC_EVACUATE_REBALANCE": 7,
+    "V8.GC_MC_FINISH": 8,
+    "V8.GC_MC_SWEEP_START_JOBS": 8,
+    "V8.GC_HEAP_EXTERNAL_WEAK_GLOBAL_HANDLES": 8,
+    "V8.GC_HEAP_EMBEDDER_TRACING_EPILOGUE": 8,
+    "Sweeper::ConcurrentMajorSweeper Finished": 81,
+    "V8.GCPhantomHandleProcessingCallback": 8,
+    "V8.GC_HEAP_EXTERNAL_SECOND_PASS_CALLBACKS": 8,
+    "V8.GC_MC_COMPLETE_SWEEPING": 8,
+    "V8.GC_MC_MARK_CLIENT_HEAPS": 5,
+    "ClearTrustedWeakRefJob started": 5,
+    "PageEvacuationJob started": 4,
+    "V8.GC_CONSERVATIVE_STACK_SCANNING": 4,
+    "ClearTrivialWeakRefJob started": 4,
+    "ClearNonTrivialWeakRefs started": 4,
+    "V8.GC_MC_EVACUATE_UPDATE_POINTERS_CLIENT_HEAPS": 5,
+    "V8.GC_MC_EPILOGUE": 3,
+    "FireIdleCallback": 5,
+    "V8.GC_MC_MARK_WEAK_CLOSURE_EPHEMERON_LINEAR": 1
+  },
+  "threads": {
+    "0:0": "swapper",
+    "14586:4798210": "CrRendererMain",
+    "14570:4798003": "CrBrowserMain",
+    "14586:4798247": "ThreadPoolForegroundWorker",
+    "14586:4798250": "ThreadPoolForegroundWorker",
+    "14586:4798348": "ThreadPoolForegroundWorker",
+    "14586:4798351": "ThreadPoolForegroundWorker",
+    "14586:4798385": "ThreadPoolForegroundWorker",
+    "14586:4798552": "ThreadPoolForegroundWorker",
+    "14586:4798564": "ThreadPoolForegroundWorker"
+  },
+  "byThread": {
+    "14586:4798210": [
+      [
+        "Layerize",
+        33936.34099999998
+      ],
+      [
+        "UpdateLayoutTree",
+        1055.6790000000003
+      ],
+      [
+        "Paint",
+        892.4259999999366
+      ],
+      [
+        "PrePaint",
+        884.3049999999773
+      ],
+      [
+        "Layout",
+        697.8269999999999
+      ],
+      [
+        "IntersectionObserverController::computeIntersections",
+        513.5139999999992
+      ],
+      [
+        "v8.callFunction",
+        323.27099999999905
+      ],
+      [
+        "FunctionCall",
+        307.50999999999516
+      ],
+      [
+        "FireAnimationFrame",
+        180.88500000000022
+      ],
+      [
+        "HitTest",
+        143.222
+      ],
+      [
+        "EventDispatch",
+        124.21399999999991
+      ],
+      [
+        "V8.GCIncrementalMarking",
+        80.86400000000012
+      ],
+      [
+        "V8.GC_MC_INCREMENTAL",
+        79.87700000000008
+      ],
+      [
+        "ScrollLayer",
+        74.39400000000005
+      ],
+      [
+        "V8.GC_MC_INCREMENTAL_EMBEDDER_TRACING",
+        68.12899999999995
+      ]
+    ],
+    "14586:4798247": [
+      [
+        "V8.GC_MC_BACKGROUND_MARKING",
+        29.329
+      ],
+      [
+        "V8.GC_SCAVENGER_BACKGROUND_SCAVENGE_PARALLEL",
+        10.115
+      ],
+      [
+        "V8.GC_BACKGROUND_SAFEPOINT",
+        7.969000000000001
+      ],
+      [
+        "V8.GC_SCAVENGER_BACKGROUND_TRACED_HANDLES_COMPUTE_WEAKNESS_PARALLEL",
+        5.0569999999999995
+      ],
+      [
+        "V8.GC_MC_BACKGROUND_SWEEPING",
+        4.343999999999999
+      ],
+      [
+        "V8.GC_SCAVENGER_BACKGROUND_TRACED_HANDLES_RESET_PARALLEL",
+        4.202999999999999
+      ],
+      [
+        "BackgroundJSStreamManager::RunScriptStreamingTask",
+        4.059
+      ],
+      [
+        "v8.parseOnBackground",
+        3.9949999999999997
+      ],
+      [
+        "v8.parseOnBackgroundParsing",
+        3.953
+      ],
+      [
+        "V8.GC_BACKGROUND_UNPARK",
+        3.734
+      ],
+      [
+        "BackgroundJSStreamManager::TryStartStreamingTask",
+        0.9140000000000005
+      ],
+      [
+        "BackgroundProcessor::MaybeStartProcessingResponse",
+        0.7010000000000002
+      ],
+      [
+        "V8.GC_MC_CLEAR_SWEEP_JS_DISPATCH_TABLE",
+        0.612
+      ],
+      [
+        "V8.GC_MC_BACKGROUND_EVACUATE_COPY",
+        0.597
+      ],
+      [
+        "BackgroundJSStreamManager::OnDataPipeReadable",
+        0.49300000000000016
+      ]
+    ],
+    "14586:4798250": [
+      [
+        "V8.GC_MC_BACKGROUND_MARKING",
+        25.209999999999997
+      ],
+      [
+        "V8.GC_SCAVENGER_BACKGROUND_SCAVENGE_PARALLEL",
+        12.320000000000004
+      ],
+      [
+        "V8.GC_SCAVENGER_BACKGROUND_TRACED_HANDLES_COMPUTE_WEAKNESS_PARALLEL",
+        4.55
+      ],
+      [
+        "V8.GC_SCAVENGER_BACKGROUND_TRACED_HANDLES_RESET_PARALLEL",
+        4.231000000000001
+      ],
+      [
+        "BackgroundJSStreamManager::RunScriptStreamingTask",
+        3.636
+      ],
+      [
+        "v8.parseOnBackground",
+        3.3819999999999997
+      ],
+      [
+        "V8.GC_MC_BACKGROUND_SWEEPING",
+        3.304
+      ],
+      [
+        "v8.parseOnBackgroundParsing",
+        3.2809999999999997
+      ],
+      [
+        "V8.GC_BACKGROUND_SAFEPOINT",
+        2.108
+      ],
+      [
+        "V8.GC_MC_BACKGROUND_EVACUATE_COPY",
+        2.066
+      ],
+      [
+        "V8.GC_BACKGROUND_UNPARK",
+        0.8039999999999999
+      ],
+      [
+        "V8.GC_MC_CLEAR_WEAK_GLOBAL_HANDLES",
+        0.638
+      ],
+      [
+        "V8.GC_MC_CLEAR_WEAK_LISTS",
+        0.545
+      ],
+      [
+        "V8.GC_MC_CLEAR_EXTERNAL_STRING_TABLE",
+        0.44
+      ],
+      [
+        "V8.GC_MC_CLEAR_WEAK_REFERENCES_TRIVIAL",
+        0.164
+      ]
+    ],
+    "14586:4798348": [
+      [
+        "V8.GC_MC_BACKGROUND_MARKING",
+        21.59
+      ],
+      [
+        "V8.GC_SCAVENGER_BACKGROUND_SCAVENGE_PARALLEL",
+        8.446
+      ],
+      [
+        "V8.GC_MC_BACKGROUND_SWEEPING",
+        3.684
+      ],
+      [
+        "V8.GC_MC_CLEAR_EXTERNAL_STRING_TABLE",
+        2.323
+      ],
+      [
+        "V8.GC_BACKGROUND_SAFEPOINT",
+        0.78
+      ],
+      [
+        "V8.GC_SCAVENGER_BACKGROUND_TRACED_HANDLES_COMPUTE_WEAKNESS_PARALLEL",
+        0.542
+      ],
+      [
+        "V8.GC_SCAVENGER_BACKGROUND_TRACED_HANDLES_RESET_PARALLEL",
+        0.441
+      ],
+      [
+        "V8.GC_MC_CLEAR_WEAK_GLOBAL_HANDLES",
+        0.176
+      ],
+      [
+        "V8.GC_MC_BACKGROUND_EVACUATE_COPY",
+        0.173
+      ],
+      [
+        "V8.GC_MC_CLEAR_STRING_TABLE",
+        0.16400000000000003
+      ],
+      [
+        "V8.GC_MC_BACKGROUND_EVACUATE_UPDATE_POINTERS",
+        0.054000000000000006
+      ],
+      [
+        "ConcurrentMarking::RunMajor Finished",
+        0.04400000000000001
+      ],
+      [
+        "V8.GC_MC_CLEAR_WEAK_REFERENCES_TRIVIAL",
+        0.031
+      ],
+      [
+        "V8.GC_MC_CLEAR_WEAK_LISTS",
+        0.03
+      ],
+      [
+        "V8.GC_MC_CLEAR_SWEEP_JS_DISPATCH_TABLE",
+        0.028
+      ]
+    ],
+    "14586:4798351": [
+      [
+        "V8.GC_MC_BACKGROUND_MARKING",
+        22.509999999999998
+      ],
+      [
+        "V8.GC_SCAVENGER_BACKGROUND_SCAVENGE_PARALLEL",
+        3.136999999999999
+      ],
+      [
+        "V8.GC_MC_BACKGROUND_SWEEPING",
+        2.132
+      ],
+      [
+        "V8.GC_MC_CLEAR_EXTERNAL_STRING_TABLE",
+        0.855
+      ],
+      [
+        "V8.GC_MC_CLEAR_WEAK_GLOBAL_HANDLES",
+        0.244
+      ],
+      [
+        "V8.GC_MC_CLEAR_WEAK_REFERENCES_TRIVIAL",
+        0.18
+      ],
+      [
+        "V8.GC_MC_BACKGROUND_EVACUATE_COPY",
+        0.14
+      ],
+      [
+        "V8.GC_MC_CLEAR_STRING_TABLE",
+        0.087
+      ],
+      [
+        "ConcurrentMarking::RunMajor Finished",
+        0.029000000000000005
+      ],
+      [
+        "V8.GC_SCAVENGER_BACKGROUND_TRACED_HANDLES_RESET_PARALLEL",
+        0.027
+      ],
+      [
+        "Sweeper::ConcurrentMajorSweeper Finished",
+        0.01800000000000001
+      ],
+      [
+        "V8.GC_SCAVENGER_BACKGROUND_TRACED_HANDLES_COMPUTE_WEAKNESS_PARALLEL",
+        0.017
+      ],
+      [
+        "V8.GC_MC_BACKGROUND_EVACUATE_UPDATE_POINTERS",
+        0.017
+      ],
+      [
+        "V8.GC_MC_CLEAR_WEAK_REFERENCES_NON_TRIVIAL",
+        0.012
+      ],
+      [
+        "ConcurrentMarking::RunMajor Preempted",
+        0.006
+      ]
+    ],
+    "14586:4798385": [
+      [
+        "V8.GC_MC_BACKGROUND_MARKING",
+        10.379999999999997
+      ],
+      [
+        "V8.GC_SCAVENGER_BACKGROUND_SCAVENGE_PARALLEL",
+        1.988
+      ],
+      [
+        "V8.GC_MC_BACKGROUND_SWEEPING",
+        0.467
+      ],
+      [
+        "V8.GC_MC_CLEAR_STRING_TABLE",
+        0.24700000000000003
+      ],
+      [
+        "V8.GC_MC_BACKGROUND_EVACUATE_COPY",
+        0.18
+      ],
+      [
+        "V8.GC_SCAVENGER_BACKGROUND_TRACED_HANDLES_RESET_PARALLEL",
+        0.063
+      ],
+      [
+        "ConcurrentMarking::RunMajor Finished",
+        0.031000000000000007
+      ],
+      [
+        "V8.GC_MC_BACKGROUND_EVACUATE_UPDATE_POINTERS",
+        0.03
+      ],
+      [
+        "V8.GC_MC_CLEAR_WEAK_REFERENCES_NON_TRIVIAL",
+        0.014
+      ],
+      [
+        "V8.GC_MC_CLEAR_WEAK_LISTS",
+        0.007
+      ],
+      [
+        "Sweeper::ConcurrentMajorSweeper Finished",
+        0.004
+      ],
+      [
+        "ConcurrentMarking::RunMajor Preempted",
+        0.003
+      ],
+      [
+        "V8.GC_MC_CLEAR_JS_WEAK_REFERENCES",
+        0.001
+      ]
+    ],
+    "14586:4798552": [
+      [
+        "V8.GC_SCAVENGER_BACKGROUND_SCAVENGE_PARALLEL",
+        0.17200000000000001
+      ],
+      [
+        "V8.GC_MC_CLEAR_STRING_TABLE",
+        0.019
+      ]
+    ],
+    "14586:4798564": [
+      [
+        "V8.GC_SCAVENGER_BACKGROUND_SCAVENGE_PARALLEL",
+        0.048
+      ]
+    ]
+  },
+  "functionCalls": [
+    [
+      "qa-v63.js:11:tick",
+      92.54299999999999
+    ],
+    [
+      ":7521:raf",
+      39.75400000000002
+    ],
+    [
+      "shiji-v2-motion.js:103:visible",
+      31.811999999999998
+    ],
+    [
+      "app.js:169:",
+      23.51
+    ],
+    [
+      "liquid-glass.js:6:update",
+      21.568000000000005
+    ],
+    [
+      ":8178:listener",
+      15.076999999999998
+    ],
+    [
+      "desktop-sync.js:5:tick",
+      8.733
+    ],
+    [
+      "shiji-v2-motion.js:102:",
+      8.451999999999995
+    ],
+    [
+      "qa-v63.js:8:PerformanceObserver.observe.type",
+      6.743999999999993
+    ],
+    [
+      "shiji-v2-motion.js:97:",
+      6.013
+    ],
+    [
+      "shiji-v2-motion.js:99:artworkObserver",
+      5.916999999999998
+    ],
+    [
+      "qa-v63.js:10:",
+      5.244000000000001
+    ],
+    [
+      ":25:next",
+      4.749
+    ],
+    [
+      "resource-query.js:9:start",
+      4.475
+    ],
+    [
+      "resource-bits.js:208:move",
+      4.280999999999999
+    ],
+    [
+      "shiji-v2-motion.js:89:listen.passive",
+      3.0529999999999964
+    ],
+    [
+      "shiji-v2-motion.js:93:",
+      2.895
+    ],
+    [
+      "capture-tasks.js:33:poll",
+      2.7780000000000005
+    ],
+    [
+      "qa-v63.js:11:sample",
+      2.0250000000000004
+    ],
+    [
+      "resource-bits.js:204:imageReady",
+      1.9099999999999406
+    ]
+  ]
+}

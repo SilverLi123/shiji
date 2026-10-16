@@ -1,0 +1,68 @@
+residency RED
+TypeError: ui.deferWhilePressed is not a function
+    at /Users/silver/shiji-card-restoration/desktop-app/tests/test_gallery_residency.js:16:17
+    at Object.<anonymous> (/Users/silver/shiji-card-restoration/desktop-app/tests/test_gallery_residency.js:23:3)
+    at Module._compile (node:internal/modules/cjs/loader:1854:14)
+    at Object..js (node:internal/modules/cjs/loader:1985:10)
+    at Module.load (node:internal/modules/cjs/loader:1577:32)
+    at Module._load (node:internal/modules/cjs/loader:1379:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+    at node:internal/main/run_main_module:33:47
+
+query RED
+AssertionError [ERR_ASSERTION]: synchronous detail intent invalidates older asynchronous opens
++ actual - expected
+
+  [
+    'cached-b',
++   'all'
+  ]
+
+    at /Users/silver/shiji-card-restoration/desktop-app/tests/test_query_races.js:18:9 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: [Array],
+
+browser cached intent RED
+AssertionError [ERR_ASSERTION]: late A cannot replace newer cached B
++ actual - expected
+
++ 'Gallery 1298'
+- 'Gallery 1299'
+              ^
+
+    at /Users/silver/shiji-card-restoration/desktop-app/tests/gallery_browser.cjs:36:9 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 'Gallery 1298',
+  expected: 'Gallery 1299',
+
+responsive anchor RED
+AssertionError [ERR_ASSERTION]: responsive resize retains visible stable-ID screen anchor {"width":1280,"anchor":{"id":"70871635-59f8-446b-8b82-071e61ad73b0","top":-16.015625},"after":-20.5625,"scrollY":1195}
+    at /Users/silver/shiji-card-restoration/desktop-app/tests/gallery_browser.cjs:64:372 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+Traceback (most recent call last):
+  File "/Users/silver/shiji-card-restoration/desktop-app/tests/run_gallery_browser.py", line 32, in <module>
+    if __name__=='__main__':run()
+
+actual browser GREEN
+real browser gallery window, detail, pointer/update, keyboard, responsive, search, selection, reduced-motion passed
+
+press-fence mutation rejected
+locator.waitFor: Timeout 3000ms exceeded.
+Call log:
+[2m  - waiting for locator('#drawer:not([hidden])') to be visible[22m
+
+    at /Users/silver/shiji-card-restoration/desktop-app/tests/gallery_browser.cjs:46:68 {
+  log: [ "  - waiting for locator('#drawer:not([hidden])') to be visible" ],
+  name: 'TimeoutError'
+}
+
+PASS: exact single-click name-sort regression rejects missing press fence

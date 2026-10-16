@@ -1,0 +1,41 @@
+{
+  "commit": "922daa8200d7fb27745fab4cc58f9d549a38db98",
+  "browser": "155.0.8059.80",
+  "rounds": 3,
+  "completed": [
+    true,
+    true,
+    true
+  ],
+  "loaded": [
+    2040,
+    2040,
+    2040
+  ],
+  "mounted": [
+    27,
+    27,
+    27
+  ],
+  "renderMs": [
+    16.900000005960464,
+    13.400000005960464,
+    12.300000011920929
+  ],
+  "scrollP95Ms": [
+    33.29999999999927,
+    16.80000000000109,
+    16.700000000000728
+  ],
+  "scrollMaxMs": [
+    66.5,
+    16.80000000000109,
+    16.799999999999272
+  ],
+  "mixedSearchMs": [
+    246.19999998807907,
+    229.80000001192093,
+    243.80000001192093
+  ],
+  "note": "Final interaction-fix confirmation. Same5K fixtures; actual scroll coordinates changed by instant anchor correction, so do not silently substitute into the48-round matrix."
+}

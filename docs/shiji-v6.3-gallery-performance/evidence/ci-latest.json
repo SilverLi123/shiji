@@ -1,0 +1,12 @@
+{
+  "commit": "922daa8200d7fb27745fab4cc58f9d549a38db98",
+  "run": 38922840303,
+  "url": "https://github.com/SilverLi123/shiji/actions/runs/38922840303",
+  "jobs": {
+    "python": "success",
+    "node": "success",
+    "browser": "success",
+    "native": "success",
+    "capture-recovery": "success"
+  }
+}

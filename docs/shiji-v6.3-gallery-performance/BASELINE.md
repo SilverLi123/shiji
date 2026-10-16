@@ -2,7 +2,7 @@
 
 Product source:579d4471d05a. No gallery changes were made before the diagnostic profile and first complete5K60→2040 experiment. Raw artifacts are in ignored desktop-app/dist/v63-before-*; qa/run_matrix.py repeats the frozen source against all four disposable datasets, three fresh browser contexts per mode. Runs still in progress are not accepted results. Final aggregated evidence is recorded with the after comparison.
 
-Chrome155.0.8059.39,1280×900,deviceScaleFactor1, headless with standard GPU settings. This is automated desktop-browser input, not native/physical mouse certification. rAF is a sampled main-thread interval, not compositor FPS. Each sample records visibility. Original1K fixture has941 active resources;1020/2000 unique browsing is unavailable.60-page accumulation reaches2040 for target2000; report actual counts.
+Raw diagnostic and untraced matrix files identify Chrome155.0.8059.80,1280×900,deviceScaleFactor1, headless with standard GPU settings. This is automated desktop-browser input, not native/physical mouse certification. rAF is a sampled main-thread interval, not compositor FPS. Each sample records visibility. Original1K fixture has941 active resources;1020/2000 unique browsing is unavailable.60-page accumulation reaches2040 for target2000; report actual counts.
 
 The first diagnostic trace includes detailed compositor categories and adds overhead; do not compare it as an untraced FPS benchmark. See evidence/before-trace-summary.json. The untraced run separately confirms cumulative DOM and scroll cost. Probe itself counts mounted nodes per sampled rAF; both before and after use the same probe.
 

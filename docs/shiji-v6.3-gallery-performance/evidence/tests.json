@@ -1,0 +1,47 @@
+{
+  "shippingCommit": "922daa8200d7fb27745fab4cc58f9d549a38db98",
+  "checks": [
+    {
+      "command": "python3 desktop-app/tests/run-ci.py --suite portable",
+      "result": "282 passed,93.971s",
+      "log": "/tmp/shiji-v63-review-python-full.log"
+    },
+    {
+      "command": "npm --prefix desktop-app test",
+      "result": "59 groups passed",
+      "log": "/tmp/shiji-v63-final-node.log"
+    },
+    {
+      "command": "SHIJI_QA_VIDEO=1 python3 desktop-app/tests/run_gallery_browser.py",
+      "result": "passed, actual Store/API/CSS/pointer/name-sort/cached-detail/anchor regression",
+      "log": "/tmp/shiji-v63-review-browser-final.log"
+    },
+    {
+      "command": "python3 desktop-app/tests/run-ci.py --suite native",
+      "result": "2 passed",
+      "log": "/tmp/shiji-v63-final-native-tests.log"
+    },
+    {
+      "command": "python3 mobile-app/Tests/run.py",
+      "result": "Swift Core/exchange passed",
+      "log": "/tmp/shiji-v63-final-swift.log"
+    },
+    {
+      "command": "python3 mobile-app/Tests/sync_integration.py",
+      "result": "HTTPS both directions/conflicts/TLS/late capture passed",
+      "log": "/tmp/shiji-v63-final-sync.log"
+    },
+    {
+      "command": "python3 desktop-app/desktop/build.py",
+      "result": "macOS build/sign passed; hosted922daa8 build also green",
+      "log": "/tmp/shiji-v63-final-build.log"
+    },
+    {
+      "command": "python3 docs/shiji-v6.3-gallery-performance/qa/mutation_pressed.py",
+      "result": "exact3s first-click name-sort failure correctly rejected",
+      "log": "/tmp/shiji-v63-review-press-mutation-final.log"
+    }
+  ],
+  "remoteRun": 38922840303,
+  "limits": "No final locked-Mac foreground acceptance. Earlier real-input evidence is df2c380, not922daa8."
+}

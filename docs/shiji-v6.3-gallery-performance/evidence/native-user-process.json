@@ -1,0 +1,41 @@
+{
+  "context": {
+    "startedAt": 1792152856.599972,
+    "host": 6246,
+    "webContent": 6262,
+    "backend": 6254,
+    "input": "user-operated native QA; studio/calm may change, not a quiet fixed-mode comparison",
+    "chromeMatrixPaused": true
+  },
+  "warning": "Mixed user session; not a quiet or fixed-mode before/after comparison. Shared GPU attribution unavailable. CPU is one-core cumulative process delta / measured elapsed time.",
+  "processes": [
+    {
+      "pid": 6246,
+      "role": "native Host",
+      "elapsedSeconds": 30.119,
+      "cpuPercentOneCore": 0.07,
+      "footprintMiBMax": 39.03,
+      "rssMiBMax": 23.56,
+      "samples": 31
+    },
+    {
+      "pid": 6262,
+      "role": "actual WebContent",
+      "elapsedSeconds": 30.119,
+      "cpuPercentOneCore": 0.28,
+      "footprintMiBMax": 493.67,
+      "rssMiBMax": 54.91,
+      "samples": 31
+    },
+    {
+      "pid": 6254,
+      "role": "Python backend",
+      "elapsedSeconds": 30.119,
+      "cpuPercentOneCore": 0.04,
+      "footprintMiBMax": 79.98,
+      "rssMiBMax": 77.33,
+      "samples": 31
+    }
+  ],
+  "raw": "/tmp/shiji-v63-native-user-process.jsonl"
+}

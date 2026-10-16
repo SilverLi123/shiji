@@ -1,0 +1,3983 @@
+{
+  "method": "3 fresh browser contexts per scene; medians of round measurements, not pooled FPS; raw files remain in ignored dist",
+  "runs": [
+    {
+      "phase": "before",
+      "size": 1000,
+      "mode": "studio",
+      "versions": [
+        "155.0.8059.80"
+      ],
+      "rounds": 3,
+      "firstPostRafMs": 415.5,
+      "firstSuccessfulQAControlUpperMs": 1833.8,
+      "stages": [
+        {
+          "target": 60,
+          "loaded": 60,
+          "cards": [
+            60,
+            60,
+            60
+          ],
+          "renderMs": [
+            61.8,
+            70.7,
+            57.5
+          ],
+          "scrollP95Ms": [
+            16.8,
+            33.3,
+            16.7
+          ],
+          "scrollMaxMs": [
+            33.4,
+            33.4,
+            33.3
+          ],
+          "heapMiB": [
+            4.11,
+            4.09,
+            4.1
+          ],
+          "nodes": [
+            2763,
+            2763,
+            2763
+          ],
+          "hidden": false
+        },
+        {
+          "target": 300,
+          "loaded": 300,
+          "cards": [
+            300,
+            300,
+            300
+          ],
+          "renderMs": [
+            35.7,
+            45.6,
+            40.3
+          ],
+          "scrollP95Ms": [
+            33.4,
+            33.4,
+            83.3
+          ],
+          "scrollMaxMs": [
+            33.4,
+            50,
+            100
+          ],
+          "heapMiB": [
+            5.58,
+            8.34,
+            8.12
+          ],
+          "nodes": [
+            11092,
+            11092,
+            11092
+          ],
+          "hidden": false
+        },
+        {
+          "target": 600,
+          "loaded": 600,
+          "cards": [
+            600,
+            600,
+            600
+          ],
+          "renderMs": [
+            76.7,
+            69,
+            85.2
+          ],
+          "scrollP95Ms": [
+            116.7,
+            100,
+            133.3
+          ],
+          "scrollMaxMs": [
+            150.1,
+            100.1,
+            183.4
+          ],
+          "heapMiB": [
+            14.03,
+            7.97,
+            13.58
+          ],
+          "nodes": [
+            21416,
+            21416,
+            21416
+          ],
+          "hidden": false
+        },
+        {
+          "target": 1020,
+          "unavailable": true
+        },
+        {
+          "target": 2000,
+          "unavailable": true
+        }
+      ],
+      "searches": [
+        {
+          "query": "动效 React",
+          "inputPostRafMs": [
+            592.7,
+            652.6,
+            446.1
+          ],
+          "renderMs": [
+            72.3,
+            53.2,
+            52.5
+          ]
+        },
+        {
+          "query": "",
+          "inputPostRafMs": [
+            232.4,
+            200.9,
+            187.6
+          ],
+          "renderMs": [
+            42.8,
+            36,
+            34.4
+          ]
+        },
+        {
+          "query": "React",
+          "inputPostRafMs": [
+            255.7,
+            206.8,
+            209.1
+          ],
+          "renderMs": [
+            66.7,
+            38.8,
+            42.6
+          ]
+        },
+        {
+          "query": "",
+          "inputPostRafMs": [
+            224.2,
+            187,
+            184.5
+          ],
+          "renderMs": [
+            35,
+            27.3,
+            29.7
+          ]
+        }
+      ],
+      "detail": [
+        {
+          "maxFrameMs": 49.9,
+          "returnDelta": 0,
+          "ghosts": 0
+        },
+        {
+          "maxFrameMs": 33.4,
+          "returnDelta": 0,
+          "ghosts": 0
+        },
+        {
+          "maxFrameMs": 33.4,
+          "returnDelta": 0,
+          "ghosts": 0
+        }
+      ]
+    },
+    {
+      "phase": "before",
+      "size": 1000,
+      "mode": "calm",
+      "versions": [
+        "155.0.8059.80"
+      ],
+      "rounds": 3,
+      "firstPostRafMs": 443.7,
+      "firstSuccessfulQAControlUpperMs": 1946.2,
+      "stages": [
+        {
+          "target": 60,
+          "loaded": 60,
+          "cards": [
+            60,
+            60,
+            60
+          ],
+          "renderMs": [
+            93.5,
+            71.9,
+            60.7
+          ],
+          "scrollP95Ms": [
+            16.7,
+            16.7,
+            16.7
+          ],
+          "scrollMaxMs": [
+            33.3,
+            16.8,
+            50
+          ],
+          "heapMiB": [
+            5.11,
+            5.11,
+            5.1
+          ],
+          "nodes": [
+            2763,
+            2763,
+            2763
+          ],
+          "hidden": false
+        },
+        {
+          "target": 300,
+          "loaded": 300,
+          "cards": [
+            300,
+            300,
+            300
+          ],
+          "renderMs": [
+            35.4,
+            38.9,
+            25.8
+          ],
+          "scrollP95Ms": [
+            33.3,
+            33.3,
+            16.8
+          ],
+          "scrollMaxMs": [
+            50,
+            33.4,
+            33.4
+          ],
+          "heapMiB": [
+            8.84,
+            8.25,
+            9.35
+          ],
+          "nodes": [
+            11092,
+            11092,
+            11092
+          ],
+          "hidden": false
+        },
+        {
+          "target": 600,
+          "loaded": 600,
+          "cards": [
+            600,
+            600,
+            600
+          ],
+          "renderMs": [
+            65.7,
+            62.7,
+            46.5
+          ],
+          "scrollP95Ms": [
+            33.4,
+            33.4,
+            33.4
+          ],
+          "scrollMaxMs": [
+            66.7,
+            50.1,
+            33.4
+          ],
+          "heapMiB": [
+            8.39,
+            18.23,
+            10.61
+          ],
+          "nodes": [
+            21416,
+            21416,
+            21416
+          ],
+          "hidden": false
+        },
+        {
+          "target": 1020,
+          "unavailable": true
+        },
+        {
+          "target": 2000,
+          "unavailable": true
+        }
+      ],
+      "searches": [
+        {
+          "query": "动效 React",
+          "inputPostRafMs": [
+            325.8,
+            250.1,
+            270.4
+          ],
+          "renderMs": [
+            53.2,
+            31.6,
+            37.4
+          ]
+        },
+        {
+          "query": "",
+          "inputPostRafMs": [
+            175.8,
+            161.4,
+            164.1
+          ],
+          "renderMs": [
+            32.2,
+            23.6,
+            24
+          ]
+        },
+        {
+          "query": "React",
+          "inputPostRafMs": [
+            186.7,
+            193.2,
+            174.3
+          ],
+          "renderMs": [
+            39.8,
+            38.2,
+            29.9
+          ]
+        },
+        {
+          "query": "",
+          "inputPostRafMs": [
+            163.1,
+            164.8,
+            165.3
+          ],
+          "renderMs": [
+            20.9,
+            23.4,
+            21.6
+          ]
+        }
+      ],
+      "detail": [
+        {
+          "maxFrameMs": 33.4,
+          "returnDelta": 0,
+          "ghosts": 0
+        },
+        {
+          "maxFrameMs": 16.8,
+          "returnDelta": 0,
+          "ghosts": 0
+        },
+        {
+          "maxFrameMs": 33.3,
+          "returnDelta": 0,
+          "ghosts": 0
+        }
+      ]
+    },
+    {
+      "phase": "before",
+      "size": 5000,
+      "mode": "studio",
+      "versions": [
+        "155.0.8059.80"
+      ],
+      "rounds": 3,
+      "firstPostRafMs": 374.6,
+      "firstSuccessfulQAControlUpperMs": 1777.3,
+      "stages": [
+        {
+          "target": 60,
+          "loaded": 60,
+          "cards": [
+            60,
+            60,
+            60
+          ],
+          "renderMs": [
+            51.3,
+            56.5,
+            52.1
+          ],
+          "scrollP95Ms": [
+            16.8,
+            16.8,
+            16.8
+          ],
+          "scrollMaxMs": [
+            49.9,
+            33.4,
+            33.3
+          ],
+          "heapMiB": [
+            4.06,
+            4.09,
+            4.08
+          ],
+          "nodes": [
+            2802,
+            2802,
+            2802
+          ],
+          "hidden": false
+        },
+        {
+          "target": 300,
+          "loaded": 300,
+          "cards": [
+            300,
+            300,
+            300
+          ],
+          "renderMs": [
+            30.8,
+            36.2,
+            35.6
+          ],
+          "scrollP95Ms": [
+            50,
+            50,
+            50
+          ],
+          "scrollMaxMs": [
+            50,
+            66.7,
+            50
+          ],
+          "heapMiB": [
+            7.99,
+            8.19,
+            8.2
+          ],
+          "nodes": [
+            10784,
+            10784,
+            10784
+          ],
+          "hidden": false
+        },
+        {
+          "target": 600,
+          "loaded": 600,
+          "cards": [
+            600,
+            600,
+            600
+          ],
+          "renderMs": [
+            74.3,
+            86.2,
+            70.3
+          ],
+          "scrollP95Ms": [
+            150,
+            116.7,
+            116.7
+          ],
+          "scrollMaxMs": [
+            166.7,
+            116.7,
+            116.8
+          ],
+          "heapMiB": [
+            14.02,
+            10.62,
+            7.94
+          ],
+          "nodes": [
+            21392,
+            21392,
+            21392
+          ],
+          "hidden": false
+        },
+        {
+          "target": 1020,
+          "loaded": 1020,
+          "cards": [
+            1020,
+            1020,
+            1020
+          ],
+          "renderMs": [
+            106.4,
+            112.5,
+            161
+          ],
+          "scrollP95Ms": [
+            316.6,
+            350,
+            433.3
+          ],
+          "scrollMaxMs": [
+            383.4,
+            400,
+            450.1
+          ],
+          "heapMiB": [
+            20.95,
+            20.67,
+            20.55
+          ],
+          "nodes": [
+            35618,
+            35618,
+            35618
+          ],
+          "hidden": false
+        },
+        {
+          "target": 2000,
+          "loaded": 2040,
+          "cards": [
+            2040,
+            2040,
+            2040
+          ],
+          "renderMs": [
+            269,
+            266.4,
+            286.2
+          ],
+          "scrollP95Ms": [
+            1316.7,
+            1299.9,
+            1333.3
+          ],
+          "scrollMaxMs": [
+            1433.3,
+            1599.9,
+            1466.6
+          ],
+          "heapMiB": [
+            38.23,
+            21.99,
+            37.35
+          ],
+          "nodes": [
+            71161,
+            71161,
+            71161
+          ],
+          "hidden": false
+        }
+      ],
+      "searches": [
+        {
+          "query": "动效 React",
+          "inputPostRafMs": [
+            2621.4,
+            2620.2,
+            2406.1
+          ],
+          "renderMs": [
+            106.3,
+            105.3,
+            169
+          ]
+        },
+        {
+          "query": "",
+          "inputPostRafMs": [
+            189,
+            192.4,
+            650
+          ],
+          "renderMs": [
+            30.1,
+            32.3,
+            44.4
+          ]
+        },
+        {
+          "query": "React",
+          "inputPostRafMs": [
+            189.7,
+            205.3,
+            222.1
+          ],
+          "renderMs": [
+            39.9,
+            40.3,
+            63.1
+          ]
+        },
+        {
+          "query": "",
+          "inputPostRafMs": [
+            174.3,
+            173.9,
+            229.7
+          ],
+          "renderMs": [
+            19.5,
+            19.9,
+            27.5
+          ]
+        }
+      ],
+      "detail": [
+        {
+          "maxFrameMs": 33.3,
+          "returnDelta": 0,
+          "ghosts": 0
+        },
+        {
+          "maxFrameMs": 33.3,
+          "returnDelta": 0,
+          "ghosts": 0
+        },
+        {
+          "maxFrameMs": 50,
+          "returnDelta": 0,
+          "ghosts": 0
+        }
+      ]
+    },
+    {
+      "phase": "before",
+      "size": 5000,
+      "mode": "calm",
+      "versions": [
+        "155.0.8059.80"
+      ],
+      "rounds": 3,
+      "firstPostRafMs": 518.8,
+      "firstSuccessfulQAControlUpperMs": 2087,
+      "stages": [
+        {
+          "target": 60,
+          "loaded": 60,
+          "cards": [
+            60,
+            60,
+            60
+          ],
+          "renderMs": [
+            58.1,
+            65,
+            73.9
+          ],
+          "scrollP95Ms": [
+            33.3,
+            16.8,
+            16.8
+          ],
+          "scrollMaxMs": [
+            49.9,
+            50,
+            50.1
+          ],
+          "heapMiB": [
+            5.07,
+            5.1,
+            5.1
+          ],
+          "nodes": [
+            2802,
+            2802,
+            2802
+          ],
+          "hidden": false
+        },
+        {
+          "target": 300,
+          "loaded": 300,
+          "cards": [
+            300,
+            300,
+            300
+          ],
+          "renderMs": [
+            38.7,
+            58.5,
+            45
+          ],
+          "scrollP95Ms": [
+            16.8,
+            33.4,
+            49.9
+          ],
+          "scrollMaxMs": [
+            33.4,
+            49.9,
+            50
+          ],
+          "heapMiB": [
+            8.68,
+            5.49,
+            8.68
+          ],
+          "nodes": [
+            10784,
+            10784,
+            10784
+          ],
+          "hidden": false
+        },
+        {
+          "target": 600,
+          "loaded": 600,
+          "cards": [
+            600,
+            600,
+            600
+          ],
+          "renderMs": [
+            101.8,
+            81.4,
+            150.2
+          ],
+          "scrollP95Ms": [
+            50,
+            50.1,
+            50
+          ],
+          "scrollMaxMs": [
+            50.1,
+            50.1,
+            66.7
+          ],
+          "heapMiB": [
+            17.17,
+            12.63,
+            8.35
+          ],
+          "nodes": [
+            21392,
+            21392,
+            21392
+          ],
+          "hidden": false
+        },
+        {
+          "target": 1020,
+          "loaded": 1020,
+          "cards": [
+            1020,
+            1020,
+            1020
+          ],
+          "renderMs": [
+            125.6,
+            97.9,
+            185.3
+          ],
+          "scrollP95Ms": [
+            216.6,
+            100.1,
+            166.6
+          ],
+          "scrollMaxMs": [
+            233.4,
+            116.6,
+            166.7
+          ],
+          "heapMiB": [
+            24.0,
+            18.56,
+            16.53
+          ],
+          "nodes": [
+            35618,
+            35618,
+            35618
+          ],
+          "hidden": false
+        },
+        {
+          "target": 2000,
+          "loaded": 2040,
+          "cards": [
+            2040,
+            2040,
+            2040
+          ],
+          "renderMs": [
+            310.8,
+            270.4,
+            219
+          ],
+          "scrollP95Ms": [
+            550,
+            666.6,
+            383.2
+          ],
+          "scrollMaxMs": [
+            583.3,
+            899.9,
+            400
+          ],
+          "heapMiB": [
+            55.02,
+            47.26,
+            21.91
+          ],
+          "nodes": [
+            71161,
+            71161,
+            71161
+          ],
+          "hidden": false
+        }
+      ],
+      "searches": [
+        {
+          "query": "动效 React",
+          "inputPostRafMs": [
+            815.8,
+            1057.8,
+            720
+          ],
+          "renderMs": [
+            82.2,
+            116.4,
+            61.7
+          ]
+        },
+        {
+          "query": "",
+          "inputPostRafMs": [
+            201.1,
+            200.1,
+            166.8
+          ],
+          "renderMs": [
+            27.9,
+            37.3,
+            25.7
+          ]
+        },
+        {
+          "query": "React",
+          "inputPostRafMs": [
+            188.7,
+            228.5,
+            194.3
+          ],
+          "renderMs": [
+            36.9,
+            64.4,
+            40.7
+          ]
+        },
+        {
+          "query": "",
+          "inputPostRafMs": [
+            166.1,
+            225.5,
+            157.8
+          ],
+          "renderMs": [
+            21.7,
+            50.7,
+            17.5
+          ]
+        }
+      ],
+      "detail": [
+        {
+          "maxFrameMs": 33.4,
+          "returnDelta": 0,
+          "ghosts": 0
+        },
+        {
+          "maxFrameMs": 83.4,
+          "returnDelta": 0,
+          "ghosts": 0
+        },
+        {
+          "maxFrameMs": 33.4,
+          "returnDelta": 0,
+          "ghosts": 0
+        }
+      ]
+    },
+    {
+      "phase": "before",
+      "size": 20000,
+      "mode": "studio",
+      "versions": [
+        "155.0.8059.80"
+      ],
+      "rounds": 3,
+      "firstPostRafMs": 416.6,
+      "firstSuccessfulQAControlUpperMs": 1829,
+      "stages": [
+        {
+          "target": 60,
+          "loaded": 60,
+          "cards": [
+            60,
+            60,
+            60
+          ],
+          "renderMs": [
+            73.4,
+            46.6,
+            42.2
+          ],
+          "scrollP95Ms": [
+            16.8,
+            16.8,
+            16.8
+          ],
+          "scrollMaxMs": [
+            33.4,
+            33.3,
+            33.4
+          ],
+          "heapMiB": [
+            4.09,
+            4.08,
+            4.08
+          ],
+          "nodes": [
+            2753,
+            2753,
+            2753
+          ],
+          "hidden": false
+        },
+        {
+          "target": 300,
+          "loaded": 300,
+          "cards": [
+            300,
+            300,
+            300
+          ],
+          "renderMs": [
+            39.1,
+            36,
+            36.2
+          ],
+          "scrollP95Ms": [
+            50,
+            50.1,
+            50
+          ],
+          "scrollMaxMs": [
+            66.7,
+            83.4,
+            50.1
+          ],
+          "heapMiB": [
+            8.01,
+            8.2,
+            8.2
+          ],
+          "nodes": [
+            10745,
+            10745,
+            10745
+          ],
+          "hidden": false
+        },
+        {
+          "target": 600,
+          "loaded": 600,
+          "cards": [
+            600,
+            600,
+            600
+          ],
+          "renderMs": [
+            69,
+            70.9,
+            73.2
+          ],
+          "scrollP95Ms": [
+            149.9,
+            133.3,
+            133.3
+          ],
+          "scrollMaxMs": [
+            150,
+            133.3,
+            133.4
+          ],
+          "heapMiB": [
+            11.88,
+            12.42,
+            12.74
+          ],
+          "nodes": [
+            20778,
+            20778,
+            20778
+          ],
+          "hidden": false
+        },
+        {
+          "target": 1020,
+          "loaded": 1020,
+          "cards": [
+            1020,
+            1020,
+            1020
+          ],
+          "renderMs": [
+            161.4,
+            111.4,
+            120.8
+          ],
+          "scrollP95Ms": [
+            400,
+            416.6,
+            316.7
+          ],
+          "scrollMaxMs": [
+            500,
+            533.3,
+            366.8
+          ],
+          "heapMiB": [
+            35.53,
+            11.35,
+            18.85
+          ],
+          "nodes": [
+            34775,
+            34775,
+            34775
+          ],
+          "hidden": false
+        },
+        {
+          "target": 2000,
+          "loaded": 2040,
+          "cards": [
+            2040,
+            2040,
+            2040
+          ],
+          "renderMs": [
+            243.1,
+            295.9,
+            346.9
+          ],
+          "scrollP95Ms": [
+            1483.3,
+            1283.3,
+            1466.7
+          ],
+          "scrollMaxMs": [
+            2116.6,
+            1649.9,
+            2150
+          ],
+          "heapMiB": [
+            43.5,
+            21.81,
+            21.88
+          ],
+          "nodes": [
+            70503,
+            70503,
+            70503
+          ],
+          "hidden": false
+        }
+      ],
+      "searches": [
+        {
+          "query": "动效 React",
+          "inputPostRafMs": [
+            2739.3,
+            2602.9,
+            3403.2
+          ],
+          "renderMs": [
+            116.5,
+            99.7,
+            259.9
+          ]
+        },
+        {
+          "query": "",
+          "inputPostRafMs": [
+            186.1,
+            189.5,
+            218.7
+          ],
+          "renderMs": [
+            31.7,
+            31.2,
+            49.6
+          ]
+        },
+        {
+          "query": "React",
+          "inputPostRafMs": [
+            239.8,
+            220.2,
+            276.2
+          ],
+          "renderMs": [
+            47.6,
+            47.4,
+            67.5
+          ]
+        },
+        {
+          "query": "",
+          "inputPostRafMs": [
+            172.5,
+            173.8,
+            168
+          ],
+          "renderMs": [
+            19,
+            18.9,
+            22.9
+          ]
+        }
+      ],
+      "detail": [
+        {
+          "maxFrameMs": 33.3,
+          "returnDelta": 0,
+          "ghosts": 0
+        },
+        {
+          "maxFrameMs": 33.3,
+          "returnDelta": 0,
+          "ghosts": 0
+        },
+        {
+          "maxFrameMs": 33.3,
+          "returnDelta": 0,
+          "ghosts": 0
+        }
+      ]
+    },
+    {
+      "phase": "before",
+      "size": 20000,
+      "mode": "calm",
+      "versions": [
+        "155.0.8059.80"
+      ],
+      "rounds": 3,
+      "firstPostRafMs": 379.5,
+      "firstSuccessfulQAControlUpperMs": 1859.4,
+      "stages": [
+        {
+          "target": 60,
+          "loaded": 60,
+          "cards": [
+            60,
+            60,
+            60
+          ],
+          "renderMs": [
+            46.7,
+            39.4,
+            40.3
+          ],
+          "scrollP95Ms": [
+            16.8,
+            16.8,
+            16.8
+          ],
+          "scrollMaxMs": [
+            50,
+            50,
+            33.4
+          ],
+          "heapMiB": [
+            5.11,
+            5.09,
+            5.11
+          ],
+          "nodes": [
+            2753,
+            2753,
+            2753
+          ],
+          "hidden": false
+        },
+        {
+          "target": 300,
+          "loaded": 300,
+          "cards": [
+            300,
+            300,
+            300
+          ],
+          "renderMs": [
+            30.5,
+            29.3,
+            28.8
+          ],
+          "scrollP95Ms": [
+            16.8,
+            16.8,
+            16.7
+          ],
+          "scrollMaxMs": [
+            16.8,
+            16.8,
+            33.4
+          ],
+          "heapMiB": [
+            7.93,
+            7.93,
+            7.79
+          ],
+          "nodes": [
+            10745,
+            10745,
+            10745
+          ],
+          "hidden": false
+        },
+        {
+          "target": 600,
+          "loaded": 600,
+          "cards": [
+            600,
+            600,
+            600
+          ],
+          "renderMs": [
+            61.1,
+            56.4,
+            55
+          ],
+          "scrollP95Ms": [
+            50,
+            50,
+            33.4
+          ],
+          "scrollMaxMs": [
+            50.1,
+            50.1,
+            49.9
+          ],
+          "heapMiB": [
+            7.75,
+            11.08,
+            11.18
+          ],
+          "nodes": [
+            20778,
+            20778,
+            20778
+          ],
+          "hidden": false
+        },
+        {
+          "target": 1020,
+          "loaded": 1020,
+          "cards": [
+            1020,
+            1020,
+            1020
+          ],
+          "renderMs": [
+            92.4,
+            87.3,
+            86.4
+          ],
+          "scrollP95Ms": [
+            100,
+            100,
+            116.6
+          ],
+          "scrollMaxMs": [
+            100,
+            100.1,
+            150.1
+          ],
+          "heapMiB": [
+            14.84,
+            18.7,
+            18.7
+          ],
+          "nodes": [
+            34775,
+            34775,
+            34775
+          ],
+          "hidden": false
+        },
+        {
+          "target": 2000,
+          "loaded": 2040,
+          "cards": [
+            2040,
+            2040,
+            2040
+          ],
+          "renderMs": [
+            282.7,
+            192.3,
+            180.4
+          ],
+          "scrollP95Ms": [
+            316.6,
+            316.6,
+            316.6
+          ],
+          "scrollMaxMs": [
+            333.3,
+            333.3,
+            333.4
+          ],
+          "heapMiB": [
+            47.33,
+            38.57,
+            32.1
+          ],
+          "nodes": [
+            70503,
+            70503,
+            70503
+          ],
+          "hidden": false
+        }
+      ],
+      "searches": [
+        {
+          "query": "动效 React",
+          "inputPostRafMs": [
+            692.9,
+            722.8,
+            671.6
+          ],
+          "renderMs": [
+            43.3,
+            48.9,
+            42.4
+          ]
+        },
+        {
+          "query": "",
+          "inputPostRafMs": [
+            176.2,
+            176.8,
+            173.9
+          ],
+          "renderMs": [
+            30.8,
+            30.1,
+            29.9
+          ]
+        },
+        {
+          "query": "React",
+          "inputPostRafMs": [
+            212,
+            180.2,
+            209.4
+          ],
+          "renderMs": [
+            46.6,
+            27.7,
+            41.9
+          ]
+        },
+        {
+          "query": "",
+          "inputPostRafMs": [
+            170.2,
+            163.7,
+            168.5
+          ],
+          "renderMs": [
+            22.4,
+            19.5,
+            22.3
+          ]
+        }
+      ],
+      "detail": [
+        {
+          "maxFrameMs": 33.3,
+          "returnDelta": 0,
+          "ghosts": 0
+        },
+        {
+          "maxFrameMs": 33.2,
+          "returnDelta": 0,
+          "ghosts": 0
+        },
+        {
+          "maxFrameMs": 33.3,
+          "returnDelta": 0,
+          "ghosts": 0
+        }
+      ]
+    },
+    {
+      "phase": "before",
+      "size": 50000,
+      "mode": "studio",
+      "versions": [
+        "155.0.8059.80"
+      ],
+      "rounds": 3,
+      "firstPostRafMs": 516.2,
+      "firstSuccessfulQAControlUpperMs": 1855.4,
+      "stages": [
+        {
+          "target": 60,
+          "loaded": 60,
+          "cards": [
+            60,
+            60,
+            60
+          ],
+          "renderMs": [
+            42.5,
+            43.5,
+            40.2
+          ],
+          "scrollP95Ms": [
+            33.3,
+            16.7,
+            16.8
+          ],
+          "scrollMaxMs": [
+            49.9,
+            33.4,
+            33.4
+          ],
+          "heapMiB": [
+            3.58,
+            4.07,
+            4.07
+          ],
+          "nodes": [
+            2741,
+            2741,
+            2741
+          ],
+          "hidden": false
+        },
+        {
+          "target": 300,
+          "loaded": 300,
+          "cards": [
+            300,
+            300,
+            300
+          ],
+          "renderMs": [
+            34.8,
+            66.3,
+            73.1
+          ],
+          "scrollP95Ms": [
+            50,
+            50.1,
+            50
+          ],
+          "scrollMaxMs": [
+            50.1,
+            50.1,
+            50.1
+          ],
+          "heapMiB": [
+            7.67,
+            8.19,
+            8.19
+          ],
+          "nodes": [
+            10766,
+            10766,
+            10766
+          ],
+          "hidden": false
+        },
+        {
+          "target": 600,
+          "loaded": 600,
+          "cards": [
+            600,
+            600,
+            600
+          ],
+          "renderMs": [
+            69.5,
+            69.2,
+            76.4
+          ],
+          "scrollP95Ms": [
+            149.9,
+            133.3,
+            116.7
+          ],
+          "scrollMaxMs": [
+            150.1,
+            133.4,
+            116.8
+          ],
+          "heapMiB": [
+            17.75,
+            12.72,
+            11.04
+          ],
+          "nodes": [
+            20752,
+            20752,
+            20752
+          ],
+          "hidden": false
+        },
+        {
+          "target": 1020,
+          "loaded": 1020,
+          "cards": [
+            1020,
+            1020,
+            1020
+          ],
+          "renderMs": [
+            121.5,
+            110.8,
+            118.8
+          ],
+          "scrollP95Ms": [
+            316.6,
+            399.9,
+            416.6
+          ],
+          "scrollMaxMs": [
+            333.4,
+            400,
+            466.7
+          ],
+          "heapMiB": [
+            9.23,
+            18.84,
+            14.91
+          ],
+          "nodes": [
+            34738,
+            34738,
+            34738
+          ],
+          "hidden": false
+        },
+        {
+          "target": 2000,
+          "loaded": 2040,
+          "cards": [
+            2040,
+            2040,
+            2040
+          ],
+          "renderMs": [
+            234.2,
+            222.8,
+            273.9
+          ],
+          "scrollP95Ms": [
+            1383.3,
+            1249.9,
+            1249.8
+          ],
+          "scrollMaxMs": [
+            1549.9,
+            1416.6,
+            1333.2
+          ],
+          "heapMiB": [
+            22.85,
+            24.54,
+            36.4
+          ],
+          "nodes": [
+            68722,
+            68722,
+            68722
+          ],
+          "hidden": false
+        }
+      ],
+      "searches": [
+        {
+          "query": "动效 React",
+          "inputPostRafMs": [
+            3682,
+            2823.4,
+            2456.2
+          ],
+          "renderMs": [
+            332,
+            179.2,
+            169.3
+          ]
+        },
+        {
+          "query": "",
+          "inputPostRafMs": [
+            288.9,
+            174.5,
+            220.3
+          ],
+          "renderMs": [
+            29.1,
+            23.1,
+            36
+          ]
+        },
+        {
+          "query": "React",
+          "inputPostRafMs": [
+            300.7,
+            237.3,
+            407.7
+          ],
+          "renderMs": [
+            29.9,
+            24.8,
+            29.3
+          ]
+        },
+        {
+          "query": "",
+          "inputPostRafMs": [
+            170.5,
+            171.1,
+            170.3
+          ],
+          "renderMs": [
+            19.8,
+            18.6,
+            24
+          ]
+        }
+      ],
+      "detail": [
+        {
+          "maxFrameMs": 33.4,
+          "returnDelta": 0,
+          "ghosts": 0
+        },
+        {
+          "maxFrameMs": 33.4,
+          "returnDelta": 0,
+          "ghosts": 0
+        },
+        {
+          "maxFrameMs": 33.3,
+          "returnDelta": 0,
+          "ghosts": 0
+        }
+      ]
+    },
+    {
+      "phase": "before",
+      "size": 50000,
+      "mode": "calm",
+      "versions": [
+        "155.0.8059.80"
+      ],
+      "rounds": 3,
+      "firstPostRafMs": 518.7,
+      "firstSuccessfulQAControlUpperMs": 1992.1,
+      "stages": [
+        {
+          "target": 60,
+          "loaded": 60,
+          "cards": [
+            60,
+            60,
+            60
+          ],
+          "renderMs": [
+            42.4,
+            41.3,
+            38.9
+          ],
+          "scrollP95Ms": [
+            16.8,
+            16.7,
+            16.8
+          ],
+          "scrollMaxMs": [
+            33.3,
+            16.8,
+            16.8
+          ],
+          "heapMiB": [
+            5.1,
+            5.09,
+            5.09
+          ],
+          "nodes": [
+            2741,
+            2741,
+            2741
+          ],
+          "hidden": false
+        },
+        {
+          "target": 300,
+          "loaded": 300,
+          "cards": [
+            300,
+            300,
+            300
+          ],
+          "renderMs": [
+            33.9,
+            29.6,
+            27.9
+          ],
+          "scrollP95Ms": [
+            16.8,
+            16.8,
+            16.8
+          ],
+          "scrollMaxMs": [
+            33.4,
+            16.8,
+            33.4
+          ],
+          "heapMiB": [
+            7.97,
+            7.92,
+            8.67
+          ],
+          "nodes": [
+            10766,
+            10766,
+            10766
+          ],
+          "hidden": false
+        },
+        {
+          "target": 600,
+          "loaded": 600,
+          "cards": [
+            600,
+            600,
+            600
+          ],
+          "renderMs": [
+            66,
+            58.4,
+            66.5
+          ],
+          "scrollP95Ms": [
+            50,
+            50.1,
+            50
+          ],
+          "scrollMaxMs": [
+            50.1,
+            66.6,
+            50
+          ],
+          "heapMiB": [
+            7.73,
+            7.73,
+            7.73
+          ],
+          "nodes": [
+            20752,
+            20752,
+            20752
+          ],
+          "hidden": false
+        },
+        {
+          "target": 1020,
+          "loaded": 1020,
+          "cards": [
+            1020,
+            1020,
+            1020
+          ],
+          "renderMs": [
+            92.1,
+            89.2,
+            91.5
+          ],
+          "scrollP95Ms": [
+            116.7,
+            100,
+            100
+          ],
+          "scrollMaxMs": [
+            133.3,
+            133.3,
+            100.1
+          ],
+          "heapMiB": [
+            14.85,
+            35.45,
+            18.7
+          ],
+          "nodes": [
+            34738,
+            34738,
+            34738
+          ],
+          "hidden": false
+        },
+        {
+          "target": 2000,
+          "loaded": 2040,
+          "cards": [
+            2040,
+            2040,
+            2040
+          ],
+          "renderMs": [
+            184.9,
+            178.8,
+            159.4
+          ],
+          "scrollP95Ms": [
+            333.3,
+            333.3,
+            333.4
+          ],
+          "scrollMaxMs": [
+            350.1,
+            333.4,
+            350
+          ],
+          "heapMiB": [
+            68.87,
+            43.29,
+            24.85
+          ],
+          "nodes": [
+            68722,
+            68722,
+            68722
+          ],
+          "hidden": false
+        }
+      ],
+      "searches": [
+        {
+          "query": "动效 React",
+          "inputPostRafMs": [
+            1506.3,
+            1111.8,
+            1026.1
+          ],
+          "renderMs": [
+            104,
+            90.8,
+            86
+          ]
+        },
+        {
+          "query": "",
+          "inputPostRafMs": [
+            186.7,
+            157.7,
+            168.5
+          ],
+          "renderMs": [
+            23.1,
+            19.4,
+            23.9
+          ]
+        },
+        {
+          "query": "React",
+          "inputPostRafMs": [
+            222.1,
+            211.3,
+            199.2
+          ],
+          "renderMs": [
+            16.8,
+            15.4,
+            17.7
+          ]
+        },
+        {
+          "query": "",
+          "inputPostRafMs": [
+            733,
+            167.5,
+            168.2
+          ],
+          "renderMs": [
+            17.1,
+            19.9,
+            23.6
+          ]
+        }
+      ],
+      "detail": [
+        {
+          "maxFrameMs": 33.3,
+          "returnDelta": 0,
+          "ghosts": 0
+        },
+        {
+          "maxFrameMs": 33.3,
+          "returnDelta": 0,
+          "ghosts": 0
+        },
+        {
+          "maxFrameMs": 33.3,
+          "returnDelta": 0,
+          "ghosts": 0
+        }
+      ]
+    },
+    {
+      "phase": "after",
+      "size": 1000,
+      "mode": "studio",
+      "versions": [
+        "155.0.8059.80"
+      ],
+      "rounds": 3,
+      "firstPostRafMs": 259.3,
+      "firstSuccessfulQAControlUpperMs": 1750.7,
+      "stages": [
+        {
+          "target": 60,
+          "loaded": 60,
+          "cards": [
+            6,
+            6,
+            6
+          ],
+          "renderMs": [
+            27.6,
+            16.7,
+            17.7
+          ],
+          "scrollP95Ms": [
+            16.8,
+            16.8,
+            33.2
+          ],
+          "scrollMaxMs": [
+            33.3,
+            33.4,
+            33.3
+          ],
+          "heapMiB": [
+            4.87,
+            4.92,
+            4.86
+          ],
+          "nodes": [
+            961,
+            961,
+            961
+          ],
+          "hidden": false
+        },
+        {
+          "target": 300,
+          "loaded": 300,
+          "cards": [
+            16,
+            16,
+            16
+          ],
+          "renderMs": [
+            9.6,
+            8.9,
+            8.4
+          ],
+          "scrollP95Ms": [
+            16.8,
+            16.7,
+            16.8
+          ],
+          "scrollMaxMs": [
+            16.8,
+            33.4,
+            33.3
+          ],
+          "heapMiB": [
+            6.32,
+            6.48,
+            5.01
+          ],
+          "nodes": [
+            1399,
+            1399,
+            1399
+          ],
+          "hidden": false
+        },
+        {
+          "target": 600,
+          "loaded": 600,
+          "cards": [
+            16,
+            16,
+            16
+          ],
+          "renderMs": [
+            11,
+            11.7,
+            13.3
+          ],
+          "scrollP95Ms": [
+            16.7,
+            16.8,
+            16.7
+          ],
+          "scrollMaxMs": [
+            33.3,
+            33.3,
+            33.4
+          ],
+          "heapMiB": [
+            6.12,
+            6.39,
+            7.75
+          ],
+          "nodes": [
+            1385,
+            1385,
+            1385
+          ],
+          "hidden": false
+        },
+        {
+          "target": 1020,
+          "unavailable": true
+        },
+        {
+          "target": 2000,
+          "unavailable": true
+        }
+      ],
+      "searches": [
+        {
+          "query": "动效 React",
+          "inputPostRafMs": [
+            199.6,
+            216.8,
+            216.9
+          ],
+          "renderMs": [
+            11.1,
+            9.5,
+            14.3
+          ]
+        },
+        {
+          "query": "",
+          "inputPostRafMs": [
+            160.2,
+            153.6,
+            163.9
+          ],
+          "renderMs": [
+            7.8,
+            10.4,
+            16.7
+          ]
+        },
+        {
+          "query": "React",
+          "inputPostRafMs": [
+            150,
+            154.2,
+            163
+          ],
+          "renderMs": [
+            6.8,
+            6.2,
+            5.7
+          ]
+        },
+        {
+          "query": "",
+          "inputPostRafMs": [
+            151.3,
+            160.5,
+            171.1
+          ],
+          "renderMs": [
+            6.5,
+            7.1,
+            19.5
+          ]
+        }
+      ],
+      "detail": [
+        {
+          "maxFrameMs": 16.8,
+          "returnDelta": 0,
+          "ghosts": 0
+        },
+        {
+          "maxFrameMs": 16.8,
+          "returnDelta": 0,
+          "ghosts": 0
+        },
+        {
+          "maxFrameMs": 33.4,
+          "returnDelta": 0,
+          "ghosts": 0
+        }
+      ]
+    },
+    {
+      "phase": "after",
+      "size": 1000,
+      "mode": "calm",
+      "versions": [
+        "155.0.8059.80"
+      ],
+      "rounds": 3,
+      "firstPostRafMs": 300.7,
+      "firstSuccessfulQAControlUpperMs": 1737.5,
+      "stages": [
+        {
+          "target": 60,
+          "loaded": 60,
+          "cards": [
+            6,
+            6,
+            6
+          ],
+          "renderMs": [
+            27.7,
+            20,
+            21.9
+          ],
+          "scrollP95Ms": [
+            16.8,
+            16.8,
+            16.8
+          ],
+          "scrollMaxMs": [
+            50,
+            33.3,
+            33.4
+          ],
+          "heapMiB": [
+            3.82,
+            3.78,
+            3.83
+          ],
+          "nodes": [
+            961,
+            961,
+            961
+          ],
+          "hidden": false
+        },
+        {
+          "target": 300,
+          "loaded": 300,
+          "cards": [
+            18,
+            18,
+            18
+          ],
+          "renderMs": [
+            7.7,
+            8,
+            6.9
+          ],
+          "scrollP95Ms": [
+            16.7,
+            16.7,
+            16.7
+          ],
+          "scrollMaxMs": [
+            16.8,
+            16.8,
+            16.8
+          ],
+          "heapMiB": [
+            7.53,
+            7.29,
+            7.63
+          ],
+          "nodes": [
+            1370,
+            1370,
+            1370
+          ],
+          "hidden": false
+        },
+        {
+          "target": 600,
+          "loaded": 600,
+          "cards": [
+            16,
+            16,
+            16
+          ],
+          "renderMs": [
+            10.7,
+            12.7,
+            10.9
+          ],
+          "scrollP95Ms": [
+            16.7,
+            16.8,
+            16.7
+          ],
+          "scrollMaxMs": [
+            16.8,
+            16.8,
+            16.8
+          ],
+          "heapMiB": [
+            8.68,
+            5.68,
+            7.63
+          ],
+          "nodes": [
+            1284,
+            1284,
+            1284
+          ],
+          "hidden": false
+        },
+        {
+          "target": 1020,
+          "unavailable": true
+        },
+        {
+          "target": 2000,
+          "unavailable": true
+        }
+      ],
+      "searches": [
+        {
+          "query": "动效 React",
+          "inputPostRafMs": [
+            161,
+            181.2,
+            177.7
+          ],
+          "renderMs": [
+            9.2,
+            11.4,
+            10.9
+          ]
+        },
+        {
+          "query": "",
+          "inputPostRafMs": [
+            149.8,
+            157.6,
+            160.4
+          ],
+          "renderMs": [
+            10.2,
+            10.4,
+            7.8
+          ]
+        },
+        {
+          "query": "React",
+          "inputPostRafMs": [
+            173.1,
+            158.2,
+            159.8
+          ],
+          "renderMs": [
+            9.8,
+            8.6,
+            7.5
+          ]
+        },
+        {
+          "query": "",
+          "inputPostRafMs": [
+            156.3,
+            156.9,
+            162.4
+          ],
+          "renderMs": [
+            13.3,
+            19.1,
+            11.1
+          ]
+        }
+      ],
+      "detail": [
+        {
+          "maxFrameMs": 33.3,
+          "returnDelta": 0,
+          "ghosts": 0
+        },
+        {
+          "maxFrameMs": 16.8,
+          "returnDelta": 0,
+          "ghosts": 0
+        },
+        {
+          "maxFrameMs": 16.8,
+          "returnDelta": 0,
+          "ghosts": 0
+        }
+      ]
+    },
+    {
+      "phase": "after",
+      "size": 5000,
+      "mode": "studio",
+      "versions": [
+        "155.0.8059.80"
+      ],
+      "rounds": 3,
+      "firstPostRafMs": 329.5,
+      "firstSuccessfulQAControlUpperMs": 1703.4,
+      "stages": [
+        {
+          "target": 60,
+          "loaded": 60,
+          "cards": [
+            6,
+            6,
+            6
+          ],
+          "renderMs": [
+            23.3,
+            22.6,
+            23.6
+          ],
+          "scrollP95Ms": [
+            16.8,
+            16.8,
+            16.8
+          ],
+          "scrollMaxMs": [
+            33.4,
+            33.4,
+            33.3
+          ],
+          "heapMiB": [
+            4.88,
+            4.87,
+            4.87
+          ],
+          "nodes": [
+            957,
+            957,
+            957
+          ],
+          "hidden": false
+        },
+        {
+          "target": 300,
+          "loaded": 300,
+          "cards": [
+            18,
+            18,
+            18
+          ],
+          "renderMs": [
+            8.7,
+            12.9,
+            9.1
+          ],
+          "scrollP95Ms": [
+            16.8,
+            16.8,
+            16.8
+          ],
+          "scrollMaxMs": [
+            16.8,
+            50,
+            16.8
+          ],
+          "heapMiB": [
+            5.21,
+            4.61,
+            6.51
+          ],
+          "nodes": [
+            1495,
+            1495,
+            1495
+          ],
+          "hidden": false
+        },
+        {
+          "target": 600,
+          "loaded": 600,
+          "cards": [
+            16,
+            16,
+            16
+          ],
+          "renderMs": [
+            14.1,
+            11.7,
+            15.2
+          ],
+          "scrollP95Ms": [
+            16.8,
+            16.8,
+            16.7
+          ],
+          "scrollMaxMs": [
+            50,
+            33.3,
+            16.8
+          ],
+          "heapMiB": [
+            8.45,
+            7.53,
+            6.98
+          ],
+          "nodes": [
+            1416,
+            1416,
+            1416
+          ],
+          "hidden": false
+        },
+        {
+          "target": 1020,
+          "loaded": 1020,
+          "cards": [
+            15,
+            15,
+            15
+          ],
+          "renderMs": [
+            18.7,
+            30.7,
+            15.6
+          ],
+          "scrollP95Ms": [
+            16.8,
+            16.7,
+            16.8
+          ],
+          "scrollMaxMs": [
+            33.3,
+            33.4,
+            33.3
+          ],
+          "heapMiB": [
+            10.34,
+            9.56,
+            10.68
+          ],
+          "nodes": [
+            1432,
+            1432,
+            1432
+          ],
+          "hidden": false
+        },
+        {
+          "target": 2000,
+          "loaded": 2040,
+          "cards": [
+            16,
+            16,
+            16
+          ],
+          "renderMs": [
+            19.1,
+            14.7,
+            13.9
+          ],
+          "scrollP95Ms": [
+            16.8,
+            16.8,
+            16.7
+          ],
+          "scrollMaxMs": [
+            83.3,
+            83.2,
+            66.7
+          ],
+          "heapMiB": [
+            19.62,
+            18.63,
+            12.79
+          ],
+          "nodes": [
+            1394,
+            1394,
+            1394
+          ],
+          "hidden": false
+        }
+      ],
+      "searches": [
+        {
+          "query": "动效 React",
+          "inputPostRafMs": [
+            241.3,
+            254.3,
+            288.3
+          ],
+          "renderMs": [
+            18.5,
+            19,
+            21.2
+          ]
+        },
+        {
+          "query": "",
+          "inputPostRafMs": [
+            158.9,
+            154.4,
+            172.4
+          ],
+          "renderMs": [
+            8.7,
+            7.4,
+            11.1
+          ]
+        },
+        {
+          "query": "React",
+          "inputPostRafMs": [
+            170.3,
+            151.4,
+            153.4
+          ],
+          "renderMs": [
+            6.7,
+            5.9,
+            8.3
+          ]
+        },
+        {
+          "query": "",
+          "inputPostRafMs": [
+            153.1,
+            156.2,
+            153.2
+          ],
+          "renderMs": [
+            7.1,
+            8.2,
+            6.9
+          ]
+        }
+      ],
+      "detail": [
+        {
+          "maxFrameMs": 33.4,
+          "returnDelta": 0,
+          "ghosts": 0
+        },
+        {
+          "maxFrameMs": 33.3,
+          "returnDelta": 0,
+          "ghosts": 0
+        },
+        {
+          "maxFrameMs": 16.8,
+          "returnDelta": 0,
+          "ghosts": 0
+        }
+      ]
+    },
+    {
+      "phase": "after",
+      "size": 5000,
+      "mode": "calm",
+      "versions": [
+        "155.0.8059.80"
+      ],
+      "rounds": 3,
+      "firstPostRafMs": 377.2,
+      "firstSuccessfulQAControlUpperMs": 1846.8,
+      "stages": [
+        {
+          "target": 60,
+          "loaded": 60,
+          "cards": [
+            6,
+            6,
+            6
+          ],
+          "renderMs": [
+            23.7,
+            25.4,
+            32.1
+          ],
+          "scrollP95Ms": [
+            16.8,
+            16.8,
+            16.8
+          ],
+          "scrollMaxMs": [
+            50.1,
+            50.1,
+            33.3
+          ],
+          "heapMiB": [
+            3.81,
+            3.81,
+            3.81
+          ],
+          "nodes": [
+            957,
+            957,
+            957
+          ],
+          "hidden": false
+        },
+        {
+          "target": 300,
+          "loaded": 300,
+          "cards": [
+            18,
+            18,
+            18
+          ],
+          "renderMs": [
+            9.4,
+            14.6,
+            10.2
+          ],
+          "scrollP95Ms": [
+            16.8,
+            16.7,
+            16.8
+          ],
+          "scrollMaxMs": [
+            16.8,
+            16.8,
+            16.8
+          ],
+          "heapMiB": [
+            6.82,
+            6.46,
+            6.86
+          ],
+          "nodes": [
+            1351,
+            1351,
+            1351
+          ],
+          "hidden": false
+        },
+        {
+          "target": 600,
+          "loaded": 600,
+          "cards": [
+            16,
+            16,
+            16
+          ],
+          "renderMs": [
+            12.8,
+            13.5,
+            13.8
+          ],
+          "scrollP95Ms": [
+            16.8,
+            16.8,
+            16.8
+          ],
+          "scrollMaxMs": [
+            33.4,
+            33.4,
+            33.4
+          ],
+          "heapMiB": [
+            7.56,
+            5.9,
+            6.8
+          ],
+          "nodes": [
+            1311,
+            1311,
+            1311
+          ],
+          "hidden": false
+        },
+        {
+          "target": 1020,
+          "loaded": 1020,
+          "cards": [
+            15,
+            15,
+            15
+          ],
+          "renderMs": [
+            11.7,
+            14.9,
+            16.4
+          ],
+          "scrollP95Ms": [
+            16.8,
+            16.8,
+            16.7
+          ],
+          "scrollMaxMs": [
+            50.1,
+            16.8,
+            16.8
+          ],
+          "heapMiB": [
+            6.2,
+            11.03,
+            6.24
+          ],
+          "nodes": [
+            1295,
+            1295,
+            1295
+          ],
+          "hidden": false
+        },
+        {
+          "target": 2000,
+          "loaded": 2040,
+          "cards": [
+            16,
+            16,
+            16
+          ],
+          "renderMs": [
+            19.5,
+            22.9,
+            17.6
+          ],
+          "scrollP95Ms": [
+            16.8,
+            16.8,
+            16.8
+          ],
+          "scrollMaxMs": [
+            33.4,
+            33.3,
+            33.4
+          ],
+          "heapMiB": [
+            17.6,
+            12.15,
+            13.41
+          ],
+          "nodes": [
+            1274,
+            1274,
+            1274
+          ],
+          "hidden": false
+        }
+      ],
+      "searches": [
+        {
+          "query": "动效 React",
+          "inputPostRafMs": [
+            252.4,
+            233.2,
+            259.5
+          ],
+          "renderMs": [
+            14.6,
+            13.5,
+            11.6
+          ]
+        },
+        {
+          "query": "",
+          "inputPostRafMs": [
+            167.3,
+            146.3,
+            161.8
+          ],
+          "renderMs": [
+            8.9,
+            5.6,
+            10.3
+          ]
+        },
+        {
+          "query": "React",
+          "inputPostRafMs": [
+            172.9,
+            173.2,
+            169.5
+          ],
+          "renderMs": [
+            7,
+            9.2,
+            8.9
+          ]
+        },
+        {
+          "query": "",
+          "inputPostRafMs": [
+            171.2,
+            169.2,
+            170.8
+          ],
+          "renderMs": [
+            11.4,
+            17.2,
+            16.8
+          ]
+        }
+      ],
+      "detail": [
+        {
+          "maxFrameMs": 16.8,
+          "returnDelta": 0,
+          "ghosts": 0
+        },
+        {
+          "maxFrameMs": 16.8,
+          "returnDelta": 0,
+          "ghosts": 0
+        },
+        {
+          "maxFrameMs": 16.7,
+          "returnDelta": 0,
+          "ghosts": 0
+        }
+      ]
+    },
+    {
+      "phase": "after",
+      "size": 20000,
+      "mode": "studio",
+      "versions": [
+        "155.0.8059.80"
+      ],
+      "rounds": 3,
+      "firstPostRafMs": 344.6,
+      "firstSuccessfulQAControlUpperMs": 1714.6,
+      "stages": [
+        {
+          "target": 60,
+          "loaded": 60,
+          "cards": [
+            6,
+            6,
+            6
+          ],
+          "renderMs": [
+            23.5,
+            22.2,
+            22
+          ],
+          "scrollP95Ms": [
+            16.8,
+            16.7,
+            33.3
+          ],
+          "scrollMaxMs": [
+            33.3,
+            16.8,
+            33.3
+          ],
+          "heapMiB": [
+            4.94,
+            4.95,
+            4.93
+          ],
+          "nodes": [
+            951,
+            951,
+            951
+          ],
+          "hidden": false
+        },
+        {
+          "target": 300,
+          "loaded": 300,
+          "cards": [
+            18,
+            18,
+            18
+          ],
+          "renderMs": [
+            11.9,
+            11.3,
+            11.1
+          ],
+          "scrollP95Ms": [
+            16.7,
+            16.8,
+            16.7
+          ],
+          "scrollMaxMs": [
+            33.3,
+            33.3,
+            16.8
+          ],
+          "heapMiB": [
+            6.97,
+            6.95,
+            5.18
+          ],
+          "nodes": [
+            1506,
+            1506,
+            1506
+          ],
+          "hidden": false
+        },
+        {
+          "target": 600,
+          "loaded": 600,
+          "cards": [
+            18,
+            18,
+            18
+          ],
+          "renderMs": [
+            15.1,
+            15.5,
+            20.2
+          ],
+          "scrollP95Ms": [
+            16.7,
+            16.8,
+            16.8
+          ],
+          "scrollMaxMs": [
+            33.4,
+            16.8,
+            16.8
+          ],
+          "heapMiB": [
+            6.51,
+            5.85,
+            7.38
+          ],
+          "nodes": [
+            1479,
+            1479,
+            1479
+          ],
+          "hidden": false
+        },
+        {
+          "target": 1020,
+          "loaded": 1020,
+          "cards": [
+            18,
+            18,
+            18
+          ],
+          "renderMs": [
+            17,
+            17.3,
+            12.1
+          ],
+          "scrollP95Ms": [
+            16.7,
+            16.8,
+            16.7
+          ],
+          "scrollMaxMs": [
+            16.8,
+            16.8,
+            16.8
+          ],
+          "heapMiB": [
+            6.18,
+            10.21,
+            11.5
+          ],
+          "nodes": [
+            1484,
+            1484,
+            1484
+          ],
+          "hidden": false
+        },
+        {
+          "target": 2000,
+          "loaded": 2040,
+          "cards": [
+            15,
+            16,
+            15
+          ],
+          "renderMs": [
+            15.7,
+            16.5,
+            18.8
+          ],
+          "scrollP95Ms": [
+            16.7,
+            16.7,
+            16.8
+          ],
+          "scrollMaxMs": [
+            33.4,
+            66.7,
+            33.3
+          ],
+          "heapMiB": [
+            14.26,
+            16.73,
+            19.94
+          ],
+          "nodes": [
+            1379,
+            1411,
+            1379
+          ],
+          "hidden": false
+        }
+      ],
+      "searches": [
+        {
+          "query": "动效 React",
+          "inputPostRafMs": [
+            314.7,
+            311.5,
+            290.9
+          ],
+          "renderMs": [
+            15.4,
+            19.7,
+            15.5
+          ]
+        },
+        {
+          "query": "",
+          "inputPostRafMs": [
+            150.7,
+            162.4,
+            160.3
+          ],
+          "renderMs": [
+            14.8,
+            12.5,
+            8.3
+          ]
+        },
+        {
+          "query": "React",
+          "inputPostRafMs": [
+            187.3,
+            170.8,
+            169.3
+          ],
+          "renderMs": [
+            5,
+            5.1,
+            5.7
+          ]
+        },
+        {
+          "query": "",
+          "inputPostRafMs": [
+            155.5,
+            155.2,
+            152.1
+          ],
+          "renderMs": [
+            6.3,
+            7.4,
+            6.6
+          ]
+        }
+      ],
+      "detail": [
+        {
+          "maxFrameMs": 16.8,
+          "returnDelta": 0,
+          "ghosts": 0
+        },
+        {
+          "maxFrameMs": 33.4,
+          "returnDelta": 0,
+          "ghosts": 0
+        },
+        {
+          "maxFrameMs": 16.8,
+          "returnDelta": 0,
+          "ghosts": 0
+        }
+      ]
+    },
+    {
+      "phase": "after",
+      "size": 20000,
+      "mode": "calm",
+      "versions": [
+        "155.0.8059.80"
+      ],
+      "rounds": 3,
+      "firstPostRafMs": 337.5,
+      "firstSuccessfulQAControlUpperMs": 1775.1,
+      "stages": [
+        {
+          "target": 60,
+          "loaded": 60,
+          "cards": [
+            6,
+            6,
+            6
+          ],
+          "renderMs": [
+            22,
+            21,
+            22.1
+          ],
+          "scrollP95Ms": [
+            16.7,
+            16.8,
+            16.8
+          ],
+          "scrollMaxMs": [
+            16.8,
+            50,
+            33.4
+          ],
+          "heapMiB": [
+            3.87,
+            3.87,
+            3.87
+          ],
+          "nodes": [
+            951,
+            951,
+            951
+          ],
+          "hidden": false
+        },
+        {
+          "target": 300,
+          "loaded": 300,
+          "cards": [
+            18,
+            18,
+            18
+          ],
+          "renderMs": [
+            10.8,
+            9.6,
+            6.9
+          ],
+          "scrollP95Ms": [
+            16.7,
+            16.7,
+            16.8
+          ],
+          "scrollMaxMs": [
+            16.8,
+            16.8,
+            16.8
+          ],
+          "heapMiB": [
+            6.98,
+            7.16,
+            6.88
+          ],
+          "nodes": [
+            1366,
+            1366,
+            1366
+          ],
+          "hidden": false
+        },
+        {
+          "target": 600,
+          "loaded": 600,
+          "cards": [
+            18,
+            18,
+            18
+          ],
+          "renderMs": [
+            14.3,
+            15.2,
+            16
+          ],
+          "scrollP95Ms": [
+            16.8,
+            16.7,
+            16.7
+          ],
+          "scrollMaxMs": [
+            33.3,
+            33.3,
+            33.3
+          ],
+          "heapMiB": [
+            8.23,
+            8.06,
+            7.32
+          ],
+          "nodes": [
+            1346,
+            1346,
+            1346
+          ],
+          "hidden": false
+        },
+        {
+          "target": 1020,
+          "loaded": 1020,
+          "cards": [
+            18,
+            18,
+            18
+          ],
+          "renderMs": [
+            15.1,
+            12.9,
+            10.4
+          ],
+          "scrollP95Ms": [
+            16.7,
+            16.8,
+            16.8
+          ],
+          "scrollMaxMs": [
+            16.8,
+            16.8,
+            16.8
+          ],
+          "heapMiB": [
+            10.87,
+            11.27,
+            12.14
+          ],
+          "nodes": [
+            1352,
+            1352,
+            1352
+          ],
+          "hidden": false
+        },
+        {
+          "target": 2000,
+          "loaded": 2040,
+          "cards": [
+            15,
+            15,
+            15
+          ],
+          "renderMs": [
+            20.7,
+            20.8,
+            18.7
+          ],
+          "scrollP95Ms": [
+            16.7,
+            16.8,
+            16.8
+          ],
+          "scrollMaxMs": [
+            33.3,
+            33.3,
+            16.8
+          ],
+          "heapMiB": [
+            12.3,
+            14.1,
+            18.19
+          ],
+          "nodes": [
+            1271,
+            1271,
+            1271
+          ],
+          "hidden": false
+        }
+      ],
+      "searches": [
+        {
+          "query": "动效 React",
+          "inputPostRafMs": [
+            291.9,
+            297.6,
+            291.4
+          ],
+          "renderMs": [
+            11.9,
+            13.7,
+            13.8
+          ]
+        },
+        {
+          "query": "",
+          "inputPostRafMs": [
+            168.5,
+            158.2,
+            165.4
+          ],
+          "renderMs": [
+            9.2,
+            13.6,
+            9.7
+          ]
+        },
+        {
+          "query": "React",
+          "inputPostRafMs": [
+            205.2,
+            188.8,
+            205.8
+          ],
+          "renderMs": [
+            5.5,
+            5.5,
+            5.2
+          ]
+        },
+        {
+          "query": "",
+          "inputPostRafMs": [
+            172.5,
+            169.8,
+            172.9
+          ],
+          "renderMs": [
+            9.9,
+            10.4,
+            16.9
+          ]
+        }
+      ],
+      "detail": [
+        {
+          "maxFrameMs": 16.8,
+          "returnDelta": 0,
+          "ghosts": 0
+        },
+        {
+          "maxFrameMs": 16.7,
+          "returnDelta": 0,
+          "ghosts": 0
+        },
+        {
+          "maxFrameMs": 16.7,
+          "returnDelta": 0,
+          "ghosts": 0
+        }
+      ]
+    },
+    {
+      "phase": "after",
+      "size": 50000,
+      "mode": "studio",
+      "versions": [
+        "155.0.8059.80"
+      ],
+      "rounds": 3,
+      "firstPostRafMs": 447,
+      "firstSuccessfulQAControlUpperMs": 1829.3,
+      "stages": [
+        {
+          "target": 60,
+          "loaded": 60,
+          "cards": [
+            6,
+            6,
+            6
+          ],
+          "renderMs": [
+            26.5,
+            20.4,
+            19.2
+          ],
+          "scrollP95Ms": [
+            16.8,
+            16.8,
+            16.8
+          ],
+          "scrollMaxMs": [
+            50,
+            33.3,
+            33.3
+          ],
+          "heapMiB": [
+            4.15,
+            4.86,
+            4.87
+          ],
+          "nodes": [
+            941,
+            941,
+            941
+          ],
+          "hidden": false
+        },
+        {
+          "target": 300,
+          "loaded": 300,
+          "cards": [
+            18,
+            18,
+            18
+          ],
+          "renderMs": [
+            10.5,
+            10,
+            11
+          ],
+          "scrollP95Ms": [
+            16.8,
+            16.8,
+            16.8
+          ],
+          "scrollMaxMs": [
+            33.4,
+            16.8,
+            33.3
+          ],
+          "heapMiB": [
+            7.3,
+            6.5,
+            6.5
+          ],
+          "nodes": [
+            1485,
+            1485,
+            1485
+          ],
+          "hidden": false
+        },
+        {
+          "target": 600,
+          "loaded": 600,
+          "cards": [
+            18,
+            18,
+            18
+          ],
+          "renderMs": [
+            14.4,
+            14.5,
+            14.4
+          ],
+          "scrollP95Ms": [
+            16.8,
+            16.8,
+            16.8
+          ],
+          "scrollMaxMs": [
+            16.8,
+            33.3,
+            33.4
+          ],
+          "heapMiB": [
+            5.81,
+            6.98,
+            6.97
+          ],
+          "nodes": [
+            1505,
+            1505,
+            1505
+          ],
+          "hidden": false
+        },
+        {
+          "target": 1020,
+          "loaded": 1020,
+          "cards": [
+            18,
+            18,
+            18
+          ],
+          "renderMs": [
+            12.5,
+            15,
+            16.4
+          ],
+          "scrollP95Ms": [
+            16.7,
+            16.7,
+            16.8
+          ],
+          "scrollMaxMs": [
+            16.8,
+            33.27,
+            33.4
+          ],
+          "heapMiB": [
+            9.93,
+            10.29,
+            11.35
+          ],
+          "nodes": [
+            1502,
+            1502,
+            1502
+          ],
+          "hidden": false
+        },
+        {
+          "target": 2000,
+          "loaded": 2040,
+          "cards": [
+            18,
+            18,
+            18
+          ],
+          "renderMs": [
+            22,
+            22.6,
+            30.8
+          ],
+          "scrollP95Ms": [
+            16.8,
+            16.8,
+            16.7
+          ],
+          "scrollMaxMs": [
+            66.7,
+            50,
+            66.7
+          ],
+          "heapMiB": [
+            8.26,
+            13.36,
+            8.75
+          ],
+          "nodes": [
+            1511,
+            1511,
+            1511
+          ],
+          "hidden": false
+        }
+      ],
+      "searches": [
+        {
+          "query": "动效 React",
+          "inputPostRafMs": [
+            582.7,
+            500.6,
+            517.1
+          ],
+          "renderMs": [
+            21.8,
+            18.8,
+            20.3
+          ]
+        },
+        {
+          "query": "",
+          "inputPostRafMs": [
+            153,
+            157.1,
+            158.8
+          ],
+          "renderMs": [
+            8.6,
+            9,
+            14.5
+          ]
+        },
+        {
+          "query": "React",
+          "inputPostRafMs": [
+            238.7,
+            205.6,
+            205.4
+          ],
+          "renderMs": [
+            5.2,
+            5.2,
+            5.7
+          ]
+        },
+        {
+          "query": "",
+          "inputPostRafMs": [
+            155.9,
+            155.4,
+            154.8
+          ],
+          "renderMs": [
+            8.8,
+            8.1,
+            6.9
+          ]
+        }
+      ],
+      "detail": [
+        {
+          "maxFrameMs": 33.3,
+          "returnDelta": 0,
+          "ghosts": 0
+        },
+        {
+          "maxFrameMs": 16.8,
+          "returnDelta": 0,
+          "ghosts": 0
+        },
+        {
+          "maxFrameMs": 33.3,
+          "returnDelta": 0,
+          "ghosts": 0
+        }
+      ]
+    },
+    {
+      "phase": "after",
+      "size": 50000,
+      "mode": "calm",
+      "versions": [
+        "155.0.8059.80"
+      ],
+      "rounds": 3,
+      "firstPostRafMs": 454.1,
+      "firstSuccessfulQAControlUpperMs": 1924.3,
+      "stages": [
+        {
+          "target": 60,
+          "loaded": 60,
+          "cards": [
+            6,
+            6,
+            6
+          ],
+          "renderMs": [
+            21.3,
+            22,
+            18.8
+          ],
+          "scrollP95Ms": [
+            16.8,
+            16.8,
+            16.8
+          ],
+          "scrollMaxMs": [
+            33.4,
+            33.4,
+            33.4
+          ],
+          "heapMiB": [
+            3.83,
+            3.82,
+            3.81
+          ],
+          "nodes": [
+            941,
+            941,
+            941
+          ],
+          "hidden": false
+        },
+        {
+          "target": 300,
+          "loaded": 300,
+          "cards": [
+            18,
+            18,
+            18
+          ],
+          "renderMs": [
+            10.7,
+            10.5,
+            9.6
+          ],
+          "scrollP95Ms": [
+            16.7,
+            16.8,
+            16.8
+          ],
+          "scrollMaxMs": [
+            16.8,
+            50,
+            16.8
+          ],
+          "heapMiB": [
+            7.07,
+            6.71,
+            7.02
+          ],
+          "nodes": [
+            1349,
+            1349,
+            1349
+          ],
+          "hidden": false
+        },
+        {
+          "target": 600,
+          "loaded": 600,
+          "cards": [
+            18,
+            18,
+            18
+          ],
+          "renderMs": [
+            13.2,
+            14.9,
+            13.8
+          ],
+          "scrollP95Ms": [
+            16.7,
+            16.7,
+            16.7
+          ],
+          "scrollMaxMs": [
+            16.8,
+            16.8,
+            16.8
+          ],
+          "heapMiB": [
+            8.32,
+            7.77,
+            6.21
+          ],
+          "nodes": [
+            1369,
+            1369,
+            1369
+          ],
+          "hidden": false
+        },
+        {
+          "target": 1020,
+          "loaded": 1020,
+          "cards": [
+            18,
+            18,
+            18
+          ],
+          "renderMs": [
+            15.9,
+            14.3,
+            15.4
+          ],
+          "scrollP95Ms": [
+            16.8,
+            16.7,
+            16.8
+          ],
+          "scrollMaxMs": [
+            16.8,
+            16.8,
+            16.8
+          ],
+          "heapMiB": [
+            7.94,
+            9.72,
+            9.54
+          ],
+          "nodes": [
+            1361,
+            1361,
+            1361
+          ],
+          "hidden": false
+        },
+        {
+          "target": 2000,
+          "loaded": 2040,
+          "cards": [
+            18,
+            18,
+            18
+          ],
+          "renderMs": [
+            24.1,
+            24.5,
+            23.8
+          ],
+          "scrollP95Ms": [
+            16.8,
+            16.7,
+            16.7
+          ],
+          "scrollMaxMs": [
+            16.8,
+            16.8,
+            16.8
+          ],
+          "heapMiB": [
+            8.16,
+            8.19,
+            8.15
+          ],
+          "nodes": [
+            1372,
+            1372,
+            1372
+          ],
+          "hidden": false
+        }
+      ],
+      "searches": [
+        {
+          "query": "动效 React",
+          "inputPostRafMs": [
+            513.2,
+            502.8,
+            597
+          ],
+          "renderMs": [
+            19.3,
+            17.2,
+            19.4
+          ]
+        },
+        {
+          "query": "",
+          "inputPostRafMs": [
+            156.4,
+            167.2,
+            165.3
+          ],
+          "renderMs": [
+            15.8,
+            11.9,
+            19.8
+          ]
+        },
+        {
+          "query": "React",
+          "inputPostRafMs": [
+            222.7,
+            204.2,
+            301.2
+          ],
+          "renderMs": [
+            5,
+            5.2,
+            5
+          ]
+        },
+        {
+          "query": "",
+          "inputPostRafMs": [
+            162.2,
+            157.1,
+            157.1
+          ],
+          "renderMs": [
+            9.1,
+            8.7,
+            5.1
+          ]
+        }
+      ],
+      "detail": [
+        {
+          "maxFrameMs": 16.8,
+          "returnDelta": 0,
+          "ghosts": 0
+        },
+        {
+          "maxFrameMs": 16.8,
+          "returnDelta": 0,
+          "ghosts": 0
+        },
+        {
+          "maxFrameMs": 49.9,
+          "returnDelta": 0,
+          "ghosts": 0
+        }
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "file": "desktop-app/dist/v63-before-1000-studio.json",
+      "bytes": 225936,
+      "sha256": "bcceb4cf36d02c6fe993641e2e0a3829487170a12179f4a73f3efdbd88ead9f3"
+    },
+    {
+      "file": "desktop-app/dist/v63-before-1000-calm.json",
+      "bytes": 192830,
+      "sha256": "eea4dd69a293ff6d09b112abe46f8d191768c2fbf6e0eba45029797ec896b0e9"
+    },
+    {
+      "file": "desktop-app/dist/v63-before-5000-studio.json",
+      "bytes": 483173,
+      "sha256": "fe1805c6865250c81bf811743b60e1b35a3db5065bd1af29119cb3e4ffb09c89"
+    },
+    {
+      "file": "desktop-app/dist/v63-before-5000-calm.json",
+      "bytes": 392266,
+      "sha256": "c07f487b089f6552645a7b9ac1c3e96f92d9c531df7a983e4a13862c0e1ee985"
+    },
+    {
+      "file": "desktop-app/dist/v63-before-20000-studio.json",
+      "bytes": 509319,
+      "sha256": "60bc2668434f4812959893cb6bbdef964e1d3062b98db8833107aafc8ee5bfb2"
+    },
+    {
+      "file": "desktop-app/dist/v63-before-20000-calm.json",
+      "bytes": 364892,
+      "sha256": "f6d5e2fdfef495b068eebf8f36bb6c4d2f3b4131587308d5d022e54ac1bd677f"
+    },
+    {
+      "file": "desktop-app/dist/v63-before-50000-studio.json",
+      "bytes": 505511,
+      "sha256": "d389e590e17d613095c6f03e906e26ad169e822797c774387c2b97deaa8c1dbd"
+    },
+    {
+      "file": "desktop-app/dist/v63-before-50000-calm.json",
+      "bytes": 367014,
+      "sha256": "9ebcbf5e5000ff2797b506da480dc42f00cac5fdc970d4b99f8b990f821d0ca3"
+    },
+    {
+      "file": "desktop-app/dist/v63-after-1000-studio.json",
+      "bytes": 368212,
+      "sha256": "a167bd70f6a6543ef1a226eb05ffeb29e72f9acee3d5f35b03e7d3102eadc685"
+    },
+    {
+      "file": "desktop-app/dist/v63-after-1000-calm.json",
+      "bytes": 364771,
+      "sha256": "4f893116fb4258a99a29002f1112e0dab6f96d8555516ecbb841cab6670d22fc"
+    },
+    {
+      "file": "desktop-app/dist/v63-after-5000-studio.json",
+      "bytes": 635590,
+      "sha256": "02a311e40ab158448d116a984e43769f06643d106ddaf5d8803f20bfa20c65c4"
+    },
+    {
+      "file": "desktop-app/dist/v63-after-5000-calm.json",
+      "bytes": 634713,
+      "sha256": "999899ced008e7f5f34f336af74bf5f47c2305c8348f37f84a2707fa68751b85"
+    },
+    {
+      "file": "desktop-app/dist/v63-after-20000-studio.json",
+      "bytes": 640775,
+      "sha256": "c5380a316d15657834c1b508ff995ff9df7972a398782925c07f9dc732735c45"
+    },
+    {
+      "file": "desktop-app/dist/v63-after-20000-calm.json",
+      "bytes": 634835,
+      "sha256": "a240d45eab6b47b670530bbcf77d83018d12834358ac39fe8b597fb839c2ec7b"
+    },
+    {
+      "file": "desktop-app/dist/v63-after-50000-studio.json",
+      "bytes": 639696,
+      "sha256": "e5087a97bc1e84cb2cb6f34d4f24ecbe808997add4d32e667150d3f189ffcf27"
+    },
+    {
+      "file": "desktop-app/dist/v63-after-50000-calm.json",
+      "bytes": 637749,
+      "sha256": "73b8d431a19de87cf437b5b2c4e4b7e329f7ddc38dea17b9f7a0222313d37398"
+    }
+  ]
+}
