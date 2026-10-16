@@ -1,0 +1,39 @@
+v24.21.0
+3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0] 3.45.1 Linux-6.12.76-linuxkit-aarch64-with-glibc2.39
+
+added 38 packages in 877ms
+npm notice
+npm notice New major version of npm available! 11.19.0 -> 12.2.0
+npm notice Changelog: https://gith
+======================================================================
+FAIL: test_capability_guard_with_slow_initial_script_delivery (test_query_ui_integration.QueryUIIntegration.test_capability_guard_with_slow_initial_script_delivery)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/tests/test_query_ui_integration.py", line 19, in test_capability_guard_with_slow_initial_script_delivery
+    self.run_page('slow', delay_asset=True)
+  File "/work/tests/test_query_ui_integration.py", line 32, in run_page
+    self.assertEqual(result.returncode,0,result.stderr[-5000:]);self.assertIn('"passed":true',result.stdout)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : Error: DOM condition timed out;    [{"path":"/api/capture/tasks"},{"path":"/api/website-previews"}]
+    at wait (/work/tests/query_ui_integration.cjs:4:86)
+    at async /work/tests/query_ui_integration.cjs:16:2
+
+
+======================================================================
+FAIL: test_slow_capability_discovery_never_starts_legacy_full_library_poll (test_query_ui_integration.QueryUIIntegration.test_slow_capability_discovery_never_starts_legacy_full_library_poll)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/tests/test_query_ui_integration.py", line 15, in test_slow_capability_discovery_never_starts_legacy_full_library_poll
+    self.run_page('slow')
+  File "/work/tests/test_query_ui_integration.py", line 32, in run_page
+    self.assertEqual(result.returncode,0,result.stderr[-5000:]);self.assertIn('"passed":true',result.stdout)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : Error: DOM condition timed out;    [{"path":"/api/capture/tasks"},{"path":"/api/website-previews"}]
+    at wait (/work/tests/query_ui_integration.cjs:4:86)
+    at async /work/tests/query_ui_integration.cjs:16:2
+
+
+----------------------------------------------------------------------
+Ran 3 tests in 21.643s
+
+FAILED (failures=2)

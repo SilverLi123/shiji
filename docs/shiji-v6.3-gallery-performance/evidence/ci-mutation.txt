@@ -1,0 +1,27 @@
+======================================================================
+FAIL: test_slow_capability_discovery_never_starts_legacy_full_library_poll (test_query_ui_integration.QueryUIIntegration)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v63-ci-before-2pdoif57/tests/test_query_ui_integration.py", line 15, in test_slow_capability_discovery_never_starts_legacy_full_library_poll
+    self.run_page('slow')
+  File "/var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v63-ci-before-2pdoif57/tests/test_query_ui_integration.py", line 32, in run_page
+    self.assertEqual(result.returncode,0,result.stderr[-5000:]);self.assertIn('"passed":true',result.stdout)
+AssertionError: 1 != 0 : AssertionError [ERR_ASSERTION]: A refresh before capability release must not load the full library
+
+true !== false
+
+    at /private/var/folders/zf/9x8vcjy9091gxc3tdsz79_lm0000gn/T/shiji-v63-ci-before-2pdoif57/tests/query_ui_integration.cjs:23:10
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: true,
+  expected: false,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+
+----------------------------------------------------------------------
+Ran 1 test in 2.636s
+
+FAILED (failures=1)

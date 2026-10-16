@@ -1,0 +1,17 @@
+======================================================================
+FAIL: test_capability_guard_with_slow_initial_script_delivery (test_query_ui_integration.QueryUIIntegration)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/silver/shiji-card-restoration/desktop-app/tests/test_query_ui_integration.py", line 19, in test_capability_guard_with_slow_initial_script_delivery
+    self.run_page('slow', delay_asset=True)
+  File "/Users/silver/shiji-card-restoration/desktop-app/tests/test_query_ui_integration.py", line 32, in run_page
+    self.assertEqual(result.returncode,0,result.stderr[-5000:]);self.assertIn('"passed":true',result.stdout)
+AssertionError: 1 != 0 : Error: DOM condition timed out;    [{"path":"/api/capture/tasks"},{"path":"/api/website-previews"}]
+    at wait (/Users/silver/shiji-card-restoration/desktop-app/tests/query_ui_integration.cjs:4:86)
+    at async /Users/silver/shiji-card-restoration/desktop-app/tests/query_ui_integration.cjs:16:2
+
+
+----------------------------------------------------------------------
+Ran 3 tests in 16.458s
+
+FAILED (failures=1)

@@ -1,0 +1,38 @@
+:11:02] "GET /desktop-sync.js HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 19:11:02] "GET /similar-model.js HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 19:11:02] "GET /quick-capture.js HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 19:11:02] "GET /board-model.js HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 19:11:02] "GET /similar.js HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 19:11:02] "GET /preview-ui.js HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 19:11:02] "GET /shiji-v2.js HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 19:11:02] "GET /organizing.js HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 19:11:02] "GET /quick-notes.js HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 19:11:02] "GET /project-picker.js HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 19:11:02] "GET /browse-window.js HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 19:11:02] "GET /query-integration.js HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 19:11:02] "GET /resource-bits.js HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 19:11:02] "GET /asset-intake.js HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 19:11:02] "GET /stable-cards.js HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 19:11:02] "GET /health.js HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 19:11:02] "GET /api/capture/tasks HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 19:11:02] "GET /api/website-previews HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 19:11:02] "GET /api/library HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 19:11:02] "GET /api/library HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 19:11:02] "POST /api/query HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 19:11:02] "POST /api/query HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 19:11:02] "POST /api/query HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 19:11:02] "POST /api/query HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 19:11:02] "GET /api/resources/3d1c270b-424a-476b-a1f6-eabbdd5bec01 HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 19:11:02] "POST /api/resources/3d1c270b-424a-476b-a1f6-eabbdd5bec01/edit HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 19:11:02] "GET /api/library HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 19:11:02] "POST /api/query HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 19:11:02] "POST /api/query/ids HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 19:11:02] "POST /api/query/batch HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 19:11:02] "GET /api/library HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 19:11:02] "POST /api/query HTTP/1.1" 200 -
+ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 13.057s
+
+OK

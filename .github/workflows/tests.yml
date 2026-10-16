@@ -6,7 +6,7 @@ on:
 permissions:
   contents: read
 jobs:
-  python-node:
+  python:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -25,11 +25,24 @@ jobs:
       - name: Python portable real-business regression
         working-directory: desktop-app
         run: python tests/run-ci.py --suite portable
+      - name: Buffered native evidence parser regressions
+        run: python docs/shiji-v5.2/qa/test_trace_tools.py
+  node:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: desktop-app/package-lock.json
+      - name: Install development test dependencies
+        working-directory: desktop-app
+        run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Node DOM and motion regression
         working-directory: desktop-app
         run: npm test
-      - name: Buffered native evidence parser regressions
-        run: python docs/shiji-v5.2/qa/test_trace_tools.py
       - name: Buffered native probe attribution regression
         run: node docs/shiji-v5.2/qa/test_probe.cjs
   native:

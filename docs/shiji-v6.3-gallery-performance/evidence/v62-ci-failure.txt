@@ -1,0 +1,36 @@
+2026-10-16T09:22:59.2892970Z ##[group]Operating System
+2026-10-16T09:22:59.2894849Z 24.04.5
+2026-10-16T09:22:59.2898056Z Image: ubuntu-24.04
+2026-10-16T09:23:04.6143543Z Successfully set up CPython (3.12.15)
+2026-10-16T09:23:04.6470104Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-16T09:23:04.6473648Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-16T09:23:04.6479545Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-16T09:23:04.6481933Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-16T09:23:04.6484389Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-16T09:23:04.6486893Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-16T09:23:05.4608929Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-16T09:23:05.4609524Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-16T09:23:05.4610171Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-16T09:23:05.4610735Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-16T09:23:05.4611288Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-16T09:23:05.4611824Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-16T09:23:06.9405815Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-16T09:23:06.9406346Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-16T09:23:06.9406898Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-16T09:23:06.9407348Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-16T09:23:06.9407802Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-16T09:23:06.9408440Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-16T09:23:18.6094240Z test_validation_error_has_no_files_rows_or_backup_side_effect (test_backups.BackupStreams.test_validation_error_has_no_files_rows_or_backup_side_effect) ... /opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/zipfile/__init__.py:1650: UserWarning: Duplicate name: 'manifest.json'
+2026-10-16T09:24:02.7924496Z test_actual_v5_scripts_use_paging_hydration_and_full_match_selection (test_query_ui_integration.QueryUIIntegration.test_actual_v5_scripts_use_paging_hydration_and_full_match_selection) ... 127.0.0.1 - - [16/Oct/2026 09:24:02] "GET / HTTP/1.1" 200 -
+2026-10-16T09:24:08.2644879Z test_slow_capability_discovery_never_starts_legacy_full_library_poll (test_query_ui_integration.QueryUIIntegration.test_slow_capability_discovery_never_starts_legacy_full_library_poll) ... 127.0.0.1 - - [16/Oct/2026 09:24:08] "GET / HTTP/1.1" 200 -
+2026-10-16T09:24:14.4998200Z 127.0.0.1 - - [16/Oct/2026 09:24:14] "GET /api/library HTTP/1.1" 200 -
+2026-10-16T09:24:14.5695235Z 127.0.0.1 - - [16/Oct/2026 09:24:14] "GET /api/library HTTP/1.1" 200 -
+2026-10-16T09:24:14.5843416Z 127.0.0.1 - - [16/Oct/2026 09:24:14] "POST /api/query HTTP/1.1" 200 -
+2026-10-16T09:24:33.1821527Z FAIL: test_slow_capability_discovery_never_starts_legacy_full_library_poll (test_query_ui_integration.QueryUIIntegration.test_slow_capability_discovery_never_starts_legacy_full_library_poll)
+2026-10-16T09:24:33.1827092Z   File "/home/runner/work/shiji/shiji/desktop-app/tests/test_query_ui_integration.py", line 15, in test_slow_capability_discovery_never_starts_legacy_full_library_poll
+2026-10-16T09:24:33.1830050Z   File "/home/runner/work/shiji/shiji/desktop-app/tests/test_query_ui_integration.py", line 24, in run_page
+2026-10-16T09:24:33.1835111Z AssertionError: 1 != 0 : Error: DOM condition timed out;    [{"path":"/api/capture/tasks"},{"path":"/api/website-previews"}]
+2026-10-16T09:24:33.1836836Z     at wait (/home/runner/work/shiji/shiji/desktop-app/tests/query_ui_integration.cjs:4:86)
+2026-10-16T09:24:33.1838409Z     at async /home/runner/work/shiji/shiji/desktop-app/tests/query_ui_integration.cjs:16:2
+2026-10-16T09:24:33.1840370Z Ran 281 tests in 85.172s
+2026-10-16T09:24:33.1840823Z FAILED (failures=1)
