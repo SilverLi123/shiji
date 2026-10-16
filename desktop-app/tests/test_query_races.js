@@ -12,3 +12,12 @@ function setup(){
  h=setup();const pending=h.run('selectMatching(true)');h.run('invalidateSelection();state.selectMode=false;state.selected.clear()');h.requests[0].resolve({ids:['a','b'],revision:1});await pending;assert.equal(h.state.selected.size,0,'Ending selection invalidates a pending full-match response');
  console.log('PASS: cached scope/health cancellation, stale results, selection response ordering and exiting selection');
 })().catch(e=>{console.error(e);process.exitCode=1});
+// A full-match selection belongs to one query identity, including filters.
+{
+ const source=require('node:fs').readFileSync(require('node:path').join(__dirname,'../static/query-integration.js'),'utf8');
+ const code=source.slice(source.indexOf('function queryRenderNeeded()'),source.indexOf('\nasync function remoteReload'));
+ const state={remote:{key:'old',loadingKey:'new'},scope:'all',selected:new Set(['off-page']),selectionAll:{key:'old'}};
+ const ctx={state,remoteKey:()=> 'new',queryClient:{cancel(){}},queryBusy(){},remoteLoad:()=>Promise.resolve(),render(){},document:{activeElement:null},$:()=>({}),invalidateSelection(){state.selectionAll=null}};
+ require('node:vm').runInNewContext(code+'\nqueryRenderNeeded();',ctx);
+ assert.equal(state.selected.size,0,'changing query clears the old full-match selection');assert.equal(state.selectionAll,null);
+}

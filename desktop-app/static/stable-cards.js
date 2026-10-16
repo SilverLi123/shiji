@@ -35,6 +35,10 @@
   }
   function render(container,items,selector='.resource-card'){
     const old=new Map(Array.from(container.children).filter(el=>el.matches(selector)).map(el=>[el.dataset.resourceId,el]));
+    // Remove departures first. Otherwise sliding a window moves a retained
+    // focused/pressed article ahead of an obsolete sibling and cancels input.
+    const ids=new Set(items.map(item=>item.id));
+    for(const node of Array.from(container.children))if(!node.matches(selector)||!ids.has(node.dataset.resourceId))node.remove();
     const keep=new Set();
     items.forEach((item,index)=>{
       let node=old.get(item.id);

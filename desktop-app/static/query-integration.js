@@ -37,6 +37,7 @@ function queryRenderNeeded(){
  if(!state.remote)return false;
  if(state.scope==='health'){queryClient?.cancel();state.remote.loadingKey=null;queryBusy(false);return false;}
  const key=remoteKey();
+ if(state.selectionAll&&state.selectionAll.key!==key){state.selected.clear();invalidateSelection();}
  if(state.remote.loadingKey&&state.remote.loadingKey!==key){queryClient?.cancel();state.remote.loadingKey=null;queryBusy(false);}
  if(state.remote.key===key)return false;
  if(state.remote.loadingKey!==key)remoteLoad({delay:document.activeElement===$('#search')?120:0}).catch(e=>toast(e.message));
@@ -61,7 +62,7 @@ async function hydratedAction(kind,item,origin){
  const run=++detailLoadRun;
  try{const resource=await fullResource(item.id);if(run!==detailLoadRun)return;
   if(kind==='edit'){await loadParentOptions(resource.parentId);if(run!==detailLoadRun)return;edit(resource);}else detail(resource,origin);
- }catch(e){if(run===detailLoadRun)toast(e.message);}
+ }catch(e){if(run===detailLoadRun){if(typeof galleryWindow!=='undefined')galleryWindow?.pin('detail');toast(e.message);}}
 }
 async function selectMatching(checked){
  const run=++selectionRun,snapshot=remoteKey(),result=await api('/api/query/ids','POST',remoteBody());

@@ -30,3 +30,8 @@ console.log('stable nodes, sorting and metadata focus, media reuse/change, faile
 const favoriteHTML=pressed=>`<article class="resource-card" data-resource-id="favorite"><button class="icon-button card-favorite ${pressed?'is-favorite':''}" data-action="favorite" data-id="favorite" aria-pressed="${pressed}" aria-label="${pressed?'取消常用':'设为常用'}">star</button></article>`;
 cards.render(grid,[{id:'favorite',html:favoriteHTML(false)}]);grid.querySelector('button').focus();focus=cards.captureFocus(main);cards.render(grid,[{id:'favorite',html:favoriteHTML(true)}]);cards.restoreFocus(main,focus,search);assert.equal(doc.activeElement,grid.querySelector('button'));assert.equal(doc.activeElement.getAttribute('aria-pressed'),'true');
 console.log('favorite state/class/label updates retain the equivalent focused control');
+cards.render(grid,items('a','b','c'));const retained=grid.children[1],pressed=retained.querySelector('button');pressed.focus();
+let retainedMoves=0;const insert=grid.insertBefore.bind(grid);grid.insertBefore=(node,before)=>{if(node===retained)retainedMoves++;return insert(node,before)};
+cards.render(grid,items('b','c','d'));
+assert.equal(retainedMoves,0,'sliding a window removes departures before placing retained nodes');assert.equal(doc.activeElement,pressed,'scroll reconciliation keeps actual focused button without restoration');
+console.log('sliding residency does not detach the retained pressed/focused article');

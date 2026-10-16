@@ -41,6 +41,7 @@
     const reduce=matchMedia('(prefers-reduced-motion: reduce)'),fine=matchMedia('(hover: hover) and (pointer: fine)');
     let previous=new Map(),previousNodes=new Map(),lastWidth=0,frame=0,destroyed=false;
     const seen=new Set(),animations=new Set(),ghosts=new Set();
+    let windowController=null;
     const calm=()=>grid.ownerDocument?.documentElement?.dataset.shijiMotion==='calm';
     const studio=()=>grid.ownerDocument?.documentElement?.dataset.shijiMotion==='studio';
     let tilted=null,pose=null,drag=null,consumed=null;
@@ -143,6 +144,7 @@
       a.finished.then(()=>animations.delete(a),()=>animations.delete(a));return a;
     }
     function begin(){
+      windowController?.capture();
       scrollReset();
       previous=new Map();previousNodes=new Map();
       for(const el of grid.querySelectorAll(':scope > .resource-card')){previous.set(el.dataset.resourceId,el.getBoundingClientRect());previousNodes.set(el.dataset.resourceId,el);}
@@ -174,12 +176,14 @@
       const width=grid.clientWidth,n=v5&&innerWidth<=620?1:grid.dataset?.galleryColumns==='2'&&innerWidth>480?2:columns(innerWidth),gap=v5?18:innerWidth<=760?18:22;
       if(!width)return;
       lastWidth=width;
-      const cards=Array.from(grid.children),w=Math.max(0,(width-gap*(n-1))/n);
+      const w=Math.max(0,(width-gap*(n-1))/n);
       const feature=n===3&&!grid.classList.contains('density-compact')&&!grid.classList.contains('preview-fit');
+      const windowed=windowController?.layout({width,columns:n,gap,rowGap:v5?33:gap,feature});
+      const cards=windowed?.cards||Array.from(grid.children);
       const spans=cards.map(el=>feature&&el.dataset.gallerySpan==='2'?2:1);
       // Write all widths and feature states before the single height read pass.
       cards.forEach((el,i)=>{el.style.width=(w*spans[i]+gap*(spans[i]-1))+'px';el.dataset.galleryWide=spans[i]===2?'true':'false';});
-      const positions=pack(cards.map(el=>el.offsetHeight),width,n,gap,spans,v5?33:gap);
+      const positions=windowed||pack(cards.map(el=>el.offsetHeight),width,n,gap,spans,v5?33:gap);
       grid.style.height=positions.height+'px';
       // Set every position before measuring again, so layout is resolved once.
       cards.forEach((el,i)=>{
@@ -219,7 +223,7 @@
     grid.addEventListener('load',imageReady,true);grid.addEventListener('error',imageReady,true);
     button?.addEventListener('focus',resetButton);
     reduce.addEventListener('change',preference);fine.addEventListener('change',preference);
-    return {begin,render(){layout(true);},destroy(){destroyed=true;cancelAnimationFrame(frame);ro?.disconnect();preference();grid.removeEventListener('load',imageReady,true);grid.removeEventListener('error',imageReady,true);root.removeEventListener('resize',schedule);root.removeEventListener('pointermove',move);root.removeEventListener('blur',preference);root.removeEventListener('shiji:motion',preference);root.removeEventListener('scroll',scrollReset,true);root.removeEventListener('keydown',keyCard);root.removeEventListener('pointerup',releaseCard);root.removeEventListener('pointercancel',cancelCard);grid.ownerDocument?.removeEventListener?.('visibilitychange',visibility);grid.removeEventListener('pointermove',tiltMove);grid.removeEventListener('pointerout',tiltOut);grid.removeEventListener('focusin',focusCard);grid.removeEventListener('pointerdown',pressCard);grid.removeEventListener('lostpointercapture',cancelCard);grid.removeEventListener('click',clickCard,true);grid.removeEventListener('dragstart',nativeDrag);button?.removeEventListener('focus',resetButton);reduce.removeEventListener('change',preference);fine.removeEventListener('change',preference);}};
+    return {begin,setWindow(controller){windowController=controller;},renderWindow(){layout(false);},render(){layout(true);},destroy(){destroyed=true;cancelAnimationFrame(frame);ro?.disconnect();preference();grid.removeEventListener('load',imageReady,true);grid.removeEventListener('error',imageReady,true);root.removeEventListener('resize',schedule);root.removeEventListener('pointermove',move);root.removeEventListener('blur',preference);root.removeEventListener('shiji:motion',preference);root.removeEventListener('scroll',scrollReset,true);root.removeEventListener('keydown',keyCard);root.removeEventListener('pointerup',releaseCard);root.removeEventListener('pointercancel',cancelCard);grid.ownerDocument?.removeEventListener?.('visibilitychange',visibility);grid.removeEventListener('pointermove',tiltMove);grid.removeEventListener('pointerout',tiltOut);grid.removeEventListener('focusin',focusCard);grid.removeEventListener('pointerdown',pressCard);grid.removeEventListener('lostpointercapture',cancelCard);grid.removeEventListener('click',clickCard,true);grid.removeEventListener('dragstart',nativeDrag);button?.removeEventListener('focus',resetButton);reduce.removeEventListener('change',preference);fine.removeEventListener('change',preference);}};
   }
   // Dock's distance-to-magnification mapping, adapted to stable native buttons.
   // Only the icon scales: labels and hit targets keep their positions.
