@@ -31,10 +31,11 @@ async function previewFilterForm(form){
   const status=form.querySelector('#filter-preview-status');status.textContent='正在预览条件…';form.querySelector('#filter-preview-items').innerHTML='';form.querySelector('#filter-preview-rules').textContent='';
   try{
     const {filters}=await api('/api/filters/validate','POST',{filters:readFilterForm(form)});if(!current())return;
-    const results=filterPreviewScope(form).filter(r=>ShijiLibrary.matches(r,filters,state.collectionMeta));
-    status.textContent=`匹配 ${results.length} 条 · ${form.dataset.filterMode==='apply'?'当前范围':'整个活动库'}`;
+    const page=state.remote?await api('/api/query','POST',{scope:form.dataset.filterMode==='apply'?state.scope:'all',scopeValue:form.dataset.filterMode==='apply'?state.scopeValue:'',filters,limit:5}):null;if(!current())return;
+    const results=page?page.resources:filterPreviewScope(form).filter(r=>ShijiLibrary.matches(r,filters,state.collectionMeta));const total=page?.total??results.length;
+    status.textContent=`匹配 ${total} 条 · ${form.dataset.filterMode==='apply'?'当前范围':'整个活动库'}`;
     form.querySelector('#filter-preview-rules').textContent=ShijiLibrary.filterSummary(filters).join('；')||'不限条件';
-    form.querySelector('#filter-preview-items').innerHTML=results.slice(0,5).map(r=>`<li>${esc(r.title)}</li>`).join('')+(results.length>5?'<li>更多结果在应用后查看</li>':'');
+    form.querySelector('#filter-preview-items').innerHTML=results.slice(0,5).map(r=>`<li>${esc(r.title)}</li>`).join('')+(total>5?'<li>更多结果在应用后查看</li>':'');
   }catch(e){if(current())status.textContent='条件需要调整：'+e.message;}
 }
 async function handleFilterForm(form,mode,submitter){
@@ -42,7 +43,7 @@ async function handleFilterForm(form,mode,submitter){
   const {filters}=await api('/api/filters/validate','POST',{filters:readFilterForm(form)});
   const kind=form.dataset.filterMode;
   if(kind==='apply'){
-    if(state.scope==='health')selectScope('all');state.filters={...freshFilters(),...filters};state.selected.clear();syncFilters();render();$('#manage-dialog').close();toast('筛选已应用，收藏内容保持原样。');
+    if(state.scope==='health')selectScope('all');state.filters={...freshFilters(),...filters};if(typeof invalidateSelection==='function')invalidateSelection();state.selected.clear();syncFilters();render();$('#manage-dialog').close();toast('筛选已应用，收藏内容保持原样。');
   }else{
     const editing=kind==='edit'&&submitter?.value!=='copy';
     const result=await api('/api/smart-collections'+(editing?'/'+form.dataset.smartId:''),editing?'PUT':'POST',{name:form.elements.smartName.value,filters});

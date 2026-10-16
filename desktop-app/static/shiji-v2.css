@@ -248,3 +248,9 @@ html[data-shiji-motion=calm] .card-motion-surface{transform:none!important;trans
 .detail-preview:has(>.cover-photo:not([hidden])){aspect-ratio:1.22}
 .list-layout .cover-photo-domain,.list-layout .cover-photo-caption,.list-layout .cover-photo-category,.project-column .cover-photo-domain,.project-column .cover-photo-caption{display:none}
 .list-layout .cover-photo-title{font-size:20px;top:30%;-webkit-line-clamp:2}
+/* Search feedback belongs to the existing browse tools; posters remain cover-only. */
+.search-status{margin:10px 0;color:var(--v2-lime,#c5ff63);min-height:1.4em}
+.search-history{display:flex;flex-wrap:wrap;gap:8px;padding:8px 0}
+.search-history[hidden],.search-status[hidden]{display:none}
+.search-match{color:inherit;background:color-mix(in srgb,#c5ff63 35%,transparent);box-shadow:0 1px 0 currentColor;border-radius:2px}
+.resource-grid[aria-busy="true"]{cursor:progress}

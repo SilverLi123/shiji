@@ -54,9 +54,10 @@ async function similarStart(){
     let library;const controller=job.controller;let timedOut=false;
     const timer=setTimeout(()=>{timedOut=true;controller.abort();},30000);
     try{
+      if(state.remote){library=await queryImageCandidates(job.owner,controller.signal);}else{
       const response=await fetch(job.owner.deleted?'/api/trash':'/api/resources',{signal:controller.signal,cache:'no-store'});
       if(!response.ok)throw new Error('无法读取素材库，请检查本地服务后重试。');
-      library=await response.json();
+      library=await response.json();}
     }catch(e){throw new Error(timedOut?'读取素材库超过 30 秒，请检查服务后重试。':'无法读取素材库，请检查本地服务后重试。');}
     finally{clearTimeout(timer);}
     if(job.run!==run||job.controller.signal.aborted)return;
@@ -101,7 +102,7 @@ async function similarAction(action,element){
     const job=similarJob,panel=$('#similar-panel');element.disabled=true;
     await reload();
     if(job!==similarJob||!panel?.isConnected||!$('#manage-dialog').open)return;
-    const resource=find(element.dataset.id);
+    const resource=typeof state!=='undefined'&&state.remote?await fullResource(element.dataset.id):find(element.dataset.id);
     if(!resource||Boolean(resource.deleted)!==Boolean(job.owner.deleted))throw new Error('资源已移除或移动了范围，请重新查找。');
     $('#manage-dialog').close();detail(resource);
   }else if(action==='similar-preview'){

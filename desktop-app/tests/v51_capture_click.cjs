@@ -6,7 +6,7 @@ let runtimeDom;
 (async()=>{
  const {base}=JSON.parse(fs.readFileSync(0,'utf8')),html=fs.readFileSync(path.join(__dirname,'../static/index.html'),'utf8');
  const dom=runtimeDom=new JSDOM(html,{url:base,runScripts:'outside-only',pretendToBeVisual:true}),w=dom.window,d=w.document;
- w.fetch=(url,options)=>fetch(new URL(url,base),options);w.matchMedia=q=>({matches:q.includes('pointer')||q.includes('hover'),addEventListener(){},removeEventListener(){}});w.scrollTo=()=>{};w.ResizeObserver=class {observe(){} unobserve(){} disconnect(){}};w.IntersectionObserver=undefined;
+ w.AbortController=AbortController;w.AbortSignal=AbortSignal;w.fetch=(url,options)=>fetch(new URL(url,base),options);w.matchMedia=q=>({matches:q.includes('pointer')||q.includes('hover'),addEventListener(){},removeEventListener(){}});w.scrollTo=()=>{};w.ResizeObserver=class {observe(){} unobserve(){} disconnect(){}};w.IntersectionObserver=undefined;
  w.Element.prototype.getBoundingClientRect=()=>({x:0,y:80,left:0,top:80,width:300,height:240,right:300,bottom:320});Object.defineProperty(d.querySelector('#resource-grid'),'clientWidth',{value:900});
  for(const dialog of d.querySelectorAll('dialog')){dialog.showModal=function(){this.open=true;};dialog.close=function(){this.open=false;this.dispatchEvent(new w.Event('close'));};}
  let rendered=0;d.addEventListener('shiji:rendered',()=>rendered++);
@@ -21,6 +21,8 @@ let runtimeDom;
  pointer('pointerdown');await fetch(base+'/qa-release',{method:'POST'});await wait(()=>rendered>count&&d.querySelector('#resource-grid .card-preview').textContent.includes('已补全的真实资源'));
  assert.equal(d.querySelector('#resource-grid .card-preview'),preview);assert.equal(d.querySelector('#resource-grid .resource-card'),card);assert.equal(preview.dataset.id,id);
  pointer('pointerup');preview.dispatchEvent(new w.MouseEvent('click',{bubbles:true,cancelable:true,detail:1}));
+ // V6.2 loads full detail on demand; wait for that request without a second click.
+ await wait(()=>!d.querySelector('#drawer').hidden);
  assert.equal(d.querySelector('#drawer').hidden,false,'the single original click opens the real detail drawer');assert.equal(d.querySelector('#drawer-title').textContent,'已补全的真实资源');
  const saved=await(await fetch(base+'/api/resources')).json();assert.equal(saved.resources[0].id,id);assert.equal(saved.resources[0].title,'已补全的真实资源');
  dom.window.close();console.log('PASS: real Quick Capture -> durable SQLite -> delayed enrich -> actual app render during press -> one original detail click');

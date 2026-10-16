@@ -5,7 +5,8 @@ function projectOptions(selected='',exclude=''){
 }
 function projectNavigation(){
   const meta=state.collectionMeta,counts=new Map(meta.map(p=>[p.name,0]));
-  for(const r of state.resources){const found=new Set(r.projects.flatMap(n=>ShijiLibrary.projectPath(meta,n)));for(const n of found)counts.set(n,(counts.get(n)||0)+1);}
+  if(state.remote)for(const [name,count] of Object.entries(state.remote.projectCounts))counts.set(name,count);
+  else for(const r of state.resources){const found=new Set(r.projects.flatMap(n=>ShijiLibrary.projectPath(meta,n)));for(const n of found)counts.set(n,(counts.get(n)||0)+1);}
   const branch=parent=>meta.filter(p=>p.parent===parent&&!p.archived).map(p=>{
     const children=meta.some(x=>x.parent===p.name&&!x.archived),collapsed=state.collapsedProjects.has(p.name);
     return `<li><div class="project-nav-row">${children?`<button class="project-toggle ${collapsed?'':'expanded'}" data-action="toggle-project" data-value="${esc(p.name)}" aria-label="${collapsed?'展开':'收起'} ${esc(p.name)}" aria-expanded="${!collapsed}">${icon('chevron-down')}</button>`:'<span class="project-toggle-space"></span>'}${nav(p.name,counts.get(p.name),'folder',`data-action="collection" data-value="${esc(p.name)}"`,state.scope==='collection'&&state.scopeValue===p.name)}</div>${children&&!collapsed?`<ul>${branch(p.name)}</ul>`:''}</li>`;

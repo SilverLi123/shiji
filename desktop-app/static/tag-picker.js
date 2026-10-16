@@ -11,10 +11,10 @@ async function openTagPicker(ids){
   manage('加标签','<div id="tag-picker-loading" role="status">正在读取已有标签…</div>');
   const current=()=>tagPicker===job&&$('#manage-dialog').open&&$('#tag-picker-loading');
   try{
-    const data=await api('/api/resources');if(!current())return;
+    const data=await (state.remote?organizationData(ids):api('/api/resources'));if(!current())return;job.revision=data.revision;
     const byId=new Map(data.resources.map(r=>[r.id,r]));job.resources=ids.map(id=>byId.get(id));
     if(job.resources.some(r=>!r))throw new Error('所选资源已变化，请刷新后重新选择。');
-    const counts=new Map();for(const r of data.resources)for(const tag of r.tags)counts.set(tag,(counts.get(tag)||0)+1);
+    const counts=new Map(Object.entries(data.tagCounts||{}));if(!data.tagCounts)for(const r of data.resources)for(const tag of r.tags)counts.set(tag,(counts.get(tag)||0)+1);
     job.catalog=[...counts].map(([name,count])=>({name,count,included:job.resources.filter(r=>r.tags.includes(name)).length})).sort((a,b)=>b.count-a.count||a.name.localeCompare(b.name,'zh-CN'));
     job.known=new Set(counts.keys());
     $('#manage-content').innerHTML=`<form data-manage-form="tag-picker"><p>为 ${ids.length} 条资源追加标签，已有标签与备注保留。</p><fieldset class="project-picker-fields"><label>搜索标签 / 输入新名称<input id="tag-picker-search" type="search" placeholder="搜索已有标签，或输入一个新标签" maxlength="100" aria-describedby="tag-picker-help"></label><p id="tag-picker-help" class="field-help">新名称需点击“选择新标签”再保存；一次输入一个名称，逗号也是名称的一部分。</p><div id="tag-picker-selected" class="project-picker-selected"></div><div id="tag-picker-create"></div><div id="tag-picker-results"></div><p class="field-help">每条资源最多 30 个标签，每个标签最多 50 个字符。</p></fieldset><div class="project-picker-actions"><button type="button" class="secondary" data-action="close-manage">取消</button><button type="submit" class="primary" id="tag-picker-save" disabled>添加所选标签</button></div><p id="tag-picker-status" class="field-help" role="status"></p></form>`;
@@ -54,7 +54,7 @@ async function handleTagPickerForm(form,mode){
   const tags=[],create=[];for(const [name,isNew] of job.selected)(isNew?create:tags).push(name);
   job.busy=true;form.querySelector('fieldset').disabled=true;$('#tag-picker-status').textContent='正在保存标签…';
   try{
-    const result=await api('/api/tags/assign','POST',{ids:job.ids,tags,create});
+    const result=await (state.remote?selectedOperation('tags',{ids:job.ids,tags,create},job.revision):api('/api/tags/assign','POST',{ids:job.ids,tags,create}));
     $('#manage-dialog').close();
     try{await reload();}catch(e){toast('标签已保存，但未能刷新列表。请刷新页面查看。');return true;}
     if(state.detail&&!$('#drawer').hidden){detail(find(state.detail));$('#detail-content [data-action=assign-tags]')?.focus();}

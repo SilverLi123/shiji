@@ -3,7 +3,7 @@
  'use strict';
  function parse(value){const raw=value.trim();if(/\s/.test(raw))throw new Error('网址中不能包含空格或换行。');let url;try{url=new URL(raw.includes('://')?raw:'https://'+raw);}catch{throw new Error('请输入有效的 HTTP 或 HTTPS 网址。');}if(!['https:','http:'].includes(url.protocol)||!url.hostname||url.username||url.password)throw new Error('请输入不含账户密码的 HTTP 或 HTTPS 网址。');url.hash='';return url;}
  function fallbackTitle(value){const url=parse(value),parts=url.pathname.split('/').filter(Boolean);return (/^(www\.)?github\.com$/i.test(url.hostname)&&parts.length>=2?parts.slice(0,2).join('/')+' · GitHub':url.hostname).slice(0,200);}
- function create({document:doc,api,context=()=>({}),onSaved=()=>{},onEnriched=()=>{},notice=()=>{},onFull=()=>{},timeoutMs=15000}){
+ function create({document:doc,api,lookup=null,context=()=>({}),onSaved=()=>{},onEnriched=()=>{},notice=()=>{},onFull=()=>{},timeoutMs=15000}){
   const dialog=doc.getElementById('quick-capture-dialog'),form=doc.getElementById('quick-capture-form'),input=doc.getElementById('quick-url'),button=doc.getElementById('quick-save'),error=doc.getElementById('quick-error');
   let busy=false,dead=false,lastFocus=null,capturedContext={};
   // Keep each unresolved write until its own response or reconciliation settles it.
@@ -27,9 +27,8 @@
    try{const url=parse(input.value);if(url.href.length>4000)throw new Error('网址不能超过 4000 个字符。');setBusy(true);
     const previous=pending.get(url.href);
     if(previous?.uncertain){
-     const latest=await bounded(api('/api/resources'));
+     const resource=lookup?await bounded(lookup(url.href)):(await bounded(api('/api/resources'))).resources.find(r=>r.url===url.href);
      if(dead)return;
-     const resource=latest.resources.find(r=>r.url===url.href);
      if(resource){await confirmed(previous,{resource});return;}
      if(previous.confirmed){dialog.close();input.value='';return;}
      if(previous.uncertain)throw new Error('资源库尚未返回这条链接，原请求仍待确认。可以关闭窗口，稍后核对或刷新应用。');

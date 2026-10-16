@@ -11,7 +11,7 @@ async function openProjectPicker(ids,mode='add',preselect=''){
   manage(job.mode==='remove'?'移出项目':'加入项目','<div id="project-picker-loading" role="status">正在读取项目和当前归属…</div>');
   const current=()=>projectPicker===job&&$('#manage-dialog').open&&$('#project-picker-loading');
   try{
-    const data=await api('/api/resources');if(!current())return;
+    const data=await (state.remote?organizationData(ids):api('/api/resources'));if(!current())return;job.revision=data.revision;
     job.resources=ids.map(id=>data.resources.find(r=>r.id===id));
     if(job.resources.some(r=>!r))throw new Error('所选资源已变化，请刷新后重新选择。');
     job.meta=data.collectionMeta||[];
@@ -48,7 +48,7 @@ async function handleProjectPickerForm(form,mode){
   const job=projectPicker;if(!job||job.busy||!job.selected.size)throw new Error('请选择项目后再保存。');
   job.busy=true;form.querySelector('fieldset').disabled=true;$('#project-picker-status').textContent='正在保存项目归属…';
   try{
-    const result=await api(job.mode==='remove'?'/api/projects/remove':'/api/projects/assign','POST',{ids:job.ids,projects:[...job.selected]});
+    const result=await (state.remote?selectedOperation(job.mode==='remove'?'removeProjects':'projects',{ids:job.ids,projects:[...job.selected]},job.revision):api(job.mode==='remove'?'/api/projects/remove':'/api/projects/assign','POST',{ids:job.ids,projects:[...job.selected]}));
     $('#manage-dialog').close();
     try{await reload();}catch(e){toast('项目归属已保存，但未能刷新列表。请刷新页面查看。');return true;}
     if(state.detail&&!$('#drawer').hidden){detail(find(state.detail));$('#detail-content [data-action=assign-project]')?.focus();}
