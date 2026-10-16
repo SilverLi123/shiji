@@ -58,6 +58,7 @@ async function fullResource(id){
  for(const key of ['resources','trash'])state[key]=state[key].map(r=>r.id===id?resource:r);
  return resource;
 }
+function cancelPendingDetail(){detailLoadRun++;if(typeof galleryWindow!=='undefined')galleryWindow?.pin('detail');}
 async function hydratedAction(kind,item,origin){
  const run=++detailLoadRun;
  try{const resource=await fullResource(item.id);if(run!==detailLoadRun)return;
@@ -82,10 +83,14 @@ async function organizationData(ids){
  return api('/api/query/organization','POST',{ids,revision:state.selectionRevision??state.remote.page.revision});
 }
 function markSearchResults(){
- if(!state.remote||!state.filters.search)return;
- for(const r of shownItems()){
-  const card=Array.from($('#resource-grid').querySelectorAll('[data-resource-id]')).find(el=>el.dataset.resourceId===r.id);if(!card)continue;
-  card.querySelectorAll('.art-copy,.art-code-name,.card-title').forEach(el=>ShijiQuery.mark(el,r._highlights?.title));
+ if(!state.remote)return;
+ const records=new Map(shownItems().map(r=>[r.id,r]));
+ for(const card of $('#resource-grid').querySelectorAll('.resource-card')){
+  const r=records.get(card.dataset.resourceId);if(!r)continue;
+  card.querySelectorAll('.art-copy,.art-code-name,.card-title').forEach(el=>{
+   if(state.filters.search)ShijiQuery.mark(el,r._highlights?.title);
+   else if(el.querySelector('mark'))ShijiQuery.mark(el,[]);
+  });
  }
 }
 function recentSearches(){
@@ -102,13 +107,18 @@ document.addEventListener('click',event=>{
  if(!event.target.closest('.search-field,#search-history')){const root=$('#search-history');if(root)root.hidden=true;}
 });
 document.addEventListener('focusin',event=>{if(event.target.id==='search')recentSearches();});
+function firstQueryCard(){
+ const first=shownItems()[0];
+ const node=first&&typeof galleryWindow!=='undefined'?galleryWindow?.ensure(first.id):null;
+ return node?.querySelector('.card-preview')||$('#resource-grid .card-preview');
+}
 document.addEventListener('keydown',event=>{
  if(event.target.id!=='search'||!state.remote||event.isComposing)return;
  if(event.key==='Enter'){
   event.preventDefault();ShijiQuery.remember(localStorage,event.target.value);
-  if(!$('#resource-grid').inert){const first=$('#resource-grid .card-preview');first?.click();}
+  if(!$('#resource-grid').inert){firstQueryCard()?.click();}
  }else if(event.key==='ArrowDown'){
-  event.preventDefault();$('#resource-grid .card-preview')?.focus();
+  event.preventDefault();if(!$('#resource-grid').inert)firstQueryCard()?.focus();
  }else if(event.key==='Escape'){
   event.preventDefault();if(event.target.value){event.target.value='';event.target.dispatchEvent(new Event('input',{bubbles:true}));}else event.target.blur();
   const root=$('#search-history');if(root)root.hidden=true;

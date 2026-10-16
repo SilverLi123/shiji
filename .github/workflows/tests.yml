@@ -45,6 +45,35 @@ jobs:
         run: npm test
       - name: Buffered native probe attribution regression
         run: node docs/shiji-v5.2/qa/test_probe.cjs
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: desktop-app/package-lock.json
+      - name: Install isolated real-browser test runtime
+        working-directory: desktop-app
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          npx playwright install --with-deps chromium
+      - name: Real V5 gallery and input lifecycle
+        env:
+          SHIJI_QA_VIDEO: "1"
+        run: python desktop-app/tests/run_gallery_browser.py
+      - name: Retain browser evidence without resource database
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: gallery-browser-${{ github.run_id }}
+          path: desktop-app/dist/v63-browser-regression*
+          retention-days: 7
   native:
     runs-on: macos-15
     timeout-minutes: 15

@@ -49,7 +49,7 @@
 **Files:** existing app/query integration/gallery/motion/bits hooks, gallery-window controller; targeted real DOM tests.
 **Interfaces:** Pin IDs for pointer/focus/detail-origin lifetimes; existing motion completion or close releases pin, no detached origin before measurement. DOM changes never redefine selection or query results. Keyboard can ensure an ID mounted before focusing.
 - [ ] RED: click/enrichment race, quick save/open, repeated/late detail, close/anchor return, focus across viewport, background/resize, pagination409/revision/filter/selection conflicts, reduced motion.
-- [ ] Add minimum lifecycle hooks, cleanup cancelled/closed proxies, focus/scroll preservation; keep list/board special cases explicitly tested.
+- [x] Add minimum lifecycle hooks, cleanup cancelled/closed proxies, focus/scroll preservation; keep list/board special cases explicitly tested.
 - [ ] Run targeted and full Node/API regressions, commit.
 
 ### Task 5: Broad search and incremental render cost

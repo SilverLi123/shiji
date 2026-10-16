@@ -12,3 +12,10 @@ const wait=()=>new Promise(r=>setImmediate(r));
  const storage={value:'',getItem(){return this.value},setItem(k,v){this.value=v}};Q.remember(storage,'中文');Q.remember(storage,'React');Q.remember(storage,'中文');assert.deepEqual(Q.recent(storage),['中文','React']);
  c.destroy();dom.window.close();console.log('PASS: latest-only queries, cancellation, debounce, safe Unicode highlights and local history');
 })().catch(e=>{console.error(e);process.exitCode=1});
+// Clearing a search must remove marks from retained stable card nodes.
+{
+ const fs=require('node:fs'),vm=require('node:vm'),path=require('node:path'),dom=new (require('jsdom').JSDOM)('<main id="resource-grid"><article class="resource-card" data-resource-id="a"><h3 class="art-copy"><mark>React</mark> 中文</h3></article></main>');
+ const code=fs.readFileSync(path.join(__dirname,'../static/query-integration.js'),'utf8');const start=code.indexOf('function markSearchResults()');
+ vm.runInNewContext(code.slice(start,code.indexOf('\nfunction recentSearches',start))+'\nmarkSearchResults();',{state:{remote:{},filters:{search:''}},shownItems:()=>[{id:'a'}],$:s=>dom.window.document.querySelector(s),ShijiQuery:Q});
+ assert.equal(dom.window.document.querySelectorAll('mark').length,0);assert.equal(dom.window.document.querySelector('h3').textContent,'React 中文');dom.window.close();
+}
