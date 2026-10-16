@@ -1,5 +1,5 @@
 /* Progressive migration of the existing V5 state, rendering and business actions. */
-let queryClient=null,detailLoadRun=0,selectionRun=0;
+let queryClient=null,detailLoadRun=0,detailLoadKey=null,selectionRun=0;
 function invalidateSelection(){selectionRun++;state.selectionAll=null;}
 const detailCache=new Map();
 function remoteBody(){return {scope:state.scope,scopeValue:state.scopeValue,filters:JSON.parse(JSON.stringify(state.filters)),sort:state.sort,limit:60};}
@@ -35,8 +35,9 @@ async function remoteLoad({append=false,delay=0}={}){
 }
 function queryRenderNeeded(){
  if(!state.remote)return false;
- if(state.scope==='health'){queryClient?.cancel();state.remote.loadingKey=null;queryBusy(false);return false;}
  const key=remoteKey();
+ if(detailLoadKey!==null&&detailLoadKey!==key)cancelPendingDetail();
+ if(state.scope==='health'){queryClient?.cancel();state.remote.loadingKey=null;queryBusy(false);return false;}
  if(state.selectionAll&&state.selectionAll.key!==key){state.selected.clear();invalidateSelection();}
  if(state.remote.loadingKey&&state.remote.loadingKey!==key){queryClient?.cancel();state.remote.loadingKey=null;queryBusy(false);}
  if(state.remote.key===key)return false;
@@ -50,20 +51,22 @@ async function remoteReload(){
  if(state.scope==='health'){render();await refreshHealth();return;}
  return remoteLoad();
 }
-async function fullResource(id){
+async function fullResource(id,valid=()=>true){
  const {resource,parent,children}=await api('/api/resources/'+encodeURIComponent(id));
+ if(!valid())return null;
  resource._related={parent,children};
  detailCache.set(id,resource);while(detailCache.size>200)detailCache.delete(detailCache.keys().next().value);
  for(const ref of [parent,...(children||[])].filter(Boolean))if(!detailCache.has(ref.id))detailCache.set(ref.id,{...ref,_summary:true});
  for(const key of ['resources','trash'])state[key]=state[key].map(r=>r.id===id?resource:r);
  return resource;
 }
-function cancelPendingDetail(){detailLoadRun++;if(typeof galleryWindow!=='undefined')galleryWindow?.pin('detail');}
+function cancelPendingDetail(){detailLoadRun++;detailLoadKey=null;if(typeof galleryWindow!=='undefined')galleryWindow?.pin('detail');}
 async function hydratedAction(kind,item,origin){
- const run=++detailLoadRun;
- try{const resource=await fullResource(item.id);if(run!==detailLoadRun)return;
-  if(kind==='edit'){await loadParentOptions(resource.parentId);if(run!==detailLoadRun)return;edit(resource);}else detail(resource,origin);
- }catch(e){if(run===detailLoadRun){if(typeof galleryWindow!=='undefined')galleryWindow?.pin('detail');toast(e.message);}}
+ const run=++detailLoadRun,key=remoteKey(),revision=state.remote?.page?.revision;detailLoadKey=key;
+ const valid=()=>run===detailLoadRun&&key===remoteKey()&&revision===state.remote?.page?.revision;
+ try{const resource=await fullResource(item.id,valid);if(!resource||!valid()){if(run===detailLoadRun)cancelPendingDetail();return;}
+  if(kind==='edit'){await loadParentOptions(resource.parentId);if(!valid()){if(run===detailLoadRun)cancelPendingDetail();return;}edit(resource);}else detail(resource,origin);
+ }catch(e){if(valid()){cancelPendingDetail();toast(e.message);}else if(run===detailLoadRun)cancelPendingDetail();}
 }
 async function selectMatching(checked){
  const run=++selectionRun,snapshot=remoteKey(),result=await api('/api/query/ids','POST',remoteBody());

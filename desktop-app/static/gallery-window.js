@@ -24,7 +24,7 @@
  }
  function create({grid,pack,reconcile,renderCard,span,cover,version=()=>'',onMount=()=>{},schedule}){
   const doc=grid.ownerDocument,win=doc.defaultView,geometry=createGeometry(pack);
-  let rows=[],entries=[],key=null,context='',config=null,profileKey='',profiles=null,dirty=true,enabled=false,dead=false,frame=0,anchor=null,lastAnchor=null,windowKey='',entryIndex=new Map();
+  let rows=[],entries=[],key=null,context='',config=null,profileKey='',profiles=null,dirty=true,enabled=false,dead=false,frame=0,anchor=null,lastAnchor=null,windowKey='',entryIndex=new Map(),pendingRender=null;
   const htmlCache=new Map(),ratios=new Map(),measured=new Map(),pins=new Map();
   function viewport(){const rect=grid.getBoundingClientRect();return {top:-rect.top,bottom:win.innerHeight-rect.top,rect};}
   function capture(){if(enabled&&!anchor){const v=viewport();const a=geometry.anchor(v.top,v.bottom);anchor=a?{...a,screenY:v.rect.top+a.y}:null;}}
@@ -39,7 +39,7 @@
    const result={min:parseFloat(style.minHeight)||0,max:parseFloat(style.maxHeight)||Infinity,1:nodes[0].offsetHeight,2:nodes[1].offsetHeight,chrome:nodes[0].offsetHeight-nodes[0].querySelector('.card-preview').offsetHeight};nodes.forEach(el=>el.remove());return result;
   }
   function rebuild(){geometry.rebuild(entries,config,height);grid.style.height=geometry.height+'px';}
-  function updateAnchor(){if(!anchor||doc.body.classList.contains('drawer-open'))return;const p=geometry.position(anchor.id),delta=p?grid.getBoundingClientRect().top+p.y-anchor.screenY:0;anchor=null;if(Math.abs(delta)>.5)win.scrollBy(0,delta);}
+  function updateAnchor(){if(!anchor||doc.body.classList.contains('drawer-open'))return;const p=geometry.position(anchor.id),delta=p?grid.getBoundingClientRect().top+p.y-anchor.screenY:0;anchor=null;if(Math.abs(delta)>.5)win.scrollBy({top:delta,left:0,behavior:'instant'});}
   function activePins(){const result=new Set(pins.values()),focused=doc.activeElement?.closest?.('.resource-card');if(focused&&grid.contains(focused))result.add(focused.dataset.resourceId);return result;}
   function layout(next){
    if(dead)return null;
@@ -73,10 +73,10 @@
   }
   function queue(){if(dead||frame||doc.hidden||!enabled)return;frame=win.requestAnimationFrame(()=>{frame=0;schedule();});}
   function imageReady(e){if(!enabled||!config?.fit||!e.target.matches('.cover-image'))return;const id=e.target.closest('.resource-card')?.dataset.resourceId,r=rows.find(r=>r.id===id);if(!r)return;const img=e.target,value=root.ShijiBits.imageRatio(img.naturalWidth,img.naturalHeight),old=ratios.get(id);if(old?.cover===cover(r)&&old.ratio===value)return;capture();ratios.set(id,{cover:cover(r),ratio:value});measured.delete(id);dirty=true;queue();}
-  function visibility(){if(doc.hidden){win.cancelAnimationFrame(frame);frame=0;}else queue();}
+  function visibility(){if(doc.hidden){win.cancelAnimationFrame(frame);frame=0;released();}else queue();}
   function pin(reason,id){if(id)pins.set(reason,id);else if(pins.delete(reason))queue();}
   function pressed(e){const card=e.target.closest('.resource-card');if(card)pin('pointer',card.dataset.resourceId);}
-  function released(){if(!pins.has('pointer'))return;win.setTimeout(()=>{pin('pointer');queue();},0);}
+  function released(){if(!pins.has('pointer'))return;win.setTimeout(()=>{if(dead)return;pin('pointer');const render=pendingRender;pendingRender=null;if(render)render();else queue();},0);}
   function ensure(id){if(!enabled||!geometry.position(id))return false;pin('keyboard',id);schedule();win.setTimeout(()=>{if(pins.get('keyboard')===id)pin('keyboard');},0);const node=[...grid.children].find(el=>el.dataset.resourceId===id);node?.scrollIntoView({block:'nearest',behavior:'instant'});return node;}
   function keydown(e){
    if(!enabled||e.key!=='Tab'||e.altKey||e.ctrlKey||e.metaKey)return;
@@ -84,14 +84,17 @@
    if(e.target!==boundary)return;const index=rows.findIndex(r=>r.id===card.dataset.resourceId),next=rows[index+(e.shiftKey?-1:1)];if(!next)return;
    const node=ensure(next.id);if(!node)return;e.preventDefault();const candidates=[...node.querySelectorAll('button,a[href],input')].filter(el=>!el.disabled&&el.getClientRects().length);(e.shiftKey?candidates.at(-1):candidates[0])?.focus();pin('keyboard');queue();
   }
-  win.addEventListener('scroll',queue,{passive:true});doc.addEventListener('visibilitychange',visibility);grid.addEventListener('load',imageReady,true);grid.addEventListener('error',imageReady,true);grid.addEventListener('pointerdown',pressed,true);win.addEventListener('pointerup',released);win.addEventListener('pointercancel',released);grid.addEventListener('keydown',keydown);
+  win.addEventListener('scroll',queue,{passive:true});doc.addEventListener('visibilitychange',visibility);grid.addEventListener('load',imageReady,true);grid.addEventListener('error',imageReady,true);grid.addEventListener('pointerdown',pressed,true);win.addEventListener('pointerup',released);win.addEventListener('pointercancel',released);win.addEventListener('blur',released);grid.addEventListener('keydown',keydown);
   return {layout,capture,pin,ensure,
+   // Keep both the attached pointer target and its hit area through click.
+   // State may advance meanwhile; the latest global presentation runs once.
+   deferWhilePressed(render){if(dead||!pins.has('pointer'))return false;pendingRender=render;return true;},
    setItems(items,nextKey,nextContext=''){
     capture();if(nextKey!==key){anchor=null;lastAnchor=null;pins.clear();key=nextKey;htmlCache.clear();}dirty=dirty||rows.length!==items.length||rows.some((r,i)=>r!==items[i]);rows=items;context=nextContext;windowKey='';if(!rows.length){enabled=false;grid.classList.remove('gallery-windowed');grid.removeAttribute('role');reconcile(grid,[]);grid.style.height='';}
     const ids=new Set(items.map(r=>r.id));for(const map of [ratios,measured])for(const id of map.keys())if(!ids.has(id))map.delete(id);for(const [reason,id]of pins)if(!ids.has(id))pins.delete(reason);
    },
    active:()=>enabled,has:id=>entryIndex.has(id),
-   destroy(){dead=true;win.cancelAnimationFrame(frame);htmlCache.clear();ratios.clear();measured.clear();pins.clear();win.removeEventListener('scroll',queue);doc.removeEventListener('visibilitychange',visibility);grid.removeEventListener('load',imageReady,true);grid.removeEventListener('error',imageReady,true);grid.removeEventListener('pointerdown',pressed,true);win.removeEventListener('pointerup',released);win.removeEventListener('pointercancel',released);grid.removeEventListener('keydown',keydown);}
+   destroy(){dead=true;pendingRender=null;win.cancelAnimationFrame(frame);htmlCache.clear();ratios.clear();measured.clear();pins.clear();win.removeEventListener('scroll',queue);doc.removeEventListener('visibilitychange',visibility);grid.removeEventListener('load',imageReady,true);grid.removeEventListener('error',imageReady,true);grid.removeEventListener('pointerdown',pressed,true);win.removeEventListener('pointerup',released);win.removeEventListener('pointercancel',released);win.removeEventListener('blur',released);grid.removeEventListener('keydown',keydown);}
   };
  }
  const api={createGeometry,create};if(typeof module==='object'&&module.exports)module.exports=api;else root.ShijiGalleryWindow=api;
