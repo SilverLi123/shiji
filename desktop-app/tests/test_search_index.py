@@ -1,7 +1,11 @@
 import json
 import sqlite3
+import shutil
+import subprocess
 import tempfile
 import unittest
+import threading
+import uuid
 from unittest.mock import patch
 
 from storage import Store
@@ -75,6 +79,14 @@ class SearchIndex(unittest.TestCase):
                 c.execute('INSERT INTO resources VALUES(?,?,?,?) ON CONFLICT(id) DO UPDATE SET payload=excluded.payload',(a['id'],row['url'],json.dumps(payload),0))
         self.assertEqual(self.matches('Restored edit'),{a['id']})
 
+    @unittest.skipUnless(shutil.which('sqlite3'),'SQLite CLI needed only to simulate protected FTS shadow corruption')
+    def test_runtime_fts_shadow_damage_repairs_only_disposable_data(self):
+        a=self.add('中文动效');self.store.flush_search();before=self.store.get(a['id'])
+        subprocess.run(['sqlite3',str(self.store.db)],input='.dbconfig defensive off\nPRAGMA writable_schema=ON;\nDELETE FROM search_fts_data WHERE id>10;\n',text=True,capture_output=True,check=True)
+        self.assertEqual(self.store.get(a['id']),before)
+        self.assertEqual(self.store.query_resources({'filters':{'search':'动效'}})['total'],1)
+        self.assertEqual(self.store.get(a['id']),before)
+
     def test_no_fts_runtime_keeps_exact_results(self):
         self.add('两字 中文 C++')
         expected=self.matches('两字 C++')
@@ -98,9 +110,69 @@ class SearchIndex(unittest.TestCase):
         reads=[q for q in queries if q.lstrip().upper().startswith('SELECT') and 'FROM attachments' in q]
         self.assertLessEqual(len(reads),2,'Full export must not execute one attachment lookup per resource')
 
+    def test_background_accelerator_fallback_is_complete_and_becomes_indexed(self):
+        with self.store.connect() as c:
+            for i in range(300):self.store._write(c,{'title':'后台中文 '+str(i),'kind':'code'})
+        with patch.object(self.store,'_schedule_fts'):
+            page=self.store.query_resources({'filters':{'search':'中文'},'limit':1})
+            self.assertEqual(page['total'],300)
+            self.assertTrue(self.store.search_capabilities()['indexing'])
+            self.store.save({'title':'人工改名'},page['resources'][0]['id'])
+            self.assertEqual(self.store.query_resources({'filters':{'search':'中文'}})['total'],299)
+        self.store.flush_search()
+        self.assertFalse(self.store.search_capabilities()['indexing'])
+        self.assertEqual(self.store.query_resources({'filters':{'search':'中文'}})['total'],299)
+
+    def test_import_restore_and_phone_sync_reindex_real_business_writes(self):
+        original=self.add('备份搜索原文',notes='完整人工备注')
+        self.matches('原文')
+        backup=self.store.backup_bytes()
+        self.store.save({'title':'改名'},original['id'])
+        self.assertEqual(self.matches('原文'),set())
+        with tempfile.TemporaryDirectory() as target:
+            restored=Store(target)
+            try:
+                restored.restore_zip(backup)
+                self.assertEqual(restored.query_resources({'filters':{'search':'备份搜索原文'}})['total'],1)
+                self.assertEqual(restored.get(original['id'])['notes'],'完整人工备注')
+            finally:restored.stop_search_worker()
+        self.store.import_json({'version':1,'resources':[{'title':'导入检索词','kind':'code','snippet':'完整导入代码'}]})
+        self.assertEqual(len(self.matches('导入检索词')),1)
+        from mobile_sync import SyncEngine
+        engine=SyncEngine(self.store);snapshot=engine.snapshot()
+        resource={**self.store.get(original['id']),'title':'手机修改后的检索词'}
+        engine.commit({'version':1,'libraryId':snapshot['libraryId'],'expectedRevision':snapshot['revision'],'requestId':str(uuid.uuid4()),'resources':[resource]})
+        self.assertEqual(self.matches('手机修改后的检索词'),{original['id']})
+
+    def test_capture_in_flight_search_and_late_metadata_incremental_update(self):
+        from quick_capture import fallback_title
+        r=self.store.save({'title':fallback_title('https://example.com/capture'),'url':'https://example.com/capture','inbox':True})['resource']
+        started=threading.Event();release=threading.Event();errors=[]
+        def fetch(*args):
+            started.set()
+            if not release.wait(3):raise RuntimeError('fixture was not released')
+            return {'metadata':{'title':'自动补全搜索测试','description':'可检索的真实补全字段'}}
+        def run():
+            try:self.store.capture_step()
+            except Exception as e:errors.append(e)
+        with patch('capture_jobs.fetch_payload',side_effect=fetch):
+            thread=threading.Thread(target=run);thread.start()
+            try:
+                self.assertTrue(started.wait(2))
+                self.assertEqual(self.store.query_resources({'filters':{'search':'example.com'}})['total'],1)
+                self.store.save({'notes':'人工编辑不被覆盖'},r['id'])
+            finally:release.set();thread.join(4)
+        self.assertFalse(thread.is_alive());self.assertEqual(errors,[])
+        self.assertEqual(self.store.get(r['id'])['notes'],'人工编辑不被覆盖')
+        self.assertEqual(self.store.query_resources({'filters':{'search':'人工编辑不被覆盖'}})['total'],1)
+
+    def test_transaction_context_releases_connection(self):
+        with self.store.connect() as c:self.assertEqual(c.execute('SELECT 1').fetchone()[0],1)
+        with self.assertRaises(sqlite3.ProgrammingError):c.execute('SELECT 1')
+
     def test_invalid_query_and_safe_codepoint_highlight(self):
         from search_text import parse_terms, highlight_ranges
-        for text in (None,123,'x'*201):
+        for text in (None,123,'x'*201,'\ud800'):
             with self.assertRaises(ValueError):parse_terms(text)
         self.assertEqual(parse_terms('  "React Motion"   动效 '),['react motion','动效'])
         self.assertEqual(highlight_ranges('🙂动效 <script>React</script>',['动效','react']),[[1,3],[12,17]])

@@ -5,12 +5,15 @@ MAX_QUERY=200
 
 def parse_terms(query):
     if not isinstance(query,str) or len(query)>MAX_QUERY:raise ValueError('搜索内容须为不超过 200 字的文字。')
+    try:query.encode('utf-8')
+    except UnicodeEncodeError:raise ValueError('搜索内容包含无效的 Unicode 字符。')
     # Paired quotes group a phrase; backslashes, operators and code symbols stay literal.
     return list(dict.fromkeys((a or b).lower() for a,b in re.findall(r'"([^"\n]+)"|([^\s]+)',query) if a or b))
 
 def grams(text):
     text=text.lower()
-    return ' '.join(sorted({'u'+format(ord(ch),'x') for ch in text} | {'b'+format(ord(a),'x')+'x'+format(ord(b),'x') for a,b in zip(text,text[1:])}))
+    codes={ch:format(ord(ch),'x') for ch in set(text)}
+    return ' '.join(sorted({'u'+code for code in codes.values()} | {'b'+codes[a]+'x'+codes[b] for a,b in set(zip(text,text[1:]))}))
 
 def gram_query(terms):
     tokens=set()

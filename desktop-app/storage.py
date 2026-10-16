@@ -60,6 +60,7 @@ def palette(values):
     return list(dict.fromkeys(x.lower() for x in values))
 def validate(raw,existing=None):
     if not isinstance(raw,dict):raise ValueError('资源格式不正确。')
+    if raw.get('_summary') is True:raise ValueError('资源摘要不能直接保存，请先读取完整详情。')
     item={**(existing or {}),**raw};item['id']=existing['id'] if existing else str(uuid.uuid4())
     item['title']=text(item.get('title',''),200,'名称',True)
     item['kind']=item.get('kind','website')
@@ -100,6 +101,12 @@ def validate(raw,existing=None):
     # Internal status is not editable through public resource writes.
     item['linkStatus']=(existing or {}).get('linkStatus','unchecked');item['linkCheckedAt']=(existing or {}).get('linkCheckedAt','')
     return {k:v for k,v in item.items() if k not in ('attachments','deleted','deletedAt')}
+class StoreConnection(sqlite3.Connection):
+    """A transaction context owns its connection, including query/page-cache resources."""
+    def __exit__(self,*args):
+        try:return super().__exit__(*args)
+        finally:self.close()
+
 class NoteConflict(ValueError):
     def __init__(self,current,resource=None):
         self.current=current;self.resource=resource;super().__init__('备注已在其他页面修改，请比较最新内容后再保存。')
@@ -160,7 +167,7 @@ class Store(QueryOperations,SearchOperations,CaptureReceiptOperations,CaptureOpe
         self.init_previews()
         self.cleanup_restore_staging()
     def connect(self):
-        c=sqlite3.connect(str(self.db),timeout=15);c.row_factory=sqlite3.Row;c.create_function('color_distance',2,color_distance,deterministic=True);return c
+        c=sqlite3.connect(str(self.db),timeout=15,factory=StoreConnection);c.row_factory=sqlite3.Row;c.execute('PRAGMA mmap_size=67108864');c.create_function('color_distance',2,color_distance,deterministic=True);return c
     def _projects(self,c,item):
         c.execute('DELETE FROM resource_projects WHERE resource_id=?',(item['id'],))
         for name in item['projects']:
@@ -182,6 +189,14 @@ class Store(QueryOperations,SearchOperations,CaptureReceiptOperations,CaptureOpe
             for a in c.execute('SELECT resource_id,payload FROM attachments WHERE deleted=0 AND resource_id IN ('+','.join('?'*len(rows))+') ORDER BY rowid',list(grouped)):
                 grouped[a['resource_id']].append(json.loads(a['payload']))
         return [{**json.loads(r['payload']),'deleted':bool(r['deleted']),'attachments':grouped[r['id']]} for r in rows]
+    def _get_many(self,c,ids,active=False):
+        rows=[]
+        for start in range(0,len(ids),500):
+            chunk=ids[start:start+500]
+            rows.extend(c.execute('SELECT * FROM resources WHERE id IN ('+','.join('?'*len(chunk))+')',chunk).fetchall())
+        if len(rows)!=len(ids) or active and any(r['deleted'] for r in rows):raise ValueError('资源不存在或已在回收站。')
+        items={r['id']:r for r in self._read_many(c,rows)}
+        return [items[rid] for rid in ids]
     def _get(self,c,rid,active=False):
         row=c.execute('SELECT * FROM resources WHERE id=?',(rid,)).fetchone()
         if not row or (active and row['deleted']):raise ValueError('资源不存在或已在回收站。')
@@ -304,7 +319,7 @@ class Store(QueryOperations,SearchOperations,CaptureReceiptOperations,CaptureOpe
         values=names(body.get('tags' if action=='tags' else 'projects',[]),30,50 if action=='tags' else 80) if action in ('tags','projects') else []
         with self.lock,self.connect() as c:
             c.execute('BEGIN IMMEDIATE');self.check_query_revision(c,selection_revision)
-            items=[self._get(c,rid,action!='restore') for rid in ids]
+            items=self._get_many(c,ids,action!='restore')
             if action in ('delete','restore'):self.invalidate_trash_undo(ids)
             if action=='delete':self.invalidate_capture(c,ids)
             for item in items:
@@ -331,7 +346,7 @@ class Store(QueryOperations,SearchOperations,CaptureReceiptOperations,CaptureOpe
                     c.execute('BEGIN IMMEDIATE');self.check_query_revision(c,selection_revision)
                     known={tag for row in c.execute('SELECT payload FROM resources WHERE deleted=0') for tag in json.loads(row['payload'])['tags']}
                     if any(tag not in known for tag in existing_tags):raise ValueError('标签已变化，请关闭后重新打开标签选择器。')
-                    items=[self._get(c,rid,True) for rid in ids]
+                    items=self._get_many(c,ids,True)
                     updates=[(item,names(list(dict.fromkeys(item['tags']+additions)),30,50)) for item in items]
                     changed=0
                     for item,combined in updates:

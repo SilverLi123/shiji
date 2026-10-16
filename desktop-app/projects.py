@@ -115,7 +115,7 @@ class ProjectOperations:
                 while ancestor:
                     if meta[ancestor]['archived']:raise ValueError('项目或上级已归档，请重新选择。')
                     ancestor=meta[ancestor]['parent']
-            items=[self._get(c,rid,True) for rid in ids];changed=0
+            items=self._get_many(c,ids,True);changed=0
             for item in items:
                 combined=list(dict.fromkeys(item['projects']+projects))
                 if combined==item['projects']:continue
@@ -136,7 +136,7 @@ class ProjectOperations:
                     c.execute('BEGIN IMMEDIATE');self.check_query_revision(c,selection_revision)
                     known={p['name'] for p in self._collection_meta(c)}
                     if any(p not in known for p in projects):raise ValueError('项目已变化，请重新打开项目选择器。')
-                    items=[self._get(c,rid,True) for rid in ids];changed=0
+                    items=self._get_many(c,ids,True);changed=0
                     for item in items:
                         remaining=[p for p in item['projects'] if p not in projects]
                         if remaining==item['projects']:continue

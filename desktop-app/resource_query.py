@@ -19,19 +19,20 @@ def color_distance(a,b):
     try:return math.sqrt(sum((x-y)**2 for x,y in zip(lab(a),lab(b))))
     except (TypeError,ValueError):return 1000
 
-def summary(item,terms=()):
+def summary(item,terms=(),media=False):
     out=dict(item);out['_summary']=True;out['attachmentCount']=len(item['attachments'])
     cover=item.get('coverId');assets=item['attachments'][:8]
     if cover and not any(a['id']==cover for a in assets):assets+= [a for a in item['attachments'] if a['id']==cover]
-    out['attachments']=assets
+    out['attachments']=item['attachments'] if media else assets
     out['_highlights']={'title':highlight_ranges(item['title'],terms)}
     excerpt=''
     for key in ('description','notes','snippet'):
-        value=item.get(key,'');spans=highlight_ranges(value,terms) if terms else []
-        if spans:
-            start=max(0,spans[0][0]-50);excerpt=value[start:start+240];break
+        value=item.get(key,'');lower=value.lower();positions=[lower.find(t) for t in terms if t in lower]
+        if positions:
+            start=max(0,min(positions)-50);excerpt=value[start:start+240];break
     out['_excerpt']=excerpt;out['_highlights']['excerpt']=highlight_ranges(excerpt,terms)
-    for key,n in (('description',320),('notes',240),('snippet',480)):out[key]=item.get(key,'')[:n]
+    for key,n in (('description',320),('notes',240),('snippet',1600)):out[key]=item.get(key,'')[:n]
+    out['snippet']='\n'.join(line[:160] for line in item.get('snippet','').split('\n')[:9])
     out['projectNotes']={k:v[:160] for k,v in item.get('projectNotes',{}).items() if k in item.get('projects',[])}
     return out
 
@@ -42,6 +43,8 @@ class QueryOperations:
     def _query_context(self,body,c):
         from storage import validate_filters
         if not isinstance(body,dict):raise ValueError('查询格式不正确。')
+        from storage import text
+        text(body.get('scopeValue',''),80,'查询范围')
         scope=body.get('scope','all')
         if scope not in ('all','trash','favorite','inbox','assets','snippets','category','collection','smart','health'):raise ValueError('查询范围无效。')
         raw=body.get('filters',{})
@@ -49,11 +52,11 @@ class QueryOperations:
         if scope=='smart':
             row=c.execute('SELECT filters FROM smart_collections WHERE id=?',(body.get('scopeValue',''),)).fetchone()
             if not row:raise ValueError('智能集合不存在。')
-            raw={**json.loads(row[0]),**raw}
-        if scope in ('category','collection') and body.get('scopeValue') and not raw.get(scope):raw={**raw,scope:body['scopeValue']}
+            if 'filters' not in body:raw=json.loads(row[0])
+        if scope in ('category','collection') and 'filters' not in body and body.get('scopeValue'):raw={**raw,scope:body['scopeValue']}
         f=validate_filters(raw);terms=parse_terms(f['search']);params=[int(scope=='trash')];conditions=['d.deleted=?']
         join=''
-        if self._fts and terms:
+        if self._fts_ready(c) and terms:
             conditions.append('d.rowid IN (SELECT rowid FROM search_fts WHERE search_fts MATCH ?)');params.append(gram_query(terms))
         for term in terms:conditions.append('instr(d.text,?)>0');params.append(term)
         for key,col in (('category','category'),('kind','kind'),('price','price'),('license','license'),('linkStatus','link_status')):
@@ -82,6 +85,8 @@ class QueryOperations:
         for key,op in (('createdFrom','>='),('createdTo','<=')):
             if f[key]:conditions.append("(d.created_day!='' AND d.created_day"+op+'?)');params.append(f[key])
         if f['color']:conditions.append('EXISTS(SELECT 1 FROM json_each(d.colors) WHERE color_distance(value,?)<32)');params.append(f['color'])
+        if body.get('mediaOnly'):
+            conditions.append("(EXISTS(SELECT 1 FROM attachments a WHERE a.resource_id=d.id AND a.deleted=0 AND (json_extract(a.payload,'$.mime') LIKE 'image/%' OR json_extract(a.payload,'$.mime') LIKE 'audio/%' OR json_extract(a.payload,'$.mime') LIKE 'video/%')) OR EXISTS(SELECT 1 FROM resources r WHERE r.id=d.id AND (coalesce(json_extract(r.payload,'$.thumbnail'),'')!='' OR r.url IN ('https://polyhaven.com/','https://www.polyhaven.com/','https://freesound.org/','https://reactbits.dev/','https://motionsites.ai/','https://www.recent.co/','https://recent.co/'))))")
         sort=body.get('sort','relevance' if terms else 'new')
         if sort not in ('new','updated','name','relevance'):raise ValueError('排序方式无效。')
         # Title matches dominate; exact phrase > prefix > contains; every term is literal.
@@ -90,8 +95,8 @@ class QueryOperations:
             rank='+'.join('(CASE WHEN d.title=? THEN 100 WHEN instr(d.title,?)=1 THEN 40 WHEN instr(d.title,?)>0 THEN 20 ELSE 0 END)' for _ in terms)
             for t in terms:rankparams += [t,t,t]
         ordering=('score DESC,d.created_at DESC,d.id' if sort=='relevance' else 'd.title,d.id' if sort=='name' else 'd.'+('updated_at' if sort=='updated' else 'created_at')+' DESC,d.id')
-        fingerprint=hashlib.sha256(json.dumps([scope,f,sort],sort_keys=True,ensure_ascii=False).encode()).hexdigest()
-        return {'from':' FROM search_docs d'+join,'where':' WHERE '+' AND '.join(conditions),'params':params,'rank':rank,'rankparams':rankparams,'order':ordering,'terms':terms,'fingerprint':fingerprint}
+        fingerprint=hashlib.sha256(json.dumps([scope,f,sort,bool(body.get('mediaOnly'))],sort_keys=True,ensure_ascii=False).encode()).hexdigest()
+        return {'from':' FROM search_docs d'+(' NOT INDEXED' if self._fts_ready(c) and terms else '')+join,'where':' WHERE '+' AND '.join(conditions),'params':params,'rank':rank,'rankparams':rankparams,'order':ordering,'terms':terms,'fingerprint':fingerprint}
 
     def _cursor(self,value=None):
         if not hasattr(self,'_cursor_key'):self._cursor_key=secrets.token_bytes(32)
@@ -108,16 +113,16 @@ class QueryOperations:
         # Keep writes and query snapshot consistent, including external raw-SQL writers.
         for attempt in range(3):
             try:
-                self.flush_search()
+                self.flush_search(wait_fts=False)
                 with self.lock,self.connect() as c:
                     c.execute('BEGIN')
                     if c.execute('SELECT 1 FROM search_dirty LIMIT 1').fetchone():continue
                     return callback(c)
             except sqlite3.DatabaseError as e:
                 # Only derived-table failures may be repaired. Canonical DB errors propagate.
-                if attempt or not any(s in str(e).lower() for s in ('search_','fts5','fts index','no such table')):raise
+                if attempt or not self.search_damage_repairable():raise
                 with self.lock,self.connect() as c:self._search_schema(c)
-                self.rebuild_search()
+                self.rebuild_search(wait_fts=False)
         raise QueryConflict('资源正在更新，请稍后重新查询。')
 
     def query_resources(self,body):
@@ -136,22 +141,32 @@ class QueryOperations:
                 if len(cache)>=32:cache.clear()
                 cache[cachekey]=groups;self._query_counts=cache
             total=sum(groups.values())
+            if body.get('edge')=='last' and not body.get('cursor'):offset=max(0,((total-1)//limit)*limit)
+            if body.get('anchor') and not body.get('cursor'):
+                from storage import identifier
+                anchor=identifier(body['anchor'])
+                ordering=q['order'].replace('d.','')
+                sql='WITH candidates AS (SELECT d.id,d.title,d.created_at,d.updated_at,'+q['rank']+' AS score'+q['from']+q['where']+'), numbered AS (SELECT id,row_number() OVER (ORDER BY '+ordering+') AS position FROM candidates) SELECT position FROM numbered WHERE id=?'
+                position=c.execute(sql,q['rankparams']+q['params']+[anchor]).fetchone()
+                if not position:raise QueryConflict('资源不在当前匹配范围中，请重新打开预览。')
+                offset=((position[0]-1)//limit)*limit
             rows=c.execute('SELECT d.id,'+q['rank']+' AS score'+q['from']+q['where']+' ORDER BY '+q['order']+' LIMIT ? OFFSET ?',q['rankparams']+q['params']+[limit,offset]).fetchall()
             ids=[r['id'] for r in rows]
-            resources=self._summaries(c,ids,q['terms'])
+            resources=self._summaries(c,ids,q['terms'],media=body.get('projection')=='media')
             cursor=self._cursor({'revision':rev,'query':q['fingerprint'],'offset':offset+len(ids)}) if offset+len(ids)<total else None
-            return {'resources':resources,'total':total,'revision':rev,'nextCursor':cursor,'terms':q['terms'],'kindCounts':groups}
+            return {'resources':resources,'total':total,'revision':rev,'nextCursor':cursor,'previousCursor':self._cursor({'revision':rev,'query':q['fingerprint'],'offset':max(0,offset-limit)}) if offset else None,'terms':q['terms'],'kindCounts':groups}
         return self._with_query(query)
 
-    def _summaries(self,c,ids,terms=()):
+    def _summaries(self,c,ids,terms=(),media=False):
         if not ids:return []
         rows=c.execute('SELECT * FROM resources WHERE id IN ('+','.join('?'*len(ids))+')',ids).fetchall()
-        items={r['id']:summary(r,terms) for r in self._read_many(c,rows)}
+        items={r['id']:summary(r,terms,media=media) for r in self._read_many(c,rows)}
         return [items[rid] for rid in ids if rid in items]
 
     def query_ids(self,body):
         def query(c):
             q=self._query_context(body,c)
+            if body.get('linksOnly'):q['where']+=" AND d.domain!=''"
             rows=c.execute('SELECT d.id'+q['from']+q['where']+' ORDER BY d.id LIMIT 100001',q['params']).fetchall()
             if len(rows)>100000:raise ValueError('匹配结果超过十万条，请缩小范围。')
             return {'ids':[r[0] for r in rows],'revision':self._revision(c)}
@@ -160,12 +175,13 @@ class QueryOperations:
     def resource_summaries(self,body):
         from storage import names,identifier
         ids=[identifier(x) for x in names(body.get('ids',[]),500)]
-        with self.lock,self.connect() as c:return {'resources':self._summaries(c,ids)}
+        with self.lock,self.connect() as c:return {'resources':self._summaries(c,ids,media=body.get('projection')=='media')}
 
     def library_metadata(self):
         def metadata(c):
             revision=self._revision(c)
-            if getattr(self,'_library_meta',{}).get('revision')==revision:return copy.deepcopy(self._library_meta)
+            if getattr(self,'_library_meta',{}).get('revision')==revision:
+                cached=copy.deepcopy(self._library_meta);cached['search']=self.search_capabilities();return cached
             counts={k:0 for k in ('all','trash','favorite','inbox','assets','snippets')}
             row=c.execute("SELECT sum(deleted=0),sum(deleted=1),sum(deleted=0 AND favorite=1),sum(deleted=0 AND inbox=1),sum(deleted=0 AND (kind='file' OR asset_count>0)),sum(deleted=0 AND kind IN ('code','prompt')) FROM search_docs").fetchone()
             counts.update(zip(counts,(x or 0 for x in row)))
@@ -183,6 +199,13 @@ class QueryOperations:
             result={'queryVersion':1,'version':3,'revision':self._revision(c),'search':self.search_capabilities(),'counts':counts,'categoryCounts':categories,'tagCounts':tags,'allTags':alltags,'projectCounts':projects,'smartCounts':smartcounts,'collections':[p['name'] for p in meta],'collectionMeta':meta,'smartCollections':smart}
             self._library_meta=result;return copy.deepcopy(result)
         return self._with_query(metadata)
+
+    def resource_lookup(self,body):
+        from storage import normalize_url
+        url=normalize_url(body.get('url',''))
+        with self.lock,self.connect() as c:
+            row=c.execute('SELECT * FROM resources WHERE url=? AND deleted=0',(url,)).fetchone()
+            return {'resource':self._read(c,row) if row else None}
 
     def resource_detail(self,rid):
         def query(c):

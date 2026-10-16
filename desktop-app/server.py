@@ -162,6 +162,7 @@ class Handler(SimpleHTTPRequestHandler):
             elif path=='/api/query/ids' and method=='POST':result=STORE.query_ids(body)
             elif path=='/api/query/batch' and method=='POST':result=STORE.query_batch(body)
             elif path=='/api/query/organization' and method=='POST':result=STORE.organization_context(body)
+            elif path=='/api/resources/lookup' and method=='POST':result=STORE.resource_lookup(body)
             elif path=='/api/resources/summaries' and method=='POST':result=STORE.resource_summaries(body)
             elif path=='/api/clip/status' and method=='POST':result=STORE.clip_status(body)
             elif path=='/api/metadata' and method=='POST':result=read_metadata(body.get('url',''))
