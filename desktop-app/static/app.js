@@ -40,14 +40,14 @@ const categoryDock=ShijiBits.createDock($('#browse-categories'));
 const spatial=typeof ShijiV5!=='undefined'?ShijiV5.create({document,preview,reconcile:ShijiCards.render}):{render(){},destroy(){}};
 const browseWindow=ShijiBrowse.create();
 // DOM residency references existing page records; Bits remains layout/motion owner.
-const galleryWindow=typeof ShijiGalleryWindow!=='undefined'&&document.documentElement.clientWidth>0?ShijiGalleryWindow.create({grid:$('#resource-grid'),pack:ShijiBits.pack,reconcile:(...args)=>ShijiCards.render(...args),renderCard:r=>card(r),span:ShijiV2.gallerySpan,cover:ShijiBoard.cover,onMount(){attachImageFallbacks($('#resource-grid'));if(typeof markSearchResults==='function')markSearchResults();},schedule:()=>resourceBits.renderWindow()}):null;
+const galleryWindow=typeof ShijiGalleryWindow!=='undefined'&&document.documentElement.clientWidth>0?ShijiGalleryWindow.create({grid:$('#resource-grid'),pack:ShijiBits.pack,reconcile:(...args)=>ShijiCards.render(...args),renderCard:r=>card(r),span:ShijiV2.gallerySpan,cover:ShijiBoard.cover,version:r=>String(state.selected.has(r.id)),onMount(){attachImageFallbacks($('#resource-grid'));if(typeof markSearchResults==='function')markSearchResults();},schedule:()=>resourceBits.renderWindow()}):null;
 resourceBits.setWindow?.(galleryWindow);
 function pageKey(){return JSON.stringify([state.scope,state.scopeValue,state.view,state.sort,ShijiLibrary.canonicalFilters(state.filters)]);}
 function render(){
   if(typeof queryRenderNeeded==='function'&&queryRenderNeeded())return;
   const renderStart=performance.now();
   const focus=ShijiCards.captureFocus($('.app-shell'));
-  motion.beforeListUpdate();resourceBits.begin();ShijiV2.render(document,state);
+  motion.beforeListUpdate();resourceBits.begin();if(document.documentElement.dataset.shijiVersion!=='v5')ShijiV2.render(document,state);
   // V5 keeps its complete brand scene while exploring, matching the supplied Demo.
   $('#shiji-hero').hidden=['trash','health'].includes(state.scope);$('#shiji-ticker').hidden=$('#shiji-hero').hidden;
   const resources=state.resources,counts=state.remote?.counts;$('#main-nav').innerHTML=nav('全部资源',counts?.all??resources.length,'library','data-action="scope" data-scope="all"',state.scope==='all')+nav('常用收藏',counts?.favorite??resources.filter(x=>x.favorite).length,'star','data-action="scope" data-scope="favorite"',state.scope==='favorite')+nav('待整理',counts?.inbox??resources.filter(x=>x.inbox).length,'inbox','data-action="scope" data-scope="inbox"',state.scope==='inbox')+nav('素材附件',counts?.assets??resources.filter(x=>x.kind==='file'||x.attachments.length).length,'image','data-action="scope" data-scope="assets"',state.scope==='assets')+nav('代码与提示词',counts?.snippets??resources.filter(x=>['code','prompt'].includes(x.kind)).length,'code','data-action="scope" data-scope="snippets"',state.scope==='snippets')+nav('回收站',counts?.trash??state.trash.length,'trash-2','data-action="scope" data-scope="trash"',state.scope==='trash');
@@ -84,12 +84,12 @@ function render(){
   $('#density').value=state.density;$('#preview-mode').value=state.previewMode;$('#gallery-open').disabled=state.remote?!total:!shown.some(r=>ShijiGallery.media(ShijiBoard.galleryResource(r)).length);$('#gallery-open').title=$('#gallery-open').disabled?'添加图片、音频、视频或网页缩略图后可连续预览':'按当前筛选和排序浏览素材';
   $('#resource-grid').className='resource-grid density-'+state.density+(state.previewMode==='fit'?' preview-fit':'')+(state.view==='list'?' list-layout':state.view==='board'?' board-layout':'');
   if(state.view!=='grid')galleryWindow?.setItems([],pageKey());
-  if(state.view==='grid'&&galleryWindow)galleryWindow.setItems(page.items,pageKey(),JSON.stringify([state.selectMode,[...state.selected],state.filters.collection,state.filters.search]));
+  if(state.view==='grid'&&galleryWindow)galleryWindow.setItems(page.items,pageKey(),JSON.stringify([state.selectMode,state.filters.collection,state.filters.search]));
   else if(state.view==='board'&&shown.length){$('#resource-grid').innerHTML=page.groups.map(g=>`<section class="board-lane"><h2>${g.label}<span>${g.items.length<g.total?g.items.length+' / ':''}${state.remote?.page?.kindCounts[g.kind]??g.total}</span></h2><div>${g.items.map(card).join('')}</div></section>`).join('');}else ShijiCards.render($('#resource-grid'),page.items.map(r=>({id:r.id,html:card(r)})));
   const conditions=ShijiControls.conditions(state.filters,ShijiLibrary.canonicalFilters);$('#filter-entry').textContent=`筛选 (${conditions.length})`;
   $('#active-browse-filters').hidden=!conditions.length;$('#active-browse-filters').innerHTML=conditions.map(c=>`<button class="filter-chip" data-action="remove-filter" data-key="${esc(c.key)}" data-value="${esc(JSON.stringify(c.value))}" aria-label="移除${esc(c.label)}">${esc(c.label)} ${icon('x')}</button>`).join('');
-  if(typeof markSearchResults==='function')markSearchResults();
-  attachImageFallbacks($('#resource-grid'));resourceBits.render();motion.afterListUpdate([state.scope,state.scopeValue,state.view,state.sort,state.filters.category].join('|'));$('#empty-state').hidden=shown.length>0;
+  if(!galleryWindow?.active()&&typeof markSearchResults==='function')markSearchResults();
+  if(!galleryWindow?.active())attachImageFallbacks($('#resource-grid'));resourceBits.render();motion.afterListUpdate([state.scope,state.scopeValue,state.view,state.sort,state.filters.category].join('|'));$('#empty-state').hidden=shown.length>0;
   const hasResources=(state.remote?.counts?.all??resources.length)>0;
   const emptyProject=state.scope==='collection'&&!(state.remote?(state.remote.projectCounts[state.scopeValue]||0):resources.some(r=>ShijiLibrary.matches(r,{collection:state.scopeValue},state.collectionMeta)));
   if(!shown.length)$('#empty-state').innerHTML=`<div class="empty-mark">${icon(state.scope==='trash'?'trash-2':'search')}</div><h2>${state.scope==='trash'?'回收站是空的':emptyProject?'这个项目还没有资源':hasResources?'没有匹配的资源':'从第一个好资源开始'}</h2><p>${state.scope==='trash'?'资源删除后会留在这里，附件也能一起恢复。':emptyProject?'收藏网站或添加素材，默认加入此项目；也可以从全部资源批量加入。':hasResources?'试试其他关键词或标签，也可以清除筛选条件。':'粘贴网址、拖入素材或保存截图，建立自己的开发资源库。'}</p>${state.scope==='trash'?'':`<div class="empty-actions"><button class="primary" data-action="add">收藏资源</button><button class="secondary" data-action="${hasResources?'reset':'import-files'}">${emptyProject?'浏览全部资源':hasResources?'清除筛选':'添加素材'}</button></div>`}`;

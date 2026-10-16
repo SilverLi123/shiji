@@ -22,13 +22,13 @@
    anchorDelta(anchor){const p=anchor&&api.position(anchor.id);return p?p.y-anchor.y:0;}
   };return api;
  }
- function create({grid,pack,reconcile,renderCard,span,cover,onMount=()=>{},schedule}){
+ function create({grid,pack,reconcile,renderCard,span,cover,version=()=>'',onMount=()=>{},schedule}){
   const doc=grid.ownerDocument,win=doc.defaultView,geometry=createGeometry(pack);
-  let rows=[],entries=[],key=null,context='',config=null,profileKey='',profiles=null,dirty=true,enabled=false,dead=false,frame=0,anchor=null,lastAnchor=null;
+  let rows=[],entries=[],key=null,context='',config=null,profileKey='',profiles=null,dirty=true,enabled=false,dead=false,frame=0,anchor=null,lastAnchor=null,windowKey='',entryIndex=new Map();
   const htmlCache=new Map(),ratios=new Map(),measured=new Map(),pins=new Map();
   function viewport(){const rect=grid.getBoundingClientRect();return {top:-rect.top,bottom:win.innerHeight-rect.top,rect};}
   function capture(){if(enabled&&!anchor){const v=viewport();const a=geometry.anchor(v.top,v.bottom);anchor=a?{...a,screenY:v.rect.top+a.y}:null;}}
-  function html(r){let cached=htmlCache.get(r.id);if(!cached||cached.ref!==r||cached.context!==context){cached={ref:r,context,html:renderCard(r)};htmlCache.set(r.id,cached);}else{htmlCache.delete(r.id);htmlCache.set(r.id,cached);}while(htmlCache.size>240)htmlCache.delete(htmlCache.keys().next().value);return cached.html;}
+  function html(r){const stamp=version(r);let cached=htmlCache.get(r.id);if(!cached||cached.ref!==r||cached.context!==context||cached.stamp!==stamp){cached={ref:r,context,stamp,html:renderCard(r)};htmlCache.set(r.id,cached);}else{htmlCache.delete(r.id);htmlCache.set(r.id,cached);}while(htmlCache.size>240)htmlCache.delete(htmlCache.keys().next().value);return cached.html;}
   function ratio(r){const c=cover(r),old=ratios.get(r.id);return old?.cover===c?old.ratio:1.6;}
   function sizeKey(entry){return [profileKey,entry.span,cover(entry.ref)].join('|');}
   function height(entry){const saved=measured.get(entry.id);if(saved?.key===sizeKey(entry))return saved.height;return config.fit?profiles.chrome+Math.max(profiles.min,Math.min(profiles.max,entry.width/ratio(entry.ref))):profiles[entry.span];}
@@ -49,16 +49,20 @@
    const nextKey=JSON.stringify([next.width,next.columns,next.gap,grid.classList.contains('density-compact'),grid.classList.contains('preview-fit'),win.innerWidth<=620]);
    if(nextKey!==profileKey){capture();if(lastAnchor)anchor=lastAnchor;profileKey=nextKey;config={...next,fit:grid.classList.contains('preview-fit')};profiles=measureProfiles();dirty=true;}
    if(!profiles[1]){enabled=false;grid.classList.remove('gallery-windowed');return null;} // no real layout (e.g. JSDOM)
-   if(dirty){const width=(config.width-config.gap*(config.columns-1))/config.columns;entries=rows.map(r=>{const s=config.feature&&span(r)===2?2:1;return {id:r.id,span:s,width:width*s+config.gap*(s-1),ref:r};});rebuild();dirty=false;updateAnchor();}
+   const repacked=dirty;
+   if(dirty){const width=(config.width-config.gap*(config.columns-1))/config.columns;entries=rows.map(r=>{const s=config.feature&&span(r)===2?2:1;return {id:r.id,span:s,width:width*s+config.gap*(s-1),ref:r};});entryIndex=new Map(entries.map((e,i)=>[e.id,i]));rebuild();dirty=false;updateAnchor();}
    updateAnchor();
    let cards=[];
    // A decoded image can change height. One correction/reconcile pass preserves
    // the visible ID anchor; newly exposed neighbours are measured next frame.
    for(let pass=0;pass<2;pass++){
     const v=viewport(),indices=geometry.visible(v.top,v.bottom,Math.max(500,win.innerHeight*.8),activePins());
+    const residency=indices.join(',');
+    if(pass===0&&!repacked&&residency===windowKey){const a=geometry.anchor(v.top,v.bottom);lastAnchor=a?{...a,screenY:v.rect.top+a.y}:null;const cards=[...grid.children].filter(el=>el.matches('.resource-card'));return {unchanged:true,cards,height:geometry.height,items:cards.map(el=>geometry.position(el.dataset.resourceId))};}
+    windowKey=residency;
     reconcile(grid,indices.map(i=>({id:entries[i].id,html:html(entries[i].ref)})));
     cards=[...grid.children].filter(el=>el.matches('.resource-card'));
-    const lookup=new Map(entries.map((e,i)=>[e.id,i]));
+    const lookup=entryIndex;
     for(const el of cards){const e=entries[lookup.get(el.dataset.resourceId)],p=geometry.position(e.id);el.style.width=p.w+'px';el.dataset.galleryWide=String(e.span===2);el.setAttribute('role','listitem');el.setAttribute('aria-posinset',String(lookup.get(e.id)+1));el.setAttribute('aria-setsize',String(rows.length));const preview=el.querySelector('.card-preview');if(config.fit&&preview){const img=preview.querySelector('.cover-image');if(img?.complete){ratios.set(e.id,{cover:cover(e.ref),ratio:root.ShijiBits.imageRatio(img.naturalWidth,img.naturalHeight)});}preview.style.setProperty('--image-ratio',ratio(e.ref));}el.style.left=p.x+'px';el.style.top=p.y+'px';}
     let changed=false;
     for(const el of cards){const e=entries[lookup.get(el.dataset.resourceId)],h=el.offsetHeight;if(h>0&&Math.abs(h-geometry.position(e.id).h)>.5){if(!changed)capture();measured.set(e.id,{key:sizeKey(e),height:h});changed=true;}}
@@ -70,9 +74,9 @@
   function queue(){if(dead||frame||doc.hidden||!enabled)return;frame=win.requestAnimationFrame(()=>{frame=0;schedule();});}
   function imageReady(e){if(!enabled||!config?.fit||!e.target.matches('.cover-image'))return;const id=e.target.closest('.resource-card')?.dataset.resourceId,r=rows.find(r=>r.id===id);if(!r)return;const img=e.target,value=root.ShijiBits.imageRatio(img.naturalWidth,img.naturalHeight),old=ratios.get(id);if(old?.cover===cover(r)&&old.ratio===value)return;capture();ratios.set(id,{cover:cover(r),ratio:value});measured.delete(id);dirty=true;queue();}
   function visibility(){if(doc.hidden){win.cancelAnimationFrame(frame);frame=0;}else queue();}
-  function pin(reason,id){if(id)pins.set(reason,id);else{pins.delete(reason);queue();}}
+  function pin(reason,id){if(id)pins.set(reason,id);else if(pins.delete(reason))queue();}
   function pressed(e){const card=e.target.closest('.resource-card');if(card)pin('pointer',card.dataset.resourceId);}
-  function released(){win.setTimeout(()=>{pin('pointer');queue();},0);}
+  function released(){if(!pins.has('pointer'))return;win.setTimeout(()=>{pin('pointer');queue();},0);}
   function ensure(id){if(!enabled||!geometry.position(id))return false;pin('keyboard',id);schedule();win.setTimeout(()=>{if(pins.get('keyboard')===id)pin('keyboard');},0);const node=[...grid.children].find(el=>el.dataset.resourceId===id);node?.scrollIntoView({block:'nearest',behavior:'instant'});return node;}
   function keydown(e){
    if(!enabled||e.key!=='Tab'||e.altKey||e.ctrlKey||e.metaKey)return;
@@ -83,10 +87,10 @@
   win.addEventListener('scroll',queue,{passive:true});doc.addEventListener('visibilitychange',visibility);grid.addEventListener('load',imageReady,true);grid.addEventListener('error',imageReady,true);grid.addEventListener('pointerdown',pressed,true);win.addEventListener('pointerup',released);win.addEventListener('pointercancel',released);grid.addEventListener('keydown',keydown);
   return {layout,capture,pin,ensure,
    setItems(items,nextKey,nextContext=''){
-    capture();if(nextKey!==key){anchor=null;lastAnchor=null;pins.clear();key=nextKey;htmlCache.clear();}rows=items;context=nextContext;dirty=true;if(!rows.length){enabled=false;grid.classList.remove('gallery-windowed');grid.removeAttribute('role');reconcile(grid,[]);grid.style.height='';}
+    capture();if(nextKey!==key){anchor=null;lastAnchor=null;pins.clear();key=nextKey;htmlCache.clear();}dirty=dirty||rows.length!==items.length||rows.some((r,i)=>r!==items[i]);rows=items;context=nextContext;windowKey='';if(!rows.length){enabled=false;grid.classList.remove('gallery-windowed');grid.removeAttribute('role');reconcile(grid,[]);grid.style.height='';}
     const ids=new Set(items.map(r=>r.id));for(const map of [ratios,measured])for(const id of map.keys())if(!ids.has(id))map.delete(id);for(const [reason,id]of pins)if(!ids.has(id))pins.delete(reason);
    },
-   active:()=>enabled,
+   active:()=>enabled,has:id=>entryIndex.has(id),
    destroy(){dead=true;win.cancelAnimationFrame(frame);htmlCache.clear();ratios.clear();measured.clear();pins.clear();win.removeEventListener('scroll',queue);doc.removeEventListener('visibilitychange',visibility);grid.removeEventListener('load',imageReady,true);grid.removeEventListener('error',imageReady,true);grid.removeEventListener('pointerdown',pressed,true);win.removeEventListener('pointerup',released);win.removeEventListener('pointercancel',released);grid.removeEventListener('keydown',keydown);}
   };
  }

@@ -1,0 +1,1705 @@
+{
+  "version": "155.0.8059.80",
+  "note": "Diagnostic intermediate df2c380, LayerTree/process telemetry; unlock/native foreground transition near the end. Excluded from final quiet before/after comparisons.",
+  "rounds": [
+    {
+      "round": 0,
+      "browserVersion": "155.0.8059.80",
+      "url": "http://127.0.0.1:54109/",
+      "traced": false,
+      "completed": true,
+      "firstRendered": 580.0999999940395,
+      "firstPostRaf": 604.0999999940395,
+      "initial": {
+        "cards": 6,
+        "nodes": 957,
+        "scrollY": 0,
+        "viewport": 900,
+        "hidden": false,
+        "focused": true,
+        "gridHeight": 5227,
+        "count": "\u5df2\u663e\u793a 60 \u6761 \u00b7 \u5339\u914d 4705 \u6761\u8d44\u6e90",
+        "processes": [
+          {
+            "type": "browser",
+            "id": 5959,
+            "cpuTime": 1.010739
+          },
+          {
+            "type": "renderer",
+            "id": 5980,
+            "cpuTime": 0.054022
+          },
+          {
+            "type": "renderer",
+            "id": 5981,
+            "cpuTime": 0.839135
+          },
+          {
+            "type": "renderer",
+            "id": 5979,
+            "cpuTime": 0.259426
+          },
+          {
+            "type": "GPU",
+            "id": 5968,
+            "cpuTime": 1.397819
+          },
+          {
+            "type": "network.mojom.NetworkService",
+            "id": 5969,
+            "cpuTime": 0.128794
+          },
+          {
+            "type": "storage.mojom.StorageService",
+            "id": 5972,
+            "cpuTime": 0.038902
+          }
+        ],
+        "physical": [
+          {
+            "second": 0,
+            "elapsedNs": 0,
+            "pid": 5959,
+            "userNs": 9682009,
+            "systemNs": 16713026,
+            "footprint": 70960640,
+            "resident": 210714624,
+            "path": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+          },
+          {
+            "second": 0,
+            "elapsedNs": 0,
+            "pid": 5980,
+            "userNs": 778554,
+            "systemNs": 518298,
+            "footprint": 25855104,
+            "resident": 82329600,
+            "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer)"
+          },
+          {
+            "second": 0,
+            "elapsedNs": 0,
+            "pid": 5981,
+            "userNs": 18602551,
+            "systemNs": 3985087,
+            "footprint": 160318976,
+            "resident": 223543296,
+            "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer)"
+          },
+          {
+            "second": 0,
+            "elapsedNs": 0,
+            "pid": 5979,
+            "userNs": 4225332,
+            "systemNs": 2032111,
+            "footprint": 64357840,
+            "resident": 151633920,
+            "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer)"
+          },
+          {
+            "second": 0,
+            "elapsedNs": 0,
+            "pid": 5968,
+            "userNs": 24706473,
+            "systemNs": 13068308,
+            "footprint": 393577720,
+            "resident": 157433856,
+            "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (GPU).app/Contents/MacOS/Google Chrome Helper (GPU)"
+          },
+          {
+            "second": 0,
+            "elapsedNs": 0,
+            "pid": 5969,
+            "userNs": 1740054,
+            "systemNs": 1463721,
+            "footprint": 24593392,
+            "resident": 88997888,
+            "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper.app/Contents/MacOS/Google Chrome Helper"
+          },
+          {
+            "second": 0,
+            "elapsedNs": 0,
+            "pid": 5972,
+            "userNs": 527538,
+            "systemNs": 406364,
+            "footprint": 19727320,
+            "resident": 65699840,
+            "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper.app/Contents/MacOS/Google Chrome Helper"
+          }
+        ],
+        "heapBytes": 3690384,
+        "layoutSeconds": 0.143934,
+        "styleSeconds": 0.08979,
+        "scriptSeconds": 0.03178
+      },
+      "stages": [
+        {
+          "target": 60,
+          "actualLoaded": 60,
+          "cards": 6,
+          "nodes": 957,
+          "scrollY": 0,
+          "viewport": 900,
+          "hidden": false,
+          "focused": true,
+          "gridHeight": 5227,
+          "count": "\u5df2\u663e\u793a 60 \u6761 \u00b7 \u5339\u914d 4705 \u6761\u8d44\u6e90",
+          "processes": [
+            {
+              "type": "browser",
+              "id": 5959,
+              "cpuTime": 1.124952
+            },
+            {
+              "type": "renderer",
+              "id": 5980,
+              "cpuTime": 0.054196
+            },
+            {
+              "type": "renderer",
+              "id": 5981,
+              "cpuTime": 0.992938
+            },
+            {
+              "type": "renderer",
+              "id": 5979,
+              "cpuTime": 0.260808
+            },
+            {
+              "type": "GPU",
+              "id": 5968,
+              "cpuTime": 1.636522
+            },
+            {
+              "type": "network.mojom.NetworkService",
+              "id": 5969,
+              "cpuTime": 0.13465
+            },
+            {
+              "type": "storage.mojom.StorageService",
+              "id": 5972,
+              "cpuTime": 0.038902
+            }
+          ],
+          "physical": [
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5959,
+              "userNs": 10078566,
+              "systemNs": 16948128,
+              "footprint": 71763456,
+              "resident": 211140608,
+              "path": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5980,
+              "userNs": 780338,
+              "systemNs": 520671,
+              "footprint": 25855104,
+              "resident": 82624512,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer)"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5981,
+              "userNs": 19711740,
+              "systemNs": 4193046,
+              "footprint": 163022336,
+              "resident": 228196352,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer)"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5979,
+              "userNs": 4226396,
+              "systemNs": 2033399,
+              "footprint": 64357840,
+              "resident": 151633920,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer)"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5968,
+              "userNs": 25775605,
+              "systemNs": 13642431,
+              "footprint": 393594104,
+              "resident": 154812416,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (GPU).app/Contents/MacOS/Google Chrome Helper (GPU)"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5969,
+              "userNs": 1757753,
+              "systemNs": 1474131,
+              "footprint": 24609776,
+              "resident": 87490560,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper.app/Contents/MacOS/Google Chrome Helper"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5972,
+              "userNs": 527538,
+              "systemNs": 406364,
+              "footprint": 19727320,
+              "resident": 65699840,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper.app/Contents/MacOS/Google Chrome Helper"
+            }
+          ],
+          "heapBytes": 5160184,
+          "layoutSeconds": 0.14408,
+          "styleSeconds": 0.093773,
+          "scriptSeconds": 0.035564,
+          "appendFrames": {
+            "durationMs": 68.19999998807907,
+            "frames": 3,
+            "p50": 16.502000000000407,
+            "p95": 16.699999999999818,
+            "max": 16.699999999999818,
+            "scrolls": 0,
+            "hidden": false,
+            "hiddenEnd": false,
+            "peakCards": 6
+          },
+          "lastRender": {
+            "at": 580.0999999940395,
+            "renderMs": 31.700000017881393,
+            "cards": 6,
+            "loaded": 60,
+            "htmlMs": 0.6000000238418579,
+            "htmlCalls": 6,
+            "reconcileMs": 0.8999999761581421,
+            "hidden": false,
+            "postRaf": 604.0999999940395
+          },
+          "scrollFrames": {
+            "durationMs": 969.3999999761581,
+            "frames": 55,
+            "p50": 16.699999999999818,
+            "p95": 16.799999999999727,
+            "max": 50,
+            "scrolls": 27,
+            "hidden": false,
+            "hiddenEnd": false,
+            "peakCards": 15
+          }
+        },
+        {
+          "target": 300,
+          "actualLoaded": 300,
+          "cards": 21,
+          "nodes": 1594,
+          "scrollY": 26600,
+          "viewport": 900,
+          "hidden": false,
+          "focused": true,
+          "gridHeight": 26267,
+          "count": "\u5df2\u663e\u793a 300 \u6761 \u00b7 \u5339\u914d 4705 \u6761\u8d44\u6e90",
+          "processes": [
+            {
+              "type": "browser",
+              "id": 5959,
+              "cpuTime": 1.310099
+            },
+            {
+              "type": "renderer",
+              "id": 5980,
+              "cpuTime": 0.054621
+            },
+            {
+              "type": "renderer",
+              "id": 5981,
+              "cpuTime": 4.344691
+            },
+            {
+              "type": "renderer",
+              "id": 5979,
+              "cpuTime": 0.264403
+            },
+            {
+              "type": "GPU",
+              "id": 5968,
+              "cpuTime": 6.470893
+            },
+            {
+              "type": "network.mojom.NetworkService",
+              "id": 5969,
+              "cpuTime": 0.152075
+            },
+            {
+              "type": "storage.mojom.StorageService",
+              "id": 5972,
+              "cpuTime": 0.039796
+            }
+          ],
+          "physical": [
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5959,
+              "userNs": 12677922,
+              "systemNs": 18772338,
+              "footprint": 72287744,
+              "resident": 105725952,
+              "path": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5980,
+              "userNs": 782349,
+              "systemNs": 528842,
+              "footprint": 25789568,
+              "resident": 36601856,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer)"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5981,
+              "userNs": 92334992,
+              "systemNs": 12848988,
+              "footprint": 308184792,
+              "resident": 285540352,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer)"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5979,
+              "userNs": 4259299,
+              "systemNs": 2086774,
+              "footprint": 64226768,
+              "resident": 72499200,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer)"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5968,
+              "userNs": 97072830,
+              "systemNs": 59839206,
+              "footprint": 698664376,
+              "resident": 149602304,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (GPU).app/Contents/MacOS/Google Chrome Helper (GPU)"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5969,
+              "userNs": 1967691,
+              "systemNs": 1682357,
+              "footprint": 24593392,
+              "resident": 45350912,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper.app/Contents/MacOS/Google Chrome Helper"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5972,
+              "userNs": 531676,
+              "systemNs": 423650,
+              "footprint": 19710936,
+              "resident": 27066368,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper.app/Contents/MacOS/Google Chrome Helper"
+            }
+          ],
+          "heapBytes": 7841668,
+          "layoutSeconds": 0.239055,
+          "styleSeconds": 0.318823,
+          "scriptSeconds": 0.299553,
+          "appendFrames": {
+            "durationMs": 5066.9000000059605,
+            "frames": 288,
+            "p50": 16.699999999999818,
+            "p95": 16.800000000000182,
+            "max": 66.59999999999991,
+            "scrolls": 217,
+            "hidden": false,
+            "hiddenEnd": false,
+            "peakCards": 30
+          },
+          "lastRender": {
+            "at": 8676.299999982119,
+            "renderMs": 8.799999982118607,
+            "cards": 18,
+            "loaded": 300,
+            "htmlMs": 5.700000017881393,
+            "htmlCalls": 60,
+            "reconcileMs": 20.400000125169754,
+            "hidden": false,
+            "postRaf": 8694.299999982119
+          },
+          "scrollFrames": {
+            "durationMs": 2437.7000000178814,
+            "frames": 144,
+            "p50": 16.69999999999891,
+            "p95": 16.799999999999272,
+            "max": 33.399999999999636,
+            "scrolls": 89,
+            "hidden": false,
+            "hiddenEnd": false,
+            "peakCards": 30
+          }
+        },
+        {
+          "target": 600,
+          "actualLoaded": 600,
+          "cards": 25,
+          "nodes": 1644,
+          "scrollY": 52502,
+          "viewport": 900,
+          "hidden": false,
+          "focused": true,
+          "gridHeight": 54758,
+          "count": "\u5df2\u663e\u793a 600 \u6761 \u00b7 \u5339\u914d 4705 \u6761\u8d44\u6e90",
+          "processes": [
+            {
+              "type": "browser",
+              "id": 5959,
+              "cpuTime": 1.557826
+            },
+            {
+              "type": "renderer",
+              "id": 5980,
+              "cpuTime": 0.057812
+            },
+            {
+              "type": "renderer",
+              "id": 5981,
+              "cpuTime": 9.40643
+            },
+            {
+              "type": "renderer",
+              "id": 5979,
+              "cpuTime": 0.269557
+            },
+            {
+              "type": "GPU",
+              "id": 5968,
+              "cpuTime": 13.436524
+            },
+            {
+              "type": "network.mojom.NetworkService",
+              "id": 5969,
+              "cpuTime": 0.198377
+            },
+            {
+              "type": "storage.mojom.StorageService",
+              "id": 5972,
+              "cpuTime": 0.040185
+            }
+          ],
+          "physical": [
+            {
+              "second": 0,
+              "elapsedNs": 1000,
+              "pid": 5959,
+              "userNs": 15858611,
+              "systemNs": 21537110,
+              "footprint": 72549888,
+              "resident": 88113152,
+              "path": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 1000,
+              "pid": 5980,
+              "userNs": 791842,
+              "systemNs": 595922,
+              "footprint": 25232512,
+              "resident": 29147136,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer)"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 1000,
+              "pid": 5981,
+              "userNs": 201039954,
+              "systemNs": 24984623,
+              "footprint": 422283160,
+              "resident": 328089600,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer)"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 1000,
+              "pid": 5979,
+              "userNs": 4281466,
+              "systemNs": 2188319,
+              "footprint": 59147728,
+              "resident": 59244544,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer)"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 1000,
+              "pid": 5968,
+              "userNs": 199651278,
+              "systemNs": 123158750,
+              "footprint": 782812648,
+              "resident": 140328960,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (GPU).app/Contents/MacOS/Google Chrome Helper (GPU)"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 1000,
+              "pid": 5969,
+              "userNs": 2637977,
+              "systemNs": 2123394,
+              "footprint": 24642544,
+              "resident": 36274176,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper.app/Contents/MacOS/Google Chrome Helper"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 1000,
+              "pid": 5972,
+              "userNs": 532112,
+              "systemNs": 432540,
+              "footprint": 19710936,
+              "resident": 20103168,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper.app/Contents/MacOS/Google Chrome Helper"
+            }
+          ],
+          "heapBytes": 8470864,
+          "layoutSeconds": 0.484791,
+          "styleSeconds": 0.649745,
+          "scriptSeconds": 0.684726,
+          "appendFrames": {
+            "durationMs": 6573.699999988079,
+            "frames": 356,
+            "p50": 16.69999999999891,
+            "p95": 33.29999999999927,
+            "max": 83.40000000000146,
+            "scrolls": 294,
+            "hidden": false,
+            "hiddenEnd": false,
+            "peakCards": 30
+          },
+          "lastRender": {
+            "at": 17662.5,
+            "renderMs": 42.400000005960464,
+            "cards": 17,
+            "loaded": 600,
+            "htmlMs": 8,
+            "htmlCalls": 62,
+            "reconcileMs": 23.199999898672104,
+            "hidden": false,
+            "postRaf": 17684.5
+          },
+          "scrollFrames": {
+            "durationMs": 4577.5999999940395,
+            "frames": 220,
+            "p50": 16.700000000000728,
+            "p95": 49.89999999999782,
+            "max": 200,
+            "scrolls": 88,
+            "hidden": false,
+            "hiddenEnd": false,
+            "peakCards": 30
+          }
+        },
+        {
+          "target": 1020,
+          "actualLoaded": 1020,
+          "cards": 30,
+          "nodes": 1774,
+          "scrollY": 87355,
+          "viewport": 900,
+          "hidden": false,
+          "focused": true,
+          "gridHeight": 92437,
+          "count": "\u5df2\u663e\u793a 1020 \u6761 \u00b7 \u5339\u914d 4705 \u6761\u8d44\u6e90",
+          "processes": [
+            {
+              "type": "browser",
+              "id": 5959,
+              "cpuTime": 1.969449
+            },
+            {
+              "type": "renderer",
+              "id": 5980,
+              "cpuTime": 0.058511
+            },
+            {
+              "type": "renderer",
+              "id": 5981,
+              "cpuTime": 19.895882
+            },
+            {
+              "type": "renderer",
+              "id": 5979,
+              "cpuTime": 0.356851
+            },
+            {
+              "type": "GPU",
+              "id": 5968,
+              "cpuTime": 25.618648
+            },
+            {
+              "type": "network.mojom.NetworkService",
+              "id": 5969,
+              "cpuTime": 0.27112
+            },
+            {
+              "type": "storage.mojom.StorageService",
+              "id": 5972,
+              "cpuTime": 0.04046
+            }
+          ],
+          "physical": [
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5959,
+              "userNs": 20380512,
+              "systemNs": 26896546,
+              "footprint": 71173632,
+              "resident": 68730880,
+              "path": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5980,
+              "userNs": 792703,
+              "systemNs": 611848,
+              "footprint": 25232512,
+              "resident": 21348352,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer)"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5981,
+              "userNs": 413367973,
+              "systemNs": 64262028,
+              "footprint": 456919008,
+              "resident": 292798464,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer)"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5979,
+              "userNs": 5385410,
+              "systemNs": 3179408,
+              "footprint": 51512784,
+              "resident": 43483136,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer)"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5968,
+              "userNs": 384636547,
+              "systemNs": 230329690,
+              "footprint": 835241568,
+              "resident": 127500288,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (GPU).app/Contents/MacOS/Google Chrome Helper (GPU)"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5969,
+              "userNs": 3355486,
+              "systemNs": 3151713,
+              "footprint": 24642544,
+              "resident": 29589504,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper.app/Contents/MacOS/Google Chrome Helper"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5972,
+              "userNs": 532727,
+              "systemNs": 438519,
+              "footprint": 19710936,
+              "resident": 14893056,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper.app/Contents/MacOS/Google Chrome Helper"
+            }
+          ],
+          "heapBytes": 6812940,
+          "layoutSeconds": 1.099142,
+          "styleSeconds": 1.518283,
+          "scriptSeconds": 1.779777,
+          "appendFrames": {
+            "durationMs": 13577.699999988079,
+            "frames": 615,
+            "p50": 16.700000000000728,
+            "p95": 50,
+            "max": 766.7000000000044,
+            "scrolls": 382,
+            "hidden": false,
+            "hiddenEnd": false,
+            "peakCards": 30
+          },
+          "lastRender": {
+            "at": 34788.79999998212,
+            "renderMs": 75.40000000596046,
+            "cards": 15,
+            "loaded": 1020,
+            "htmlMs": 9.699999988079071,
+            "htmlCalls": 57,
+            "reconcileMs": 29.800000071525574,
+            "hidden": false,
+            "postRaf": 34821
+          },
+          "scrollFrames": {
+            "durationMs": 3133.300000011921,
+            "frames": 112,
+            "p50": 16.69999999999709,
+            "p95": 50,
+            "max": 783.2999999999956,
+            "scrolls": 41,
+            "hidden": false,
+            "hiddenEnd": false,
+            "peakCards": 30
+          }
+        },
+        {
+          "target": 2000,
+          "actualLoaded": 2040,
+          "cards": 27,
+          "nodes": 1703,
+          "scrollY": 183998,
+          "viewport": 900,
+          "hidden": false,
+          "focused": true,
+          "gridHeight": 187344,
+          "count": "\u5df2\u663e\u793a 2040 \u6761 \u00b7 \u5339\u914d 4705 \u6761\u8d44\u6e90",
+          "processes": [
+            {
+              "type": "browser",
+              "id": 5959,
+              "cpuTime": 2.918253
+            },
+            {
+              "type": "renderer",
+              "id": 5980,
+              "cpuTime": 0.065745
+            },
+            {
+              "type": "renderer",
+              "id": 5981,
+              "cpuTime": 40.772979
+            },
+            {
+              "type": "renderer",
+              "id": 5979,
+              "cpuTime": 0.37059
+            },
+            {
+              "type": "GPU",
+              "id": 5968,
+              "cpuTime": 51.001294
+            },
+            {
+              "type": "network.mojom.NetworkService",
+              "id": 5969,
+              "cpuTime": 0.460902
+            },
+            {
+              "type": "storage.mojom.StorageService",
+              "id": 5972,
+              "cpuTime": 0.044905
+            }
+          ],
+          "physical": [
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5959,
+              "userNs": 33994251,
+              "systemNs": 36063897,
+              "footprint": 67569176,
+              "resident": 73220096,
+              "path": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5980,
+              "userNs": 814379,
+              "systemNs": 763840,
+              "footprint": 25248896,
+              "resident": 22069248,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer)"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5981,
+              "userNs": 846353075,
+              "systemNs": 132590920,
+              "footprint": 536889432,
+              "resident": 433881088,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer)"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5979,
+              "userNs": 5426270,
+              "systemNs": 3468284,
+              "footprint": 51643856,
+              "resident": 45531136,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer)"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5968,
+              "userNs": 770114801,
+              "systemNs": 454293740,
+              "footprint": 723338848,
+              "resident": 138018816,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (GPU).app/Contents/MacOS/Google Chrome Helper (GPU)"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5969,
+              "userNs": 5882088,
+              "systemNs": 5179956,
+              "footprint": 23397360,
+              "resident": 30670848,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper.app/Contents/MacOS/Google Chrome Helper"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5972,
+              "userNs": 552451,
+              "systemNs": 528557,
+              "footprint": 19579864,
+              "resident": 15302656,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper.app/Contents/MacOS/Google Chrome Helper"
+            }
+          ],
+          "heapBytes": 12104376,
+          "layoutSeconds": 2.216257,
+          "styleSeconds": 3.151968,
+          "scriptSeconds": 3.939997,
+          "appendFrames": {
+            "durationMs": 29110.09999999404,
+            "frames": 1383,
+            "p50": 16.69999999999709,
+            "p95": 33.40000000000873,
+            "max": 833.4000000000015,
+            "scrolls": 954,
+            "hidden": false,
+            "hiddenEnd": false,
+            "peakCards": 30
+          },
+          "lastRender": {
+            "at": 68694.29999998212,
+            "renderMs": 35.400000005960464,
+            "cards": 16,
+            "loaded": 2040,
+            "htmlMs": 8.899999916553497,
+            "htmlCalls": 62,
+            "reconcileMs": 34.59999996423721,
+            "hidden": false,
+            "postRaf": 68709.39999997616
+          },
+          "scrollFrames": {
+            "durationMs": 1984.9000000059605,
+            "frames": 115,
+            "p50": 16.69999999999709,
+            "p95": 16.79999999998836,
+            "max": 49.90000000000873,
+            "scrolls": 74,
+            "hidden": false,
+            "hiddenEnd": false,
+            "peakCards": 29
+          }
+        }
+      ],
+      "searches": [
+        {
+          "query": "\u52a8\u6548 React",
+          "input": {
+            "at": 71517.69999998808,
+            "length": 8,
+            "rendered": 71895,
+            "inputToRenderMs": 377.30000001192093,
+            "postRaf": 71924.69999998808,
+            "inputToPostRafMs": 407
+          },
+          "request": {
+            "path": "/api/query",
+            "start": 71640.09999999404,
+            "inputAt": 71517.69999998808,
+            "headersAt": 71833.89999997616,
+            "serverTiming": "query;dur=179.386,json;dur=1.346",
+            "jsonMs": 1,
+            "done": 71834.89999997616,
+            "total": 3607
+          },
+          "lastRender": {
+            "at": 71895,
+            "renderMs": 58.80000001192093,
+            "cards": 6,
+            "loaded": 60,
+            "htmlMs": 11.10000005364418,
+            "htmlCalls": 77,
+            "reconcileMs": 23.900000005960464,
+            "hidden": false,
+            "postRaf": 71924.69999998808
+          },
+          "cards": 6,
+          "nodes": 1019,
+          "scrollY": 0,
+          "viewport": 900,
+          "hidden": false,
+          "focused": true,
+          "gridHeight": 6103,
+          "count": "\u5df2\u663e\u793a 60 \u6761 \u00b7 \u5339\u914d 3607 \u6761\u8d44\u6e90",
+          "processes": [
+            {
+              "type": "browser",
+              "id": 5959,
+              "cpuTime": 3.181839
+            },
+            {
+              "type": "renderer",
+              "id": 5980,
+              "cpuTime": 0.065938
+            },
+            {
+              "type": "renderer",
+              "id": 5981,
+              "cpuTime": 41.764357
+            },
+            {
+              "type": "renderer",
+              "id": 5979,
+              "cpuTime": 0.372346
+            },
+            {
+              "type": "GPU",
+              "id": 5968,
+              "cpuTime": 52.419568
+            },
+            {
+              "type": "network.mojom.NetworkService",
+              "id": 5969,
+              "cpuTime": 0.472637
+            },
+            {
+              "type": "storage.mojom.StorageService",
+              "id": 5972,
+              "cpuTime": 0.045693
+            }
+          ],
+          "physical": [
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5959,
+              "userNs": 38583810,
+              "systemNs": 37785627,
+              "footprint": 70911536,
+              "resident": 99581952,
+              "path": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5980,
+              "userNs": 814700,
+              "systemNs": 768169,
+              "footprint": 25248896,
+              "resident": 21168128,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer)"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5981,
+              "userNs": 867265431,
+              "systemNs": 135209946,
+              "footprint": 548407432,
+              "resident": 405192704,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer)"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5979,
+              "userNs": 5434030,
+              "systemNs": 3502666,
+              "footprint": 51643856,
+              "resident": 48300032,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer)"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5968,
+              "userNs": 791190336,
+              "systemNs": 466881076,
+              "footprint": 596395616,
+              "resident": 125943808,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (GPU).app/Contents/MacOS/Google Chrome Helper (GPU)"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5969,
+              "userNs": 5988341,
+              "systemNs": 5355348,
+              "footprint": 23380976,
+              "resident": 32440320,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper.app/Contents/MacOS/Google Chrome Helper"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5972,
+              "userNs": 555210,
+              "systemNs": 541614,
+              "footprint": 19596248,
+              "resident": 16465920,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper.app/Contents/MacOS/Google Chrome Helper"
+            }
+          ],
+          "heapBytes": 12519188,
+          "layoutSeconds": 2.27726,
+          "styleSeconds": 3.241411,
+          "scriptSeconds": 4.052608
+        },
+        {
+          "query": "",
+          "input": {
+            "at": 72024,
+            "length": 0,
+            "rendered": 72164.09999999404,
+            "inputToRenderMs": 140.09999999403954,
+            "postRaf": 72174,
+            "inputToPostRafMs": 150
+          },
+          "request": {
+            "path": "/api/query",
+            "start": 72145.09999999404,
+            "inputAt": 72024,
+            "headersAt": 72152.69999998808,
+            "serverTiming": "query;dur=4.410,json;dur=0.457",
+            "jsonMs": 0.699999988079071,
+            "done": 72153.39999997616,
+            "total": 4705
+          },
+          "lastRender": {
+            "at": 72164.09999999404,
+            "renderMs": 10.599999994039536,
+            "cards": 6,
+            "loaded": 60,
+            "htmlMs": 0.5999999940395355,
+            "htmlCalls": 6,
+            "reconcileMs": 0.30000001192092896,
+            "hidden": false,
+            "postRaf": 72174
+          },
+          "cards": 6,
+          "nodes": 958,
+          "scrollY": 0,
+          "viewport": 900,
+          "hidden": false,
+          "focused": true,
+          "gridHeight": 5227,
+          "count": "\u5df2\u663e\u793a 60 \u6761 \u00b7 \u5339\u914d 4705 \u6761\u8d44\u6e90",
+          "processes": [
+            {
+              "type": "browser",
+              "id": 5959,
+              "cpuTime": 3.194514
+            },
+            {
+              "type": "renderer",
+              "id": 5980,
+              "cpuTime": 0.065938
+            },
+            {
+              "type": "renderer",
+              "id": 5981,
+              "cpuTime": 41.863006
+            },
+            {
+              "type": "renderer",
+              "id": 5979,
+              "cpuTime": 0.372346
+            },
+            {
+              "type": "GPU",
+              "id": 5968,
+              "cpuTime": 52.538941
+            },
+            {
+              "type": "network.mojom.NetworkService",
+              "id": 5969,
+              "cpuTime": 0.47356
+            },
+            {
+              "type": "storage.mojom.StorageService",
+              "id": 5972,
+              "cpuTime": 0.045693
+            }
+          ],
+          "physical": [
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5959,
+              "userNs": 38780864,
+              "systemNs": 37891455,
+              "footprint": 70911536,
+              "resident": 100204544,
+              "path": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5980,
+              "userNs": 814700,
+              "systemNs": 768169,
+              "footprint": 25248896,
+              "resident": 21168128,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer)"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5981,
+              "userNs": 869249480,
+              "systemNs": 135463287,
+              "footprint": 549947528,
+              "resident": 367886336,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer)"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5979,
+              "userNs": 5434030,
+              "systemNs": 3502666,
+              "footprint": 51643856,
+              "resident": 47857664,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer)"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5968,
+              "userNs": 792806160,
+              "systemNs": 468128803,
+              "footprint": 603555424,
+              "resident": 132497408,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (GPU).app/Contents/MacOS/Google Chrome Helper (GPU)"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5969,
+              "userNs": 6001402,
+              "systemNs": 5364431,
+              "footprint": 23380976,
+              "resident": 32440320,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper.app/Contents/MacOS/Google Chrome Helper"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5972,
+              "userNs": 555210,
+              "systemNs": 541614,
+              "footprint": 19596248,
+              "resident": 16465920,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper.app/Contents/MacOS/Google Chrome Helper"
+            }
+          ],
+          "heapBytes": 14574884,
+          "layoutSeconds": 2.281756,
+          "styleSeconds": 3.249878,
+          "scriptSeconds": 4.056372
+        },
+        {
+          "query": "React",
+          "input": {
+            "at": 72221.89999997616,
+            "length": 5,
+            "rendered": 72411.69999998808,
+            "inputToRenderMs": 189.80000001192093,
+            "postRaf": 72424.19999998808,
+            "inputToPostRafMs": 202.30000001192093
+          },
+          "request": {
+            "path": "/api/query",
+            "start": 72342.89999997616,
+            "inputAt": 72221.89999997616,
+            "headersAt": 72397.19999998808,
+            "serverTiming": "query;dur=43.022,json;dur=1.463",
+            "jsonMs": 0.699999988079071,
+            "done": 72397.89999997616,
+            "total": 3764
+          },
+          "lastRender": {
+            "at": 72411.69999998808,
+            "renderMs": 13.699999988079071,
+            "cards": 6,
+            "loaded": 60,
+            "htmlMs": 0.09999999403953552,
+            "htmlCalls": 6,
+            "reconcileMs": 0.9000000059604645,
+            "hidden": false,
+            "postRaf": 72424.19999998808
+          },
+          "cards": 6,
+          "nodes": 1007,
+          "scrollY": 0,
+          "viewport": 900,
+          "hidden": false,
+          "focused": true,
+          "gridHeight": 6103,
+          "count": "\u5df2\u663e\u793a 60 \u6761 \u00b7 \u5339\u914d 3764 \u6761\u8d44\u6e90",
+          "processes": [
+            {
+              "type": "browser",
+              "id": 5959,
+              "cpuTime": 3.208479
+            },
+            {
+              "type": "renderer",
+              "id": 5980,
+              "cpuTime": 0.065938
+            },
+            {
+              "type": "renderer",
+              "id": 5981,
+              "cpuTime": 41.979193
+            },
+            {
+              "type": "renderer",
+              "id": 5979,
+              "cpuTime": 0.372346
+            },
+            {
+              "type": "GPU",
+              "id": 5968,
+              "cpuTime": 52.695247
+            },
+            {
+              "type": "network.mojom.NetworkService",
+              "id": 5969,
+              "cpuTime": 0.476585
+            },
+            {
+              "type": "storage.mojom.StorageService",
+              "id": 5972,
+              "cpuTime": 0.04579
+            }
+          ],
+          "physical": [
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5959,
+              "userNs": 39033129,
+              "systemNs": 37974758,
+              "footprint": 70911536,
+              "resident": 100220928,
+              "path": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5980,
+              "userNs": 814700,
+              "systemNs": 768169,
+              "footprint": 25248896,
+              "resident": 21168128,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer)"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5981,
+              "userNs": 871739717,
+              "systemNs": 135761715,
+              "footprint": 542034056,
+              "resident": 376766464,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer)"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5979,
+              "userNs": 5434030,
+              "systemNs": 3502666,
+              "footprint": 51643856,
+              "resident": 47857664,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer)"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5968,
+              "userNs": 795228924,
+              "systemNs": 469457346,
+              "footprint": 564545120,
+              "resident": 130564096,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (GPU).app/Contents/MacOS/Google Chrome Helper (GPU)"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5969,
+              "userNs": 6048534,
+              "systemNs": 5389889,
+              "footprint": 23380976,
+              "resident": 32440320,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper.app/Contents/MacOS/Google Chrome Helper"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5972,
+              "userNs": 556700,
+              "systemNs": 542450,
+              "footprint": 19596248,
+              "resident": 16482304,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper.app/Contents/MacOS/Google Chrome Helper"
+            }
+          ],
+          "heapBytes": 16668152,
+          "layoutSeconds": 2.286823,
+          "styleSeconds": 3.263929,
+          "scriptSeconds": 4.06233
+        },
+        {
+          "query": "",
+          "input": {
+            "at": 72462.09999999404,
+            "length": 0,
+            "rendered": 72620.59999999404,
+            "inputToRenderMs": 158.5,
+            "postRaf": 72640.69999998808,
+            "inputToPostRafMs": 178.59999999403954
+          },
+          "request": {
+            "path": "/api/query",
+            "start": 72583.19999998808,
+            "inputAt": 72462.09999999404,
+            "headersAt": 72601.79999998212,
+            "serverTiming": "query;dur=11.149,json;dur=0.628",
+            "jsonMs": 0.9000000059604645,
+            "done": 72602.69999998808,
+            "total": 4705
+          },
+          "lastRender": {
+            "at": 72620.59999999404,
+            "renderMs": 17.900000005960464,
+            "cards": 6,
+            "loaded": 60,
+            "htmlMs": 0.7999999821186066,
+            "htmlCalls": 6,
+            "reconcileMs": 0.7999999821186066,
+            "hidden": false,
+            "postRaf": 72640.69999998808
+          },
+          "cards": 6,
+          "nodes": 958,
+          "scrollY": 0,
+          "viewport": 900,
+          "hidden": false,
+          "focused": true,
+          "gridHeight": 5227,
+          "count": "\u5df2\u663e\u793a 60 \u6761 \u00b7 \u5339\u914d 4705 \u6761\u8d44\u6e90",
+          "processes": [
+            {
+              "type": "browser",
+              "id": 5959,
+              "cpuTime": 3.218877
+            },
+            {
+              "type": "renderer",
+              "id": 5980,
+              "cpuTime": 0.065938
+            },
+            {
+              "type": "renderer",
+              "id": 5981,
+              "cpuTime": 42.061253
+            },
+            {
+              "type": "renderer",
+              "id": 5979,
+              "cpuTime": 0.372346
+            },
+            {
+              "type": "GPU",
+              "id": 5968,
+              "cpuTime": 52.789437
+            },
+            {
+              "type": "network.mojom.NetworkService",
+              "id": 5969,
+              "cpuTime": 0.477928
+            },
+            {
+              "type": "storage.mojom.StorageService",
+              "id": 5972,
+              "cpuTime": 0.04579
+            }
+          ],
+          "physical": [
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5959,
+              "userNs": 39223108,
+              "systemNs": 38034739,
+              "footprint": 70862384,
+              "resident": 99942400,
+              "path": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5980,
+              "userNs": 814700,
+              "systemNs": 768169,
+              "footprint": 25248896,
+              "resident": 21168128,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer)"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5981,
+              "userNs": 873530602,
+              "systemNs": 135939857,
+              "footprint": 543770760,
+              "resident": 364658688,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer)"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5979,
+              "userNs": 5434030,
+              "systemNs": 3502666,
+              "footprint": 51643856,
+              "resident": 47857664,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer)"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5968,
+              "userNs": 796691738,
+              "systemNs": 470256552,
+              "footprint": 569394784,
+              "resident": 130695168,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (GPU).app/Contents/MacOS/Google Chrome Helper (GPU)"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5969,
+              "userNs": 6069746,
+              "systemNs": 5400920,
+              "footprint": 23380976,
+              "resident": 32440320,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper.app/Contents/MacOS/Google Chrome Helper"
+            },
+            {
+              "second": 0,
+              "elapsedNs": 0,
+              "pid": 5972,
+              "userNs": 556700,
+              "systemNs": 542450,
+              "footprint": 19596248,
+              "resident": 16482304,
+              "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper.app/Contents/MacOS/Google Chrome Helper"
+            }
+          ],
+          "heapBytes": 18777848,
+          "layoutSeconds": 2.292931,
+          "styleSeconds": 3.276643,
+          "scriptSeconds": 4.066383
+        }
+      ],
+      "category": {
+        "cards": 6,
+        "nodes": 991,
+        "scrollY": 0,
+        "viewport": 900,
+        "hidden": false,
+        "focused": true,
+        "gridHeight": 5227,
+        "count": "\u5df2\u663e\u793a 60 \u6761 \u00b7 \u5339\u914d 524 \u6761\u8d44\u6e90",
+        "processes": [
+          {
+            "type": "browser",
+            "id": 5959,
+            "cpuTime": 3.232775
+          },
+          {
+            "type": "renderer",
+            "id": 5980,
+            "cpuTime": 0.065938
+          },
+          {
+            "type": "renderer",
+            "id": 5981,
+            "cpuTime": 42.198386
+          },
+          {
+            "type": "renderer",
+            "id": 5979,
+            "cpuTime": 0.372419
+          },
+          {
+            "type": "GPU",
+            "id": 5968,
+            "cpuTime": 52.906568
+          },
+          {
+            "type": "network.mojom.NetworkService",
+            "id": 5969,
+            "cpuTime": 0.479309
+          },
+          {
+            "type": "storage.mojom.StorageService",
+            "id": 5972,
+            "cpuTime": 0.045862
+          }
+        ],
+        "physical": [
+          {
+            "second": 0,
+            "elapsedNs": 0,
+            "pid": 5959,
+            "userNs": 39468977,
+            "systemNs": 38121700,
+            "footprint": 70862384,
+            "resident": 100007936,
+            "path": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+          },
+          {
+            "second": 0,
+            "elapsedNs": 0,
+            "pid": 5980,
+            "userNs": 814700,
+            "systemNs": 768169,
+            "footprint": 25248896,
+            "resident": 21168128,
+            "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer)"
+          },
+          {
+            "second": 0,
+            "elapsedNs": 0,
+            "pid": 5981,
+            "userNs": 876533891,
+            "systemNs": 136286856,
+            "footprint": 545867912,
+            "resident": 374505472,
+            "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer)"
+          },
+          {
+            "second": 0,
+            "elapsedNs": 0,
+            "pid": 5979,
+            "userNs": 5435279,
+            "systemNs": 3503159,
+            "footprint": 51643856,
+            "resident": 47857664,
+            "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer)"
+          },
+          {
+            "second": 0,
+            "elapsedNs": 0,
+            "pid": 5968,
+            "userNs": 798641223,
+            "systemNs": 471305173,
+            "footprint": 574277216,
+            "resident": 131252224,
+            "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper (GPU).app/Contents/MacOS/Google Chrome Helper (GPU)"
+          },
+          {
+            "second": 0,
+            "elapsedNs": 0,
+            "pid": 5969,
+            "userNs": 6090934,
+            "systemNs": 5412871,
+            "footprint": 23380976,
+            "resident": 32440320,
+            "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper.app/Contents/MacOS/Google Chrome Helper"
+          },
+          {
+            "second": 0,
+            "elapsedNs": 0,
+            "pid": 5972,
+            "userNs": 556908,
+            "systemNs": 543996,
+            "footprint": 19596248,
+            "resident": 16596992,
+            "path": "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/155.0.8059.80/Helpers/Google Chrome Helper.app/Contents/MacOS/Google Chrome Helper"
+          }
+        ],
+        "heapBytes": 19862384,
+        "layoutSeconds": 2.310368,
+        "styleSeconds": 3.291794,
+        "scriptSeconds": 4.072036,
+        "lastRender": {
+          "at": 72780.19999998808,
+          "renderMs": 33.099999994039536,
+          "cards": 6,
+          "loaded": 60,
+          "htmlMs": 1.0999999940395355,
+          "htmlCalls": 6,
+          "reconcileMs": 1.100000023841858,
+          "hidden": false,
+          "postRaf": 72794.29999998212
+        }
+      },
+      "detailFrames": {
+        "durationMs": 1028,
+        "frames": 60,
+        "p50": 16.69999999999709,
+        "p95": 16.70000000001164,
+        "max": 33.30000000000291,
+        "scrolls": 0,
+        "hidden": false,
+        "hiddenEnd": false,
+        "peakCards": 15
+      },
+      "detailReturn": {
+        "origin": {
+          "id": "0476f837-7f9d-4f06-9e12-1576842f622a",
+          "box": {
+            "x": 289.1875,
+            "y": 334.625,
+            "width": 301.328125,
+            "height": 230
+          },
+          "scrollY": 978
+        },
+        "afterScrollY": 978,
+        "ghosts": 0
+      },
+      "peakCards": 18,
+      "errors": []
+    }
+  ]
+}

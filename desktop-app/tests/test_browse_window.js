@@ -58,4 +58,5 @@ doc.querySelector('#browse-more-button').click();doc.querySelector('#browse-more
 run("state.scope='health';render();");assert.equal(doc.querySelector('#browse-more').hidden,true);assert.equal(grid.hidden,true);
 run("state.scope='all';render();");assert.equal(count(),60,'returning from health resets the display budget');
 assert.equal(run('JSON.stringify(state.resources)'),JSON.stringify(fixtures));
+let legacyHeroRenders=0;const oldHeroRender=win.ShijiV2.render;win.ShijiV2.render=(...args)=>{legacyHeroRenders++;return oldHeroRender(...args)};run("state.filters.search='Item';render();");assert.equal(legacyHeroRenders,0,'V5 render does not transiently hide its retained Hero through the V2 renderer');
 dom.window.close();console.log('actual app search/sort/full selection/gallery, keyed append, density/view/preview preservation, focus and health boundary passed');

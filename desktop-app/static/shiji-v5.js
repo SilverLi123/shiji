@@ -51,7 +51,7 @@
  }
  function create({document:doc,preview,reconcile}){
   const deck=doc.getElementById('scene-stack'),section=doc.getElementById('space-showcase');
-  let dead=false;
+  let dead=false,lastDeck='';
   // V5 is the product's only cover presentation, including for older preferences.
   doc.documentElement.dataset.cardMode='v3';doc.documentElement.dataset.shijiCover='poster';
   function render({resources=[],scope='all'}={}){
@@ -59,7 +59,8 @@
    // No filler duplicates: the spatial deck is exactly up to three matched records.
    const rows=resources.slice(0,3),visible=rows.length>0&&!['trash','health'].includes(scope);
    if(section)section.hidden=!visible;
-   if(deck){const panes=visible?rows.map((r,i)=>({id:r.id,html:`<button type="button" class="space-pane pane-${['a','b','c'][i]}" data-resource-id="${esc(r.id)}" data-action="detail" data-id="${esc(r.id)}" aria-label="查看 ${esc(r.title)}"><span class="space-pane-shell"><span class="space-pane-preview">${preview(r)}</span><span class="space-meta"><span><strong>${esc(r.title)}</strong><span>${esc(host(r)||r.language||r.kind||'')}</span></span><span class="space-badge">${esc(r.category||'')}</span></span></span></button>`})):[];reconcile(deck,panes,'.space-pane');deck.dataset.paneCount=String(panes.length);}
+   const deckKey=JSON.stringify(visible?rows:[]);
+   if(deck&&deckKey!==lastDeck){lastDeck=deckKey;const panes=visible?rows.map((r,i)=>({id:r.id,html:`<button type="button" class="space-pane pane-${['a','b','c'][i]}" data-resource-id="${esc(r.id)}" data-action="detail" data-id="${esc(r.id)}" aria-label="查看 ${esc(r.title)}"><span class="space-pane-shell"><span class="space-pane-preview">${preview(r)}</span><span class="space-meta"><span><strong>${esc(r.title)}</strong><span>${esc(host(r)||r.language||r.kind||'')}</span></span><span class="space-badge">${esc(r.category||'')}</span></span></span></button>`})):[];reconcile(deck,panes,'.space-pane');deck.dataset.paneCount=String(panes.length);}
    for(const el of doc.querySelectorAll('#v5-mobile-nav [data-scope]')){const active=el.dataset.scope===scope;el.classList.toggle('active',active);el.setAttribute('aria-current',active?'page':'false');}
   }
   return {render,destroy(){dead=true;}};

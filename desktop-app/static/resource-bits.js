@@ -179,6 +179,8 @@
       const w=Math.max(0,(width-gap*(n-1))/n);
       const feature=n===3&&!grid.classList.contains('density-compact')&&!grid.classList.contains('preview-fit');
       const windowed=windowController?.layout({width,columns:n,gap,rowGap:v5?33:gap,feature});
+      if(windowed?.unchanged){previous=new Map();previousNodes=new Map();return;}
+      if(windowed)for(const id of seen)if(!windowController.has(id))seen.delete(id);
       const cards=windowed?.cards||Array.from(grid.children);
       const spans=cards.map(el=>feature&&el.dataset.gallerySpan==='2'?2:1);
       // Write all widths and feature states before the single height read pass.

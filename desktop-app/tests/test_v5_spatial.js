@@ -44,5 +44,8 @@ const cover=d.createElement('div');cover.innerHTML=preview({...resource,coverId:
 assert.equal(cover.querySelector('.cover-image').getAttribute('src'),'/api/files/real-user-cover');
 assert.ok(cover.querySelector('.art-v3'));
 const packed=pack([100,100,100,100],900,3,18,[],33);assert.equal(packed.items[3].y,133);assert.equal(packed.height,233);
+let previewCalls=0;const cached=V5.create({document:d,preview(r){previewCalls++;return `<span>${esc(r.title)}</span>`},reconcile:Cards.render});
+const deckRows=Array.from({length:4},(_,i)=>({...resource,id:'deck'+i}));cached.render({resources:deckRows,scope:'all'});cached.render({resources:[...deckRows,{...resource,id:'more'}],scope:'all'});assert.equal(previewCalls,3,'appending gallery pages does not rebuild unchanged spatial deck covers');
+deckRows[0].title='Updated deck';cached.render({resources:deckRows,scope:'all'});assert.equal(previewCalls,6,'real content changes invalidate deck presentation');assert.ok(d.querySelector('.space-pane').textContent.includes('Updated deck'));cached.destroy();
 controller.destroy();dom.window.close();
 console.log('PASS: V5 actual titles, content-based compositions, escaped code, real cover precedence, stable deck IDs and empty/trash states');
