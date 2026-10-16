@@ -1,5 +1,8 @@
 """Freeze V6.1 code and measure deterministic Store data before implementation."""
 import json
+import io
+import tarfile
+import subprocess
 import platform
 import shutil
 import sqlite3
@@ -10,7 +13,15 @@ import time
 from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[3]
-sys.path[:0]=[str(ROOT/'desktop-app'),str(ROOT/'desktop-app/tests')]
+root=Path(tempfile.mkdtemp(prefix='shiji-v62-before-'))
+source=root/'source';source.mkdir()
+# Always execute the actual pre-upgrade commit, even when invoked from V6.2.
+raw=subprocess.run(['git','archive','9433afc:desktop-app'],cwd=ROOT,capture_output=True,check=True).stdout
+with tarfile.open(fileobj=io.BytesIO(raw)) as archive:
+    for member in archive.getmembers():
+        if member.issym() or member.islnk() or member.name.startswith('/') or '..' in Path(member.name).parts:raise ValueError('Unsafe baseline path')
+    archive.extractall(source)
+sys.path[:0]=[str(source),str(source/'tests')]
 from storage import Store,CATEGORIES
 from capture_fixture import png_bytes
 
@@ -21,11 +32,6 @@ def measure(fn,repeats=7):
     ordered=sorted(values)
     return {'samplesMs':values,'p50Ms':statistics.median(values),'p95Ms':ordered[min(len(values)-1,int(len(values)*.95))]}
 
-root=Path(tempfile.mkdtemp(prefix='shiji-v62-before-'))
-source=root/'source';source.mkdir()
-for file in (ROOT/'desktop-app').glob('*.py'):shutil.copy2(file,source/file.name)
-shutil.copytree(ROOT/'desktop-app/static',source/'static')
-shutil.copytree(ROOT/'desktop-app/desktop',source/'desktop')
 result={'sourceCommit':'9433afc','root':str(root),'source':str(source),'environment':{'sqlite':sqlite3.sqlite_version,'python':sys.version,'platform':platform.platform()},'datasets':{}}
 statefile=Path('/tmp/shiji-v62-before.json')
 for count in (1000,5000,20000,50000):

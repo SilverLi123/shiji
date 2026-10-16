@@ -1,0 +1,81 @@
+[
+  {
+    "event": "qa.process",
+    "host": 93227,
+    "pid": 93237,
+    "time": 1792128984.772993
+  },
+  {
+    "event": "qa.v62",
+    "phase": "{\"version\":1,\"firstInteractiveMs\":1277.0000000000002,\"renders\":[{\"at\":1277.0000000000002,\"ms\":459.9999999999999,\"total\":60,\"cards\":60}],\"queries\":[],\"samples\":[],\"resources\":[{\"path\":\"/api/library\",\"ms\":253,\"bytes\":1451},{\"path\":\"/api/website-previews\",\"ms\":72,\"bytes\":155},{\"path\":\"/api/library\",\"ms\":36,\"bytes\":1450},{\"path\":\"/api/query\",\"ms\":31,\"bytes\":74932}]}",
+    "time": 1792128985.314604
+  },
+  {
+    "animations": 40,
+    "backgroundPaused": true,
+    "cards": 60,
+    "cssRunning": 0,
+    "event": "qa.settled",
+    "ghosts": 0,
+    "heroFilter": "none",
+    "heroOpacity": "1",
+    "hidden": true,
+    "mode": "studio",
+    "ms": 1146,
+    "running": 0,
+    "time": 1792128985.326736,
+    "transitionRunning": 0
+  },
+  {
+    "event": "qa.process",
+    "host": 93227,
+    "pid": 93237,
+    "time": 1792129038.943149
+  },
+  {
+    "event": "qa.process",
+    "host": 93227,
+    "pid": 93237,
+    "time": 1792129038.9883308
+  },
+  {
+    "animations": 32,
+    "backgroundPaused": true,
+    "cards": 60,
+    "cssRunning": 0,
+    "event": "qa.render",
+    "ghosts": 0,
+    "heroFilter": "none",
+    "heroOpacity": "1",
+    "hidden": true,
+    "mode": "studio",
+    "ms": 71537,
+    "renderMs": 216,
+    "responseMs": 373,
+    "running": 0,
+    "time": 1792129055.707148,
+    "total": 60,
+    "transitionRunning": 0
+  },
+  {
+    "event": "qa.v62",
+    "phase": "{\"version\":1,\"firstInteractiveMs\":1277.0000000000002,\"renders\":[{\"at\":1277.0000000000002,\"ms\":459.9999999999999,\"total\":60,\"cards\":60},{\"at\":71672,\"ms\":216,\"total\":60,\"cards\":60}],\"queries\":[{\"ms\":304,\"cards\":60}],\"samples\":[],\"resources\":[{\"path\":\"/api/library\",\"ms\":253,\"bytes\":1451},{\"path\":\"/api/website-previews\",\"ms\":72,\"bytes\":155},{\"path\":\"/api/library\",\"ms\":36,\"bytes\":1450},{\"path\":\"/api/query\",\"ms\":31,\"bytes\":74932},{\"path\":\"/api/query\",\"ms\":70,\"bytes\":77900}]}",
+    "time": 1792129055.7078729
+  },
+  {
+    "animations": 32,
+    "backgroundPaused": true,
+    "cards": 60,
+    "cssRunning": 0,
+    "event": "qa.settled",
+    "ghosts": 0,
+    "heroFilter": "none",
+    "heroOpacity": "1",
+    "hidden": true,
+    "mode": "studio",
+    "ms": 71541,
+    "running": 0,
+    "time": 1792129055.718003,
+    "transitionRunning": 0
+  }
+]

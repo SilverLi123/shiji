@@ -47,13 +47,15 @@
 ### Task 4: V5 search/query migration
 **Files:** new `static/resource-query.js`, search interaction helpers/CSS; existing `app.js`, `index.html`, organizing/tag/project pickers, gallery/browse helpers as needed; Node DOM and true API integration tests.
 **Interfaces:** one state of loaded summaries; stable-card reconciliation; async detail hydration; cancelled outdated requests cannot apply. Legacy server fallback only when capability absent, never on transient query errors.
-- [ ] RED: rapid searches/cancel, exact totals, deep loading, cross-page select, full-detail edit, search navigation/focus/history/highlights, board/gallery and related resources off-page.
-- [ ] Integrate summaries, server filters/sort/pages and all-match IDs; remove recurring all-resource loads from default path.
-- [ ] Run complete Node and real API UI regressions; commit.
+- [x] RED: rapid searches/cancel, exact totals, deep loading, cross-page select, full-detail edit, search navigation/focus/history/highlights, board/gallery and related resources off-page.
+- [x] Integrate summaries, server filters/sort/pages and all-match IDs; remove recurring all-resource loads from default path.
+- [x] Run complete Node and real API UI regressions; commit.
 
 ### Task 5: Scale, regression, native evidence and final review
 **Files:** QA benchmark/browser/native tooling and docs under this directory; CI build jobs as appropriate.
 **Interfaces:** same deterministic datasets, 1K/5K/20K/50K, raw multi-round measurements and candidate V5 UI.
-- [ ] Measure before/after retrieval/index/query/filter/page/selection cost, network volume and background capture responsiveness; collect real browser/native performance where tools permit.
-- [ ] Complete Python/Node/Swift/HTTPS/Mac build and available CI validation; preserve real-device gaps without stalling.
-- [ ] Independent read-only final review, RED→GREEN material fixes; screenshots/recordings and final architecture/API/compatibility/performance report; clear commits.
+- [x] Measure before/after retrieval/index/query/filter/page/selection cost, network volume and background capture responsiveness; collect real browser/native performance where tools permit.
+- [x] Complete Python/Node/Swift/HTTPS/Mac build and available CI validation; preserve real-device gaps without stalling.
+- [x] Independent read-only final review, RED→GREEN material fixes; screenshots/recordings and final architecture/API/compatibility/performance report; clear commits.
+
+Acceptance caveat: Task5 execution/evidence is complete; foreground native performance, cumulative-gallery smoothness and physical-device acceptance are explicitly unaccepted in REPORT/PERFORMANCE. Checked steps do not certify those scenarios. Remote Actions require an authorized push.

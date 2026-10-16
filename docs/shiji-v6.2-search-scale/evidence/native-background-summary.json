@@ -1,0 +1,17 @@
+{
+  "visibility": "hidden=true; background only, not foreground acceptance",
+  "processes": {
+    "93227": {
+      "cpuOneCorePercent": 0.002655646130643193,
+      "peakFootprintBytes": 40191080,
+      "peakResidentBytes": 14188544,
+      "durationSeconds": 30.111542
+    },
+    "93237": {
+      "cpuOneCorePercent": 0.003046801787832719,
+      "peakFootprintBytes": 217056216,
+      "peakResidentBytes": 6733824,
+      "durationSeconds": 30.111542
+    }
+  }
+}
