@@ -19,3 +19,5 @@ Removing the production libraryReady guard in an isolated source copy makes the 
 Python and Node are now independent jobs. Python still installs Node/jsdom because Python's actual-page tests execute shipped browser scripts. Native Swift/HTTPS/build and100URL recovery jobs remain. Local Mac: full portable282tests and Node57groups passed. Ubuntu full portable/Node and remote candidate results will be appended once observed; no green claim before results.
 
 Evidence: v62-ci-failure.txt, ci-red-ubuntu.txt, ci-red-mac.txt, ci-green-mac.txt, ci-mutation.txt. Container setup is test-only, uses verified official Node SHA256 and Ubuntu package Python; no application dependency or formal data.
+
+Verified outcome: Docker full portable282tests + Node57groups passed. Remote run38892576373 at bddce2e has Python/Node/native/capture-recovery all completed/success; exact hosted Ubuntu x64 Python3.12.15 startup guard is green. Baseline is accepted for subsequent gallery measurements, not a final V6.3 release claim.

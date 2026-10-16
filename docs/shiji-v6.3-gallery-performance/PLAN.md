@@ -27,9 +27,9 @@
 ### Task 1: Reproduce and fix portable CI lifecycle race
 **Files:** tests/query_ui_integration.cjs, test_query_ui_integration.py; .github/workflows/tests.yml; qa/ubuntu.Dockerfile; evidence/CI diagnosis.
 **Interfaces:** Actual HTTP page initialization with a controllable first capability request and actual desktop heartbeat callback. Six-second condition deadline remains; distinguish asset load from held-capability phase.
-- [ ] Reproduce original failure on Ubuntu24.04/Python3.12/Node24 with exact source and preserve version/timeline evidence; no guessed SQLite changes.
-- [ ] Replace wall-clock fixture delay with a first-request barrier; drive heartbeat before capability release and assert no full-library requests. Include controlled late asset-load characterization and mutation that removes readiness gate must fail.
-- [ ] Split Python and Node CI jobs, preserve native/capture jobs; full local/container suites, module commit, push isolated candidate to run required Actions, read real results. User's explicit request to run GitHub Actions authorizes this candidate push; no shared/main merge.
+- [x] Reproduce original failure on Ubuntu24.04/Python3.12/Node24 with exact source and preserve version/timeline evidence; no guessed SQLite changes.
+- [x] Replace wall-clock fixture delay with a first-request barrier; drive heartbeat before capability release and assert no full-library requests. Include controlled late asset-load characterization and mutation that removes readiness gate must fail.
+- [x] Split Python and Node CI jobs, preserve native/capture jobs; full local/container suites, module commit, push isolated candidate to run required Actions, read real results. User's explicit request to run GitHub Actions authorizes this candidate push; no shared/main merge.
 
 ### Task 2: Capture V6.2 performance and audit geometry/motion
 **Files:** qa/serve.py, probe/tracing tools, BASELINE.md, evidence/before metrics.
