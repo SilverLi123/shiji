@@ -1,0 +1,191 @@
+{
+  "actualPage": true,
+  "resourceCount": 14,
+  "rows": [
+    {
+      "style": "editorial",
+      "template": "a",
+      "id": "78803b12-0a11-44dc-80f5-47e79cdaec86",
+      "title": "中文技术文章：在本地优先的工具中保持资源索引、封面和附件引用一致",
+      "kind": "website",
+      "category": "其他",
+      "paths": {
+        "before": "editorial-a-before.png",
+        "after": "editorial-a-after.png"
+      }
+    },
+    {
+      "style": "editorial",
+      "template": "b",
+      "id": "76af6eb0-2183-443e-ad43-ef19683baeb5",
+      "title": "中英文 Prompt — 用具体约束组织真实设计参考",
+      "kind": "prompt",
+      "category": "灵感",
+      "paths": {
+        "before": "editorial-b-before.png",
+        "after": "editorial-b-after.png"
+      }
+    },
+    {
+      "style": "editorial",
+      "template": "c",
+      "id": "ae05626c-d2b9-46e5-a672-e3f80ec2e4ab",
+      "title": "Recent — Design Inspiration",
+      "kind": "website",
+      "category": "灵感",
+      "paths": {
+        "before": "editorial-c-before.png",
+        "after": "editorial-c-after.png"
+      }
+    },
+    {
+      "style": "spatial",
+      "template": "a",
+      "id": "c618f472-8602-4bf3-972e-3a3622a2b417",
+      "title": "Poly Haven",
+      "kind": "website",
+      "category": "3D",
+      "paths": {
+        "before": "spatial-a-before.png",
+        "after": "spatial-a-after.png"
+      }
+    },
+    {
+      "style": "spatial",
+      "template": "b",
+      "id": "272b0325-d68e-4a7a-b583-fc2df04564da",
+      "title": "ROS 2 Robotics",
+      "kind": "website",
+      "category": "开发工具",
+      "paths": {
+        "before": "spatial-b-before.png",
+        "after": "spatial-b-after.png"
+      }
+    },
+    {
+      "style": "spatial",
+      "template": "c",
+      "id": "8da6d2ca-d5fd-449c-9a42-cbef31b77c34",
+      "title": "Hugging Face",
+      "kind": "website",
+      "category": "开发工具",
+      "paths": {
+        "before": "spatial-c-before.png",
+        "after": "spatial-c-after.png"
+      }
+    },
+    {
+      "style": "developer",
+      "template": "a",
+      "id": "863cebcd-cdfc-45bc-a50c-537e2db34223",
+      "title": "保留原始空格的 JavaScript 代码片段",
+      "kind": "code",
+      "category": "开发工具",
+      "paths": {
+        "before": "developer-a-before.png",
+        "after": "developer-a-after.png"
+      }
+    },
+    {
+      "style": "developer",
+      "template": "b",
+      "id": "f963a3db-6219-4fbc-a029-92fe063fd96f",
+      "title": "SHIJI",
+      "kind": "website",
+      "category": "开发工具",
+      "paths": {
+        "before": "developer-b-before.png",
+        "after": "developer-b-after.png"
+      }
+    },
+    {
+      "style": "developer",
+      "template": "c",
+      "id": "e10e30e3-b481-4bba-b6ba-ce8a10f461ab",
+      "title": "React",
+      "kind": "website",
+      "category": "开发工具",
+      "paths": {
+        "before": "developer-c-before.png",
+        "after": "developer-c-after.png"
+      }
+    },
+    {
+      "style": "kinetic",
+      "template": "a",
+      "id": "d6a3ed28-39fc-4c87-b5f9-cedbc8dcb457",
+      "title": "Motion Sites",
+      "kind": "website",
+      "category": "视频",
+      "paths": {
+        "before": "kinetic-a-before.png",
+        "after": "kinetic-a-after.png"
+      }
+    },
+    {
+      "style": "kinetic",
+      "template": "b",
+      "id": "53af43e9-5598-4389-9d36-41e5edb296fd",
+      "title": "React Bits",
+      "kind": "website",
+      "category": "UI / 设计",
+      "paths": {
+        "before": "kinetic-b-before.png",
+        "after": "kinetic-b-after.png"
+      }
+    },
+    {
+      "style": "kinetic",
+      "template": "c",
+      "id": "719799c3-0ba0-4a7c-9e8d-dfd5b9ce95ca",
+      "title": "Freesound",
+      "kind": "website",
+      "category": "音频",
+      "paths": {
+        "before": "kinetic-c-before.png",
+        "after": "kinetic-c-after.png"
+      }
+    },
+    {
+      "style": "minimal",
+      "template": "a",
+      "id": "ccf592eb-0b1b-4d77-bb05-aabe359c1f28",
+      "title": "真实本地图片 · 隔离验收素材",
+      "kind": "file",
+      "category": "美术素材",
+      "paths": {
+        "before": "minimal-a-before.png",
+        "after": "minimal-a-after.png"
+      }
+    },
+    {
+      "style": "minimal",
+      "template": "b",
+      "id": "78803b12-0a11-44dc-80f5-47e79cdaec86",
+      "title": "中文技术文章：在本地优先的工具中保持资源索引、封面和附件引用一致",
+      "kind": "website",
+      "category": "其他",
+      "paths": {
+        "before": "minimal-b-before.png",
+        "after": "minimal-b-after.png"
+      }
+    },
+    {
+      "style": "minimal",
+      "template": "c",
+      "id": "ae05626c-d2b9-46e5-a672-e3f80ec2e4ab",
+      "title": "Recent — Design Inspiration",
+      "kind": "website",
+      "category": "灵感",
+      "paths": {
+        "before": "minimal-c-before.png",
+        "after": "minimal-c-after.png"
+      }
+    }
+  ],
+  "realImagePriority": true,
+  "failedImageFallback": true,
+  "narrowCJK": true,
+  "mode": "system reduce motion for deterministic still captures",
+  "errors": []
+}

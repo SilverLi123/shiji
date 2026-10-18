@@ -67,12 +67,18 @@ jobs:
         env:
           SHIJI_QA_VIDEO: "1"
         run: python desktop-app/tests/run_gallery_browser.py
+      - name: Real cover editor, atomic save and upload
+        env:
+          SHIJI_QA_VIDEO: "1"
+        run: python desktop-app/tests/run_cover_browser.py
       - name: Retain browser evidence without resource database
         if: always()
         uses: actions/upload-artifact@v7
         with:
           name: gallery-browser-${{ github.run_id }}
-          path: desktop-app/dist/v63-browser-regression*
+          path: |
+            desktop-app/dist/v63-browser-regression*
+            desktop-app/dist/v64-cover-browser*
           retention-days: 7
   native:
     runs-on: macos-15

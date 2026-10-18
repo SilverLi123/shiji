@@ -23,7 +23,7 @@
 .cs3-editorial-c .cs3-editor-frame{position:absolute;inset:20% 12% 16% 7%;background:var(--cs-bg);border:1px solid currentColor;transform:rotate(-5deg)}
 .cs3-editorial-c .cs3-title.art-copy{inset:9% 9% auto;--cs-title-scale:.85;-webkit-line-clamp:3}
 .cs3-editorial-c .cs3-subtitle{inset:auto 9% 11%;max-width:82%;-webkit-line-clamp:2;font-size:2.6cqw}
-.cs3-swatches{position:absolute;right:5%;top:26%;display:grid;gap:1.5cqw;transform:rotate(8deg)}
+.cs3-cover .cs3-swatches{position:absolute;right:5%;top:26%;display:grid;gap:1.5cqw;transform:rotate(8deg)}
 .cs3-swatches i{width:6cqw;height:6cqw;background:var(--cs-ink)}
 .cs3-swatches i:nth-child(2){background:var(--cs-accent)}
 .cs3-swatches i:nth-child(3){background:var(--cs-bg);border:1px solid currentColor}
@@ -68,7 +68,7 @@
 .cs3-tension-two{width:52%;right:20%;top:1%;border-color:var(--cs-accent);transform:rotateX(60deg) rotate(40deg)}
 .cs3-kinetic-b .cs3-title.art-copy{inset:42% 7% auto;max-width:78%;--cs-title-scale:1.05;-webkit-line-clamp:3}
 .cs3-kinetic-b .cs3-subtitle{display:none}
-.cs3-sequence{position:absolute;inset:19% -8% 36%;display:flex;gap:3%;transform:rotate(-15deg)}
+.cs3-cover .cs3-sequence{position:absolute;inset:19% -8% 36%;display:flex;gap:3%;transform:rotate(-15deg)}
 .cs3-sequence i{flex:1;border:2cqw solid var(--cs-ink);border-radius:50%;transform:scaleY(.5)}
 .cs3-sequence i:nth-child(even){background:var(--cs-accent);transform:scaleY(1)}
 .cs3-kinetic-c .cs3-title.art-copy{top:auto;bottom:18%;max-width:86%;--cs-title-scale:.95;-webkit-line-clamp:3}
@@ -166,3 +166,13 @@
 .cs3-cover .cs3-title.art-copy{font-size:calc(var(--cs-title)*var(--cs-title-scale,1))!important;max-height:none}
 .cs3-cover .cs3-terminal.art-terminal{height:auto;min-height:0;max-height:none}
 .cs3-cover .cs3-technical-label.art-terminal{height:auto;min-height:0;max-height:none}
+.art-v3.cs3-legacy-custom .cs3-legacy-subtitle{position:absolute;inset:auto 7% 11%;max-width:75%;z-index:8;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;font:600 3cqw/1.4 Inter,sans-serif;background:inherit;color:inherit;padding:1cqw}
+.art-v3.cs3-legacy-custom[data-title-position=top] .art-copy,.art-v3.cs3-legacy-custom[data-title-position=top] .art-code-name{top:22%;bottom:auto}
+.art-v3.cs3-legacy-custom[data-title-position=center] .art-copy,.art-v3.cs3-legacy-custom[data-title-position=center] .art-code-name{top:40%;bottom:auto}
+.art-v3.cs3-legacy-custom[data-title-position=bottom] .art-copy,.art-v3.cs3-legacy-custom[data-title-position=bottom] .art-code-name{top:auto;bottom:18%}
+.art-v3.cs3-legacy-custom[data-density=compact] .art-copy{font-size:calc(var(--poster-title-size,18cqw)*.7)!important}
+.art-v3.cs3-legacy-custom[data-density=bold] .art-copy{font-size:calc(var(--poster-title-size,18cqw)*1.1)!important}
+.art-v3.cs3-legacy-color .art-index,.art-v3.cs3-legacy-color .art-foot,.art-v3.cs3-legacy-color .art-copy,.art-v3.cs3-legacy-color .art-code-name,.art-v3.cs3-legacy-color .art-excerpt{color:inherit}
+
+/* Keep the caption readable where a dark spatial subject crosses its ink. */
+.cs3-spatial .cs3-title.art-copy,.cs3-spatial .cs3-subtitle,.cs3-kinetic-b .cs3-title.art-copy{background:var(--cs-bg);padding:.045em .09em;width:fit-content}
