@@ -33,7 +33,7 @@ import Vision
   precondition(model.copied && !model.code.isEmpty)
   guard let image=model.qr,let cg=image.cgImage(forProposedRect:nil,context:nil,hints:nil),let canvas=CGContext(data:nil,width:568,height:568,bitsPerComponent:8,bytesPerRow:0,space:CGColorSpaceCreateDeviceRGB(),bitmapInfo:CGImageAlphaInfo.premultipliedLast.rawValue)else{fatalError("QR unavailable")}
   canvas.setFillColor(NSColor.white.cgColor);canvas.fill(CGRect(x:0,y:0,width:568,height:568));canvas.interpolationQuality = .none;canvas.draw(cg,in:CGRect(x:24,y:24,width:520,height:520))
-  let request=VNDetectBarcodesRequest();request.symbologies=[.qr]
+  let request=VNDetectBarcodesRequest();request.symbologies=[.qr];request.usesCPUOnly=true // Avoid optional ANE model availability in host CI; still decode the actual rendered QR.
   try VNImageRequestHandler(cgImage:canvas.makeImage()!).perform([request])
   precondition(request.results?.first?.payloadStringValue==model.code,"dense pairing QR must decode at shipped Retina size")
   model.update(["enabled":true,"pairingAvailable":false,"addresses":["192.168.1.10"],"devices":[]])
