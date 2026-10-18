@@ -4,6 +4,8 @@
  */
 (function(root){
  'use strict';
+ const Config=root.ShijiCoverConfig||(typeof module==='object'?require('./cover-config'):null);
+ const Direction=root.ShijiCoverDirection||(typeof module==='object'?require('./cover-direction'):null);
  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  function host(r){try{return new URL(r.url).hostname.replace(/^www\./,'');}catch{return '';}}
  function posterKind(r){
@@ -23,6 +25,45 @@
   return 'article';
  }
  function coverMarkup(r,composition){
+  const config=Config?.read(r);
+  if(!composition&&config&&!config.unsupported&&!config.invalid&&config.style!=='v5'&&Direction)return directedCover(r,config);
+  return legacyCover(r,composition);
+ }
+ function directedCover(r,c){
+  const direction=Direction.recommend(r,c)[0],{style,template}=direction,col=Config.colors(c,direction);
+  const title=String(c.customTitle||r.title||host(r)||'资源'),subtitle=String(c.customSubtitle||r.description||r.notes||'').slice(0,240);
+  const source=host(r)||({code:'代码片段',prompt:'Prompt',file:'本地素材'}[r.kind]||''),tags=(Array.isArray(r.tags)?r.tags:[]).slice(0,3);
+  const stack=String(r.language||'')||tags.join(' · '),snippet=String(r.snippet||'').split('\n').slice(0,8).map(x=>x.slice(0,100)).join('\n');
+  const units=Array.from(title).reduce((n,x)=>n+(/[\u3400-\u9fff]/u.test(x)?1:.55),0),size=Math.max(6.2,Math.min(21,80/Math.max(4,units/Math.min(4,Math.ceil(units/10)))));
+  const name=`<span class="art-copy cs3-title" style="--cs-title:${size.toFixed(2)}cqw">${esc(title)}</span>`;
+  const sub=subtitle?`<span class="cs3-subtitle">${esc(subtitle)}</span>`:'';
+  const meta=`<span class="cs3-source">${esc(source)}</span><span class="cs3-category">${esc(r.category||r.language||'')}</span>`;
+  const terminal=`<span class="art-terminal cs3-terminal"><span class="cs3-terminal-head">${esc(source)}</span>${snippet?`<pre>${esc(snippet)}</pre>`:''}${stack?`<span class="cs3-stack">${esc(stack)}</span>`:''}</span>`;
+  const initials=Array.from(title).slice(0,2).join('');
+  const sphere='<span class="cs3-sphere art-anim"></span><span class="cs3-orbit"></span>';
+  const planes='<span class="cs3-planes art-anim"><i></i><i></i><i></i></span>';
+  const blocks='<span class="cs3-blocks art-anim"><i></i><i></i><i></i><i></i><i></i></span>';
+  let composition='';
+  switch(style+'-'+template){
+   case 'editorial-a':composition=`<span class="cs3-edition-rule"></span>${name}${sub}<span class="cs3-corner">${esc(r.language||'')}</span>`;break;
+   case 'editorial-b':composition=`<span class="cs3-glyph" aria-hidden="true">${esc(initials)}</span><span class="cs3-page">${name}${sub}</span>`;break;
+   case 'editorial-c':composition=`<span class="cs3-offset-sheet"></span><span class="cs3-editor-frame">${name}${sub}</span><span class="cs3-swatches"><i></i><i></i><i></i></span>`;break;
+   case 'spatial-a':composition=`${sphere}${name}${sub}`;break;
+   case 'spatial-b':composition=`${planes}<span class="cs3-measure" aria-hidden="true"></span>${name}${sub}`;break;
+   case 'spatial-c':composition=`${blocks}${name}${sub}`;break;
+   case 'developer-a':composition=`${name}${sub}${terminal}`;break;
+   case 'developer-b':composition=`<span class="cs3-monogram" aria-hidden="true">${esc(initials)}</span><span class="cs3-repo-body">${name}${sub}</span>${stack?`<span class="art-terminal cs3-technical-label">${esc(stack)}</span>`:''}`;break;
+   case 'developer-c':composition=`<span class="cs3-syntax" aria-hidden="true"><i></i><i></i><i></i><i></i></span>${name}${sub}${stack?`<span class="cs3-stack">${esc(stack)}</span>`:''}`;break;
+   case 'kinetic-a':composition=`<span class="cs3-trails" aria-hidden="true"><i>${esc(title)}</i><i>${esc(title)}</i><i>${esc(title)}</i></span>${name}${sub}`;break;
+   case 'kinetic-b':composition=`<span class="cs3-tension art-anim"></span><span class="cs3-tension cs3-tension-two"></span>${name}${sub}`;break;
+   case 'kinetic-c':composition=`<span class="cs3-sequence" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>${name}${sub}`;break;
+   case 'minimal-a':composition=`<span class="cs3-aperture"></span><span class="cs3-photo-caption">${name}${sub}</span>`;break;
+   case 'minimal-b':composition=`<span class="cs3-document">${name}${sub}</span><span class="cs3-paper-fold"></span>`;break;
+   default:composition=`<span class="cs3-axis"></span>${name}${sub}<span class="cs3-signature" aria-hidden="true">${esc(initials)}</span>`;
+  }
+  return `<span class="cover-art art-v3 art-${esc(posterKind(r))} cs3-cover cs3-${style} cs3-${style}-${template}" data-cover-style="${style}" data-cover-template="${template}" data-cover-custom-title="${Boolean(c.customTitle)}" data-cover-custom-subtitle="${Boolean(c.customSubtitle)}" data-title-position="${c.titlePosition}" data-density="${c.density}" aria-hidden="true" style="--cs-bg:${col.background};--cs-ink:${col.foreground};--cs-accent:${col.accent}"><span class="cs3-meta">${meta}</span><span class="cs3-composition" data-composition="${style}-${template}">${composition}</span><span class="cs3-footer">${tags.map(esc).join(' · ')}</span><span class="art-sheen"></span></span>`;
+ }
+ function legacyCover(r,composition){
   const type=composition||posterKind(r),title=String(r.title||host(r)||'资源'),source=host(r)||({code:'代码片段',prompt:'提示词',file:'本地素材'}[r.kind]||'收藏资源');
   const metrics=root.ShijiV2?.titleMetrics?.(title);
   const units=metrics?.emLine||Math.max(3,[...title].reduce((n,c)=>n+(/[\u3400-\u9fff]/u.test(c)?1:.56),0)/Math.min(4,Math.ceil(title.length/12)));
