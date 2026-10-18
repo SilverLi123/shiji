@@ -12,12 +12,12 @@
   function release(){if(objectURL){win.URL.revokeObjectURL(objectURL);objectURL='';}}
   function config(){return Config.read({coverConfig:draft});}
   function readonly(){return Boolean(config().unsupported);}
-  function lock(){q('.cs-controls').disabled=busy||readonly();q('[data-cs-action=save]').disabled=busy||reading||readonly()||invalid.size>0;for(const name of ['cancel','reset'])q(`[data-cs-action=${name}]`).disabled=busy;dialog.setAttribute('aria-busy',String(busy));q('[data-cs-action=save]').textContent=busy?'正在保存…':'保存封面';}
-  function record(){return {...resource,coverId,coverConfig:draft,...(objectURL?{_coverObjectURL:objectURL}:{})};}
+  function lock(){q('.cs-controls').disabled=busy||readonly();q('[data-cs-action=save]').disabled=busy||reading||readonly()||invalid.size>0;for(const name of ['cancel','reset'])q(`[data-cs-action=${name}]`).disabled=busy;for(const el of qa('[data-cs-template],[data-cs-action=regenerate]'))el.disabled=busy||readonly()||config().style==='v5';dialog.setAttribute('aria-busy',String(busy));q('[data-cs-action=save]').textContent=busy?'正在保存…':'保存封面';}
+  function record(){return {...resource,coverId,coverConfig:draft};}
   function paint(thumbnails=false){
    if(!resource||dead)return;
    const r=record(),c=config(),direction=Direction.recommend(r,c)[0],colors=Config.colors(c,direction);
-   q('.cs-main-preview').innerHTML=preview(r);
+   q('.cs-main-preview').innerHTML=preview(r,objectURL||undefined);
    for(const image of qa('.cs-main-preview .cover-image')){const media=image.closest('.cover-photo')||image,fallback=media.nextElementSibling;const fail=()=>{media.hidden=true;if(fallback)fallback.hidden=false;};image.onerror=fail;image.onload=()=>{media.hidden=false;if(fallback)fallback.hidden=true;};if(image.complete&&!image.naturalWidth)fail();else if(fallback)fallback.hidden=true;}
    q('.cs-direction').textContent=readonly()?'此封面来自更新版本。可以保留，或恢复自动后重新设计。':direction.reasons.join(' · ');
    q('.cs-contrast').textContent=`文字颜色自动匹配 ${colors.foreground.toUpperCase()}`;

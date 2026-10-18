@@ -1,18 +1,227 @@
 {
- "valid": [
-  {"name":"automatic reset","input":null,"want":null},
-  {"name":"defaults","input":{},"want":{"version":1,"style":"auto","template":"auto","seed":0,"palette":"auto","primary":"","customTitle":"","customSubtitle":"","titlePosition":"auto","density":"balanced","imageSource":"auto","imageFit":"fill","imageX":50,"imageY":50}},
-  {"name":"explicit typography remains distinct","input":{"style":"editorial","customTitle":"封面 · Cover","primary":"#AA34Ff","extension":{"enabled":true}},"subset":{"style":"editorial","customTitle":"封面 · Cover","primary":"#aa34ff","extension":{"enabled":true}}},
-  {"name":"future remains opaque","input":{"version":2,"style":"future-material","seed":"opaque","extra":[1,"two"]},"want":{"version":2,"style":"future-material","seed":"opaque","extra":[1,"two"]}},
-  {"name":"boundary seed focus","input":{"seed":4294967295,"imageX":0,"imageY":100,"imageFit":"fit"},"subset":{"seed":4294967295,"imageX":0,"imageY":100,"imageFit":"fit"}}
- ],
- "invalid":[
-  [],"auto",42,true,{"version":0},{"version":true},{"version":1.5},
-  {"style":"<script>"},{"template":"d"},{"palette":"red"},
-  {"seed":true},{"seed":-1},{"seed":4294967296},{"seed":0.5},
-  {"primary":"red"},{"primary":"#fff"},{"primary":"#abc123;background:url(x)"},
-  {"customTitle":22},{"titlePosition":"left"},{"density":"dense"},
-  {"imageSource":"remote"},{"imageFit":"stretch"},{"imageX":true},{"imageY":101},
-  {"extra":{"a":{"b":{"c":{}}}}}
- ]
+  "valid": [
+    {
+      "name": "automatic reset",
+      "input": null,
+      "want": null
+    },
+    {
+      "name": "defaults",
+      "input": {},
+      "want": {
+        "version": 1,
+        "style": "auto",
+        "template": "auto",
+        "seed": 0,
+        "palette": "auto",
+        "primary": "",
+        "customTitle": "",
+        "customSubtitle": "",
+        "titlePosition": "auto",
+        "density": "balanced",
+        "imageSource": "auto",
+        "imageFit": "fill",
+        "imageX": 50,
+        "imageY": 50
+      }
+    },
+    {
+      "name": "explicit typography remains distinct",
+      "input": {
+        "style": "editorial",
+        "customTitle": "封面 · Cover",
+        "primary": "#AA34Ff",
+        "extension": {
+          "enabled": true
+        }
+      },
+      "subset": {
+        "style": "editorial",
+        "customTitle": "封面 · Cover",
+        "primary": "#aa34ff",
+        "extension": {
+          "enabled": true
+        }
+      }
+    },
+    {
+      "name": "future remains opaque",
+      "input": {
+        "version": 2,
+        "style": "future-material",
+        "seed": "opaque",
+        "extra": [
+          1,
+          "two"
+        ]
+      },
+      "want": {
+        "version": 2,
+        "style": "future-material",
+        "seed": "opaque",
+        "extra": [
+          1,
+          "two"
+        ]
+      }
+    },
+    {
+      "name": "boundary seed focus",
+      "input": {
+        "seed": 4294967295,
+        "imageX": 0,
+        "imageY": 100,
+        "imageFit": "fit"
+      },
+      "subset": {
+        "seed": 4294967295,
+        "imageX": 0,
+        "imageY": 100,
+        "imageFit": "fit"
+      }
+    }
+  ],
+  "invalid": [
+    [],
+    "auto",
+    42,
+    true,
+    {
+      "version": 0
+    },
+    {
+      "version": true
+    },
+    {
+      "version": 1.5
+    },
+    {
+      "style": "<script>"
+    },
+    {
+      "template": "d"
+    },
+    {
+      "palette": "red"
+    },
+    {
+      "seed": true
+    },
+    {
+      "seed": -1
+    },
+    {
+      "seed": 4294967296
+    },
+    {
+      "seed": 0.5
+    },
+    {
+      "primary": "red"
+    },
+    {
+      "primary": "#fff"
+    },
+    {
+      "primary": "#abc123;background:url(x)"
+    },
+    {
+      "customTitle": 22
+    },
+    {
+      "titlePosition": "left"
+    },
+    {
+      "density": "dense"
+    },
+    {
+      "imageSource": "remote"
+    },
+    {
+      "imageFit": "stretch"
+    },
+    {
+      "imageX": true
+    },
+    {
+      "imageY": 101
+    },
+    {
+      "extra": {
+        "a": {
+          "b": {
+            "c": {}
+          }
+        }
+      }
+    }
+  ],
+  "directions": [
+    {
+      "resource": {
+        "title": "SHIJI",
+        "url": "https://github.com/SilverLi123/shiji",
+        "kind": "website"
+      },
+      "style": "developer",
+      "template": "b"
+    },
+    {
+      "resource": {
+        "title": "React components",
+        "url": "https://github.com/facebook/react"
+      },
+      "style": "developer",
+      "template": "c"
+    },
+    {
+      "resource": {
+        "title": "AI models",
+        "url": "https://github.com/example/models"
+      },
+      "style": "spatial",
+      "template": "c"
+    },
+    {
+      "resource": {
+        "title": "Robotics control"
+      },
+      "style": "spatial",
+      "template": "b"
+    },
+    {
+      "resource": {
+        "title": "Motion Sites",
+        "url": "https://motionsites.ai/"
+      },
+      "style": "kinetic",
+      "template": "a"
+    },
+    {
+      "resource": {
+        "title": "Actual code",
+        "kind": "code",
+        "snippet": "let x = 1"
+      },
+      "style": "developer",
+      "template": "a"
+    },
+    {
+      "resource": {
+        "title": "Prompt",
+        "kind": "prompt",
+        "snippet": "Actual text"
+      },
+      "style": "editorial",
+      "template": "b"
+    },
+    {
+      "resource": {
+        "title": "Tool",
+        "category": "开发工具"
+      },
+      "style": "developer",
+      "template": "b"
+    }
+  ]
 }

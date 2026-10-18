@@ -183,41 +183,49 @@ struct ResourceCard:View {
 struct LocalCover:View {
     @EnvironmentObject var library:MobileLibrary
     var resource:Resource
-    var cover:String {resource.text("coverId").isEmpty ? resource.attachments.first(where:{($0["mime"] as? String ?? "").hasPrefix("image/")})?["id"] as? String ?? "" : resource.text("coverId")}
-    var body:some View {
-        GeometryReader { bounds in
-            Group {
-                if let url=library.files?.file(cover),let image=LocalImage.image(url:url){Image(uiImage:image).resizable().scaledToFill()}
-                else{NativeResourceCover(resource:resource)}
-            }.frame(width:bounds.size.width,height:bounds.size.height).clipped().accessibilityHidden(true)
-        }
+    var cover:String {
+        let c=CoverConfiguration.read(resource.raw["coverConfig"]),source=c["imageSource"] as? String ?? "auto"
+        if source=="poster"{return ""}
+        if source=="image"{return resource.text("coverId")}
+        let images=resource.attachments.filter{($0["mime"] as? String ?? "").hasPrefix("image/") && $0["deleted"] as? Bool != true}
+        if source=="website"{return images.first{!($0["sourceUrl"] as? String ?? "").isEmpty}?["id"] as? String ?? ""}
+        return resource.text("coverId").isEmpty ? images.first?["id"] as? String ?? "" : resource.text("coverId")
     }
+    var body:some View{GeometryReader{g in StudioLocalCoverImage(resource:resource,url:library.files?.file(cover)).frame(width:g.size.width,height:g.size.height).clipped().accessibilityHidden(true)}}
 }
 // Typography is derived from saved fields; image attachments still take precedence.
 struct NativeResourceCover:View {
     let resource:Resource
     @Environment(\.colorScheme) var scheme
     @Environment(\.dynamicTypeSize) var typeSize
+    private var preferences:[String:Any]{CoverConfiguration.read(resource.raw["coverConfig"])}
+    private var coverTitle:String{let custom=preferences["customTitle"] as? String ?? "";return custom.isEmpty ? resource.title : custom}
+    private var caption:String{let custom=preferences["customSubtitle"] as? String ?? "";return custom.isEmpty ? resource.coverExcerpt : custom}
+    private var customColors:(background:String,foreground:String,accent:String)?{let c=preferences;return (c["primary"] as? String ?? "").isEmpty && c["palette"] as? String=="auto" ? nil : CoverConfiguration.colors(c)}
+    private func uiColor(_ hex:String)->UIColor{let n=UInt32(hex.dropFirst(),radix:16) ?? 0;return UIColor(red:CGFloat((n>>16)&255)/255,green:CGFloat((n>>8)&255)/255,blue:CGFloat(n&255)/255,alpha:1)}
+    private var titleFont:Font{preferences["density"] as? String=="compact" ? .headline : preferences["density"] as? String=="bold" ? .largeTitle : .title}
     private var isCode:Bool{resource.coverKind=="code"}
-    private var paper:UIColor {switch resource.coverKind {
+    private var paper:UIColor {if let colors=customColors{return uiColor(colors.background)};switch resource.coverKind {
         case "code":return UIColor(red:0.075,green:0.11,blue:0.13,alpha:1)
         case "prompt":return UIColor(red:0.90,green:0.875,blue:0.81,alpha:1)
         case "tool":return scheme == .dark ? UIColor(red:0.09,green:0.125,blue:0.105,alpha:1) : UIColor(red:0.90,green:0.93,blue:0.865,alpha:1)
         default:return UIColor(red:0.83,green:0.78,blue:0.94,alpha:1)
     }}
-    private var ink:Color {if isCode{return Color(red:0.83,green:0.93,blue:0.89)};if resource.coverKind=="tool",scheme == .dark{return Color(red:0.82,green:0.95,blue:0.77)};return Color(red:0.15,green:0.12,blue:0.20)}
+    private var ink:Color {if let colors=customColors{return Color(uiColor:uiColor(colors.foreground))};if isCode{return Color(red:0.83,green:0.93,blue:0.89)};if resource.coverKind=="tool",scheme == .dark{return Color(red:0.82,green:0.95,blue:0.77)};return Color(red:0.15,green:0.12,blue:0.20)}
     var body:some View {
         VStack(alignment:.leading,spacing:16){
             ViewThatFits(in:.horizontal){HStack{Text(resource.sourceHost);Spacer();Text(resource.text(isCode ? "language" : "category"))};Text(resource.sourceHost)}.font(.caption.weight(.medium)).lineLimit(1)
+            if ["center","bottom"].contains(preferences["titlePosition"] as? String ?? ""){Spacer(minLength:0)}
             if !typeSize.isAccessibilitySize {
                 if isCode {
+                    if !(preferences["customTitle"] as? String ?? "").isEmpty{Text(coverTitle).font(.headline).lineLimit(2)}
                     VStack(alignment:.leading,spacing:3){ForEach(Array(resource.coverLines.enumerated()),id:\.offset){index,line in HStack(alignment:.top,spacing:12){Text("\(index+1)").opacity(0.65).frame(width:16,alignment:.trailing);Text(line.isEmpty ? " " : line).frame(maxWidth:.infinity,alignment:.leading).lineLimit(1)}}}.font(.system(.caption,design:.monospaced)).fixedSize(horizontal:false,vertical:true)
                 }else{
-                    Text(resource.title).font(.title.weight(.bold)).tracking(-0.6).multilineTextAlignment(.leading).lineLimit(3)
-                    if !resource.coverContent.isEmpty{Text(resource.coverContent).font(.subheadline).lineLimit(2).multilineTextAlignment(.leading)}
+                    Text(coverTitle).font(titleFont.weight(.bold)).tracking(-0.6).multilineTextAlignment(.leading).lineLimit(3)
+                    if !caption.isEmpty{Text(caption).font(.subheadline).lineLimit(2).multilineTextAlignment(.leading)}
                 }
-            }else{Text(resource.title).font(.headline).lineLimit(2).multilineTextAlignment(.leading)}
-            Spacer(minLength:0)
+            }else{Text(coverTitle).font(.headline).lineLimit(2).multilineTextAlignment(.leading)}
+            if preferences["titlePosition"] as? String != "bottom"{Spacer(minLength:0)}
             if !resource.repositoryPath.isEmpty{Text(resource.repositoryPath).font(.caption).lineLimit(1)}
             else if resource.coverKind=="file",let name=resource.attachments.first?["name"] as? String{Text(name).font(.caption).lineLimit(1)}
         }.padding(22).frame(maxWidth:.infinity,maxHeight:.infinity,alignment:.topLeading).foregroundStyle(ink).background(Color(uiColor:paper))
@@ -229,6 +237,9 @@ struct DetailView:View {
     let id:String
     @State var editor=false
     @State var deleteConfirm=false
+    @State var coverEditor=false
+    @State private var coverSaved=false
+    @State private var coverFeedbackTask:Task<Void,Never>?
     @State var filePicker=false
     @State var previewURL:URL?
     @State var favoriteMoment=false
@@ -240,6 +251,7 @@ struct DetailView:View {
         Group{if let r=resource {
             ScrollView{VStack(alignment:.leading,spacing:24){
                 LocalCover(resource:r).frame(height:240).clipped().clipShape(RoundedRectangle(cornerRadius:14))
+                Button("封面设计",systemImage:"rectangle.stack"){coverEditor=true}.buttonStyle(.bordered)
                 VStack(alignment:.leading,spacing:8){Text(r.title).font(.title2.weight(.semibold));Text((URL(string:r.text("url"))?.host ?? "本机素材")+" · "+String(r.text("createdAt").prefix(10))).font(.subheadline).foregroundStyle(Color(uiColor:NativePalette.secondaryText))}.modifier(NativeMotionReveal(delay:0.12))
                 if let url=URL(string:r.text("url")),["http","https"].contains(url.scheme ?? ""){Link("打开原网页",destination:url).frame(minHeight:44)}
                 if ["code","prompt"].contains(r.text("kind")),!r.text("snippet").isEmpty{VStack(alignment:.leading,spacing:12){Text(r.text("kind")=="code" ? "代码" : "提示词").font(.headline);Text(r.text("snippet")).font(r.text("kind")=="code" ? .system(.body,design:.monospaced) : .body).textSelection(.enabled).frame(maxWidth:.infinity,alignment:.leading)}}
@@ -257,12 +269,14 @@ struct DetailView:View {
                 .toolbar{ToolbarItem(placement:.topBarTrailing){Menu{Button(r.flag("favorite") ? "取消常用" : "设为常用",systemImage:"star"){if library.change(id,"favorite",!r.flag("favorite")),!r.flag("favorite"),!reduceMotion,motionMode=="studio"{favoriteTask?.cancel();favoriteMoment=true;favoriteTask=Task{try? await Task.sleep(nanoseconds:850_000_000);if !Task.isCancelled{favoriteMoment=false}}}};Button(r.flag("inbox") ? "标为已整理" : "放入待整理",systemImage:"tray"){library.change(id,"inbox",!r.flag("inbox"))};Button("移到回收站",systemImage:"trash",role:.destructive){deleteConfirm=true}}label:{Image(systemName:"ellipsis").frame(width:44,height:44)}}}
                 .safeAreaInset(edge:.bottom){Button("编辑",systemImage:"pencil"){editor=true}.buttonStyle(.borderedProminent).foregroundStyle(Color(uiColor:NativePalette.onAccent)).controlSize(.large).frame(maxWidth:.infinity).padding(16).background(.bar)}
                 .sheet(isPresented:$editor){EditorView(resource:r)}
+                .sheet(isPresented:$coverEditor){NativeCoverStudio(resource:r){coverFeedbackTask?.cancel();coverSaved=true;coverFeedbackTask=Task{try? await Task.sleep(nanoseconds:1_800_000_000);if !Task.isCancelled{coverSaved=false}}}}
                 .confirmationDialog("移到回收站？可在管理页恢复。",isPresented:$deleteConfirm,titleVisibility:.visible){Button("移到回收站",role:.destructive){library.change(id,"deleted",true);dismiss()}}
                 .fileImporter(isPresented:$filePicker,allowedContentTypes:[.image,.audio,.movie,.pdf,.plainText]){result in switch result{case .success(let url):Task{await library.addFile(url,id:id)};case .failure(let e):library.error=e.localizedDescription}}
+                .overlay(alignment:.bottom){if coverSaved{Label("封面已保存",systemImage:"checkmark.circle.fill").font(.subheadline.weight(.semibold)).padding(12).background(.regularMaterial,in:Capsule()).padding(.bottom,88).allowsHitTesting(false)}}
                 .overlay{if favoriteMoment{NativeMotionBurst(count:6).allowsHitTesting(false).accessibilityHidden(true)}}
                 .onChange(of:reduceMotion){_,value in if value{favoriteMoment=false}}
                 .onChange(of:motionMode){_,value in if value=="calm"{favoriteMoment=false}}
-                .onDisappear{favoriteTask?.cancel();favoriteMoment=false}
+                .onDisappear{favoriteTask?.cancel();coverFeedbackTask?.cancel();coverSaved=false;favoriteMoment=false}
                 .quickLookPreview($previewURL)
         }else{ContentUnavailableView("资源暂时不可用",systemImage:"doc")}}
     }

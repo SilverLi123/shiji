@@ -14,8 +14,16 @@ with tempfile.TemporaryDirectory(prefix='shiji-ios-interop-') as temp:
   assert trash[0]["deleted"] is True
  record=store.save({'url':'https://example.com/from-desktop','title':'From desktop','tags':['New, exact'],'notes':'Desktop note'})['resource']
  cover=Path(__file__).resolve().parents[2]/'desktop-app/static/previews/polyhaven.jpg'
- store.attachment(record['id'],cover.read_bytes(),{'name':'preview.jpg'})
+ a=store.attachment(record['id'],cover.read_bytes(),{'name':'preview.jpg','cover':True})['attachment']
+ store.update_cover(record['id'],{'config':{'style':'spatial','customTitle':'Desktop cover','imageSource':'image'},'coverId':a['id'],'expected':{'coverConfig':None,'coverId':a['id']}})
  store.attachment(record['id'],b'%PDF-1.4\nfixture only',{'name':'reference.pdf'})
  store.attachment(record['id'],b'UI notes',{'name':'reference.txt'})
  (root/'build/fixtures/desktop-deflated.zip').write_bytes(store.backup_bytes())
+with tempfile.TemporaryDirectory(prefix='shiji-cover-interop-') as temp:
+ target=Store(temp);target.restore_zip((root/'build/fixtures/mobile-cover.zip').read_bytes());r=target.state()['resources'][0]
+ assert r['title']=='Edited source' and r['coverConfig']['customTitle']=='跨端封面'
+ assert r['coverConfig']['extension']=={'keep':True} and r['coverConfig']['imageX']==12
+ assert r['coverId'] and target.file(r['coverId'])[0]['resourceId']==r['id']
+ assert target.file(r['coverId'])[1].read_bytes().startswith(b'\x89PNG')
+print('PASS: actual native cover config, unknown extension and selected bytes accepted by desktop ZIP2 restore')
 print('Mobile ZIP accepted by existing desktop manifest2 validator; desktop compressed fixture generated using temp Store')

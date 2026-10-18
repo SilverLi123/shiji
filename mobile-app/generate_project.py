@@ -10,8 +10,8 @@ def encode(v,indent=0):
  if isinstance(v,dict):return '{\n'+''.join('  '*(indent+1)+q(k)+' = '+encode(value,indent+1)+';\n' for k,value in v.items())+'  '*indent+'}'
  if isinstance(v,list):return '('+','.join(encode(x,indent+1) for x in v)+')'
  return q(str(v))
-shared=['Shared/SyncClient.swift','Shared/SyncMerge.swift','Shared/Library.swift','Shared/Archive.swift','Shared/iOSImage.swift','Shared/Codec.c','Shared/Codec.h']
-refs={path:obj(path,{'isa':'PBXFileReference','lastKnownFileType':'sourcecode.swift' if path.endswith('.swift') else 'sourcecode.c.c' if path.endswith('.c') else 'sourcecode.c.h','path':path,'sourceTree':'<group>'}) for path in [*shared,'App/ShijiApp.swift','App/ComputerSync.swift','ShareExtension/ShareViewController.swift']}
+shared=['Shared/CoverConfiguration.swift','Shared/SyncClient.swift','Shared/SyncMerge.swift','Shared/Library.swift','Shared/Archive.swift','Shared/iOSImage.swift','Shared/Codec.c','Shared/Codec.h']
+refs={path:obj(path,{'isa':'PBXFileReference','lastKnownFileType':'sourcecode.swift' if path.endswith('.swift') else 'sourcecode.c.c' if path.endswith('.c') else 'sourcecode.c.h','path':path,'sourceTree':'<group>'}) for path in [*shared,'App/ShijiApp.swift','App/CoverStudio.swift','App/ComputerSync.swift','ShareExtension/ShareViewController.swift']}
 refs['App/Assets.xcassets']=obj('assets-ref',{'isa':'PBXFileReference','lastKnownFileType':'folder.assetcatalog','path':'App/Assets.xcassets','sourceTree':'<group>'})
 products=[obj('app-product',{'isa':'PBXFileReference','explicitFileType':'wrapper.application','path':'Shiji.app','sourceTree':'BUILT_PRODUCTS_DIR'}),obj('extension-product',{'isa':'PBXFileReference','explicitFileType':'wrapper.app-extension','path':'ShijiShare.appex','sourceTree':'BUILT_PRODUCTS_DIR'})]
 product_group=obj('products',{'isa':'PBXGroup','children':products,'name':'Products','sourceTree':'<group>'})
@@ -26,7 +26,7 @@ def configurations(label,app):
  return obj(label+'configs',{'isa':'XCConfigurationList','buildConfigurations':result,'defaultConfigurationName':'Release','defaultConfigurationIsVisible':'0'})
 ext_id=ident('extension-target');app_id=ident('app-target')
 for label,app,product in [('app',True,products[0]),('extension',False,products[1])]:
- buildfiles=[obj(label+'build-'+path,{'isa':'PBXBuildFile','fileRef':refs[path]}) for path in [*[p for p in shared if not p.endswith(".h")],*(['App/ShijiApp.swift','App/ComputerSync.swift'] if app else ['ShareExtension/ShareViewController.swift'])]]
+ buildfiles=[obj(label+'build-'+path,{'isa':'PBXBuildFile','fileRef':refs[path]}) for path in [*[p for p in shared if not p.endswith(".h")],*(['App/ShijiApp.swift','App/CoverStudio.swift','App/ComputerSync.swift'] if app else ['ShareExtension/ShareViewController.swift'])]]
  sources=obj(label+'sources',{'isa':'PBXSourcesBuildPhase','buildActionMask':'2147483647','files':buildfiles,'runOnlyForDeploymentPostprocessing':'0'})
  frameworks=obj(label+'frameworks',{'isa':'PBXFrameworksBuildPhase','buildActionMask':'2147483647','files':[],'runOnlyForDeploymentPostprocessing':'0'})
  phases=[sources,frameworks];deps=[]

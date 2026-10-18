@@ -1,0 +1,14 @@
+{
+  "runtime": "iOS 27 Simulator",
+  "actualXCTest": true,
+  "case": "testActualNativeCoverSaveCancelAndReset",
+  "passed": true,
+  "sourceFieldsPreserved": true,
+  "configReset": true,
+  "mode": "Calm, existing user preference via test launch argument",
+  "recording": "XCTest native screen video in ignored xcresult attachments",
+  "physicalDeviceAccepted": false,
+  "durationSeconds": 74.875,
+  "blockingSuccessAlert": false,
+  "previewThumbsScaled": true
+}

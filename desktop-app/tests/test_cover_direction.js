@@ -1,6 +1,9 @@
 const assert=require('node:assert/strict'),D=require('../static/cover-direction');
 const cases=[
  [{url:'https://github.com/silver/shiji',title:'拾集',kind:'website'},'developer','b'],
+ [{url:'https://github.com/facebook/react',title:'React components',category:'开发工具'},'developer','c'],
+ [{url:'https://github.com/example/models',title:'AI models',category:'开发工具'},'spatial','c'],
+ [{title:'开发工具',category:'开发工具'},'developer','b'],
  [{url:'https://huggingface.co/models',title:'模型',kind:'website'},'spatial','c'],
  [{title:'机器人关节设计',description:'Robotics control',kind:'website'},'spatial','b'],
  [{title:'React UI components',category:'UI / 设计',kind:'website'},'developer','c'],
@@ -25,4 +28,5 @@ assert.equal(D.recommend(r,{seed:2})[0].template,'c');
 assert.equal(D.recommend(r,{style:'kinetic',template:'c'})[0].style,'kinetic');
 assert.equal(D.recommend(r,{style:'kinetic',template:'c'})[0].template,'c');
 assert.equal(D.recommend({title:'JavaScript component library'}, {})[0].style,'developer');
+for(const c of require('./fixtures/cover-config.json').directions){const top=D.recommend(c.resource,{})[0];assert.equal(top.style,c.style);assert.equal(top.template,c.template);}
 console.log('PASS: actual content selects explainable art, exact hosts, deterministic regeneration and no ID lottery');

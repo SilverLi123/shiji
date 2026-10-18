@@ -18,7 +18,8 @@ struct Resource: Identifiable {
         return text("category")=="开发工具" || ["github.com","www.github.com"].contains(sourceHost) ? "tool" : "editorial"
     }
     var coverContent:String {for key in ["snippet","description","notes"] {let value=text(key);if !value.isEmpty{return value}};return ""}
-    var coverLines:[String] {Array(coverContent.components(separatedBy:"\n").prefix(7)).map{String($0.prefix(160))}}
+    var coverExcerpt:String{String(String.UnicodeScalarView(coverContent.unicodeScalars.prefix(240)))}
+    var coverLines:[String] {Array(coverContent.components(separatedBy:"\n").prefix(7)).map{String(String.UnicodeScalarView($0.unicodeScalars.prefix(160)))}}
     var repositoryPath:String {guard ["github.com","www.github.com"].contains(sourceHost),let url=URL(string:text("url")) else{return ""};return url.path.split(separator:"/").prefix(2).joined(separator:"/")}
     var attachments:[[String:Any]] {raw["attachments"] as? [[String:Any]] ?? []}
 }
@@ -38,9 +39,9 @@ final class LibraryFiles: @unchecked Sendable {
         #endif
     }
     private func empty()->[String:Any] {["version":1,"schemaVersion":3,"resources":[[String:Any]](),"collections":[String](),"collectionMeta":[[String:Any]](),"smartCollections":[[String:Any]]()]}
-    private func access<T>(write:Bool,_ operation:(inout [String:Any]) throws -> T) throws -> T {
+    private func access<T>(write:Bool,skipUnchanged:Bool=false,_ operation:(inout [String:Any]) throws -> T) throws -> T {
         lock.lock();defer{lock.unlock()};var coordinatorError:NSError?,result:Result<T,Error>?
-        let body:(URL)->Void={ url in result=Result { var value=self.empty();if FileManager.default.fileExists(atPath:url.path){guard let parsed=try JSONSerialization.jsonObject(with:Data(contentsOf:url)) as? [String:Any],parsed["schemaVersion"] as? Int==3 else {throw fail("本机收藏文件损坏，未覆盖原文件。")};value=parsed};let output=try operation(&value);if write {let bytes=try JSONSerialization.data(withJSONObject:value,options:[.sortedKeys]);
+        let body:(URL)->Void={ url in result=Result { var value=self.empty();if FileManager.default.fileExists(atPath:url.path){guard let parsed=try JSONSerialization.jsonObject(with:Data(contentsOf:url)) as? [String:Any],parsed["schemaVersion"] as? Int==3 else {throw fail("本机收藏文件损坏，未覆盖原文件。")};value=parsed};let before=skipUnchanged ? try JSONSerialization.data(withJSONObject:value,options:.sortedKeys) : nil;let output=try operation(&value);if write {let bytes=try JSONSerialization.data(withJSONObject:value,options:[.sortedKeys]);if skipUnchanged && before==bytes{return output}
             #if os(iOS)
             try bytes.write(to:url,options:[.atomic,.completeFileProtectionUntilFirstUserAuthentication])
             #else
@@ -89,6 +90,7 @@ final class LibraryFiles: @unchecked Sendable {
         ["id":UUID().uuidString.lowercased(),"title":title,"url":url,"kind":kind,"category":"其他","description":"","notes":"","tags":[String](),"projects":[String](),"projectNotes":[String:String](),"collection":"","colors":[String](),"price":"待确认","license":"待确认","licenseUrl":"","sourceUrl":url,"author":"","parentId":"","coverId":"","thumbnail":"","favicon":"","favorite":false,"inbox":true,"demo":false,"deleted":false,"createdAt":timestamp(),"updatedAt":timestamp(),"linkStatus":"unchecked","linkCheckedAt":"","attachments":[[String:Any]]()]
     }
     static func validateMetadata(_ record:[String:Any]) throws {
+        if let config=record["coverConfig"]{_ = try CoverConfiguration.normalize(config)}
         guard let title=record["title"] as? String,!title.trimmingCharacters(in:.whitespacesAndNewlines).isEmpty,title.unicodeScalars.count<=200 else{throw fail("请填写不超过 200 字的资源名称。")}
         let kind=record["kind"] as? String ?? "website"
         guard ["website","file","code","prompt"].contains(kind) else{throw fail("资源形式无效。")}
@@ -103,12 +105,46 @@ final class LibraryFiles: @unchecked Sendable {
     func save(_ record:[String:Any],expected:[String:Any]?=nil) throws {
         guard let id=record["id"] as? String,Self.idOK(id),let title=record["title"] as? String,!title.trimmingCharacters(in:.whitespacesAndNewlines).isEmpty,title.unicodeScalars.count<=200 else {throw fail("请填写不超过 200 字的资源名称。")}
         try Self.validateMetadata(record)
-        var clean=record;clean["url"]=try Self.normalize(record["url"] as? String ?? "");clean["updatedAt"]=Self.timestamp()
+        var clean=record;if record["coverConfig"] != nil{clean["coverConfig"]=try CoverConfiguration.normalize(record["coverConfig"]) ?? NSNull() as Any};clean["url"]=try Self.normalize(record["url"] as? String ?? "");clean["updatedAt"]=Self.timestamp()
         for key in ["sourceUrl","licenseUrl"] {clean[key]=try Self.normalize(record[key] as? String ?? "")}
         for (key,limit) in [("description",1000),("notes",10000),("author",200)] {guard (record[key] as? String ?? "").count<=limit else{throw fail("字段过长，请缩短后保存。")}}
         for key in ["tags","projects"] {let values=record[key] as? [String] ?? [];guard values.count<=30,values.allSatisfy({!$0.isEmpty&&$0.count<=(key=="tags" ? 50 : 80)}) else{throw fail("标签或项目名称过长、数量超过 30。")}}
         let address=clean["url"] as? String ?? ""
         try access(write:true){data in var items=data["resources"] as? [[String:Any]] ?? [];if !address.isEmpty,items.contains(where:{$0["id"] as? String != id && $0["url"] as? String==address}){throw fail("这个网址已经收藏，请使用已有资源。")};if let i=items.firstIndex(where:{$0["id"] as? String==id}){if let expected,try JSONSerialization.data(withJSONObject:expected,options:.sortedKeys) != JSONSerialization.data(withJSONObject:items[i],options:.sortedKeys){throw fail("收藏已被其他入口修改。你的草稿已保留，请取消后重新打开编辑。")};var current=items[i];for (key,value) in clean{current[key]=value};items[i]=current}else{if let url=clean["url"] as? String,!url.isEmpty,items.contains(where:{$0["url"] as? String==url}){throw fail("这个网址已经收藏，请打开已有资源编辑。")};items.insert(clean,at:0)};data["resources"]=items}
+    }
+    @discardableResult func updateCover(_ id:String,config:Any?,coverID:String,expectedConfig:Any?,expectedCoverID:String,upload:(Data,String,String)?=nil) throws -> Resource {
+        guard Self.idOK(id),(coverID.isEmpty || Self.idOK(coverID)),(expectedCoverID.isEmpty || Self.idOK(expectedCoverID)) else{throw fail("封面 ID 无效。")}
+        let config=try CoverConfiguration.normalize(config),expected=try CoverConfiguration.normalize(expectedConfig)
+        if let (bytes,name,mime)=upload{guard !name.isEmpty,name.unicodeScalars.count<=240 else{throw fail("图片名称无效。")};try CoverConfiguration.validateImage(bytes,mime:mime)}
+        let digest=upload.map{SHA256.hash(data:$0.0).map{String(format:"%02x",$0)}.joined()}
+        var published:URL?
+        do{return try access(write:true,skipUnchanged:true){data in
+            var records=data["resources"] as? [[String:Any]] ?? []
+            guard let index=records.firstIndex(where:{$0["id"] as? String==id}),records[index]["deleted"] as? Bool != true else{throw fail("资源不存在或已在回收站。")}
+            let current=Resource(raw:records[index]),oldConfig=try CoverConfiguration.normalize(current.raw["coverConfig"]),oldID=current.text("coverId")
+            var desiredID:String?=coverID
+            if let (bytes,_,_)=upload{
+                desiredID=nil
+                for a in current.attachments where a["sha256"] as? String==digest && a["deleted"] as? Bool != true{
+                    guard let aid=a["id"] as? String,let path=self.file(aid),(try? path.resourceValues(forKeys:[.isSymbolicLinkKey]).isSymbolicLink) != true else{continue}
+                    if (try? Data(contentsOf:path))==bytes{desiredID=aid;break}
+                }
+            }
+            let sameConfig=try CoverConfiguration.equal(oldConfig,config),sameBaseline=try CoverConfiguration.equal(oldConfig,expected)
+            guard (sameConfig || sameBaseline) && (oldID==desiredID || oldID==expectedCoverID) else{throw fail("封面已在其他入口修改。草稿已保留，请重新载入最新封面。")}
+            if CoverConfiguration.future(oldConfig),config != nil,!sameConfig{throw fail("此封面来自更新版本。请更新应用，或明确恢复自动封面。")}
+            if sameConfig,let desiredID,desiredID==oldID{return current}
+            var value=current.raw,attachments=current.attachments
+            if desiredID==nil,let (bytes,name,mime)=upload{
+                let a=try self.publish(bytes,name:name,mime:mime,rid:id);let aid=a["id"] as! String;published=self.files.appendingPathComponent(aid);attachments.append(a);desiredID=aid
+            }
+            if let aid=desiredID,!aid.isEmpty{
+                guard let a=attachments.first(where:{$0["id"] as? String==aid && $0["deleted"] as? Bool != true}),a["resourceId"] as? String==id,(a["mime"] as? String ?? "").hasPrefix("image/"),self.file(aid) != nil else{throw fail("请选择当前资源有效的图片附件。")}
+                if aid != oldID{value["colors"]=a["colors"] ?? [String]()}
+            }
+            value["coverConfig"]=config ?? NSNull() as Any;value["coverId"]=desiredID ?? "";value["attachments"]=attachments;value["updatedAt"]=Self.timestamp()
+            try Self.validateMetadata(value);records[index]=value;data["resources"]=records;return Resource(raw:value)
+        }}catch{if let published{try? FileManager.default.removeItem(at:published)};throw error}
     }
     @discardableResult func capture(url:String,title:String,text:String,attachment:(Data,String,String)?=nil) throws -> String {
         let url=try Self.normalize(url),title=title.trimmingCharacters(in:.whitespacesAndNewlines)

@@ -8,7 +8,7 @@ from storage import Store
 from sync_transport import SyncService
 (root/'build').mkdir(exist_ok=True)
 subprocess.run(['xcrun','clang','-c',str(root/'Shared/Codec.c'),'-o',str(root/'build/SyncCodec.o')],check=True)
-sources=[root/'Shared'/name for name in ['Library.swift','Archive.swift','SyncMerge.swift','SyncClient.swift']]
+sources=[root/'Shared'/name for name in ['Library.swift','CoverConfiguration.swift','Archive.swift','SyncMerge.swift','SyncClient.swift']]
 binary=root/'build/SyncIntegration'
 subprocess.run(['xcrun','swiftc','-parse-as-library','-swift-version','5','-import-objc-header',str(root/'Shared/Codec.h'),*[str(p) for p in sources],str(root/'Tests/SyncIntegration.swift'),str(root/'build/SyncCodec.o'),'-lz','-o',str(binary)],check=True)
 with tempfile.TemporaryDirectory(prefix='shiji-real-sync-') as folder:
@@ -16,9 +16,11 @@ with tempfile.TemporaryDirectory(prefix='shiji-real-sync-') as folder:
  try:
   desktop_record=store.save({'title':'Computer resource','url':'https://example.com/computer-sync','notes':'Computer original','tags':['New, exact']})['resource']
   image=(desktop/'static/previews/polyhaven.jpg').read_bytes();(path/'fixture.jpg').write_bytes(image);store.attachment(desktop_record['id'],image,{'name':'computer.jpg','cover':True})
+  store.update_cover(desktop_record['id'],{'config':{'style':'spatial','customTitle':'Desktop sync cover'},'coverId':store.get(desktop_record['id'])['coverId'],'expected':{'coverConfig':None,'coverId':store.get(desktop_record['id'])['coverId']}})
   (path/'pairing-code.txt').write_text(service.pairing('127.0.0.1')['code']);(path/'pairing-code.txt').chmod(0o600)
   def run(mode):subprocess.run([str(binary),str(path),mode],check=True)
   run('first');assert len(store.state()['resources'])==2
+  assert next(r for r in store.state()['resources'] if r['url']=='https://example.com/phone-sync')['coverConfig']['customTitle']=='Phone sync cover'
   store.save({'notes':'Computer second edit'},desktop_record['id']);run('second')
   phone=next(r for r in store.state()['resources'] if r['url']=='https://example.com/phone-sync');assert phone['notes']=='Phone second edit'
   store.save({'notes':'Computer conflict edit'},phone['id']);run('conflict');assert store.get(phone['id'])['notes']=='Computer conflict edit'

@@ -32,7 +32,7 @@ enum SyncMerge {
     static func canonical(_ value:Any) throws -> Data {try JSONSerialization.data(withJSONObject:value,options:[.sortedKeys,.withoutEscapingSlashes])}
     static func same(_ a:Resource?,_ b:Resource?) throws -> Bool {
         guard let a,let b else{return a==nil && b==nil}
-        func semantic(_ resource:Resource)->[String:Any]{var r=resource.raw;for k in ["id","createdAt","updatedAt","linkStatus","linkCheckedAt","linkMessage"]{r.removeValue(forKey:k)};r["deleted"]=resource.flag("deleted");r["attachments"]=resource.attachments.sorted{($0["id"] as? String ?? "")<($1["id"] as? String ?? "")};return r}
+        func semantic(_ resource:Resource)->[String:Any]{var r=resource.raw;for k in ["id","createdAt","updatedAt","linkStatus","linkCheckedAt","linkMessage"]{r.removeValue(forKey:k)};if r["coverConfig"] is NSNull{r.removeValue(forKey:"coverConfig")};r["deleted"]=resource.flag("deleted");r["attachments"]=resource.attachments.sorted{($0["id"] as? String ?? "")<($1["id"] as? String ?? "")};return r}
         return try canonical(semantic(a))==canonical(semantic(b))
     }
     static func fullSnapshot(_ records:[Resource]) throws -> Data {try canonical(records.sorted{$0.id<$1.id}.map(\.raw))}

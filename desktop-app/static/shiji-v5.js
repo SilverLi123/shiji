@@ -27,7 +27,7 @@
  function coverMarkup(r,composition){
   const config=Config?.read(r);
   if(!composition&&config&&!config.unsupported&&!config.invalid&&config.style!=='v5'&&Direction)return directedCover(r,config);
-  return legacyCover(r,composition);
+  return legacyCover(r,composition,!composition&&config&&!config.unsupported&&!config.invalid&&config.style==='v5'?config:null);
  }
  function directedCover(r,c){
   const direction=Direction.recommend(r,c)[0],{style,template}=direction,col=Config.colors(c,direction);
@@ -63,8 +63,8 @@
   }
   return `<span class="cover-art art-v3 art-${esc(posterKind(r))} cs3-cover cs3-${style} cs3-${style}-${template}" data-cover-style="${style}" data-cover-template="${template}" data-cover-custom-title="${Boolean(c.customTitle)}" data-cover-custom-subtitle="${Boolean(c.customSubtitle)}" data-title-position="${c.titlePosition}" data-density="${c.density}" aria-hidden="true" style="--cs-bg:${col.background};--cs-ink:${col.foreground};--cs-accent:${col.accent}"><span class="cs3-meta">${meta}</span><span class="cs3-composition" data-composition="${style}-${template}">${composition}</span><span class="cs3-footer">${tags.map(esc).join(' · ')}</span><span class="art-sheen"></span></span>`;
  }
- function legacyCover(r,composition){
-  const type=composition||posterKind(r),title=String(r.title||host(r)||'资源'),source=host(r)||({code:'代码片段',prompt:'提示词',file:'本地素材'}[r.kind]||'收藏资源');
+ function legacyCover(r,composition,pref){
+  const type=composition||posterKind(r),title=String(pref?.customTitle||r.title||host(r)||'资源'),source=host(r)||({code:'代码片段',prompt:'提示词',file:'本地素材'}[r.kind]||'收藏资源');
   const metrics=root.ShijiV2?.titleMetrics?.(title);
   const units=metrics?.emLine||Math.max(3,[...title].reduce((n,c)=>n+(/[\u3400-\u9fff]/u.test(c)?1:.56),0)/Math.min(4,Math.ceil(title.length/12)));
   const font=Math.min(25,Math.max(6.8,84/units)),tags=(Array.isArray(r.tags)?r.tags:[]).slice(0,3);
@@ -88,7 +88,9 @@
    case 'code':art=`<span class="art-grid"></span><span class="art-code-name">${esc(title)}</span><span class="art-terminal"><span class="term-dots" aria-hidden="true">●●●</span><pre>${esc(String(r.snippet||'').split('\n').slice(0,9).map(line=>line.slice(0,160)).join('\n'))}</pre></span>`;break;
    default:art=`<span class="art-grid"></span>${name}<span class="art-circle art-anim"></span><span class="art-sticker">${esc(r.category||'阅读')}</span>`;
   }
-  return `<span class="cover-art art-v3 art-${esc(type)}" data-poster-kind="${esc(type)}" aria-hidden="true">${base}${art}${foot}<span class="art-grain"></span><span class="art-ink-flash"></span><span class="art-sheen"></span></span>`;
+  const customColors=pref&&(pref.primary||pref.palette!=='auto')?Config.colors(pref):null;
+  const attributes=pref?` data-cover-custom-title="${Boolean(pref.customTitle)}" data-title-position="${pref.titlePosition}" data-density="${pref.density}"${customColors?` style="background:${customColors.background};color:${customColors.foreground}"`:''}`:'';
+  return `<span class="cover-art art-v3 art-${esc(type)}${pref?' cs3-legacy-custom':''}${customColors?' cs3-legacy-color':''}" data-poster-kind="${esc(type)}"${attributes} aria-hidden="true">${base}${art}${foot}${pref?.customSubtitle?`<span class="cs3-legacy-subtitle">${esc(pref.customSubtitle)}</span>`:''}<span class="art-grain"></span><span class="art-ink-flash"></span><span class="art-sheen"></span></span>`;
  }
  function create({document:doc,preview,reconcile}){
   const deck=doc.getElementById('scene-stack'),section=doc.getElementById('space-showcase');

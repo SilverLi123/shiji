@@ -14,6 +14,7 @@ import Foundation
             try JSONEncoder().encode(connection).write(to:credential)
             let id=try files.capture(url:"https://example.com/phone-sync",title:"Phone resource",text:"Phone original",attachment:(Data(contentsOf:root.appendingPathComponent("fixture.jpg")),"cover.jpg","image/jpeg"))
             var r=try files.resources().first{$0.id==id}!.raw;r["tags"]=["New, exact"];try files.save(r)
+            let saved=try files.resources().first{$0.id==id}!;try files.updateCover(id,config:["style":"developer","customTitle":"Phone sync cover"],coverID:saved.text("coverId"),expectedConfig:nil,expectedCoverID:saved.text("coverId"))
         }else{connection=try JSONDecoder().decode(SyncConnection.self,from:Data(contentsOf:credential))}
         let base=FileManager.default.fileExists(atPath:checkpoint.path) ? try SyncSnapshot(JSONSerialization.jsonObject(with:Data(contentsOf:checkpoint)) as! [String:Any]).resources : []
         if mode == "capture" {
@@ -40,7 +41,7 @@ import Foundation
             print("PASS: real Swift HTTPS phone capture → desktop queue → enriched phone readback (\(mode))")
             return
         }
-        let all=try files.resources();check(all.count==2,"resources missing");let phone=all.first{$0.text("url")=="https://example.com/phone-sync"}!
+        let all=try files.resources();check(all.count==2,"resources missing");check((all.first{$0.text("url")=="https://example.com/computer-sync"}!.raw["coverConfig"] as? [String:Any])?["customTitle"] as? String=="Desktop sync cover","desktop cover preference lost in HTTPS sync");let phone=all.first{$0.text("url")=="https://example.com/phone-sync"}!
         check(phone.names("tags")==["New, exact"],"comma tag split")
         let image=phone.attachments[0];check(try Data(contentsOf:files.file(image["id"] as! String)!)==Data(contentsOf:root.appendingPathComponent("fixture.jpg")),"attachment bytes changed")
         if mode=="second"{check(all.first{$0.text("url")=="https://example.com/computer-sync"}!.text("notes")=="Computer second edit","desktop edit missing")}
