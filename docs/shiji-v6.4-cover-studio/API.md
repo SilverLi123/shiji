@@ -1,0 +1,15 @@
+# Cover preference API (candidate)
+
+`POST /api/resources/{id}/cover` uses existing local-origin/Host protection. Request:
+
+```json
+{"config":{"version":1,"style":"editorial","template":"b","customTitle":"Cover only"},"coverId":"","expected":{"coverConfig":null,"coverId":""}}
+```
+
+`config` is null for explicit reset, or the bounded versioned object documented in ARCHITECTURE.md. Missing fields in a version1 object take canonical defaults. The original resource title is independent. `coverId` is the existing same-resource image attachment reference, empty if none. There is no new nested image reference.
+
+Optional `upload` is `{name,mime,base64}`. PNG/JPEG/GIF/WebP bytes must pass existing actual-image structural verification, at most5MiB; JSON request retains existing12MiB cap. Image decoding/validation occurs before Store locking. Cancelled editor drafts do not reach this route. One transaction publishes the attachment and both preference fields; failure rolls back newly created bytes. An intact existing same-resource image with the same bytes is reused even with a different filename.
+
+Both expected fields are required: null represents an absent/automatic config. On unrelated source-title/notes/category edits the cover update merges only its fields. Stale cover values produce409 with existing `resource` and `conflicts`; an identical committed retry returns `{resource,changed:false}` without another attachment/write. Invalid body/image/config returns400, forbidden origin403, unknown method404. The client must reconcile an uncertain network response against persisted resource state or safely retry the identical guarded operation.
+
+Future config versions are bounded and round-trip opaque. This route allows unchanged future preferences or explicit null reset, and refuses accidental replacement with version1. Original V5 is their safe visual fallback. Full resource reads/exports/summaries carry the optional payload property; omission by old partial writers preserves it. Explicit null is the reset tombstone. SQLite user_version3, ZIPmanifest2 and syncprotocol1 are unchanged.

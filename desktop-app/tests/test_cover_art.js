@@ -21,4 +21,5 @@ assert.ok(!root.querySelector('img'));
 assert.equal(r.title,'长中文标题与代码 <script>alert(1)</script>');
 root.innerHTML=V5.coverMarkup({...r,coverConfig:{version:5,style:'future'}});assert.equal(root.querySelector('.cs3-cover'),null);assert.ok(root.querySelector('.art-code'));
 root.innerHTML=V5.coverMarkup({...r,coverConfig:{style:'v5'}});assert.equal(root.querySelector('.cs3-cover'),null);
+root.innerHTML=V5.coverMarkup({...r,kind:'prompt',snippet:'Exact <prompt>',description:'Other description',notes:'Other notes',coverConfig:null});assert.ok(root.textContent.includes('Exact <prompt>'));assert.equal(root.querySelector('prompt'),null);
 console.log('PASS: 15 authored cover compositions, safe real text/code, custom title separation and original V5 fallback');

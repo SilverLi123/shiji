@@ -23,6 +23,8 @@ from recovery import RecoveryOperations
 from preview_jobs import PreviewOperations
 from file_store import publish_file
 from edits import GuardedEditOperations, EditConflict
+from cover_preferences import CoverOperations
+from cover_config import normalize_config
 from quick_capture import QuickCaptureOperations
 from capture_jobs import CaptureOperations
 from capture_receipts import CaptureReceiptOperations, fingerprint as clip_fingerprint, request_identifier
@@ -62,6 +64,7 @@ def validate(raw,existing=None):
     if not isinstance(raw,dict):raise ValueError('资源格式不正确。')
     if raw.get('_summary') is True:raise ValueError('资源摘要不能直接保存，请先读取完整详情。')
     item={**(existing or {}),**raw};item['id']=existing['id'] if existing else str(uuid.uuid4())
+    if 'coverConfig' in item:item['coverConfig']=normalize_config(item['coverConfig'])
     item['title']=text(item.get('title',''),200,'名称',True)
     item['kind']=item.get('kind','website')
     if item['kind'] not in KINDS:raise ValueError('请选择有效资源形式。')
@@ -130,7 +133,7 @@ def validate_filters(raw):
     from filters import advanced_filters
     return advanced_filters(raw,result)
 
-class Store(QueryOperations,SearchOperations,CaptureReceiptOperations,CaptureOperations,QuickCaptureOperations,PreviewOperations,RecoveryOperations,GuardedEditOperations,ProjectOperations,LinkImportOperations,HealthOperations,BookmarkOperations,AssetImportOperations,BackupOperations):
+class Store(CoverOperations,QueryOperations,SearchOperations,CaptureReceiptOperations,CaptureOperations,QuickCaptureOperations,PreviewOperations,RecoveryOperations,GuardedEditOperations,ProjectOperations,LinkImportOperations,HealthOperations,BookmarkOperations,AssetImportOperations,BackupOperations):
     def __init__(self,directory):
         self.root=Path(directory);self.root.mkdir(parents=True,exist_ok=True)
         self.db=self.root/'library.sqlite3';self.files=self.root/'files';self.files.mkdir(exist_ok=True)

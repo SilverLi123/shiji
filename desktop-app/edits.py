@@ -1,6 +1,6 @@
 """Atomic changed-field editing without overwriting unrelated newer data."""
 
-FIELDS=frozenset(('url','title','kind','category','description','notes','snippet','language','author','sourceUrl','parentId','price','license','thumbnail','licenseUrl','favicon','tags','projects','projectNotes','favorite','inbox','coverId'))
+FIELDS=frozenset(('url','title','kind','category','description','notes','snippet','language','author','sourceUrl','parentId','price','license','thumbnail','licenseUrl','favicon','tags','projects','projectNotes','favorite','inbox','coverId','coverConfig'))
 
 class EditConflict(ValueError):
     def __init__(self,resource,conflicts):
@@ -39,7 +39,7 @@ class GuardedEditOperations:
                             for key in changes[field]:
                                 old=current[field].get(key);value=desired[field][key]
                                 if old!=value and old!=expected[field][key]:conflicts.append({'field':field,'key':key,'current':old,'value':value})
-                        elif current[field]!=desired[field] and current[field]!=expected[field]:conflicts.append({'field':field,'current':current[field],'value':desired[field]})
+                        elif current.get(field)!=desired.get(field) and current.get(field)!=expected[field]:conflicts.append({'field':field,'current':current.get(field),'value':desired.get(field)})
                     if conflicts:raise EditConflict(current,conflicts)
                     # Only a matching baseline may proceed to whole-record validation.
                     desired=validate(changes,current)
@@ -50,7 +50,7 @@ class GuardedEditOperations:
                         cover=json.loads(row['payload'])
                         if not cover['mime'].startswith('image/'):raise ValueError('封面需要图片附件。')
                         desired['colors']=cover['colors']
-                    different=any(current[k]!=desired[k] for k in FIELDS) or current['colors']!=desired['colors']
+                    different=any(current.get(k)!=desired.get(k) for k in FIELDS) or current['colors']!=desired['colors']
                     if not different:return {'resource':current,'changed':False}
                     self._write(c,desired,current)
                     return {'resource':self._get(c,rid,True),'changed':True}

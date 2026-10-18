@@ -31,7 +31,7 @@
  }
  function directedCover(r,c){
   const direction=Direction.recommend(r,c)[0],{style,template}=direction,col=Config.colors(c,direction);
-  const title=String(c.customTitle||r.title||host(r)||'资源'),subtitle=String(c.customSubtitle||r.description||r.notes||'').slice(0,240);
+  const title=String(c.customTitle||r.title||host(r)||'资源'),subtitle=String(c.customSubtitle||(r.kind==='prompt'?r.snippet:'')||r.description||r.notes||'').slice(0,240);
   const source=host(r)||({code:'代码片段',prompt:'Prompt',file:'本地素材'}[r.kind]||''),tags=(Array.isArray(r.tags)?r.tags:[]).slice(0,3);
   const stack=String(r.language||'')||tags.join(' · '),snippet=String(r.snippet||'').split('\n').slice(0,8).map(x=>x.slice(0,100)).join('\n');
   const units=Array.from(title).reduce((n,x)=>n+(/[\u3400-\u9fff]/u.test(x)?1:.55),0),size=Math.max(6.2,Math.min(21,80/Math.max(4,units/Math.min(4,Math.ceil(units/10)))));
