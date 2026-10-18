@@ -91,6 +91,7 @@ function markSearchResults(){
  for(const card of $('#resource-grid').querySelectorAll('.resource-card')){
   const r=records.get(card.dataset.resourceId);if(!r)continue;
   card.querySelectorAll('.art-copy,.art-code-name,.card-title').forEach(el=>{
+   if(el.closest('[data-cover-custom-title=true]'))return;
    if(state.filters.search)ShijiQuery.mark(el,r._highlights?.title);
    else if(el.querySelector('mark'))ShijiQuery.mark(el,[]);
   });

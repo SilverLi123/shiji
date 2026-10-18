@@ -18,6 +18,8 @@ assert.equal(flushed,0);w.dispatchEvent(new w.Event('pointerup'));assert.equal(f
 await new Promise(r=>w.setTimeout(r,10));assert.equal(flushed,1,'release flushes the latest render once');
 assert.equal(ui.deferWhilePressed(()=>flushed++),false,'ordinary rendering remains synchronous');
 grid.querySelector('button').dispatchEvent(new w.Event('pointerdown',{bubbles:true}));ui.deferWhilePressed(()=>flushed++);w.dispatchEvent(new w.Event('blur'));await new Promise(r=>w.setTimeout(r,10));assert.equal(flushed,2,'blur cannot leave a pending render permanently blocked');
+const beforePatch=renders,kept=grid.firstElementChild;assert.equal(ui.refresh({...rows[0],title:'Cover changed'}),true);ui.layout(config);assert.equal(grid.firstElementChild,kept);assert.equal(kept.textContent,'Cover changed');assert.equal(renders,beforePatch+1,'one cover refresh does not regenerate siblings');
+const visibleRenders=renders;assert.equal(ui.refresh({...rows[999],title:'Offscreen cover'}),true);ui.layout(config);assert.equal(renders,visibleRenders,'offscreen cover refresh creates no visible art');assert.equal(ui.refresh({id:'outside-query'}),false);
 ui.setItems([],'all','normal');ui.layout(config);assert.equal(grid.children.length,0);ui.destroy();dom.window.close();
 console.log('residency no-op scroll, per-card display invalidation, bounded HTML and empty cleanup passed');
 })().catch(e=>{console.error(e);process.exitCode=1});

@@ -1,0 +1,31 @@
+const assert=require('node:assert/strict'),{JSDOM}=require('jsdom');
+const Studio=require('../static/cover-studio'),V5=require('../static/shiji-v5'),Config=require('../static/cover-config');
+(async()=>{
+ const dom=new JSDOM('<button id="origin">封面设计</button>',{pretendToBeVisual:true,url:'http://localhost'}),d=dom.window.document;
+ dom.window.HTMLDialogElement.prototype.showModal=function(){this.setAttribute('open','');};
+ dom.window.HTMLDialogElement.prototype.close=function(){this.removeAttribute('open');this.dispatchEvent(new dom.window.Event('close'));};
+ let pending,saveCalls=[],saved=[];const notice=[];
+ const s=Studio.create({document:d,preview:V5.coverMarkup,save:(r,b)=>{saveCalls.push({r,b});return new Promise((resolve,reject)=>pending={resolve,reject});},onSaved:r=>saved.push(r),notice:x=>notice.push(x)});
+ const r={id:'real',title:'原标题',kind:'code',snippet:'let value = 1',coverId:'',attachments:[],tags:[]},original=JSON.stringify(r);
+ const el=()=>d.getElementById('cover-studio'),click=q=>el().querySelector(q).click(),change=(name,value)=>{const input=el().querySelector(`[name="${name}"]`);input.value=value;input.dispatchEvent(new dom.window.Event('input',{bubbles:true}));},tick=()=>new Promise(resolve=>setTimeout(resolve,0));
+ d.getElementById('origin').focus();s.open(r);assert.ok(el().open);
+ click('[data-cs-style="editorial"]');change('customTitle','独立封面标题');change('customSubtitle','副标题');
+ change('imageX','12');change('imageFit','fit');change('density','compact');change('titlePosition','bottom');
+ assert.equal(el().querySelector('.cs-main-preview .cs3-title').textContent,'独立封面标题');
+ click('[data-cs-action="gallery"]');assert.ok(el().querySelector('.cs-preview-stage').classList.contains('cs-gallery-preview'));
+ click('[data-cs-action="cancel"]');assert.equal(saveCalls.length,0);assert.equal(JSON.stringify(r),original);assert.equal(d.activeElement.id,'origin');
+ s.open(r);click('[data-cs-style="spatial"]');change('customTitle','Saved cover');click('[data-cs-action="regenerate"]');
+ click('[data-cs-action="save"]');click('[data-cs-action="save"]');assert.equal(saveCalls.length,1);assert.ok(s.busy());
+ assert.equal(saveCalls[0].b.config.customTitle,'Saved cover');assert.equal(saveCalls[0].b.config.seed,1);assert.deepEqual(saveCalls[0].b.expected,{coverConfig:null,coverId:''});
+ el().dispatchEvent(new dom.window.Event('cancel',{cancelable:true}));assert.ok(el().open,'cannot claim cancellation while save is in flight');
+ pending.reject(new Error('网络结果未确认'));await tick();assert.ok(el().open);assert.ok(el().querySelector('[role="alert"]').textContent.includes('网络结果未确认'));
+ click('[data-cs-action="save"]');assert.equal(saveCalls.length,2);assert.deepEqual(saveCalls[0].b,saveCalls[1].b,'safe retry keeps original field baseline and draft');
+ const result={...r,coverConfig:saveCalls[1].b.config};pending.resolve({resource:result,changed:true});await tick();assert.equal(saved.length,1);assert.ok(!el().open);
+ s.open(result);click('[data-cs-action="reset"]');click('[data-cs-action="save"]');assert.equal(saveCalls[2].b.config,null);pending.resolve({resource:{...r,coverConfig:null}});await tick();
+ s.open({...r,coverConfig:{version:8,future:'retained'}});assert.ok(el().querySelector('[data-cs-action="save"]').disabled);click('[data-cs-action="reset"]');assert.ok(!el().querySelector('[data-cs-action="save"]').disabled);click('[data-cs-action="cancel"]');
+ // A late file read cannot reopen or mutate a cancelled/new resource draft.
+ const urls=[];dom.window.URL.createObjectURL=()=>{urls.push('blob:test');return 'blob:test';};dom.window.URL.revokeObjectURL=url=>urls.push('revoke:'+url);
+ s.open(r);const input=el().querySelector('[name="upload"]');Object.defineProperty(input,'files',{configurable:true,value:[new dom.window.File(['bytes'],'image.png',{type:'image/png'})]});input.dispatchEvent(new dom.window.Event('change',{bubbles:true}));click('[data-cs-action="cancel"]');await tick();s.open({...r,id:'other'});await tick();assert.equal(el().querySelector('.cs-main-preview').textContent.includes('Saved cover'),false);assert.equal(saveCalls.length,3);
+ s.destroy();assert.equal(d.getElementById('cover-studio'),null);dom.window.close();
+ console.log('PASS: real Cover Studio controls, draft cancel, guarded save/retry/busy, explicit reset, future safety and late upload cleanup');
+})().catch(e=>{console.error(e);process.exit(1);});

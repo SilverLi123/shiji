@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "actualAPI": true,
+  "ids": 13,
+  "cancel": true,
+  "save": true,
+  "customTitle": true,
+  "stableNodes": true,
+  "upload": true,
+  "crop": true,
+  "poster": true,
+  "reset": true,
+  "reload": true,
+  "narrow": true,
+  "pageErrors": []
+}

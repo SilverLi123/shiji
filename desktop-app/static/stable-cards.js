@@ -10,7 +10,9 @@
     if(node.nodeType!==1){if(node.nodeValue!==next.nodeValue)node.nodeValue=next.nodeValue;return node;}
     if(node.matches('.cover-image,.site-favicon')){
       if(node.getAttribute('src')!==next.getAttribute('src'))return next;
-      node.alt=next.alt;return node; // Preserve decoding/error/fallback state.
+      node.alt=next.alt;
+      for(const key of ['objectFit','objectPosition'])node.style[key]=next.style[key];
+      return node; // Preserve decoding/error/fallback state, update explicit crop.
     }
     const artworkVisible=node.matches('.art-v3.art-in-view')&&next.matches('.art-v3');
     for(const attr of [...node.attributes])if(!next.hasAttribute(attr.name))node.removeAttribute(attr.name);
@@ -67,6 +69,14 @@
     const match=Array.from(candidates).find(el=>el.tagName===snapshot.tag&&snapshot.attrs.every(([name,value])=>el.getAttribute(name)===value)&&snapshot.classes.every(c=>el.classList.contains(c)));
     (snapshot.node.isConnected&&container.contains(snapshot.node)?snapshot.node:match||fallback)?.focus({preventScroll:true});
   }
-  const api={render,captureFocus,restoreFocus};
+  function update(container,item,selector='.resource-card'){
+    const node=[...container.querySelectorAll(selector)].find(el=>el.dataset.resourceId===item.id);if(!node)return false;
+    const template=container.ownerDocument.createElement('template');template.innerHTML=item.html;const next=template.content.firstElementChild;if(!next)return false;
+    const geometry=['width','left','top'].map(k=>[k,node.style[k]]),updated=patch(node,next);
+    if(updated!==node)node.replaceWith(updated);
+    for(const[k,v]of geometry)if(v)updated.style[k]=v;
+    htmlByNode.set(updated,item.html);return true;
+  }
+  const api={render,update,captureFocus,restoreFocus};
   if(typeof module==='object'&&module.exports)module.exports=api;else root.ShijiCards=api;
 })(typeof window==='object'?window:globalThis);

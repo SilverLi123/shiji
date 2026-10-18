@@ -30,7 +30,7 @@
   function capture(){if(enabled&&!anchor){const v=viewport();const a=geometry.anchor(v.top,v.bottom);anchor=a?{...a,screenY:v.rect.top+a.y}:null;}}
   function html(r){const stamp=version(r);let cached=htmlCache.get(r.id);if(!cached||cached.ref!==r||cached.context!==context||cached.stamp!==stamp){cached={ref:r,context,stamp,html:renderCard(r)};htmlCache.set(r.id,cached);}else{htmlCache.delete(r.id);htmlCache.set(r.id,cached);}while(htmlCache.size>240)htmlCache.delete(htmlCache.keys().next().value);return cached.html;}
   function ratio(r){const c=cover(r),old=ratios.get(r.id);return old?.cover===c?old.ratio:1.6;}
-  function sizeKey(entry){return [profileKey,entry.span,cover(entry.ref)].join('|');}
+  function sizeKey(entry){return [profileKey,entry.span,cover(entry.ref),entry.ref.coverConfig?.version===1?entry.ref.coverConfig.imageFit:''].join('|');}
   function height(entry){const saved=measured.get(entry.id);if(saved?.key===sizeKey(entry))return saved.height;return config.fit?profiles.chrome+Math.max(profiles.min,Math.min(profiles.max,entry.width/ratio(entry.ref))):profiles[entry.span];}
   function measureProfiles(){
    // Same CSS boxes as the real pure-cover grid; no art/layers or fake resources.
@@ -86,6 +86,14 @@
   }
   win.addEventListener('scroll',queue,{passive:true});doc.addEventListener('visibilitychange',visibility);grid.addEventListener('load',imageReady,true);grid.addEventListener('error',imageReady,true);grid.addEventListener('pointerdown',pressed,true);win.addEventListener('pointerup',released);win.addEventListener('pointercancel',released);win.addEventListener('blur',released);grid.addEventListener('keydown',keydown);
   return {layout,capture,pin,ensure,
+   refresh(item){
+    const index=rows.findIndex(r=>r.id===item.id);if(index<0)return false;
+    capture();const before=rows[index],entry=entries[index],oldKey=entry&&sizeKey(entry);
+    rows=rows.slice();rows[index]=item;htmlCache.delete(item.id);
+    if(entry){entries[index]={...entry,ref:item};if(oldKey!==sizeKey(entries[index])||span(before)!==span(item)){measured.delete(item.id);ratios.delete(item.id);dirty=true;}}
+    else dirty=true;
+    windowKey='';queue();return true;
+   },
    // Keep both the attached pointer target and its hit area through click.
    // State may advance meanwhile; the latest global presentation runs once.
    deferWhilePressed(render){if(dead||!pins.has('pointer'))return false;pendingRender=render;return true;},
