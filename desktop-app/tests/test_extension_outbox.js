@@ -23,11 +23,12 @@ const offline=()=>Object.assign(new Error('电脑未连接，已保留待发送�
  assert.ok(!JSON.stringify(h.read()).includes('a'.repeat(40)),'Outbox never duplicates credentials');
 
  // Concurrent enqueues and drains cannot lose items or dispatch one item twice.
- const concurrent=harness();let release,entered;const gate=new Promise(r=>release=r),start=new Promise(r=>entered=r);let sent=[];
+ const concurrent=harness();const identify=concurrent.options.pairKey;let pairCalls=0,releaseFirstPair;const firstPair=new Promise(r=>releaseFirstPair=r);concurrent.options.pairKey=async c=>{const call=++pairCalls,pair=await identify(c);if(call===1)await firstPair;return pair;};let release,entered;const gate=new Promise(r=>release=r),start=new Promise(r=>entered=r);let sent=[];
  q=concurrent.restart(async row=>{sent.push(row.id);entered();await gate;return success(row);});
- const entries=await Promise.all([q.enqueue(body()),q.enqueue({...body(),url:'https://example.com/other'})]);
+ const firstEnqueue=q.enqueue(body()),secondEnqueue=q.enqueue({...body(),url:'https://example.com/other'});const secondEntry=await secondEnqueue;releaseFirstPair();const entries=[await firstEnqueue,secondEntry];
  const drain=q.drain();await start;const second=q.drain();
- await assert.rejects(q.remove(entries[0].id),/正在/);
+ assert.equal(sent[0],entries[1].id,"pair-key hashing may finish in a different order from calls");
+ await assert.rejects(q.remove(sent[0]),/正在/);
  const third=await q.enqueue({...body(),url:'https://example.com/third'});release();await Promise.all([drain,second]);
  assert.equal(new Set(sent).size,3);assert.equal(sent.length,3);assert.equal((await q.list()).length,0);
 

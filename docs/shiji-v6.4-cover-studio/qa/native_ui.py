@@ -50,6 +50,7 @@ def main():
  command('xcrun','simctl','bootstatus',udid,'-b',stdout=subprocess.DEVNULL)
  mode='before' if args.baseline else 'after';derived=QA/('build-'+mode);result=QA/('result-'+mode+'-'+str(int(time.time()))+'.xcresult')
  build=['xcodebuild','-project',source/'Shiji.xcodeproj','-scheme','Shiji','-configuration','Debug','-destination','id='+udid,'-derivedDataPath',derived,'CODE_SIGNING_ALLOWED=YES','CODE_SIGN_IDENTITY=-','ONLY_ACTIVE_ARCH=YES','SHIJI_BUNDLE_PREFIX='+PREFIX,'SHIJI_APP_GROUP='+GROUP]
+ subprocess.run(['xcrun','simctl','terminate',udid,PREFIX+'.UITests.xctrunner'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,timeout=30)
  print('Building isolated native QA',mode,udid,flush=True)
  command(*build,'build-for-testing')
  app=derived/'Build/Products/Debug-iphonesimulator/Shiji.app';assert plistlib.loads((app/'Info.plist').read_bytes())['CFBundleIdentifier']==PREFIX
