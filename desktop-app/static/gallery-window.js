@@ -29,9 +29,9 @@
   function viewport(){const rect=grid.getBoundingClientRect();return {top:-rect.top,bottom:win.innerHeight-rect.top,rect};}
   function capture(){if(enabled&&!anchor){const v=viewport();const a=geometry.anchor(v.top,v.bottom);anchor=a?{...a,screenY:v.rect.top+a.y}:null;}}
   function html(r){const stamp=version(r);let cached=htmlCache.get(r.id);if(!cached||cached.ref!==r||cached.context!==context||cached.stamp!==stamp){cached={ref:r,context,stamp,html:renderCard(r)};htmlCache.set(r.id,cached);}else{htmlCache.delete(r.id);htmlCache.set(r.id,cached);}while(htmlCache.size>240)htmlCache.delete(htmlCache.keys().next().value);return cached.html;}
-  function ratio(r){const c=cover(r),old=ratios.get(r.id);return old?.cover===c?old.ratio:1.6;}
+  function ratio(r){const old=ratios.get(r.id);if(!old)return 1.6;return old.cover===cover(r)?old.ratio:1.6;}
   function sizeKey(entry){return [profileKey,entry.span,cover(entry.ref),entry.ref.coverConfig?.version===1?entry.ref.coverConfig.imageFit:''].join('|');}
-  function height(entry){const saved=measured.get(entry.id);if(saved?.key===sizeKey(entry))return saved.height;return config.fit?profiles.chrome+Math.max(profiles.min,Math.min(profiles.max,entry.width/ratio(entry.ref))):profiles[entry.span];}
+  function height(entry){const saved=measured.get(entry.id);if(saved&&saved.key===sizeKey(entry))return saved.height;return config.fit?profiles.chrome+Math.max(profiles.min,Math.min(profiles.max,entry.width/ratio(entry.ref))):profiles[entry.span];}
   function measureProfiles(){
    // Same CSS boxes as the real pure-cover grid; no art/layers or fake resources.
    const nodes=[1,2].map(s=>{const el=doc.createElement('article');el.className='resource-card';el.dataset.galleryWide=String(s===2);el.style.cssText='position:absolute;visibility:hidden;pointer-events:none;left:0;top:0';el.style.width=((config.width-config.gap*(config.columns-1))/config.columns*s+config.gap*(s-1))+'px';const surface=doc.createElement('div');surface.className='card-motion-surface';const preview=doc.createElement('button');preview.className='card-preview';surface.append(preview);el.append(surface);grid.append(el);return el;});
