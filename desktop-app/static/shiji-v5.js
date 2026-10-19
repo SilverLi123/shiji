@@ -45,8 +45,8 @@
   const blocks='<span class="cs3-blocks art-anim"><i></i><i></i><i></i><i></i><i></i></span>';
   let composition='';
   switch(style+'-'+template){
-   case 'editorial-a':composition=`<span class="cs3-edition-rule"></span>${name}${sub}<span class="cs3-corner">${esc(r.language||'')}</span>`;break;
-   case 'editorial-b':composition=`<span class="cs3-glyph" aria-hidden="true">${esc(initials)}</span><span class="cs3-page">${name}${sub}</span>`;break;
+   case 'editorial-a':composition=`<span class="cs3-edition-rule"></span><span class="cs3-editorial-copy">${name}${sub}</span><span class="cs3-corner">${esc(r.language||'')}</span>`;break;
+   case 'editorial-b':composition=`<span class="cs3-glyph" aria-hidden="true">${esc(initials)}</span><span class="cs3-page"><span class="cs3-editorial-copy">${name}${sub}</span></span>`;break;
    case 'editorial-c':composition=`<span class="cs3-offset-sheet"></span><span class="cs3-editor-frame">${name}${sub}</span><span class="cs3-swatches"><i></i><i></i><i></i></span>`;break;
    case 'spatial-a':composition=`${sphere}${name}${sub}`;break;
    case 'spatial-b':composition=`${planes}<span class="cs3-measure" aria-hidden="true"></span>${name}${sub}`;break;

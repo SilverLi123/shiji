@@ -176,3 +176,14 @@
 
 /* Keep the caption readable where a dark spatial subject crosses its ink. */
 .cs3-spatial .cs3-title.art-copy,.cs3-spatial .cs3-subtitle,.cs3-kinetic-b .cs3-title.art-copy{background:var(--cs-bg);padding:.045em .09em;width:fit-content}
+
+/* A shared text budget keeps real long headlines apart from their summaries.
+   Position/density changes stay inside this composition's safe caption region. */
+.cs3-cover .cs3-editorial-copy{position:absolute;inset:23% 7% 14%;display:flex;flex-direction:column;justify-content:space-between;gap:2cqw;min-height:0}
+.cs3-editorial-b .cs3-editorial-copy{inset:10% 8% 11%}
+.cs3-cover .cs3-editorial-copy .cs3-title.art-copy{position:static;inset:auto;max-width:100%;max-height:none;flex:0 1 auto;min-height:0;-webkit-line-clamp:3;font-size:min(calc(var(--cs-title)*var(--cs-title-scale,1)),9cqw)!important}
+.cs3-editorial-b .cs3-editorial-copy .cs3-title.art-copy{font-size:min(calc(var(--cs-title)*var(--cs-title-scale,.83)),7.5cqw)!important}
+.cs3-cover .cs3-editorial-copy .cs3-subtitle{position:static;inset:auto;max-width:100%;flex:none;margin:0;font-size:2.7cqw;-webkit-line-clamp:2}
+.cs3-cover[data-title-position=top] .cs3-editorial-copy{justify-content:flex-start}
+.cs3-cover[data-title-position=center] .cs3-editorial-copy{justify-content:center}
+.cs3-cover[data-title-position=bottom] .cs3-editorial-copy{justify-content:flex-end}

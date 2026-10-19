@@ -13,7 +13,7 @@ struct StudioPoster:View {
     private var c:[String:Any]{CoverConfiguration.read(resource.raw["coverConfig"])}
     private var direction:(style:String,template:String,palette:String){CoverConfiguration.direction(resource)}
     private var title:String{let custom=c["customTitle"] as? String ?? "";return custom.isEmpty ? resource.title : custom}
-    private var subtitle:String{let custom=c["customSubtitle"] as? String ?? "";return custom.isEmpty ? resource.coverExcerpt : custom}
+    private var subtitle:String{CoverConfiguration.subtitle(resource,automatic:!(direction.style=="developer" && direction.template=="a"))}
     private var alignment:Alignment {
         switch c["titlePosition"] as? String ?? "auto"{case "top":return .topLeading;case "center":return .center;case "bottom":return .bottomLeading;default:break}
         switch direction.style{case "spatial","kinetic":return .bottomLeading;case "minimal":return direction.template=="c" ? .center : .bottomLeading;default:return .topLeading}
@@ -30,7 +30,7 @@ struct StudioPoster:View {
                 VStack{HStack{Text(resource.sourceHost).lineLimit(1);Spacer(minLength:8);Text(resource.text("category")).lineLimit(1)}.font(.system(size:max(9,w*0.025),weight:.semibold));Spacer();HStack{Text(resource.names("tags").prefix(3).joined(separator:" · ")).lineLimit(1);Spacer()}.font(.system(size:max(9,w*0.025),weight:.medium))}.padding(18)
                 VStack(alignment:alignment == .center ? .center : .leading,spacing:10){
                     Text(title).font(.system(size:font,weight:.heavy)).tracking(-0.5).lineLimit(typeSize.isAccessibilitySize ? 2 : 4).minimumScaleFactor(0.65).multilineTextAlignment(alignment == .center ? .center : .leading)
-                    if !subtitle.isEmpty && !(direction.style=="developer" && direction.template=="a") {Text(subtitle).font(.system(size:max(11,w*0.029))).lineLimit(typeSize.isAccessibilitySize ? 1 : 2)}
+                    if !subtitle.isEmpty {Text(subtitle).font(.system(size:max(11,w*0.029))).lineLimit(typeSize.isAccessibilitySize ? 1 : 2)}
                 }.padding(direction.style=="spatial" || direction.style=="kinetic" && direction.template=="b" ? 6 : 0).background(direction.style=="spatial" || direction.style=="kinetic" && direction.template=="b" ? bg : .clear).padding(.horizontal,22).padding(.top,alignment == .topLeading ? 53 : 20).padding(.bottom,alignment == .bottomLeading ? 43 : 20).frame(maxWidth:.infinity,maxHeight:.infinity,alignment:alignment)
             }.foregroundStyle(ink).frame(width:w,height:h).clipped().accessibilityHidden(true)
         }
@@ -120,7 +120,7 @@ struct NativeCoverStudio:View {
     private let styles=[("auto","自动"),("editorial","Editorial"),("spatial","Spatial"),("developer","Developer"),("kinetic","Kinetic"),("minimal","Minimal"),("v5","原版 V5")]
     var body:some View {
         NavigationStack{Form{
-            Section{Group{if let pendingImage,c["imageSource"] as? String != "poster"{FocalCoverImage(image:pendingImage,config:c).overlay{StudioCoverText(resource:preview)}}else{LocalCover(resource:preview)}}.frame(height:250).clipShape(RoundedRectangle(cornerRadius:14)).listRowInsets(EdgeInsets(top:12,leading:0,bottom:12,trailing:0))
+            Section{Group{if let pendingImage,CoverConfiguration.usesDraftImage(draft){FocalCoverImage(image:pendingImage,config:c).overlay{StudioCoverText(resource:preview)}}else{LocalCover(resource:preview)}}.frame(height:250).clipShape(RoundedRectangle(cornerRadius:14)).listRowInsets(EdgeInsets(top:12,leading:0,bottom:12,trailing:0))
                 Text("封面文字独立保存，不修改资源原标题、标签或备注。").font(.caption).foregroundStyle(.secondary)}
             if unsupported{Section{Text("此封面来自更新版本。保留当前设置，或恢复自动后重新设计。").foregroundStyle(.secondary)}}
             Group{
@@ -136,7 +136,7 @@ struct NativeCoverStudio:View {
                 }
                 Section("封面文字"){
                     TextField("封面标题 · 沿用资源名",text:string("customTitle"),axis:.vertical).lineLimit(1...4).accessibilityIdentifier("cover-custom-title")
-                    TextField("副标题 · 使用内容摘要",text:string("customSubtitle"),axis:.vertical).lineLimit(1...4)
+                    TextField("副标题 · 使用内容摘要",text:string("customSubtitle"),axis:.vertical).lineLimit(1...4).accessibilityIdentifier("cover-custom-subtitle")
                     Picker("标题位置",selection:string("titlePosition")){Text("跟随构图").tag("auto");Text("顶部").tag("top");Text("居中").tag("center");Text("底部").tag("bottom")}
                     Picker("排版密度",selection:string("density")){Text("均衡").tag("balanced");Text("紧凑").tag("compact");Text("醒目").tag("bold")}
                 }

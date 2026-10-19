@@ -18,8 +18,9 @@
    if(!resource||dead)return;
    const r=record(),c=config(),direction=Direction.recommend(r,c)[0],colors=Config.colors(c,direction);
    q('.cs-main-preview').innerHTML=preview(r,objectURL||undefined);
-   for(const image of qa('.cs-main-preview .cover-image')){const media=image.closest('.cover-photo')||image,fallback=media.nextElementSibling;const fail=()=>{media.hidden=true;if(fallback)fallback.hidden=false;};image.onerror=fail;image.onload=()=>{media.hidden=false;if(fallback)fallback.hidden=true;};if(image.complete&&!image.naturalWidth)fail();else if(fallback)fallback.hidden=true;}
-   q('.cs-direction').textContent=readonly()?'此封面来自更新版本。可以保留，或恢复自动后重新设计。':direction.reasons.join(' · ');
+   const status=q('.cs-direction'),images=qa('.cs-main-preview .cover-image');
+   status.textContent=readonly()?'此封面来自更新版本。可以保留，或恢复自动后重新设计。':images.length?'正在加载图片预览…':direction.reasons.filter(x=>x!=='已有真实图片').join(' · ')||'程序化海报';
+   for(const image of images){const media=image.closest('.cover-photo')||image,fallback=media.nextElementSibling;const current=()=>image.isConnected&&q('.cs-main-preview').contains(image);const fail=()=>{media.hidden=true;if(fallback)fallback.hidden=false;if(current()&&!readonly())status.textContent='图片不可用，已显示海报。可在“封面来源”更换图片。';};const loaded=()=>{media.hidden=false;if(fallback)fallback.hidden=true;if(current()&&!readonly())status.textContent='正在预览真实图片';};image.onerror=fail;image.onload=loaded;if(image.complete){if(image.naturalWidth)loaded();else fail();}else if(fallback)fallback.hidden=true;}
    q('.cs-contrast').textContent=`文字颜色自动匹配 ${colors.foreground.toUpperCase()}`;
    q('.cs-preview-stage').classList.toggle('cs-gallery-preview',gallery);
    q('[data-cs-action=gallery]').setAttribute('aria-pressed',String(gallery));
@@ -42,9 +43,9 @@
    let result;
    try{result=await save(resource,body);}catch(e){if(dead||token!==run)return;busy=false;error(e.message+(e.status===409?' 请载入最新封面后重新选择。':''));if(e.resource){q('[data-cs-action=latest]').hidden=false;q('[data-cs-action=latest]').onclick=()=>open(e.resource);}lock();return;}
    if(dead||token!==run)return;
-   busy=false;
    try{await onSaved(result.resource,result);}catch(_){notice('封面已保存；预览暂未更新，请刷新资源库。');}
-   close();notice(result.changed===false?'封面已是最新状态。':'封面已保存。');
+   if(dead||token!==run)return;
+   busy=false;close();notice(result.changed===false?'封面已是最新状态。':'封面已保存。');
   }
   async function fileSelected(file){
    if(!file||busy||readonly())return;

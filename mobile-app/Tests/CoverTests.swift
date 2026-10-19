@@ -14,6 +14,9 @@ import Foundation
   check(try CoverConfiguration.normalize(nil)==nil,"absent auto")
   for c in vectors["directions"] as! [[String:Any]]{let direction=CoverConfiguration.direction(Resource(raw:c["resource"] as! [String:Any]));check(direction.style==c["style"] as? String && direction.template==c["template"] as? String,"native/desktop content direction mismatch")}
   check(CoverConfiguration.colors(["primary":"#777777"]).foreground=="#000000","mid-gray contrast must use true black")
+  for source in ["auto","image","website","poster"]{check(CoverConfiguration.usesDraftImage(["imageSource":source]) == ["auto","image"].contains(source),"pending upload must obey selected source")}
+  let captionedCode=Resource(raw:["kind":"code","snippet":"let answer = 42","coverConfig":["style":"developer","template":"a","customSubtitle":"CUSTOM SUBTITLE QA"]])
+  check(CoverConfiguration.subtitle(captionedCode,automatic:false)=="CUSTOM SUBTITLE QA","explicit code subtitle remains visible when automatic excerpt is suppressed")
   let longCode=Resource(raw:["snippet":"a"+String(repeating:"\u{0301}",count:10000)])
   check(longCode.coverLines.first!.unicodeScalars.count<=160,"preview bounds must count scalars, not giant grapheme clusters")
   check(longCode.coverExcerpt.unicodeScalars.count<=240,"poster excerpts must not shape full 100K content")

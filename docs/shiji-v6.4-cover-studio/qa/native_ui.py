@@ -36,7 +36,7 @@ def prepare():
  return source
 
 def main():
- parser=argparse.ArgumentParser();parser.add_argument('--prepare-only',action='store_true');parser.add_argument('--baseline',action='store_true');args=parser.parse_args()
+ parser=argparse.ArgumentParser();parser.add_argument('--prepare-only',action='store_true');parser.add_argument('--baseline',action='store_true');parser.add_argument('--subtitle-only',action='store_true');args=parser.parse_args()
  source=prepare()
  if args.baseline:(source/'App/ShijiApp.swift').write_bytes(subprocess.check_output(['git','show','31eeea2:mobile-app/App/ShijiApp.swift'],cwd=REPO))
  state=QA/'device.json'
@@ -63,10 +63,13 @@ def main():
  group=Path(subprocess.check_output(['xcrun','simctl','get_app_container',udid,PREFIX,GROUP],text=True).strip());library=group/'Library';library.mkdir(exist_ok=True)
  # Real schema3 JSON resource, written only while this isolated app is stopped.
  record={'id':'native-cover-qa','title':'SHIJI Cover QA','kind':'website','url':'https://github.com/SilverLi123/shiji','category':'开发工具','language':'Swift · Python','tags':['New, exact'],'projects':[],'projectNotes':{},'description':'隔离原生封面验收','notes':'保留的原始备注','coverId':'','attachments':[],'createdAt':'2026-10-18T00:00:00Z','updatedAt':'2026-10-18T00:00:00Z','coverConfig':{'style':'developer','template':'b','imageSource':'poster'}}
- (library/'library.json').write_text(json.dumps({'version':1,'schemaVersion':3,'resources':[record],'collections':[],'collectionMeta':[],'smartCollections':[]},ensure_ascii=False))
+ code={**record,'id':'native-code-qa','title':'Native Code QA','kind':'code','snippet':'let answer = 42','coverConfig':{'style':'developer','template':'a','imageSource':'poster'}}
+ (library/'library.json').write_text(json.dumps({'version':1,'schemaVersion':3,'resources':[record,code],'collections':[],'collectionMeta':[],'smartCollections':[]},ensure_ascii=False))
  # XCUITest already records native screen video; a second recorder interferes with teardown.
- command(*build,'-resultBundlePath',result,'test-without-building',timeout=300)
+ test_command=[*build,'-resultBundlePath',result,*(['-only-testing:ShijiCoverUITests/CoverStudioTests/testActualCodeCoverSubtitle'] if args.subtitle_only else []),'test-without-building']
+ command(*test_command,timeout=300)
+
  actual=json.loads((library/'library.json').read_text())['resources'][0]
- assert actual['title']==record['title'] and actual['notes']==record['notes'] and actual['tags']==record['tags'];assert actual.get('coverConfig') is None
+ assert actual['title']==record['title'] and actual['notes']==record['notes'] and actual['tags']==record['tags'];assert actual.get('coverConfig') is None or args.subtitle_only
  (QA/'native-results.json').write_text(json.dumps({'passed':True,'simulator':udid,'bundle':PREFIX,'result':str(result),'resource':actual},ensure_ascii=False,indent=2));print('PASS: actual native save/cancel/reset, source fields and isolated AppGroup readback',flush=True)
 if __name__=='__main__':main()

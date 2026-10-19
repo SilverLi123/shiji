@@ -200,7 +200,7 @@ struct NativeResourceCover:View {
     @Environment(\.dynamicTypeSize) var typeSize
     private var preferences:[String:Any]{CoverConfiguration.read(resource.raw["coverConfig"])}
     private var coverTitle:String{let custom=preferences["customTitle"] as? String ?? "";return custom.isEmpty ? resource.title : custom}
-    private var caption:String{let custom=preferences["customSubtitle"] as? String ?? "";return custom.isEmpty ? resource.coverExcerpt : custom}
+    private var caption:String{CoverConfiguration.subtitle(resource)}
     private var customColors:(background:String,foreground:String,accent:String)?{let c=preferences;return (c["primary"] as? String ?? "").isEmpty && c["palette"] as? String=="auto" ? nil : CoverConfiguration.colors(c)}
     private func uiColor(_ hex:String)->UIColor{let n=UInt32(hex.dropFirst(),radix:16) ?? 0;return UIColor(red:CGFloat((n>>16)&255)/255,green:CGFloat((n>>8)&255)/255,blue:CGFloat(n&255)/255,alpha:1)}
     private var titleFont:Font{preferences["density"] as? String=="compact" ? .headline : preferences["density"] as? String=="bold" ? .largeTitle : .title}
@@ -220,6 +220,8 @@ struct NativeResourceCover:View {
                 if isCode {
                     if !(preferences["customTitle"] as? String ?? "").isEmpty{Text(coverTitle).font(.headline).lineLimit(2)}
                     VStack(alignment:.leading,spacing:3){ForEach(Array(resource.coverLines.enumerated()),id:\.offset){index,line in HStack(alignment:.top,spacing:12){Text("\(index+1)").opacity(0.65).frame(width:16,alignment:.trailing);Text(line.isEmpty ? " " : line).frame(maxWidth:.infinity,alignment:.leading).lineLimit(1)}}}.font(.system(.caption,design:.monospaced)).fixedSize(horizontal:false,vertical:true)
+                    let explicit=CoverConfiguration.subtitle(resource,automatic:false)
+                    if !explicit.isEmpty{Text(explicit).font(.caption).lineLimit(2)}
                 }else{
                     Text(coverTitle).font(titleFont.weight(.bold)).tracking(-0.6).multilineTextAlignment(.leading).lineLimit(3)
                     if !caption.isEmpty{Text(caption).font(.subheadline).lineLimit(2).multilineTextAlignment(.leading)}

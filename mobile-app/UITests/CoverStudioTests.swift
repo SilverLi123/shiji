@@ -1,4 +1,5 @@
 import XCTest
+import Vision
 
 /// Runner installs into a newly created simulator and a unique QA App Group.
 final class CoverStudioTests:XCTestCase {
@@ -29,4 +30,21 @@ final class CoverStudioTests:XCTestCase {
         let reset=app.buttons["恢复自动封面"];reveal(reset,in:app.collectionViews.firstMatch);reset.tap();app.navigationBars["封面设计"].buttons["保存"].tap();XCTAssertTrue(design.waitForExistence(timeout:10))
         design.tap();XCTAssertTrue(app.navigationBars["封面设计"].waitForExistence(timeout:10));reveal(title,in:app.collectionViews.firstMatch);XCTAssertTrue(["","封面标题 · 沿用资源名"].contains(title.value as? String ?? ""));capture("native-editor-reset");app.navigationBars["封面设计"].buttons["取消"].tap()
     }
+    private func assertRenderedSubtitle() throws {
+        let request=VNRecognizeTextRequest();request.recognitionLevel = .accurate
+        try VNImageRequestHandler(cgImage:app.screenshot().image.cgImage!).perform([request])
+        let text=(request.results ?? []).compactMap{$0.topCandidates(1).first?.string}.joined().uppercased().filter{$0.isLetter}
+        XCTAssertTrue(text.contains("CUSTOMSUBTITLEQA"),"Saved custom subtitle must actually be painted in the code cover: \(text)")
+    }
+    func testActualCodeCoverSubtitle() throws {
+        let resource=app.buttons.matching(NSPredicate(format:"label CONTAINS %@","Native Code QA")).firstMatch
+        for _ in 0..<8{if resource.exists{break};app.swipeUp()};XCTAssertTrue(resource.waitForExistence(timeout:15));reveal(resource);resource.tap()
+        let design=app.buttons["封面设计"];XCTAssertTrue(design.waitForExistence(timeout:10));design.tap()
+        let subtitle=app.descendants(matching:.any).matching(NSPredicate(format:"identifier == %@ AND (elementType == %d OR elementType == %d)","cover-custom-subtitle",XCUIElement.ElementType.textField.rawValue,XCUIElement.ElementType.textView.rawValue)).firstMatch
+        reveal(subtitle,in:app.collectionViews.firstMatch);subtitle.tap();subtitle.typeText("CUSTOM SUBTITLE QA")
+        app.navigationBars["封面设计"].buttons["保存"].tap();XCTAssertTrue(design.waitForExistence(timeout:10));try assertRenderedSubtitle();capture("native-code-subtitle")
+        design.tap();let legacy=app.buttons["原版 V5"];reveal(legacy,in:app.collectionViews.firstMatch);legacy.tap();app.navigationBars["封面设计"].buttons["保存"].tap();XCTAssertTrue(design.waitForExistence(timeout:10));try assertRenderedSubtitle();capture("native-v5-code-subtitle")
+        design.tap();let reset=app.buttons["恢复自动封面"];reveal(reset,in:app.collectionViews.firstMatch);reset.tap();app.navigationBars["封面设计"].buttons["保存"].tap()
+    }
+
 }

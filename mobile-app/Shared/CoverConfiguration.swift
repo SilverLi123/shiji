@@ -71,6 +71,8 @@ enum CoverConfiguration {
         let palette=c["palette"] as? String ?? "auto"
         return (style,template,palette=="auto" ? automatic : palette)
     }
+    static func subtitle(_ resource:Resource,automatic:Bool=true) -> String { let value=read(resource.raw["coverConfig"])["customSubtitle"] as? String ?? "";return value.isEmpty ? (automatic ? resource.coverExcerpt : "") : value }
+    static func usesDraftImage(_ value:Any?) -> Bool { ["auto","image"].contains(read(value)["imageSource"] as? String ?? "auto") }
     static func colors(_ c:[String:Any],palette:String="acid") -> (background:String,foreground:String,accent:String) {
         let selected=c["palette"] as? String ?? "auto",primary=c["primary"] as? String ?? "",bg=primary.isEmpty ? palettes[selected=="auto" ? palette : selected] ?? palettes["acid"]! : primary
         func luminance(_ hex:String)->Double{let n=UInt32(hex.dropFirst(),radix:16) ?? 0;return [Double((n>>16)&255),Double((n>>8)&255),Double(n&255)].enumerated().reduce(0){sum,entry in let v=entry.element/255;return sum+(v<=0.04045 ? v/12.92 : pow((v+0.055)/1.055,2.4))*[0.2126,0.7152,0.0722][entry.offset]}}
