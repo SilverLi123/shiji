@@ -21,3 +21,7 @@ Resource details → 封面设计. Draft controls and file reads remain local; t
 Saved presentation replaces only that resource in existing state/cache, updates its mounted stable article, detail image and existing three-item deck, and reuses existing gallery/Bits layout. Offscreen changes do not inject extra cards. New actual images or concurrent source changes can change filter membership, and updated sorting changes order; those use the canonical query refresh. Cursor/selection revision is never forged. Custom cover text does not receive unrelated source-title search highlight offsets.
 
 Actual isolated browser acceptance: persisted save/cancel, dropped response reconciliation, malformed image rejection, decoded-file cancel without upload, upload/focal/fit, poster without attachment deletion, reset, reload, stable nodes, narrow layout and screenshots. Existing real-gallery browser regression also passed. This is browser acceptance, not native iPhone acceptance.
+
+## Native implementation
+
+The iPhone detail view exposes the same independent editor through a native SwiftUI Form. It pins the opening resource as its field baseline and uses `LibraryFiles.updateCover` under the existing AppGroup coordinator. Upload selection is draft-only; local decode is bounded and asynchronous. Unknown values, reset and hash deduplication use the same contract. System navigation, sharing, QuickLook, sync and import are preserved. Native success feedback follows actual persistence and is a lightweight status, not a blocking confirmation.

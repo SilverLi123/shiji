@@ -1,0 +1,154 @@
+{
+  "localGates": [
+    {
+      "name": "python-portable",
+      "command": [
+        "python3",
+        "desktop-app/tests/run-ci.py",
+        "--suite",
+        "portable"
+      ],
+      "exit": 0,
+      "seconds": 190.683439375,
+      "log": "/tmp/shiji-v64-final-python-portable-attempt1.log",
+      "logSha256": "ab6f8c1c996f5669276c19659b785c888c1c1ecef5da0651427202b450b0aca6"
+    },
+    {
+      "name": "node",
+      "command": [
+        "npm",
+        "--prefix",
+        "desktop-app",
+        "test"
+      ],
+      "exit": 0,
+      "seconds": 55.11531920799999,
+      "log": "/tmp/shiji-v64-final-node-attempt1.log",
+      "logSha256": "52ff179cf924d45698944a197be71b53b0831f6fd4a67813826a4397bd29edc0"
+    },
+    {
+      "name": "python-native",
+      "command": [
+        "python3",
+        "desktop-app/tests/run-ci.py",
+        "--suite",
+        "native"
+      ],
+      "exit": 0,
+      "seconds": 15.296536000000032,
+      "log": "/tmp/shiji-v64-final-python-native-attempt1.log",
+      "logSha256": "f3cb025e1acc0221840f074a16c077c7760b97ebd6051f0e441384e00f931fa2"
+    },
+    {
+      "name": "swift",
+      "command": [
+        "python3",
+        "mobile-app/Tests/run.py"
+      ],
+      "exit": 0,
+      "seconds": 12.225602417000005,
+      "log": "/tmp/shiji-v64-final-swift-attempt1.log",
+      "logSha256": "26077cc20f27a347e78db828876af8996a3f3f5174171c3fb724b121cc2acf4b"
+    },
+    {
+      "name": "https",
+      "command": [
+        "python3",
+        "mobile-app/Tests/sync_integration.py"
+      ],
+      "exit": 0,
+      "seconds": 8.517744249999964,
+      "log": "/tmp/shiji-v64-final-https-attempt1.log",
+      "logSha256": "f173ed503956f0b84ba7e3dcb7fbd91225d4b5f9815c92b3e11dff7b1f33d9da"
+    },
+    {
+      "name": "macos",
+      "command": [
+        "python3",
+        "desktop-app/desktop/build.py"
+      ],
+      "exit": 0,
+      "seconds": 10.648005167000008,
+      "log": "/tmp/shiji-v64-final-macos-attempt1.log",
+      "logSha256": "69541a79f60cad49041b4a2d21eff19089e5a76b8c1552fb9a10cc6c940da743"
+    },
+    {
+      "name": "gallery",
+      "command": [
+        "python3",
+        "desktop-app/tests/run_gallery_browser.py"
+      ],
+      "exit": 0,
+      "seconds": 42.032028584,
+      "log": "/tmp/shiji-v64-final-gallery-attempt2.log",
+      "priorAttempts": [
+        {
+          "name": "gallery",
+          "command": [
+            "python3",
+            "desktop-app/tests/run_gallery_browser.py"
+          ],
+          "exit": 1,
+          "seconds": 29.00828337500002,
+          "log": "/tmp/shiji-v64-final-gallery-attempt1.log"
+        }
+      ],
+      "logSha256": "c31169052a5417c6387a0d29127ccd85088f4c6e736e42b6adabe9366d37a481"
+    },
+    {
+      "name": "editor",
+      "command": [
+        "python3",
+        "desktop-app/tests/run_cover_browser.py"
+      ],
+      "exit": 0,
+      "seconds": 15.862743542000004,
+      "log": "/tmp/shiji-v64-final-editor-attempt1.log",
+      "logSha256": "d18e3360f2c0f53901b095966c79efb3cf4ac5561efe061421463d46cdec333f"
+    }
+  ],
+  "afterOptimization": [
+    {
+      "name": "optimized Node",
+      "log": "/tmp/shiji-v64-optimized-node.log",
+      "sha256": "52ff179cf924d45698944a197be71b53b0831f6fd4a67813826a4397bd29edc0"
+    },
+    {
+      "name": "optimized gallery",
+      "log": "/tmp/shiji-v64-optimized-gallery.log",
+      "sha256": "c31169052a5417c6387a0d29127ccd85088f4c6e736e42b6adabe9366d37a481"
+    },
+    {
+      "name": "optimized editor and video",
+      "log": "/tmp/shiji-v64-optimized-editor.log",
+      "sha256": "d18e3360f2c0f53901b095966c79efb3cf4ac5561efe061421463d46cdec333f"
+    },
+    {
+      "name": "optimized portable Python",
+      "log": "/tmp/shiji-v64-optimized-python.log",
+      "sha256": "6925dd673f324052cf6e5b59563e0404d9f64a1eae6df03dc474778d080c6cbe"
+    },
+    {
+      "name": "native actual UI2cases",
+      "log": "/tmp/shiji-v64-native-clean-final.log",
+      "sha256": "54e36c897be777114530bda93eecab1d9eced8d7ff5eedbd04f489f4e1179c3a"
+    }
+  ],
+  "portableTests": 294,
+  "nativePythonTests": 2,
+  "nodeGroups": 65,
+  "nativeUICases": 2,
+  "physicalDeviceAccepted": false,
+  "finalPackage": {
+    "runtime": "7bc01cb",
+    "command": "python3 desktop-app/desktop/build.py",
+    "exit": 0,
+    "log": "/tmp/shiji-v64-final-package.log",
+    "logSha256": "69541a79f60cad49041b4a2d21eff19089e5a76b8c1552fb9a10cc6c940da743",
+    "app": "/Users/silver/shiji-card-restoration/desktop-app/dist/Dev Resource Library.app",
+    "bundledGallery": "/Users/silver/shiji-card-restoration/desktop-app/dist/Dev Resource Library.app/Contents/Resources/backend/static/gallery-window.js",
+    "sourceSha256": "5a52049b7dd1862ff5d94485e4fe652b6f2584780cfc77faed0918dd8701ceef",
+    "bundleSha256": "5a52049b7dd1862ff5d94485e4fe652b6f2584780cfc77faed0918dd8701ceef",
+    "launchedAgainstFormalData": false
+  }
+}

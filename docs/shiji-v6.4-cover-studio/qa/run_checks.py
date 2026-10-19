@@ -1,9 +1,13 @@
 """Full isolated regression/build gates. Reports actual exits, preserves failed attempt logs."""
-import json,subprocess,time
+import argparse,json,subprocess,time
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[3]
 out=ROOT/'desktop-app/dist/v64-full-tests.json'
 commands=[('python-portable',['python3','desktop-app/tests/run-ci.py','--suite','portable']),('node',['npm','--prefix','desktop-app','test']),('python-native',['python3','desktop-app/tests/run-ci.py','--suite','native']),('swift',['python3','mobile-app/Tests/run.py']),('https',['python3','mobile-app/Tests/sync_integration.py']),('macos',['python3','desktop-app/desktop/build.py']),('gallery',['python3','desktop-app/tests/run_gallery_browser.py']),('editor',['python3','desktop-app/tests/run_cover_browser.py'])]
+parser=argparse.ArgumentParser();parser.add_argument('--fresh',action='store_true');args=parser.parse_args()
+if args.fresh and out.exists():
+ import shutil
+ shutil.copyfile(out,out.with_name('v64-full-tests-initial.json'));out.unlink()
 rows=json.loads(out.read_text()) if out.exists() else []
 for name,cmd in commands:
  old=next((r for r in rows if r['name']==name),None)

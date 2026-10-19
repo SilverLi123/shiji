@@ -1,0 +1,39 @@
+disposition: fix
+
+Inputs: no approved bitmap comp or new-world QUALITY BAR card applies to this code-led incumbent extension; the supplied SURFACE.md is an extension brief rather than a five-block concept-roll contract. Review used its actual promises and the user-pinned V5 world. No additional detector ran. Primary-source reads were sampled; this is a visual finish review, not functional, motion, or performance acceptance.
+
+## persistence
+
+Pass: `desktop-app/PRODUCT.md` and `desktop-app/DESIGN.md` exist. The original request, SURFACE.md, ARCHITECTURE.md, all eleven named evidence captures, and the three named browser captures were supplied and inspected. The board pair contains the same fifteen resource/layout positions and represents real V5 covers, rather than an invented marketing board. The small long-CJK, actual-image, and failure files are deliberately scoped cover crops; the separate 390×844 mobile editor supplies the full mobile viewport. Native captures are iPhone Simulator evidence, not physical-device acceptance. All captures are valid for their stated scope; the native reset capture shows the settings area after reset, not the entire editor.
+
+The stale DESIGN metadata is not authority to restyle this extension: the original request explicitly preserves the existing Hero, Spatial Deck, gallery, modes, and brand. No new comp round, bitmap reproduction gate, or concept seed is claimed. The existing detector reports two Inter warnings plus color/radius/type advisories against that older metadata; these do not justify changing the incumbent system. Native has no detector. Large Dynamic Type, light appearance, physical-device behavior, continuous motion, and performance are not proven by these stills.
+
+## fidelity
+
+| Element / promise | State | Evidence and assessment |
+| --- | --- | --- |
+| TYPE: bold Swiss hierarchy and CJK adaptation | contradicted | Board-after Editorial A runs the long Chinese headline into the subtitle at the lower right. Editorial B merges its last headline line with the two-line subtitle inside the tilted sheet. These are actual text collisions, not intentional overlap with decorative shapes. Minimal B's separate long-CJK crop is readable but cannot validate the Editorial layouts. |
+| MATERIAL: code-led cover art | match | The fifteen covers use crisp type, planes, orbital volumes, terminal/code, and outlined rhythm. CSS/SVG geometry is the requested medium; there is no absent bitmap obligation or invented photographic material. |
+| GROUND: incumbent field and palette | match | The dark gallery field, acid green, violet, coral, pale paper, and ink covers remain coherent with the pinned V5 world. SURFACE permits restrained neutral editor surfaces. No comp exists from which to impose an alternate sampled ground. |
+| Five families × three compositions | match | The after board distinguishes rule/sheet/frame, sphere/planes/stack, terminal/specimen/interface, echoes/loops/sequence, and aperture/document/axis. The Kinetic sequence is visibly present. |
+| THESIS: improve content-led covers without redesigning V5 | match | Desktop-home retains the large Hero, spatial deck, original navigation, and pure cover gallery entry. The blue deck image is the real upload regression fixture; it is not judged as authored art. |
+| OWN-WORLD: editorial, kinetic, spatial brand | match | Authored geometry and typographic emphasis stay in the established brand. No paid/image-generation treatment or unrelated visual system is introduced. |
+| STORY: real metadata, then meaningful user control | adaptation | Actual code, title, source, category, and tags replace generic copy; QA descriptions are visibly labeled synthetic. Editor controls follow the independent-draft and explicit-save structure required by SPEC and ARCHITECTURE. Saving and cancellation semantics themselves are outside still-image proof. |
+| FIRST VIEWPORT: preserved gallery / preview-first editor | contradicted | Desktop editor has the intended style / preview / property hierarchy and visible Save. Mobile-editor places the preview first, but the underlying resource details visibly show through the header, preview region, and style area. This is not the protected workspace SURFACE promises. |
+| FORM: static thumbnails, authored variants, bounded text | contradicted | Thumbnails and native segmented controls are contained. The Editorial text collision violates bounded text and legible real-content requirements. No new-world seed requirement is applicable to this explicitly preserved-world extension. |
+| Real-image priority and failure recovery | contradicted | Actual-image-priority shows the real bundled Poly Haven capture. Failed-image-fallback shows a readable poster. However, art-editor-desktop labels that failed-image poster “已有真实图片”; the status describes a source candidate rather than the image the user is seeing. |
+| Native editor and saved detail | adaptation | Native Form, system navigation actions, segmented layout picker, horizontal style strip, and platform tint honor ARCHITECTURE's adapted native renderer. Initial, Spatial, and saved-detail titles/subtitles remain distinct in the supplied short-title samples. This does not establish native long-CJK or accessibility-size fitness. |
+
+## ceiling
+
+The extension uses the world's relevant native devices: typographic scale, deliberate off-axis sheets, orbital depth, acid/violet separation, real syntax, and restrained editor controls. More decorative density is not needed. The remaining ceiling is practical typography: title and subtitle must share an actual layout budget instead of independently occupying absolute regions. On mobile the workspace must own its painted surface. Those failures are below the requested finish even though the fifteen compositions are differentiated. Still captures made in Reduce Motion / native Calm establish static composition only.
+
+## material_fixes
+
+1. **Text fit / SPEC §IV and SURFACE Craft:** reserve non-overlapping title and subtitle regions for Editorial A and B; clamp or reduce the headline within that region, and preserve a clear gap rather than merely hiding the subtitle. Audit the same title-position and density overrides for the same failure. Recapture `evidence/board-after.png` over the identical fifteen resource IDs, plus the affected A/B long-CJK covers at mobile width and large detail/editor size; replace `evidence/long-cjk-mobile.png` with the worst affected real sample or add explicitly named A/B companions.
+2. **Protected mobile workspace / SURFACE Operate:** remove the visible underlying-detail paint from the mobile editor, including behind its header, preview and controls; retain the preview-first stack and fixed visible Save/Cancel. The exact paint/compositing cause is not established from source sampling. Recapture `desktop-app/dist/v64-cover-browser/mobile-editor.png` at 390×844 after the editor settles, and capture its scrolled text/image controls with the keyboard dismissed to prove containment and reachable footer actions; refresh `desktop-editor.png` to check the fix did not alter desktop containment.
+3. **Truthful image state / Craft Copy:** when the preview image fails, update the adjacent status to say the poster fallback is being shown and expose the available image recovery control; do not keep “已有真实图片” under a poster. The failure callback in `cover-studio.js` changes visibility without updating `.cs-direction`. Recapture `evidence/art-editor-desktop.png` with the same broken image, and retain/refresh `failed-image-fallback.png` and `actual-image-priority.png` to demonstrate both branches.
+
+## keep
+
+Keep the large V5 Hero, Spatial Deck, pure cover gallery, Motion/Calm and 3D/Flat controls, real-image priority, explicit original-V5 option, all fifteen distinct code-led compositions, short-title native legibility, and the current restrained desktop editor hierarchy while making these fixes.

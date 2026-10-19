@@ -6,9 +6,14 @@
   "sourceFieldsPreserved": true,
   "configReset": true,
   "mode": "Calm, existing user preference via test launch argument",
-  "recording": "XCTest native screen video in ignored xcresult attachments",
+  "recording": "Successful-run PNG attachments; native MP4 not obtained. Browser workflow recording is separate.",
   "physicalDeviceAccepted": false,
-  "durationSeconds": 74.875,
+  "durationSeconds": 251.574,
   "blockingSuccessAlert": false,
-  "previewThumbsScaled": true
+  "previewThumbsScaled": true,
+  "cases": 2,
+  "codeSubtitleOCR": true,
+  "originalV5CodeSubtitleOCR": true,
+  "sourceCommit": "748d8af",
+  "qaTest": "horizontal style strip scrolled explicitly; full test runner succeeded"
 }

@@ -1,0 +1,26 @@
+{
+  "browser": [
+    {
+      "file": "/Users/silver/shiji-card-restoration/desktop-app/dist/v64-cover-browser/video/page@2ac30eb339ad42bb01971aeb5faff2d3.webm",
+      "bytes": 3547131,
+      "sha256": "a6344e8b02475448d320089e26cbe9fad80bf93e106e62fb840e2fda9ff7c53d"
+    },
+    {
+      "file": "/Users/silver/shiji-card-restoration/desktop-app/dist/v64-cover-browser/video/page@57dd2125951cf7bf6499ecff6df926eb.webm",
+      "bytes": 5533849,
+      "sha256": "8a10d79fbe133b3c07be0859ad70438bcca978a1c59adbabe03a5851ffd1c5f6"
+    },
+    {
+      "file": "/Users/silver/shiji-card-restoration/desktop-app/dist/v64-cover-browser/video/page@b299ee723fd5da90b577eef84c064eaa.webm",
+      "bytes": 4697576,
+      "sha256": "0a88c2fc70b2702807b806092c9e1009927d0976df1a6d29a3eb74d312e17445"
+    },
+    {
+      "file": "/Users/silver/shiji-card-restoration/desktop-app/dist/v64-cover-browser/video/page@ed29dcdbe8bc15e2500029559e53ac3d.webm",
+      "bytes": 4246132,
+      "sha256": "411095660b703bbc28692f90b93c3c73d084844b84208d33459c2b00caf95bc6"
+    }
+  ],
+  "nativePassingMP4": null,
+  "nativeNote": "Clean two-case XCTest UI succeeded with PNG evidence; extra simctl recorder produced zero bytes and was rejected. No native motion certification."
+}

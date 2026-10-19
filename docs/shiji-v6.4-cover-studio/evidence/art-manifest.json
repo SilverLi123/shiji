@@ -5,7 +5,7 @@
     {
       "style": "editorial",
       "template": "a",
-      "id": "78803b12-0a11-44dc-80f5-47e79cdaec86",
+      "id": "c3f3bf17-34b1-4522-97f3-bf30d10d4615",
       "title": "中文技术文章：在本地优先的工具中保持资源索引、封面和附件引用一致",
       "kind": "website",
       "category": "其他",
@@ -17,7 +17,7 @@
     {
       "style": "editorial",
       "template": "b",
-      "id": "76af6eb0-2183-443e-ad43-ef19683baeb5",
+      "id": "74f7551c-1b57-4f63-9a63-2b32cdce8cc6",
       "title": "中英文 Prompt — 用具体约束组织真实设计参考",
       "kind": "prompt",
       "category": "灵感",
@@ -29,7 +29,7 @@
     {
       "style": "editorial",
       "template": "c",
-      "id": "ae05626c-d2b9-46e5-a672-e3f80ec2e4ab",
+      "id": "9e569628-6dee-40df-96ef-cf6e82a9fc8f",
       "title": "Recent — Design Inspiration",
       "kind": "website",
       "category": "灵感",
@@ -41,7 +41,7 @@
     {
       "style": "spatial",
       "template": "a",
-      "id": "c618f472-8602-4bf3-972e-3a3622a2b417",
+      "id": "50aa97b4-f629-4983-a7d9-c2817c34a886",
       "title": "Poly Haven",
       "kind": "website",
       "category": "3D",
@@ -53,7 +53,7 @@
     {
       "style": "spatial",
       "template": "b",
-      "id": "272b0325-d68e-4a7a-b583-fc2df04564da",
+      "id": "e238fdbb-f38e-4172-bacd-954b57d32fb3",
       "title": "ROS 2 Robotics",
       "kind": "website",
       "category": "开发工具",
@@ -65,7 +65,7 @@
     {
       "style": "spatial",
       "template": "c",
-      "id": "8da6d2ca-d5fd-449c-9a42-cbef31b77c34",
+      "id": "3a637523-e1eb-4ec0-8be7-da1bca28b344",
       "title": "Hugging Face",
       "kind": "website",
       "category": "开发工具",
@@ -77,7 +77,7 @@
     {
       "style": "developer",
       "template": "a",
-      "id": "863cebcd-cdfc-45bc-a50c-537e2db34223",
+      "id": "55e2436c-5726-45b8-b6b2-b9d5ead68f2b",
       "title": "保留原始空格的 JavaScript 代码片段",
       "kind": "code",
       "category": "开发工具",
@@ -89,7 +89,7 @@
     {
       "style": "developer",
       "template": "b",
-      "id": "f963a3db-6219-4fbc-a029-92fe063fd96f",
+      "id": "1785d055-3164-49ba-8786-5eb42a866752",
       "title": "SHIJI",
       "kind": "website",
       "category": "开发工具",
@@ -101,7 +101,7 @@
     {
       "style": "developer",
       "template": "c",
-      "id": "e10e30e3-b481-4bba-b6ba-ce8a10f461ab",
+      "id": "273adddd-6334-4cdc-a62f-21c7f58c3722",
       "title": "React",
       "kind": "website",
       "category": "开发工具",
@@ -113,7 +113,7 @@
     {
       "style": "kinetic",
       "template": "a",
-      "id": "d6a3ed28-39fc-4c87-b5f9-cedbc8dcb457",
+      "id": "85b5bdb3-83b4-4fe7-a0fc-3f8599a31da7",
       "title": "Motion Sites",
       "kind": "website",
       "category": "视频",
@@ -125,7 +125,7 @@
     {
       "style": "kinetic",
       "template": "b",
-      "id": "53af43e9-5598-4389-9d36-41e5edb296fd",
+      "id": "e580eb01-14e0-4b7e-9d34-6930b7248b42",
       "title": "React Bits",
       "kind": "website",
       "category": "UI / 设计",
@@ -137,7 +137,7 @@
     {
       "style": "kinetic",
       "template": "c",
-      "id": "719799c3-0ba0-4a7c-9e8d-dfd5b9ce95ca",
+      "id": "ccc47602-09ee-4574-8b10-47d48e3f4161",
       "title": "Freesound",
       "kind": "website",
       "category": "音频",
@@ -149,7 +149,7 @@
     {
       "style": "minimal",
       "template": "a",
-      "id": "ccf592eb-0b1b-4d77-bb05-aabe359c1f28",
+      "id": "471c93ba-54ea-45e4-b43a-5243b8f07a2d",
       "title": "真实本地图片 · 隔离验收素材",
       "kind": "file",
       "category": "美术素材",
@@ -161,7 +161,7 @@
     {
       "style": "minimal",
       "template": "b",
-      "id": "78803b12-0a11-44dc-80f5-47e79cdaec86",
+      "id": "c3f3bf17-34b1-4522-97f3-bf30d10d4615",
       "title": "中文技术文章：在本地优先的工具中保持资源索引、封面和附件引用一致",
       "kind": "website",
       "category": "其他",
@@ -173,7 +173,7 @@
     {
       "style": "minimal",
       "template": "c",
-      "id": "ae05626c-d2b9-46e5-a672-e3f80ec2e4ab",
+      "id": "9e569628-6dee-40df-96ef-cf6e82a9fc8f",
       "title": "Recent — Design Inspiration",
       "kind": "website",
       "category": "灵感",

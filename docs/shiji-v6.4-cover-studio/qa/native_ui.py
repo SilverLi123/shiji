@@ -66,7 +66,7 @@ def main():
  record={'id':'native-cover-qa','title':'SHIJI Cover QA','kind':'website','url':'https://github.com/SilverLi123/shiji','category':'开发工具','language':'Swift · Python','tags':['New, exact'],'projects':[],'projectNotes':{},'description':'隔离原生封面验收','notes':'保留的原始备注','coverId':'','attachments':[],'createdAt':'2026-10-18T00:00:00Z','updatedAt':'2026-10-18T00:00:00Z','coverConfig':{'style':'developer','template':'b','imageSource':'poster'}}
  code={**record,'id':'native-code-qa','title':'Native Code QA','kind':'code','snippet':'let answer = 42','coverConfig':{'style':'developer','template':'a','imageSource':'poster'}}
  (library/'library.json').write_text(json.dumps({'version':1,'schemaVersion':3,'resources':[record,code],'collections':[],'collectionMeta':[],'smartCollections':[]},ensure_ascii=False))
- # XCUITest already records native screen video; a second recorder interferes with teardown.
+ # Use the single XCUITest runner. Concurrent simctl recording can stall startup/teardown; successful runs retain PNG attachments.
  test_command=[*build,'-resultBundlePath',result,*(['-only-testing:ShijiCoverUITests/CoverStudioTests/testActualCodeCoverSubtitle'] if args.subtitle_only else []),'test-without-building']
  command(*test_command,timeout=300)
 

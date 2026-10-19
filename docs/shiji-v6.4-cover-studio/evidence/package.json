@@ -1,0 +1,12 @@
+{
+  "runtime": "7bc01cb",
+  "command": "python3 desktop-app/desktop/build.py",
+  "exit": 0,
+  "log": "/tmp/shiji-v64-final-package.log",
+  "logSha256": "69541a79f60cad49041b4a2d21eff19089e5a76b8c1552fb9a10cc6c940da743",
+  "app": "/Users/silver/shiji-card-restoration/desktop-app/dist/Dev Resource Library.app",
+  "bundledGallery": "/Users/silver/shiji-card-restoration/desktop-app/dist/Dev Resource Library.app/Contents/Resources/backend/static/gallery-window.js",
+  "sourceSha256": "5a52049b7dd1862ff5d94485e4fe652b6f2584780cfc77faed0918dd8701ceef",
+  "bundleSha256": "5a52049b7dd1862ff5d94485e4fe652b6f2584780cfc77faed0918dd8701ceef",
+  "launchedAgainstFormalData": false
+}

@@ -1,0 +1,34 @@
+{
+  "id": 39223634532,
+  "sha": "7bc01cbb6d454907e2bb2a47de55f2cd86e81619",
+  "url": "https://github.com/SilverLi123/shiji/actions/runs/39223634532",
+  "status": "completed",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "name": "node",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "native",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "capture-recovery",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "browser",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "python",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ]
+}

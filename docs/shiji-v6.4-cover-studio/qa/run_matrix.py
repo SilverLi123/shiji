@@ -1,7 +1,7 @@
 """Sequential fresh-profile browser performance matrix. Only ephemeral QA services."""
-import argparse,json,os,signal,subprocess,sys,time
+import argparse,json,os,signal,subprocess,sys,time,shutil
 from pathlib import Path
-p=argparse.ArgumentParser();p.add_argument('--phase',choices=['before','after'],required=True);p.add_argument('--wait-pid',type=int);a=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('--phase',choices=['before','after'],required=True);p.add_argument('--wait-pid',type=int);p.add_argument('--label',default='initial',choices=['initial','final','optimized']);a=p.parse_args()
 qa=Path(__file__).resolve().parent;repo=qa.parents[2];out=repo/'desktop-app/dist';out.mkdir(exist_ok=True)
 if a.wait_pid:
  while True:
@@ -19,7 +19,7 @@ for size in [1000,5000,20000,50000]:
     time.sleep(.1)
    url=json.loads(state.read_text())['url']
    for mode in ['studio','calm']:
-    prefix=out/f'v64-{a.phase}-{size}';result=Path(str(prefix)+'-'+mode+'.json')
+    prefix=out/('v64-'+(f'{a.label}-{a.phase}-{size}' if a.label!='initial' else f'{a.phase}-{size}'));result=Path(str(prefix)+'-'+mode+'.json')
     if result.exists() and len(json.loads(result.read_text())['rounds'])==3 and all(r.get('completed') for r in json.loads(result.read_text())['rounds']):continue
     with open(f'/tmp/shiji-v64-{a.phase}-{size}-{mode}.log','w') as metrics:
      print(a.phase,size,mode,flush=True)
@@ -28,3 +28,7 @@ for size in [1000,5000,20000,50000]:
    server.terminate()
    try:server.wait(timeout=10)
    except subprocess.TimeoutExpired:server.kill();server.wait()
+   if state.exists():
+    root=Path(json.loads(state.read_text())['root']).resolve()
+    if not root.name.startswith('shiji-v64-qa-'):raise ValueError('Unexpected QA root')
+    if root.exists():shutil.rmtree(root)
