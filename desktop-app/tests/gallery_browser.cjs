@@ -3,6 +3,15 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),{chromium}=require('playwright');
 const [url,out]=process.argv.slice(2),raf=p=>p.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));
 async function settle(page){await raf(page);await page.evaluate(()=>Promise.allSettled(document.getAnimations().filter(a=>a.effect&&Number.isFinite(a.effect.getComputedTiming().endTime)).map(a=>a.finished)));await raf(page);}
+async function settleGrid(page){
+ await page.evaluate(()=>{window.__qaStableGridFrames=0;});
+ // waitForFunction polls synchronous predicates. A Promise resolving false is
+ // itself truthy in this runtime and does not request another polling pass.
+ await page.waitForFunction(()=>{
+  const grid=document.getElementById('resource-grid'),ready=[...grid.querySelectorAll('.cover-image')].every(i=>i.complete)&&!grid.getAnimations({subtree:true}).some(a=>a.effect?.target?.matches?.('.resource-card')&&a.playState==='running'&&Number.isFinite(a.effect?.getComputedTiming().endTime));
+  window.__qaStableGridFrames=ready?window.__qaStableGridFrames+1:0;return window.__qaStableGridFrames>=3;
+ });
+}
 async function search(page,value){
  const response=page.waitForResponse(r=>new URL(r.url()).pathname==='/api/query'&&r.request().postDataJSON()?.filters?.search===value);
  await page.locator('#search').fill(value);await (await response).finished();await page.waitForFunction(()=>document.getElementById('resource-grid').getAttribute('aria-busy')==='false');await raf(page);
@@ -52,10 +61,15 @@ async function search(page,value){
  await page.locator('[data-browse-toggle="display-panel"]').click();await page.locator('#preview-mode').selectOption('fit');await page.keyboard.press('Escape');await raf(page);
  const ratios=await page.locator('#resource-grid .cover-image').evaluateAll(images=>images.filter(i=>i.complete&&i.naturalWidth>0).map(i=>({actual:i.naturalWidth/i.naturalHeight,declared:Number(i.closest('.card-preview').style.getPropertyValue('--image-ratio')),width:i.closest('.card-preview').clientWidth,height:i.closest('.card-preview').clientHeight,max:parseFloat(getComputedStyle(i.closest('.card-preview')).maxHeight)||Infinity,min:parseFloat(getComputedStyle(i.closest('.card-preview')).minHeight)||0})));
  assert.ok(ratios.length>=3,'fixture exposes real local image covers');for(const r of ratios){assert.equal(r.actual,r.declared,'decoded image ratio is retained');assert.ok(Math.abs(r.height-Math.max(r.min,Math.min(r.max,r.width/r.actual)))<2,'fit height respects existing CSS clamps '+JSON.stringify(r));}
+ // Keep the pointer outside the moving grid; hover/tilt has its own interaction regression.
+ await page.mouse.move(8,8);
+ // View-mode FLIP is intentionally finite. Measure the subsequent decode anchor after it completes.
+ await settleGrid(page);
+ assert.equal(await page.locator('#resource-grid').evaluate(e=>e.getAnimations({subtree:true}).filter(a=>a.effect?.target?.matches?.('.resource-card')&&a.playState==='running'&&Number.isFinite(a.effect?.getComputedTiming().endTime)).length),0,'fit-profile transition must finish before screen-anchor measurement');
  const covers=await page.locator('#resource-grid .cover-image').evaluateAll(xs=>xs.filter(x=>x.complete&&x.naturalWidth).map(x=>({id:x.closest('.resource-card').dataset.resourceId,src:x.src,ratio:x.naturalWidth/x.naturalHeight})));
  const delayed=covers[0],replacement=covers.find(x=>x.ratio!==delayed.ratio),body=await (await page.request.get(replacement.src)).body(),delayedURL=delayed.src+'?qa-delayed-decode=1';let releaseImage,imageStarted;const imageGate=new Promise(r=>releaseImage=r),imageRequest=new Promise(r=>imageStarted=r);
  await page.route(delayedURL,async route=>{imageStarted();await imageGate;await route.fulfill({status:200,contentType:'image/png',body})});
- await page.evaluate(id=>{const e=document.querySelector(`#resource-grid>.resource-card[data-resource-id="${id}"]`);scrollBy({top:e.getBoundingClientRect().bottom+45,behavior:'instant'})},delayed.id);await raf(page);
+ await page.evaluate(id=>{const e=document.querySelector(`#resource-grid>.resource-card[data-resource-id="${id}"]`);scrollBy({top:e.getBoundingClientRect().bottom+45,behavior:'instant'})},delayed.id);await settleGrid(page);
  const anchorSnapshot=()=>page.evaluate(()=>{const e=[...document.querySelectorAll('#resource-grid>.resource-card')].find(e=>e.getBoundingClientRect().bottom>0&&e.getBoundingClientRect().top<innerHeight);return{id:e.dataset.resourceId,top:e.getBoundingClientRect().top}});
  const imageAnchor=await anchorSnapshot(),oldImageHeight=await page.locator(`#resource-grid>.resource-card[data-resource-id="${delayed.id}"]`).evaluate(e=>e.offsetHeight);
  await page.locator(`#resource-grid>.resource-card[data-resource-id="${delayed.id}"] .cover-image`).evaluate((e,src)=>e.src=src,delayedURL);await imageRequest;releaseImage();await page.waitForFunction(({id,ratio})=>{const i=document.querySelector(`#resource-grid>.resource-card[data-resource-id="${id}"] .cover-image`);return i?.complete&&i.naturalWidth/i.naturalHeight===ratio},{id:delayed.id,ratio:replacement.ratio});await raf(page);await raf(page);

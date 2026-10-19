@@ -43,7 +43,7 @@ final class CoverStudioTests:XCTestCase {
         let subtitle=app.descendants(matching:.any).matching(NSPredicate(format:"identifier == %@ AND (elementType == %d OR elementType == %d)","cover-custom-subtitle",XCUIElement.ElementType.textField.rawValue,XCUIElement.ElementType.textView.rawValue)).firstMatch
         reveal(subtitle,in:app.collectionViews.firstMatch);subtitle.tap();subtitle.typeText("CUSTOM SUBTITLE QA")
         app.navigationBars["封面设计"].buttons["保存"].tap();XCTAssertTrue(design.waitForExistence(timeout:10));try assertRenderedSubtitle();capture("native-code-subtitle")
-        design.tap();let legacy=app.buttons["原版 V5"];reveal(legacy,in:app.collectionViews.firstMatch);legacy.tap();app.navigationBars["封面设计"].buttons["保存"].tap();XCTAssertTrue(design.waitForExistence(timeout:10));try assertRenderedSubtitle();capture("native-v5-code-subtitle")
+        design.tap();let legacy=app.buttons["原版 V5"],strip=app.scrollViews.containing(.button,identifier:"原版 V5").firstMatch;reveal(strip,in:app.collectionViews.firstMatch);for _ in 0..<5{if legacy.isHittable{break};strip.swipeLeft()};XCTAssertTrue(legacy.isHittable);legacy.tap();app.navigationBars["封面设计"].buttons["保存"].tap();XCTAssertTrue(design.waitForExistence(timeout:10));try assertRenderedSubtitle();capture("native-v5-code-subtitle")
         design.tap();let reset=app.buttons["恢复自动封面"];reveal(reset,in:app.collectionViews.firstMatch);reset.tap();app.navigationBars["封面设计"].buttons["保存"].tap()
     }
 
